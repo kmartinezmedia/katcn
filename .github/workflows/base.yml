@@ -1,0 +1,31 @@
+name: Base CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+      - name: 🏗 Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.0.26
+      - name: 💾 Install dependencies
+        run: bun install --frozen-lockfile
+      - name: 🧹 Lint
+        run: bun run lint
+      - name: 🧹 Typecheck
+        run: bun run typecheck
+      - name: 🧪 Test
+        run: bun run test
+      - name: 🚧 Build
+        run: bun run build

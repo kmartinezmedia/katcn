@@ -1,0 +1,25 @@
+{
+  "name": "katcn",
+  "version": "0.1.0",
+  "packageManager": "bun@1.0.25",
+  "private": true,
+  "workspaces": ["packages/*", "apps/*"],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "fix": "turbo run fix",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "test:watch": "turbo run test -- --watch",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.4.1",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "turbo": "^1.12.3",
+    "typescript": "^5.3.3"
+  }
+}

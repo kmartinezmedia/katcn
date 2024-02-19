@@ -1,0 +1,17 @@
+{
+  "extends": "tsconfig/next-app.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "docgen.config.ts"
+  ],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,78 @@
+{
+  "cli": {
+    "version": ">=7.1.2"
+  },
+  "build": {
+    "debug": {
+      "bun": "1.0.21",
+      "distribution": "internal",
+      "android": {
+        "withoutCredentials": true,
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleDebug :app:assembleAndroidTest -DtestBuildType=debug"
+      },
+      "ios": {
+        "simulator": true,
+        "buildConfiguration": "Debug"
+      },
+      "env": {
+        "APP_BUNDLE_IDENTIFIER": "com.katmartinez.mobileappdebugsim"
+      },
+      "channel": "debug"
+    },
+    "debug-device": {
+      "bun": "1.0.21",
+      "distribution": "internal",
+      "android": {
+        "credentialsSource": "local",
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease :app:assembleAndroidTest -DtestBuildType=release"
+      },
+      "ios": {
+        "simulator": false,
+        "buildConfiguration": "Debug"
+      },
+      "env": {
+        "APP_BUNDLE_IDENTIFIER": "com.katmartinez.mobileappdebugdevice"
+      },
+      "channel": "debug-device"
+    },
+    "release-simulator": {
+      "bun": "1.0.21",
+      "distribution": "internal",
+      "android": {
+        "credentialsSource": "local",
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease :app:assembleAndroidTest -DtestBuildType=release"
+      },
+      "ios": {
+        "simulator": true,
+        "buildConfiguration": "Release"
+      },
+      "channel": "preview",
+      "env": {
+        "APP_BUNDLE_IDENTIFIER": "com.katmartinez.mobileappreleasesim"
+      }
+    },
+    "release": {
+      "bun": "1.0.21",
+      "distribution": "internal",
+      "android": {
+        "credentialsSource": "local",
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease :app:assembleAndroidTest -DtestBuildType=release"
+      },
+      "ios": {
+        "simulator": false,
+        "buildConfiguration": "Release"
+      },
+      "env": {
+        "APP_BUNDLE_IDENTIFIER": "com.katmartinez.mobileapprelease"
+      },
+      "channel": "release"
+    }
+  },
+  "submit": {
+    "release": {}
+  }
+}

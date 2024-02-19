@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "React Native Library",
+  "extends": "./react-native-app.json",
+  "compilerOptions": {
+    "moduleResolution": "bundler"
+  }
+}

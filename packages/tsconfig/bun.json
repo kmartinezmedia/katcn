@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Bun",
+  "extends": "./node.json",
+  "compilerOptions": {
+    "types": ["bun-types"]
+  }
+}

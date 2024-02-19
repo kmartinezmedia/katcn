@@ -1,0 +1,9 @@
+{
+  "functions": [
+    {
+      "source": ".",
+      "codebase": "default",
+      "ignore": ["firebase-debug.log", "firebase-debug.*.log"]
+    }
+  ]
+}

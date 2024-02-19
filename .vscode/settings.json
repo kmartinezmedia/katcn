@@ -1,0 +1,14 @@
+{
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": true,
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.js": "${capture}.d.ts, ${capture}.d.ts.map",
+    "*.ts": "$(capture).test.ts, $(capture).test.tsx, $(capture).test.ios.ts, $(capture).test.ios.tsx, $(capture).test.android.ts, $(capture).test.android.tsx, ${capture}.native.tsx, ${capture}.ios.tsx, ${capture}.android.tsx, ${capture}.native.ts, ${capture}.ios.ts, ${capture}.android.ts, ${capture}.web.ts",
+    "*.tsx": "$(capture).test.ts, $(capture).test.tsx, $(capture).test.ios.ts, $(capture).test.ios.tsx, $(capture).test.android.ts, $(capture).test.android.tsx, ${capture}.native.tsx, ${capture}.ios.tsx, ${capture}.android.tsx, ${capture}.native.ts, ${capture}.ios.ts, ${capture}.android.ts, ${capture}.web.ts"
+  }
+}

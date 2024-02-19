@@ -1,0 +1,9 @@
+{
+  "extends": "tsconfig/bun.json",
+  "include": ["."],
+  "compilerOptions": {
+    "paths": {
+      "~/*": ["./*"]
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "mobile-app",
+  "main": "expo-router/entry",
+  "version": "1.0.0",
+  "scripts": {
+    "eas-build-post-install": "bun turbo run build --filter=mobile-app",
+    "dev": "cli expo dev --platform ios --profile debug",
+    "build:ios-debug": "cli expo build --platform ios --profile debug",
+    "build:ios-release-simulator": "cli expo build --platform ios --profile release-simulator",
+    "patch:ios-release-simulator": "cli expo patch --platform ios --profile release-simulator",
+    "launch:ios-release-simulator": "cli expo launch --platform ios --profile release-simulator",
+    "update:preview": "cli expo update --platform ios --profile release-simulator",
+    "lint": "cli tools lint",
+    "typecheck": "cli tools typecheck",
+    "fix": "cli tools fix"
+  },
+  "dependencies": {
+    "@react-navigation/native": "^6.0.2",
+    "expo": "^50.0.0",
+    "expo-build-properties": "~0.11.0",
+    "expo-font": "~11.10.2",
+    "expo-linking": "~6.2.2",
+    "expo-router": "~3.4.4",
+    "expo-splash-screen": "~0.26.3",
+    "expo-status-bar": "~1.11.1",
+    "expo-system-ui": "~2.9.3",
+    "expo-updates": "~0.24.8",
+    "expo-web-browser": "~12.8.1",
+    "react": "18.2.0",
+    "react-native": "0.73.2",
+    "react-native-gesture-handler": "~2.14.0",
+    "react-native-safe-area-context": "4.8.2",
+    "react-native-screens": "~3.29.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "@types/react": "~18.2.14",
+    "tsconfig": "workspace:*"
+  },
+  "private": true
+}

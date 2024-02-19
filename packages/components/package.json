@@ -1,0 +1,11 @@
+{
+  "name": "@fake/components",
+  "version": "0.0.0",
+  "private": true,
+  "files": ["tsconfig.json", "src"],
+  "exports": {
+    "./*": "./src/*",
+    "./tsconfig.json": "./tsconfig.json",
+    "./package.json": "./package.json"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "cli",
+  "version": "0.0.1",
+  "files": ["bin", "src"],
+  "bin": {
+    "cli": "./bin"
+  },
+  "scripts": {
+    "lint": "./bin tools lint",
+    "typecheck": "./bin tools typecheck",
+    "clean": "./bin tools clean",
+    "test": "bun test",
+    "fix": "./bin tools fix"
+  },
+  "dependencies": {
+    "@expo/eas-json": "*",
+    "bluebun": "^0.0.34",
+    "ts-morph": "^21.0.1",
+    "tsconfig": "workspace:*"
+  }
+}
