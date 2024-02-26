@@ -1,9 +1,7 @@
 import plugin from 'tailwindcss/plugin';
-// @ts-expect-error this is fine
-import flattenColorPalette from 'tailwindcss/src/util/flattenColorPalette';
 import { defaultTokensConfig } from '../tokens/defaultTokensConfig';
 import { alwaysPalette } from '../tokens/palette';
-import { COLOR_PREFIX, parseTokens } from '../tokens/utils/parseTokens';
+import { parseTokens } from '../tokens/utils/parseTokens';
 import { UniversalTokensConfig } from '../types/tokens';
 
 interface TailwindPluginOptions {
@@ -13,17 +11,21 @@ interface TailwindPluginOptions {
 const tailwindPlugin = plugin.withOptions(
   ({ config = defaultTokensConfig }: TailwindPluginOptions) => {
     const parsedTokens = parseTokens(config);
-    return ({ addBase, matchUtilities, theme }) => {
-      const allColors = flattenColorPalette(theme('colors'));
-      const newVars = Object.fromEntries(
-        Object.entries(allColors).map(([key, val]) => [
-          `--${COLOR_PREFIX}-${key}`,
-          val as string,
-        ]),
-      );
-
+    return ({ addBase, matchUtilities }) => {
       addBase({
-        ':root': newVars,
+        ':root': {
+          ...parsedTokens.colorMode.light.vars,
+          ...parsedTokens.scaleMode.large.borderRadius.vars,
+          ...parsedTokens.scaleMode.large.borderWidth.vars,
+          ...parsedTokens.scaleMode.large.avatarSizes.vars,
+          ...parsedTokens.scaleMode.large.iconSizes.vars,
+          ...parsedTokens.scaleMode.large.spacing.vars,
+          ...parsedTokens.scaleMode.large.fontFamily.vars,
+          ...parsedTokens.scaleMode.large.fontSize.vars,
+          ...parsedTokens.scaleMode.large.fontWeight.vars,
+          ...parsedTokens.scaleMode.large.lineHeight.vars,
+          ...parsedTokens.scaleMode.large.textTransform.vars,
+        },
       });
 
       matchUtilities(
@@ -128,7 +130,7 @@ const tailwindPlugin = plugin.withOptions(
       parsedTokens.scaleMode.large.borderRadius.tailwindConfig;
     const borderWidth = parsedTokens.scaleMode.large.borderWidth.tailwindConfig;
     const boxShadow = parsedTokens.colorMode.light.tailwindConfig.elevation;
-    const dropShadow = parsedTokens.colorMode.light.tailwindConfig.elevation;
+    const dropShadow = boxShadow;
     const outlineWidth = borderWidth;
     const aspectRatio = parsedTokens.aspectRatio;
     const zIndex = parsedTokens.zIndex;

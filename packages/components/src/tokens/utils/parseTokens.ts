@@ -21,7 +21,7 @@ export const KATCN_PREFIX = 'katcn';
 /*                              CSS VAR PREFIXES                              */
 /* -------------------------------------------------------------------------- */
 export const COLOR_PREFIX = `${KATCN_PREFIX}-color`;
-export const PALETTE_PREFIX = `${KATCN_PREFIX}-palette`;
+export const ELEVATION_PREFIX = `${KATCN_PREFIX}-elevation`;
 export const FONT_FAMILY_PREFIX = `${KATCN_PREFIX}-font`;
 export const ICON_SIZE_PREFIX = `${KATCN_PREFIX}-icon-size`;
 export const AVATAR_SIZE_PREFIX = `${KATCN_PREFIX}-avatar-size`;
@@ -62,32 +62,29 @@ export const FONT_SANS_CONDENSED_CSS_VAR = `--${KATCN_PREFIX}-font-sans-condense
 export const FONT_SERIF_DISPLAY_CSS_VAR = `--${KATCN_PREFIX}-font-serif-display`;
 export const FONT_SERIF_TEXT_CSS_VAR = `--${KATCN_PREFIX}-font-serif-text`;
 
-function transformElevation(elevation: ElevationConfig) {
-  const newConfig = {} as Record<keyof ElevationConfig, string>;
-
-  for (const [elevationVariant, elevationValue] of entries(elevation)) {
-    const newValue = elevationValue
-      .map(
-        ({ color, offsetX, offsetY, blurRadius, spreadRadius }) =>
-          `${offsetX}px ${offsetY}px ${blurRadius}px ${spreadRadius}px ${color}`,
-      )
-      .join(', ');
-    newConfig[elevationVariant] = newValue;
-  }
-
-  return newConfig;
-}
-
 function transformColorMode(colors: ColorsConfig) {
-  const { palette, elevation } = colors;
+  const { palette, spectrum, elevation } = colors;
   const rootVars: Record<string, string> = {};
+
   const tailwindConfig = {
     spectrum: {} as Record<Hue, Record<HueStep, string>>,
     palette: {} as {
       [key in PaletteType]: Record<keyof PaletteConfig[key], string>;
     },
-    elevation: transformElevation(elevation),
+    elevation: {} as Record<keyof ElevationConfig, string>,
   };
+
+  for (const [hue, hueSteps] of entries(spectrum)) {
+    for (const [hueStep, value] of entries(hueSteps)) {
+      const name = `${hue}-${hueStep}`;
+      const varKey = `--${COLOR_PREFIX}-${name}`;
+      if (!tailwindConfig.spectrum[hue]) {
+        tailwindConfig.spectrum[hue] = {} as Record<HueStep, string>;
+      }
+      tailwindConfig.spectrum[hue][hueStep] = `rgb(var(${varKey}))`;
+      rootVars[varKey] = value;
+    }
+  }
 
   for (const [paletteType, paletteConfig] of entries(palette)) {
     for (const [paletteKey, { hue, step, opacity }] of entries(paletteConfig)) {
@@ -95,13 +92,26 @@ function transformColorMode(colors: ColorsConfig) {
         // @ts-expect-error we fill this object later
         tailwindConfig.palette[paletteType] = {};
       }
-      const name = `--${PALETTE_PREFIX}-${paletteType}-${paletteKey}`;
+      const name = `--${KATCN_PREFIX}-${paletteType}-color-${paletteKey}`;
       rootVars[name] = `var(--${COLOR_PREFIX}-${hue}-${step})`;
       // @ts-expect-error this is fine
       tailwindConfig.palette[paletteType][paletteKey] = opacity
         ? `rgb(var(${name}) / ${opacity})`
         : `rgb(var(${name}))`;
     }
+  }
+
+  for (const [elevationVariant, elevationValue] of entries(elevation)) {
+    const value = elevationValue
+      .map(
+        ({ color, offsetX, offsetY, blurRadius, spreadRadius }) =>
+          `${offsetX}px ${offsetY}px ${blurRadius}px ${spreadRadius}px ${color}`,
+      )
+      .join(', ');
+
+    const name = `--${KATCN_PREFIX}-elevation-${elevationVariant}`;
+    rootVars[name] = value;
+    tailwindConfig.elevation[elevationVariant] = `var(--${name})`;
   }
 
   return {
@@ -121,8 +131,7 @@ function transformFontWeight(config: FontWeightConfig) {
   }
 
   return {
-    _vars: rootVars,
-    _raw: config,
+    vars: rootVars,
     tailwindConfig: {
       ...fontWeightMap,
       ...tailwindConfig,
@@ -144,8 +153,7 @@ function transformString<T extends Record<string, string>>(
     tailwindConfig[variant] = `var(${rootVarKey})`;
   }
   return {
-    _vars: rootVars,
-    _raw: config,
+    vars: rootVars,
     tailwindConfig,
   };
 }
@@ -157,7 +165,6 @@ function transformNumeric<T extends Record<string, number>>(
   if (!config) {
     return {
       _vars: {},
-      _raw: {},
       tailwindConfig: {},
     };
   }
@@ -170,8 +177,7 @@ function transformNumeric<T extends Record<string, number>>(
     tailwindConfig[variant] = `var(${rootVarKey})`;
   }
   return {
-    _vars: rootVars,
-    _raw: config,
+    vars: rootVars,
     tailwindConfig,
   };
 }

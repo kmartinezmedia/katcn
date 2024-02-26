@@ -1,11 +1,8 @@
+import { getStyles } from 'katcn/styles/getStyles';
 import { Text } from 'katcn/ui/Text';
 
-export default function Home() {
-  return (
-    <Text color="primary" backgroundColor="accent">
-      something
-    </Text>
-  );
-}
+const className = getStyles({ backgroundColor: 'accent', color: 'primary' });
 
-console.log(<Text color="primary" backgroundColor="accent" />);
+export default function Home() {
+  return <Text className={className}>something</Text>;
+}

@@ -14,8 +14,8 @@ const transpiler = new Transpiler({
     },
   },
   macro: {
-    katcn: {
-      jsxDEV: 'katcn/jsx-runtime',
+    'katcn/styles/getStyles': {
+      getStyles: 'katcn/styles/getStyles',
     },
   },
 });
