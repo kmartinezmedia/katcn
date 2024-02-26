@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "bun --bun next dev",
     "build": "bun run docgen && next build",
-    "docgen": "cli docs build --input @fake/components",
+    "docgen": "cli docs build --input katcn",
     "start": "next start",
     "lint": "cli tools lint",
     "typecheck": "cli tools typecheck",
@@ -13,7 +13,7 @@
     "fix": "cli tools fix"
   },
   "dependencies": {
-    "@fake/components": "workspace:*",
+    "katcn": "workspace:*",
     "react": "^18",
     "react-dom": "^18",
     "next": "14.0.4"
