@@ -177,212 +177,273 @@ export const getStyles = ({
   const classNames = [];
 
   if (color) {
-    classNames.push(`text-${color}`);
+    const classNameToAdd = `text-${color}`;
+    classNames.push(classNameToAdd);
   }
   if (colorChecked) {
-    classNames.push(`data-[state=checked]:text-${colorChecked}`);
+    const classNameToAdd = `data-[state=checked]:text-${colorChecked}`;
+    classNames.push(classNameToAdd);
   }
   if (placeholderColor) {
-    classNames.push(`placeholder:text-${placeholderColor}`);
+    const classNameToAdd = `placeholder:text-${placeholderColor}`;
+    classNames.push(classNameToAdd);
   }
   if (fontFamily) {
-    classNames.push(`font-${fontFamily}`);
+    const classNameToAdd = `font-${fontFamily}`;
+    classNames.push(classNameToAdd);
   }
   if (fontSize) {
-    classNames.push(`font-size-${fontSize}`);
+    const classNameToAdd = `font-size-${fontSize}`;
+    classNames.push(classNameToAdd);
   }
   if (fontWeight) {
-    classNames.push(`font-weight-${fontWeight}`);
+    const classNameToAdd = `font-weight-${fontWeight}`;
+    classNames.push(classNameToAdd);
   }
   if (lineHeight) {
-    classNames.push(`line-height-${lineHeight}`);
+    const classNameToAdd = `line-height-${lineHeight}`;
+    classNames.push(classNameToAdd);
   }
   if (textAlign) {
-    classNames.push(`text-${textAlign}`);
+    const classNameToAdd = `text-${textAlign}`;
+    classNames.push(classNameToAdd);
   }
   if (textTransform) {
-    classNames.push(`case-${textTransform}`);
+    const classNameToAdd = `case-${textTransform}`;
+    classNames.push(classNameToAdd);
   }
   if (spacingTop) {
-    classNames.push(`pt-${spacingTop}`);
+    const classNameToAdd = `pt-${spacingTop}`;
+    classNames.push(classNameToAdd);
   }
   if (spacingBottom) {
-    classNames.push(`pb-${spacingBottom}`);
+    const classNameToAdd = `pb-${spacingBottom}`;
+    classNames.push(classNameToAdd);
   }
   if (spacingStart) {
-    classNames.push(`ps-${spacingStart}`);
+    const classNameToAdd = `ps-${spacingStart}`;
+    classNames.push(classNameToAdd);
   }
   if (spacingEnd) {
-    classNames.push(`pe-${spacingEnd}`);
+    const classNameToAdd = `pe-${spacingEnd}`;
+    classNames.push(classNameToAdd);
   }
   if (offsetTop) {
-    classNames.push(`-mt-${offsetTop}`);
+    const classNameToAdd = `-mt-${offsetTop}`;
+    classNames.push(classNameToAdd);
   }
   if (offsetBottom) {
-    classNames.push(`-mb-${offsetBottom}`);
+    const classNameToAdd = `-mb-${offsetBottom}`;
+    classNames.push(classNameToAdd);
   }
   if (offsetStart) {
-    classNames.push(`-ms-${offsetStart}`);
+    const classNameToAdd = `-ms-${offsetStart}`;
+    classNames.push(classNameToAdd);
   }
   if (offsetEnd) {
-    classNames.push(`-me-${offsetEnd}`);
+    const classNameToAdd = `-me-${offsetEnd}`;
+    classNames.push(classNameToAdd);
   }
   if (columnGap) {
-    classNames.push(`gap-x-${columnGap}`);
+    const classNameToAdd = `gap-x-${columnGap}`;
+    classNames.push(classNameToAdd);
   }
   if (rowGap) {
-    classNames.push(`gap-y-${rowGap}`);
+    const classNameToAdd = `gap-y-${rowGap}`;
+    classNames.push(classNameToAdd);
   }
 
   if (backgroundColor) {
-    classNames.push(`bg-${backgroundColor}`);
+    const classNameToAdd = `bg-${backgroundColor}`;
+    classNames.push(classNameToAdd);
   }
 
   if (backgroundColorOnActive) {
-    classNames.push(`active:bg-${backgroundColorOnActive}`);
+    const classNameToAdd = `active:bg-${backgroundColorOnActive}`;
+    classNames.push(classNameToAdd);
   }
 
   if (backgroundColorOnHover) {
-    classNames.push(`hover:bg-${backgroundColorOnHover}`);
+    const classNameToAdd = `hover:bg-${backgroundColorOnHover}`;
+    classNames.push(classNameToAdd);
   }
 
   if (backgroundColorOnChecked) {
-    classNames.push(`data-[state=checked]:bg-${backgroundColorOnChecked}`);
+    const classNameToAdd = `data-[state=checked]:bg-${backgroundColorOnChecked}`;
+    classNames.push(classNameToAdd);
   }
 
   if (borderColorOnActive) {
     if (borderTopColor) {
-      classNames.push(`active:border-t-${borderColorOnActive}`);
+      const classNameToAdd = `active:border-t-${borderColorOnActive}`;
+      classNames.push(classNameToAdd);
     }
     if (borderBottomColor) {
-      classNames.push(`active:border-b-${borderColorOnActive}`);
+      const classNameToAdd = `active:border-b-${borderColorOnActive}`;
+      classNames.push(classNameToAdd);
     }
     if (borderStartColor) {
-      classNames.push(`active:border-s-${borderColorOnActive}`);
+      const classNameToAdd = `active:border-s-${borderColorOnActive}`;
+      classNames.push(classNameToAdd);
     }
     if (borderEndColor) {
-      classNames.push(`active:border-e-${borderColorOnActive}`);
+      const classNameToAdd = `active:border-e-${borderColorOnActive}`;
+      classNames.push(classNameToAdd);
     }
   }
 
   if (borderColorOnFocus) {
     if (borderTopColor) {
-      classNames.push(`focus:border-t-${borderColorOnFocus}`);
+      const classNameToAdd = `focus:border-t-${borderColorOnFocus}`;
+      classNames.push(classNameToAdd);
     }
     if (borderBottomColor) {
-      classNames.push(`focus:border-b-${borderColorOnFocus}`);
+      const classNameToAdd = `focus:border-b-${borderColorOnFocus}`;
+      classNames.push(classNameToAdd);
     }
     if (borderStartColor) {
-      classNames.push(`focus:border-s-${borderColorOnFocus}`);
+      const classNameToAdd = `focus:border-s-${borderColorOnFocus}`;
+      classNames.push(classNameToAdd);
     }
     if (borderEndColor) {
-      classNames.push(`focus:border-e-${borderColorOnFocus}`);
+      const classNameToAdd = `focus:border-e-${borderColorOnFocus}`;
+      classNames.push(classNameToAdd);
     }
   }
 
   if (borderTopColor) {
-    classNames.push(`border-t-${borderTopColor}`);
+    const classNameToAdd = `border-t-${borderTopColor}`;
+    classNames.push(classNameToAdd);
   }
   if (borderBottomColor) {
-    classNames.push(`border-b-${borderBottomColor}`);
+    const classNameToAdd = `border-b-${borderBottomColor}`;
+    classNames.push(classNameToAdd);
   }
   if (borderStartColor) {
-    classNames.push(`border-s-${borderStartColor}`);
+    const classNameToAdd = `border-s-${borderStartColor}`;
+    classNames.push(classNameToAdd);
   }
   if (borderEndColor) {
-    classNames.push(`border-e-${borderEndColor}`);
+    const classNameToAdd = `border-e-${borderEndColor}`;
+    classNames.push(classNameToAdd);
   }
   if (borderTopStartRadius) {
-    classNames.push(`rounded-ss-${borderTopStartRadius}`);
+    const classNameToAdd = `rounded-ss-${borderTopStartRadius}`;
+    classNames.push(classNameToAdd);
   }
   if (borderTopEndRadius) {
-    classNames.push(`rounded-se-${borderTopEndRadius}`);
+    const classNameToAdd = `rounded-se-${borderTopEndRadius}`;
+    classNames.push(classNameToAdd);
   }
   if (borderBottomStartRadius) {
-    classNames.push(`rounded-es-${borderBottomStartRadius}`);
+    const classNameToAdd = `rounded-es-${borderBottomStartRadius}`;
+    classNames.push(classNameToAdd);
   }
   if (borderBottomEndRadius) {
-    classNames.push(`rounded-ee-${borderBottomEndRadius}`);
+    const classNameToAdd = `rounded-ee-${borderBottomEndRadius}`;
+    classNames.push(classNameToAdd);
   }
   if (borderWidth) {
-    classNames.push(`border-${borderWidth}`);
+    const classNameToAdd = `border-${borderWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (borderVerticalWidth) {
-    classNames.push(`border-y-${borderVerticalWidth}`);
+    const classNameToAdd = `border-y-${borderVerticalWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (borderHorizontalWidth) {
-    classNames.push(`border-x-${borderHorizontalWidth}`);
+    const classNameToAdd = `border-x-${borderHorizontalWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (borderStartWidth) {
-    classNames.push(`border-s-${borderStartWidth}`);
+    const classNameToAdd = `border-s-${borderStartWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (borderEndWidth) {
-    classNames.push(`border-e-${borderEndWidth}`);
+    const classNameToAdd = `border-e-${borderEndWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (borderTopWidth) {
-    classNames.push(`border-t-${borderTopWidth}`);
+    const classNameToAdd = `border-t-${borderTopWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (borderBottomWidth) {
-    classNames.push(`border-b-${borderBottomWidth}`);
+    const classNameToAdd = `border-b-${borderBottomWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (borderedTop) {
-    classNames.push('border-t-thin');
+    const classNameToAdd = 'border-t-thin';
+    classNames.push(classNameToAdd);
   }
   if (borderedBottom) {
-    classNames.push('border-b-thin');
+    const classNameToAdd = 'border-b-thin';
+    classNames.push(classNameToAdd);
   }
   if (borderedStart) {
-    classNames.push('border-s-thin');
+    const classNameToAdd = 'border-s-thin';
+    classNames.push(classNameToAdd);
   }
   if (borderedEnd) {
-    classNames.push('border-e-thin');
+    const classNameToAdd = 'border-e-thin';
+    classNames.push(classNameToAdd);
   }
   if (height) {
-    classNames.push(`h-${height}`);
+    const classNameToAdd = `h-${height}`;
+    classNames.push(classNameToAdd);
   }
   if (minHeight) {
-    classNames.push(`min-h-${minHeight}`);
+    const classNameToAdd = `min-h-${minHeight}`;
+    classNames.push(classNameToAdd);
   }
   if (maxHeight) {
-    classNames.push(`max-h-${maxHeight}`);
+    const classNameToAdd = `max-h-${maxHeight}`;
+    classNames.push(classNameToAdd);
   }
   if (width) {
-    classNames.push(`w-${width}`);
+    const classNameToAdd = `w-${width}`;
+    classNames.push(classNameToAdd);
   }
   if (minWidth) {
-    classNames.push(`min-w-${minWidth}`);
+    const classNameToAdd = `min-w-${minWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (maxWidth) {
-    classNames.push(`max-w-${maxWidth}`);
+    const classNameToAdd = `max-w-${maxWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (overflowX) {
-    classNames.push(`overflow-x-${overflowX}`);
+    const classNameToAdd = `overflow-x-${overflowX}`;
+    classNames.push(classNameToAdd);
   }
   if (overflowY) {
-    classNames.push(`overflow-y-${overflowY}`);
+    const classNameToAdd = `overflow-y-${overflowY}`;
+    classNames.push(classNameToAdd);
   }
   if (position) {
-    classNames.push(position);
+    const classNameToAdd = position;
+    classNames.push(classNameToAdd);
   }
   if (zIndex) {
-    classNames.push(`z-${zIndex}`);
+    const classNameToAdd = `z-${zIndex}`;
+    classNames.push(classNameToAdd);
   }
   if (opacity) {
-    classNames.push(`opacity-${opacity}`);
+    const classNameToAdd = `opacity-${opacity}`;
+    classNames.push(classNameToAdd);
   }
   if (contentFit) {
-    classNames.push(`object-${contentFit}`);
+    const classNameToAdd = `object-${contentFit}`;
+    classNames.push(classNameToAdd);
   }
 
   if (iconSize) {
-    classNames.push(`icon-size-${iconSize}`);
+    const classNameToAdd = `icon-size-${iconSize}`;
+    classNames.push(classNameToAdd);
   }
   if (avatarSize) {
-    classNames.push(`avatar-size-${avatarSize}`);
+    const classNameToAdd = `avatar-size-${avatarSize}`;
+    classNames.push(classNameToAdd);
   }
-  // if (colorMode === 'dark') {
-  //   classNames.push(colorMode);
-  // }
 
   return twMerge(clsx(classNames, className));
 };

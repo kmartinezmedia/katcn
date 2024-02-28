@@ -1,14 +1,16 @@
 import plugin from 'tailwindcss/plugin';
+import { Config } from 'tailwindcss/types/config';
 import { defaultTokensConfig } from '../tokens/defaultTokensConfig';
 import { alwaysPalette } from '../tokens/palette';
 import { parseTokens } from '../tokens/utils/parseTokens';
 import { UniversalTokensConfig } from '../types/tokens';
+import { transformTsx } from './transformTsx';
 
 interface TailwindPluginOptions {
   config?: UniversalTokensConfig;
 }
 
-const tailwindPlugin = plugin.withOptions(
+const systemPlugin = plugin.withOptions(
   ({ config = defaultTokensConfig }: TailwindPluginOptions) => {
     const parsedTokens = parseTokens(config);
     return ({ addBase, matchUtilities }) => {
@@ -191,4 +193,27 @@ const tailwindPlugin = plugin.withOptions(
   },
 );
 
-export { tailwindPlugin };
+export function withSystem(
+  tailwindConfig: Config,
+  systemConfig: UniversalTokensConfig = defaultTokensConfig,
+): Config {
+  const content = Array.isArray(tailwindConfig.content)
+    ? { files: tailwindConfig.content }
+    : tailwindConfig.content;
+
+  const plugins = Array.isArray(tailwindConfig.plugins)
+    ? tailwindConfig.plugins
+    : [];
+
+  return {
+    ...tailwindConfig,
+    content: {
+      ...content,
+      transform: {
+        ...content.transform,
+        tsx: transformTsx,
+      },
+    },
+    plugins: [...plugins, systemPlugin({ config: systemConfig })],
+  };
+}

@@ -2,7 +2,7 @@
   "name": "katcn",
   "version": "0.0.0",
   "private": true,
-  "files": ["tsconfig.json", "src"],
+  "files": ["tsconfig.json", "src", "dist"],
   "type": "module",
   "scripts": {
     "dev": "concurrently bun:dev:*",
@@ -18,7 +18,6 @@
       "types": "./dist/*.d.ts",
       "default": "./dist/*.js"
     },
-    "./jsx-runtime": "./dist/jsx-runtime.js",
     "./tsconfig.json": "./tsconfig.json",
     "./package.json": "./package.json"
   },
