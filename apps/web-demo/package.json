@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "bun --bun next dev",
-    "build": "next build",
+    "build": "bun --bun next build",
     "start": "next start",
     "lint": "cli tools lint",
     "typecheck": "cli tools typecheck",

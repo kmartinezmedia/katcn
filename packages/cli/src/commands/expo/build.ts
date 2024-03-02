@@ -39,7 +39,7 @@ export default {
       const homebrewPrefix = machineArch.includes('arm64')
         ? '/opt/homebrew'
         : '/usr/local';
-      let shellRcFile;
+      let shellRcFile: string;
 
       if (isLinux) {
         shellRcFile = shellType.includes('zsh') ? '.zshrc' : '.bashrc';
