@@ -13,7 +13,7 @@ bun create kmartinezmedia/create-monorepo mydir
 # Setup
 
 ```bash
-touch apps/mobile-app/.env
+touch apps/mobile-demo/.env
 ```
 
 Update env vars

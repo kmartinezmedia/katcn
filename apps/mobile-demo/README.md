@@ -51,10 +51,10 @@ bun run dev
 
 ## Getting started
 
-1. `cd` into mobile-app workspace
+1. `cd` into mobile-demo workspace
 
 ```shell
-cd apps/mobile-app
+cd apps/mobile-demo
 ```
 
 2. Build debug build to run locally in simulator
