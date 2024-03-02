@@ -2,7 +2,7 @@ import { jsxDEV as jsxDevOriginal } from 'react/jsx-dev-runtime';
 import { jsx as jsxOriginal, jsxs as jsxsOriginal } from 'react/jsx-runtime';
 
 import { extractStyleProps } from './styles/extractStyleProps';
-import { GetStylesParams } from './styles/getStyles';
+import type { GetStylesParams } from './styles/getStyles';
 
 export { Fragment, createElement } from 'react';
 

@@ -1,9 +1,9 @@
 import plugin from 'tailwindcss/plugin';
-import { Config } from 'tailwindcss/types/config';
+import type { Config } from 'tailwindcss/types/config';
 import { defaultTokensConfig } from '../tokens/defaultTokensConfig';
 import { alwaysPalette } from '../tokens/palette';
 import { parseTokens } from '../tokens/utils/parseTokens';
-import { UniversalTokensConfig } from '../types/tokens';
+import type { UniversalTokensConfig } from '../types/tokens';
 import { getPreflight } from './preflight';
 import { transformTsx } from './transformTsx';
 

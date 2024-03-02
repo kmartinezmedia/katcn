@@ -1,5 +1,5 @@
 import { watch as fsWatch } from 'node:fs';
-import { Props } from 'bluebun';
+import type { Props } from 'bluebun';
 import { $ } from 'bun';
 import webfont from 'webfont';
 

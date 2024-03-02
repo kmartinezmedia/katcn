@@ -1,6 +1,6 @@
 import { watch as fsWatch } from 'node:fs';
 import path from 'node:path';
-import { Props } from 'bluebun';
+import type { Props } from 'bluebun';
 import { Project } from 'ts-morph';
 
 interface BuildProps extends Props {

@@ -1,4 +1,4 @@
-import { type BorderRadiusConfig } from '../types/tokens';
+import type { BorderRadiusConfig } from '../types/tokens';
 
 const compactBorderRadius: BorderRadiusConfig = {
   none: 0,

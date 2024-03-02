@@ -1,38 +1,38 @@
-import { PropsWithChildren } from 'react';
-import { IconName } from '../icons/types';
+import type { PropsWithChildren } from 'react';
+import type { IconName } from '../icons/types';
 import {
-  AlignContent,
-  AlignItems,
+  type AlignContent,
+  type AlignItems,
   AlignSelf,
-  AvatarSize,
-  BackgroundColor,
-  BackgroundPaletteAlias,
-  BackgroundWashPaletteAlias,
-  BorderRadius,
-  BorderWidth,
-  CorePaletteAlias,
-  Display,
-  Elevation,
-  FlexDirection,
-  FontFamilyGlobalAlias,
-  FontWeightDescriptive,
-  ForegroundColor,
-  Height,
-  IconSize,
-  JustifyContent,
-  LineColor,
-  MaxHeight,
-  MaxWidth,
-  MinHeight,
-  MinWidth,
-  Opacity,
-  Overflow,
-  Position,
-  SpacingAlias,
-  TextTransform,
-  TextVariant,
-  Width,
-  ZIndex,
+  type AvatarSize,
+  type BackgroundColor,
+  type BackgroundPaletteAlias,
+  type BackgroundWashPaletteAlias,
+  type BorderRadius,
+  type BorderWidth,
+  type CorePaletteAlias,
+  type Display,
+  type Elevation,
+  type FlexDirection,
+  type FontFamilyGlobalAlias,
+  type FontWeightDescriptive,
+  type ForegroundColor,
+  type Height,
+  type IconSize,
+  type JustifyContent,
+  type LineColor,
+  type MaxHeight,
+  type MaxWidth,
+  type MinHeight,
+  type MinWidth,
+  type Opacity,
+  type Overflow,
+  type Position,
+  type SpacingAlias,
+  type TextTransform,
+  type TextVariant,
+  type Width,
+  type ZIndex,
 } from './tokens';
 
 /* -------------------------------------------------------------------------- */
@@ -46,20 +46,6 @@ type ImageStyleProps = {
 };
 
 interface BorderStyleProps {
-  /** Add a border around all sides of the box. */
-  bordered?: boolean;
-  /** Add a border to the top side of the box. */
-  borderedTop?: boolean;
-  /** Add a border to the bottom side of the box. */
-  borderedBottom?: boolean;
-  /** Add a border to the leading side of the box. */
-  borderedStart?: boolean;
-  /** Add a border to the trailing side of the box. */
-  borderedEnd?: boolean;
-  /** Add a border to the leading and trailing sides of the box. */
-  borderedHorizontal?: boolean;
-  /** Add a border to the top and bottom sides of the box. */
-  borderedVertical?: boolean;
   /** Add a border radius to all corners of the box. */
   borderRadius?: BorderRadius;
   /** Add a border radius to top left corner of the box. */

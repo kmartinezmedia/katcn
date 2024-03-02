@@ -10,7 +10,7 @@
     "inlineSources": false,
     "isolatedModules": true,
     "lib": ["ESNext"],
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Bundler",
     "module": "ESNext",
     "noUnusedLocals": false,
     "noUnusedParameters": false,

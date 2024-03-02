@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { type UniversalPressableProps } from '../types/props';
+import type { UniversalPressableProps } from '../types/props';
 
 import { createSlot } from '../utils/createSlot';
 

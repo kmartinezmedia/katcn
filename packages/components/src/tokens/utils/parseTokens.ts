@@ -1,15 +1,15 @@
-import {
-  type ColorMode,
-  type ColorsConfig,
-  type ElevationConfig,
-  type FontFamilyGlobalConfig,
-  type FontWeightConfig,
-  type Hue,
-  type HueStep,
-  type PaletteConfig,
-  type PaletteType,
-  type ScaleMode,
-  type UniversalTokensConfig,
+import type {
+  ColorMode,
+  ColorsConfig,
+  ElevationConfig,
+  FontFamilyGlobalConfig,
+  FontWeightConfig,
+  Hue,
+  HueStep,
+  PaletteConfig,
+  PaletteType,
+  ScaleMode,
+  UniversalTokensConfig,
 } from '../../types/tokens';
 import { entries } from '../../utils/entries';
 import { mapValues } from '../../utils/mapValues';

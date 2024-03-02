@@ -1,4 +1,4 @@
-import { Config } from 'tailwindcss/types/config';
+import type { Config } from 'tailwindcss/types/config';
 
 /** Port of https://github.com/tailwindlabs/tailwindcss/blob/master/src/css/preflight.css */
 export function getPreflight(
@@ -12,11 +12,9 @@ export function getPreflight(
     1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
     2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
     */
-    '::before, ::after': {
+    '*, ::before, ::after': {
       'box-sizing': 'border-box',
-      'border-width': '0',
-      'border-style': 'solid',
-      'border-color': theme('borderColor.DEFAULT', 'currentColor'),
+      border: '0px solid currentColor',
     },
     /*
     1. Use a consistent sensible line-height in all browsers.

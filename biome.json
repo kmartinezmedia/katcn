@@ -8,7 +8,8 @@
       ".docgen",
       ".env*",
       "expo-env.d.ts",
-      "dist"
+      "dist",
+      "dts"
     ]
   },
   "organizeImports": {
@@ -22,7 +23,10 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "nursery": {
+        "useImportType": "error"
+      }
     }
   },
   "formatter": {

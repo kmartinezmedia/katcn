@@ -1,12 +1,12 @@
-import {
-  type FontFamilyConfig,
-  type FontFamilyGlobalConfig,
-  type FontSizeConfig,
-  type FontWeightConfig,
-  type FontWeightDescriptive,
-  type FontWeightNumeric,
-  type LineHeightConfig,
-  type TextTransformConfig,
+import type {
+  FontFamilyConfig,
+  FontFamilyGlobalConfig,
+  FontSizeConfig,
+  FontWeightConfig,
+  FontWeightDescriptive,
+  FontWeightNumeric,
+  LineHeightConfig,
+  TextTransformConfig,
 } from '../types/tokens';
 
 const sansFallbacks = ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'];

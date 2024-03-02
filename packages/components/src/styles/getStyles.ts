@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { extendTailwindMerge } from 'tailwind-merge';
-import { StyleProps } from '../types/props';
-import {
+import type { StyleProps } from '../types/props';
+import type {
   BackgroundColor,
   BorderRadius,
   BorderWidth,
@@ -117,19 +117,19 @@ export const getStyles = ({
   textAlign,
   textTransform,
   spacing,
-  spacingHorizontal = spacing,
-  spacingVertical = spacing,
-  spacingTop = spacingVertical,
-  spacingBottom = spacingVertical,
-  spacingStart = spacingHorizontal,
-  spacingEnd = spacingHorizontal,
+  spacingHorizontal,
+  spacingVertical,
+  spacingTop,
+  spacingBottom,
+  spacingStart,
+  spacingEnd,
   offset,
-  offsetVertical = offset,
-  offsetHorizontal = offset,
-  offsetTop = offsetVertical,
-  offsetBottom = offsetVertical,
-  offsetStart = offsetHorizontal,
-  offsetEnd = offsetHorizontal,
+  offsetVertical,
+  offsetHorizontal,
+  offsetTop,
+  offsetBottom,
+  offsetStart,
+  offsetEnd,
   horizontalGap,
   verticalGap,
   direction,
@@ -149,31 +149,24 @@ export const getStyles = ({
   borderColorOnChecked,
   borderColorOnFocus,
   borderColorOnHover,
-  borderVerticalColor = borderColor,
-  borderHorizontalColor = borderColor,
-  borderTopColor = borderVerticalColor,
-  borderBottomColor = borderVerticalColor,
-  borderStartColor = borderHorizontalColor,
-  borderEndColor = borderHorizontalColor,
+  borderVerticalColor,
+  borderHorizontalColor,
+  borderTopColor,
+  borderBottomColor,
+  borderStartColor,
+  borderEndColor,
   borderRadius,
-  borderTopStartRadius = borderRadius,
-  borderTopEndRadius = borderRadius,
-  borderBottomStartRadius = borderRadius,
-  borderBottomEndRadius = borderRadius,
-  bordered,
-  borderedHorizontal = bordered,
-  borderedVertical = bordered,
-  borderedTop = borderedVertical,
-  borderedBottom = borderedVertical,
-  borderedStart = borderedHorizontal,
-  borderedEnd = borderedHorizontal,
-  borderWidth = bordered ? 'thin' : undefined,
-  borderVerticalWidth = borderedVertical ? 'thin' : undefined,
-  borderHorizontalWidth = borderedHorizontal ? 'thin' : undefined,
-  borderStartWidth = borderedStart ? 'thin' : undefined,
-  borderEndWidth = borderedEnd ? 'thin' : undefined,
-  borderTopWidth = borderedTop ? 'thin' : undefined,
-  borderBottomWidth = borderedBottom ? 'thin' : undefined,
+  borderTopStartRadius,
+  borderTopEndRadius,
+  borderBottomStartRadius,
+  borderBottomEndRadius,
+  borderWidth,
+  borderVerticalWidth,
+  borderHorizontalWidth,
+  borderStartWidth,
+  borderEndWidth,
+  borderTopWidth,
+  borderBottomWidth,
   height,
   minHeight,
   maxHeight,
@@ -181,8 +174,8 @@ export const getStyles = ({
   minWidth,
   maxWidth,
   overflow,
-  overflowX = overflow,
-  overflowY = overflow,
+  overflowX,
+  overflowY,
   position,
   zIndex,
   opacity,
@@ -194,12 +187,10 @@ export const getStyles = ({
   const classNames = [];
 
   if (color) {
-    const classNameToAdd = `text-${color}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`text-${color}`);
   }
   if (colorChecked) {
-    const classNameToAdd = `data-[state=checked]:text-${colorChecked}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`data-[state=checked]:text-${colorChecked}`);
   }
 
   if (display) {
@@ -227,289 +218,272 @@ export const getStyles = ({
   }
 
   if (placeholderColor) {
-    const classNameToAdd = `placeholder:text-${placeholderColor}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`placeholder:text-${placeholderColor}`);
   }
   if (fontFamily) {
-    const classNameToAdd = `font-${fontFamily}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`font-${fontFamily}`);
   }
   if (fontSize) {
-    const classNameToAdd = `font-size-${fontSize}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`font-size-${fontSize}`);
   }
   if (fontWeight) {
-    const classNameToAdd = `font-weight-${fontWeight}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`font-weight-${fontWeight}`);
   }
   if (lineHeight) {
-    const classNameToAdd = `line-height-${lineHeight}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`line-height-${lineHeight}`);
   }
   if (textAlign) {
-    const classNameToAdd = `text-${textAlign}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`text-${textAlign}`);
   }
   if (textTransform) {
-    const classNameToAdd = `case-${textTransform}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`case-${textTransform}`);
+  }
+  if (spacing) {
+    classNames.push(`p-${spacing}`);
+  }
+  if (spacingHorizontal) {
+    classNames.push(`px-${spacingHorizontal}`);
+  }
+  if (spacingVertical) {
+    classNames.push(`py-${spacingVertical}`);
   }
   if (spacingTop) {
-    const classNameToAdd = `pt-${spacingTop}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`pt-${spacingTop}`);
   }
   if (spacingBottom) {
-    const classNameToAdd = `pb-${spacingBottom}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`pb-${spacingBottom}`);
   }
   if (spacingStart) {
-    const classNameToAdd = `ps-${spacingStart}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`ps-${spacingStart}`);
   }
   if (spacingEnd) {
-    const classNameToAdd = `pe-${spacingEnd}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`pe-${spacingEnd}`);
+  }
+  if (offset) {
+    classNames.push(`-m-${offset}`);
+  }
+  if (offsetVertical) {
+    classNames.push(`-my-${offsetVertical}`);
+  }
+  if (offsetHorizontal) {
+    classNames.push(`-mx-${offsetHorizontal}`);
   }
   if (offsetTop) {
-    const classNameToAdd = `-mt-${offsetTop}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`-mt-${offsetTop}`);
   }
   if (offsetBottom) {
-    const classNameToAdd = `-mb-${offsetBottom}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`-mb-${offsetBottom}`);
   }
   if (offsetStart) {
-    const classNameToAdd = `-ms-${offsetStart}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`-ms-${offsetStart}`);
   }
   if (offsetEnd) {
-    const classNameToAdd = `-me-${offsetEnd}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`-me-${offsetEnd}`);
   }
-
   if (horizontalGap) {
     classNames.push(`gap-x-${horizontalGap}`);
   }
-
   if (verticalGap) {
     classNames.push(`gap-y-${horizontalGap}`);
   }
-
   if (backgroundColor) {
-    const classNameToAdd = `bg-${backgroundColor}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`bg-${backgroundColor}`);
   }
-
   if (backgroundColorOnActive) {
-    const classNameToAdd = `active:bg-${backgroundColorOnActive}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`active:bg-${backgroundColorOnActive}`);
   }
-
   if (backgroundColorOnFocus) {
-    const classNameToAdd = `focus:bg-${backgroundColorOnFocus}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`focus:bg-${backgroundColorOnFocus}`);
   }
-
   if (backgroundColorOnHover) {
-    const classNameToAdd = `hover:bg-${backgroundColorOnHover}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`hover:bg-${backgroundColorOnHover}`);
   }
 
   if (backgroundColorOnChecked) {
-    const classNameToAdd = `data-[state=checked]:bg-${backgroundColorOnChecked}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`data-[state=checked]:bg-${backgroundColorOnChecked}`);
   }
 
   if (borderColorOnActive) {
+    if (borderColor) {
+      classNames.push(`active:border-${borderColorOnActive}`);
+    }
     if (borderTopColor) {
-      const classNameToAdd = `active:border-t-${borderColorOnActive}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`active:border-t-${borderColorOnActive}`);
     }
     if (borderBottomColor) {
-      const classNameToAdd = `active:border-b-${borderColorOnActive}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`active:border-b-${borderColorOnActive}`);
     }
     if (borderStartColor) {
-      const classNameToAdd = `active:border-s-${borderColorOnActive}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`active:border-s-${borderColorOnActive}`);
     }
     if (borderEndColor) {
-      const classNameToAdd = `active:border-e-${borderColorOnActive}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`active:border-e-${borderColorOnActive}`);
     }
   }
 
   if (borderColorOnChecked) {
+    if (borderColor) {
+      classNames.push(`data-[state=checked]:border-${borderColorOnChecked}`);
+    }
     if (borderTopColor) {
-      const classNameToAdd = `data-[state=checked]:border-t-${borderColorOnChecked}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`data-[state=checked]:border-t-${borderColorOnChecked}`);
     }
     if (borderBottomColor) {
-      const classNameToAdd = `data-[state=checked]:border-b-${borderColorOnChecked}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`data-[state=checked]:border-b-${borderColorOnChecked}`);
     }
     if (borderStartColor) {
-      const classNameToAdd = `data-[state=checked]:border-s-${borderColorOnChecked}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`data-[state=checked]:border-s-${borderColorOnChecked}`);
     }
     if (borderEndColor) {
-      const classNameToAdd = `data-[state=checked]:border-e-${borderColorOnChecked}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`data-[state=checked]:border-e-${borderColorOnChecked}`);
     }
   }
 
   if (borderColorOnFocus) {
+    if (borderColor) {
+      classNames.push(`focus:border-${borderColorOnFocus}`);
+    }
     if (borderTopColor) {
-      const classNameToAdd = `focus:border-t-${borderColorOnFocus}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`focus:border-t-${borderColorOnFocus}`);
     }
     if (borderBottomColor) {
-      const classNameToAdd = `focus:border-b-${borderColorOnFocus}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`focus:border-b-${borderColorOnFocus}`);
     }
     if (borderStartColor) {
-      const classNameToAdd = `focus:border-s-${borderColorOnFocus}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`focus:border-s-${borderColorOnFocus}`);
     }
     if (borderEndColor) {
-      const classNameToAdd = `focus:border-e-${borderColorOnFocus}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`focus:border-e-${borderColorOnFocus}`);
     }
   }
 
   if (borderColorOnHover) {
+    if (borderColor) {
+      classNames.push(`hover:border-${borderColorOnHover}`);
+    }
     if (borderTopColor) {
-      const classNameToAdd = `hover:border-t-${borderColorOnHover}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`hover:border-t-${borderColorOnHover}`);
     }
     if (borderBottomColor) {
-      const classNameToAdd = `hover:border-b-${borderColorOnHover}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`hover:border-b-${borderColorOnHover}`);
     }
     if (borderStartColor) {
-      const classNameToAdd = `hover:border-s-${borderColorOnHover}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`hover:border-s-${borderColorOnHover}`);
     }
     if (borderEndColor) {
-      const classNameToAdd = `hover:border-e-${borderColorOnHover}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`hover:border-e-${borderColorOnHover}`);
     }
   }
 
   if (borderColorOnActive) {
+    if (borderColor) {
+      classNames.push(`active:border-${borderColorOnActive}`);
+    }
     if (borderTopColor) {
-      const classNameToAdd = `active:border-t-${borderColorOnActive}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`active:border-t-${borderColorOnActive}`);
     }
     if (borderBottomColor) {
-      const classNameToAdd = `active:border-b-${borderColorOnActive}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`active:border-b-${borderColorOnActive}`);
     }
     if (borderStartColor) {
-      const classNameToAdd = `active:border-s-${borderColorOnActive}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`active:border-s-${borderColorOnActive}`);
     }
     if (borderEndColor) {
-      const classNameToAdd = `active:border-e-${borderColorOnActive}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`active:border-e-${borderColorOnActive}`);
     }
   }
 
   if (borderColorOnFocus) {
     if (borderTopColor) {
-      const classNameToAdd = `focus:border-t-${borderColorOnFocus}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`focus:border-t-${borderColorOnFocus}`);
     }
     if (borderBottomColor) {
-      const classNameToAdd = `focus:border-b-${borderColorOnFocus}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`focus:border-b-${borderColorOnFocus}`);
     }
     if (borderStartColor) {
-      const classNameToAdd = `focus:border-s-${borderColorOnFocus}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`focus:border-s-${borderColorOnFocus}`);
     }
     if (borderEndColor) {
-      const classNameToAdd = `focus:border-e-${borderColorOnFocus}`;
-      classNames.push(classNameToAdd);
+      classNames.push(`focus:border-e-${borderColorOnFocus}`);
     }
   }
 
+  if (borderColor) {
+    classNames.push(`border-${borderColor}`);
+  }
+
+  if (borderVerticalColor) {
+    classNames.push(`border-y-${borderVerticalColor}`);
+  }
+
+  if (borderHorizontalColor) {
+    classNames.push(`border-x-${borderHorizontalColor}`);
+  }
+
   if (borderTopColor) {
-    const classNameToAdd = `border-t-${borderTopColor}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`border-t-${borderTopColor}`);
   }
+
   if (borderBottomColor) {
-    const classNameToAdd = `border-b-${borderBottomColor}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`border-b-${borderBottomColor}`);
   }
+
   if (borderStartColor) {
-    const classNameToAdd = `border-s-${borderStartColor}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`border-s-${borderStartColor}`);
   }
+
   if (borderEndColor) {
-    const classNameToAdd = `border-e-${borderEndColor}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`border-e-${borderEndColor}`);
   }
+
+  if (borderRadius) {
+    classNames.push(`rounded-${borderRadius}`);
+  }
+
   if (borderTopStartRadius) {
-    const classNameToAdd = `rounded-ss-${borderTopStartRadius}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`rounded-ss-${borderTopStartRadius}`);
   }
+
   if (borderTopEndRadius) {
-    const classNameToAdd = `rounded-se-${borderTopEndRadius}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`rounded-se-${borderTopEndRadius}`);
   }
+
   if (borderBottomStartRadius) {
-    const classNameToAdd = `rounded-es-${borderBottomStartRadius}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`rounded-es-${borderBottomStartRadius}`);
   }
+
   if (borderBottomEndRadius) {
-    const classNameToAdd = `rounded-ee-${borderBottomEndRadius}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`rounded-ee-${borderBottomEndRadius}`);
   }
+
   if (borderWidth) {
-    const classNameToAdd = `border-${borderWidth}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`border-${borderWidth}`);
   }
+
   if (borderVerticalWidth) {
-    const classNameToAdd = `border-y-${borderVerticalWidth}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`border-y-${borderVerticalWidth}`);
   }
+
   if (borderHorizontalWidth) {
-    const classNameToAdd = `border-x-${borderHorizontalWidth}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`border-x-${borderHorizontalWidth}`);
   }
+
   if (borderStartWidth) {
-    const classNameToAdd = `border-s-${borderStartWidth}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`border-s-${borderStartWidth}`);
   }
+
   if (borderEndWidth) {
-    const classNameToAdd = `border-e-${borderEndWidth}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`border-e-${borderEndWidth}`);
   }
+
   if (borderTopWidth) {
-    const classNameToAdd = `border-t-${borderTopWidth}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`border-t-${borderTopWidth}`);
   }
+
   if (borderBottomWidth) {
-    const classNameToAdd = `border-b-${borderBottomWidth}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`border-b-${borderBottomWidth}`);
   }
-  if (borderedTop) {
-    const classNameToAdd = 'border-t-thin';
-    classNames.push(classNameToAdd);
-  }
-  if (borderedBottom) {
-    const classNameToAdd = 'border-b-thin';
-    classNames.push(classNameToAdd);
-  }
-  if (borderedStart) {
-    const classNameToAdd = 'border-s-thin';
-    classNames.push(classNameToAdd);
-  }
-  if (borderedEnd) {
-    const classNameToAdd = 'border-e-thin';
-    classNames.push(classNameToAdd);
-  }
+
   if (height) {
     const classNameToAdd =
       typeof height === 'number' ? `h-[${height}px]` : `h-${height}`;
@@ -553,29 +527,27 @@ export const getStyles = ({
     classNames.push(classNameToAdd);
   }
 
+  if (overflow) {
+    classNames.push(`overflow-${overflow}`);
+  }
+
   if (overflowX) {
-    const classNameToAdd = `overflow-x-${overflowX}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`overflow-x-${overflowX}`);
   }
   if (overflowY) {
-    const classNameToAdd = `overflow-y-${overflowY}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`overflow-y-${overflowY}`);
   }
   if (position) {
-    const classNameToAdd = position;
-    classNames.push(classNameToAdd);
+    classNames.push(position);
   }
   if (zIndex) {
-    const classNameToAdd = `z-${zIndex}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`z-${zIndex}`);
   }
   if (opacity) {
-    const classNameToAdd = `opacity-${opacity}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`opacity-${opacity}`);
   }
   if (contentFit) {
-    const classNameToAdd = `object-${contentFit}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`object-${contentFit}`);
   }
 
   if (direction) {
@@ -608,27 +580,22 @@ export const getStyles = ({
   }
 
   if (justifyContent) {
-    const classNameToAdd = `justify-${justifyContent}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`justify-${justifyContent}`);
   }
 
   if (alignItems) {
-    const classNameToAdd = `items-${alignItems}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`items-${alignItems}`);
   }
 
   if (alignContent) {
-    const classNameToAdd = `content-${alignContent}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`content-${alignContent}`);
   }
 
   if (iconSize) {
-    const classNameToAdd = `icon-size-${iconSize}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`icon-size-${iconSize}`);
   }
   if (avatarSize) {
-    const classNameToAdd = `avatar-size-${avatarSize}`;
-    classNames.push(classNameToAdd);
+    classNames.push(`avatar-size-${avatarSize}`);
   }
 
   return twMerge(clsx(classNames, className));

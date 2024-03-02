@@ -1,4 +1,4 @@
-import { type BorderWidthConfig } from '../types/tokens';
+import type { BorderWidthConfig } from '../types/tokens';
 
 const compactBorderWidths: BorderWidthConfig = {
   none: 0,
