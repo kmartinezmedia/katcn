@@ -38,16 +38,6 @@ function getPropsForExpression({
     const properties = props.getProperties();
     const propsObject = {} as Record<string, unknown>;
     for (const property of properties) {
-      /**
-       * import {Text} from "katcn/ui/Text";
-       * export default function Home() {
-       *   return jsxDEV(Text, {
-       *     color: "alert", // this is the prop
-       *     backgroundColor: "accent", // this is the prop
-       *     children: "something"
-       *   }, undefined, false, undefined, this);
-       * }
-       */
       if (property.isKind(SyntaxKind.PropertyAssignment)) {
         const name = property.getName();
         const value = property.getInitializer();
@@ -75,7 +65,7 @@ function getPropsForExpression({
     }
 
     const extractedProps = extractStyleProps(propsObject, componentName);
-    if (extractedProps.className) {
+    if (extractedProps?.className) {
       classNames.add(extractedProps.className);
     }
   }
@@ -93,24 +83,6 @@ function isJsxCallExpression(
 
 export function transformTsx(content: string) {
   const newContent = tsxTranspiler.transformSync(content);
-
-  //   console.info(
-  //     `
-  // /* -------------------------------------------------------------------------- */
-  // /*                                   BEFORE                                   */
-  // /* -------------------------------------------------------------------------- */
-  // `,
-  //     content,
-  //   );
-
-  //   console.info(
-  //     `
-  //   /* -------------------------------------------------------------------------- */
-  //   /*                                    AFTER                                   */
-  //   /* -------------------------------------------------------------------------- */
-  //   `,
-  //     newContent,
-  //   );
 
   const classNames = new Set<string>();
   const hashedName = hash(newContent);

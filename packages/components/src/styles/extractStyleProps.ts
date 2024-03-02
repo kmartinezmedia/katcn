@@ -20,8 +20,8 @@ type ComponentPropsMap = {
 
 export function extractStyleProps(
   _props: GetStylesParams,
-  componentName?: ComponentName,
-) {
+  componentName?: string,
+): Record<string, unknown> & { className?: string } {
   const props = { ..._props };
   const defaults = {} as StyleProps;
 
