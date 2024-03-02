@@ -1,6 +1,6 @@
 {
   "name": "katcn",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "build:icons": "cli icons build --formats woff2,ttf --input ./src/icons/svg --outputFonts ./src/icons/fonts --outputTypes ./src/icons/types.ts",
     "clean": "cli tools clean"
   },
-  "files": ["dist", "dts", "src", "tsconfig.json", "package.json"],
+  "files": ["package.json", "tsconfig.json", "src", "typings", "dist", "dts"],
   "exports": {
     "./tailwind": {
       "types": "./dts/tailwind/index.d.ts",
@@ -28,7 +28,6 @@
     "@babel/preset-typescript": "^7.23.3",
     "clsx": "^2.1.0",
     "tailwind-merge": "^2.2.1",
-    "tailwindcss": "^3.4.1",
     "ts-morph": "^21.0.1"
   },
   "devDependencies": {
@@ -36,7 +35,7 @@
     "cli": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tsconfig": "workspace:*",
+    "tailwindcss": "^3.4.1",
     "tsup": "^8.0.2",
     "webfont": "^11.2.26"
   }
