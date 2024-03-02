@@ -6,6 +6,8 @@ import { VStack } from 'katcn/ui/VStack';
 const customStyles = getStyles({
   borderWidth: 'thick',
   borderColor: 'warning',
+  backgroundColor: 'accent-wash',
+  elevation: '1',
 });
 
 export default function Home() {

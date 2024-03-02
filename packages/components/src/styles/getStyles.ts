@@ -56,8 +56,16 @@ const backgroundColors: BackgroundColor[] = [
   'brand',
   'positive',
   'warning',
+  'accent-wash',
+  'alert-wash',
+  'brand-wash',
+  'positive-wash',
+  'warning-wash',
   'primary',
   'secondary',
+  'elevation-1',
+  'elevation-2',
+  'elevation-3',
   'white',
   'black',
   'transparent',
@@ -177,6 +185,7 @@ export const getStyles = ({
   overflowX,
   overflowY,
   position,
+  elevation,
   zIndex,
   opacity,
   contentFit,
@@ -539,6 +548,9 @@ export const getStyles = ({
   }
   if (position) {
     classNames.push(position);
+  }
+  if (elevation) {
+    classNames.push(`shadow-${elevation}`);
   }
   if (zIndex) {
     classNames.push(`z-${zIndex}`);

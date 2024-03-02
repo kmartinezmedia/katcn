@@ -58,19 +58,14 @@ export type CorePalette = Record<CorePaletteAlias, PaletteValue>;
 export type BackgroundPaletteAlias = 'primary' | 'secondary';
 export type BackgroundPalette = Record<BackgroundPaletteAlias, PaletteValue>;
 
-export type BackgroundWashPaletteAlias = `${CorePaletteAlias}-wash`;
+export type BackgroundWashPaletteAlias = CorePaletteAlias;
 export type BackgroundWashPalette = Record<
   BackgroundWashPaletteAlias,
   PaletteValue
 >;
 
-export type ElevationPaletteAlias =
-  | 'elevation-1'
-  | 'elevation-2'
-  | 'elevation-3'
-  | 'scrim';
+export type ElevationPaletteAlias = '1' | '2' | '3';
 export type ElevationPalette = Record<ElevationPaletteAlias, PaletteValue>;
-
 export type ForegroundPaletteAlias =
   | 'primary'
   | 'secondary'
@@ -98,8 +93,8 @@ export type LineColor =
 export type BackgroundColor =
   | CorePaletteAlias
   | BackgroundPaletteAlias
-  | BackgroundWashPaletteAlias
-  | ElevationPaletteAlias
+  | `${BackgroundWashPaletteAlias}-wash`
+  | `elevation-${ElevationPaletteAlias}`
   | AlwaysPaletteAlias;
 
 /* -------------------------------------------------------------------------- */
@@ -126,7 +121,8 @@ export type FontFamilyGlobalAlias =
   | 'sans'
   | 'sans-condensed'
   | 'serif-text'
-  | 'serif-display';
+  | 'serif-display'
+  | 'mono';
 
 export type FontFamilyGlobalConfig = Record<
   FontFamilyGlobalAlias,
@@ -230,7 +226,7 @@ export type ZIndexConfig = Record<ZIndex, string>;
 export type BorderRadius = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 export type BorderRadiusConfig = Record<BorderRadius, number>;
 
-export type Elevation = '1' | '2' | '3';
+export type Elevation = ElevationPaletteAlias;
 export type ElevationConfig = Record<Elevation, BoxShadowConfig>;
 
 export type BorderWidth = 'none' | 'thin' | 'medium' | 'thick';

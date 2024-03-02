@@ -18,6 +18,10 @@ export const fontFamilyGlobal: FontFamilyGlobalConfig = {
   'sans-condensed': { fallbacks: sansFallbacks, name: 'sans-condensed' },
   'serif-text': { fallbacks: serifFallbacks, name: 'serif-text' },
   'serif-display': { fallbacks: serifFallbacks, name: 'serif-display' },
+  mono: {
+    fallbacks: ['Menlo', 'Monaco', 'Courier New', 'monospace'],
+    name: 'mono',
+  },
 };
 
 export const fontFamily: FontFamilyConfig = {

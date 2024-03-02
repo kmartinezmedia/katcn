@@ -45,6 +45,5 @@ export function jsxDEV(
 ) {
   const componentName = typeof type === 'string' ? type : type.displayName;
   const finalProps = extractStyleProps(props, componentName);
-  // console.log('jsxDEV from katcn');
   return jsxDevOriginal(type, finalProps, maybeKey, source, self);
 }

@@ -249,8 +249,6 @@ export function createTailwindConfig(
       invert: false,
       saturate: false,
       sepia: false,
-      backgroundOpacity: false,
-      borderOpacity: false,
       content: false,
       preflight: false,
     },

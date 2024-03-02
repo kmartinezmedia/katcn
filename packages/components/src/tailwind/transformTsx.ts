@@ -82,7 +82,6 @@ function getPropsForExpression({
     if (fnName === 'getStyles') {
       // TODO: Find where getStyles is applied and use that component name?
       extractedProps.className = getStyles(propsObject);
-      console.log('extractedProps', extractedProps);
     } else {
       const componentName = callExpression.getArguments()[0].getText();
       extractedProps = extractStyleProps(propsObject, componentName);
