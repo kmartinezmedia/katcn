@@ -10,9 +10,7 @@ const typesFile = path.resolve(
 const project = new Project();
 const typeFile = project.addSourceFileAtPath(typesFile);
 
-export function typesToObject<TypeToReturn>(
-  typeName: string,
-): {
+export function typesToObject<TypeToReturn>(typeName: string): {
   name: keyof TypeToReturn;
   description: string;
   value: string;

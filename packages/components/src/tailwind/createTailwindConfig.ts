@@ -1,29 +1,39 @@
 import plugin from 'tailwindcss/plugin';
-// @ts-expect-error this is fine
-import flattenColorPalette from 'tailwindcss/src/util/flattenColorPalette';
+import { Config } from 'tailwindcss/types/config';
 import { defaultTokensConfig } from '../tokens/defaultTokensConfig';
 import { alwaysPalette } from '../tokens/palette';
-import { COLOR_PREFIX, parseTokens } from '../tokens/utils/parseTokens';
+import { parseTokens } from '../tokens/utils/parseTokens';
 import { UniversalTokensConfig } from '../types/tokens';
+import { getPreflight } from './preflight';
+import { transformTsx } from './transformTsx';
 
 interface TailwindPluginOptions {
   config?: UniversalTokensConfig;
 }
 
-const tailwindPlugin = plugin.withOptions(
+const systemPlugin = plugin.withOptions(
   ({ config = defaultTokensConfig }: TailwindPluginOptions) => {
     const parsedTokens = parseTokens(config);
+
     return ({ addBase, matchUtilities, theme }) => {
-      const allColors = flattenColorPalette(theme('colors'));
-      const newVars = Object.fromEntries(
-        Object.entries(allColors).map(([key, val]) => [
-          `--${COLOR_PREFIX}-${key}`,
-          val as string,
-        ]),
-      );
+      const preflight = getPreflight(theme);
+
+      addBase(preflight);
 
       addBase({
-        ':root': newVars,
+        ':root': {
+          ...parsedTokens.colorMode.light.vars,
+          ...parsedTokens.scaleMode.large.borderRadius.vars,
+          ...parsedTokens.scaleMode.large.borderWidth.vars,
+          ...parsedTokens.scaleMode.large.avatarSizes.vars,
+          ...parsedTokens.scaleMode.large.iconSizes.vars,
+          ...parsedTokens.scaleMode.large.spacing.vars,
+          ...parsedTokens.scaleMode.large.fontFamily.vars,
+          ...parsedTokens.scaleMode.large.fontSize.vars,
+          ...parsedTokens.scaleMode.large.fontWeight.vars,
+          ...parsedTokens.scaleMode.large.lineHeight.vars,
+          ...parsedTokens.scaleMode.large.textTransform.vars,
+        },
       });
 
       matchUtilities(
@@ -128,7 +138,7 @@ const tailwindPlugin = plugin.withOptions(
       parsedTokens.scaleMode.large.borderRadius.tailwindConfig;
     const borderWidth = parsedTokens.scaleMode.large.borderWidth.tailwindConfig;
     const boxShadow = parsedTokens.colorMode.light.tailwindConfig.elevation;
-    const dropShadow = parsedTokens.colorMode.light.tailwindConfig.elevation;
+    const dropShadow = boxShadow;
     const outlineWidth = borderWidth;
     const aspectRatio = parsedTokens.aspectRatio;
     const zIndex = parsedTokens.zIndex;
@@ -142,6 +152,7 @@ const tailwindPlugin = plugin.withOptions(
     const divideColor = borderColor;
     const outlineColor = borderColor;
     const ringColor = borderColor;
+    const ringWidth = borderWidth;
     const ringOffsetColor = borderColor;
     const stroke = borderColor;
 
@@ -182,6 +193,7 @@ const tailwindPlugin = plugin.withOptions(
           outlineColor,
           ringColor,
           ringOffsetColor,
+          ringWidth,
           stroke,
         },
       },
@@ -189,4 +201,60 @@ const tailwindPlugin = plugin.withOptions(
   },
 );
 
-export { tailwindPlugin };
+export function createTailwindConfig(
+  tailwindConfig: Config,
+  systemConfig: UniversalTokensConfig = defaultTokensConfig,
+): Config {
+  const content = Array.isArray(tailwindConfig.content)
+    ? { files: tailwindConfig.content }
+    : tailwindConfig.content;
+
+  const plugins = Array.isArray(tailwindConfig.plugins)
+    ? tailwindConfig.plugins
+    : [];
+
+  const experimental =
+    tailwindConfig.experimental === 'all'
+      ? { optimizeUniversalDefaults: true, matchVariant: true }
+      : { optimizeUniversalDefaults: true, ...tailwindConfig.experimental };
+
+  return {
+    ...tailwindConfig,
+    content: {
+      ...content,
+      transform: {
+        ...content.transform,
+        tsx: transformTsx,
+      },
+    },
+    corePlugins: {
+      backdropBlur: false,
+      backdropBrightness: false,
+      backdropContrast: false,
+      backdropGrayscale: false,
+      backdropHueRotate: false,
+      backdropInvert: false,
+      backdropSaturate: false,
+      backdropSepia: false,
+      backdropFilter: false,
+      gradientColorStops: false,
+      backgroundAttachment: false,
+      backgroundClip: false,
+      fontVariantNumeric: false,
+      blur: false,
+      brightness: false,
+      contrast: false,
+      grayscale: false,
+      hueRotate: false,
+      invert: false,
+      saturate: false,
+      sepia: false,
+      backgroundOpacity: false,
+      borderOpacity: false,
+      content: false,
+      preflight: false,
+    },
+    experimental,
+    plugins: [...plugins, systemPlugin({ config: systemConfig })],
+  };
+}

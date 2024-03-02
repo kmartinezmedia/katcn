@@ -3,11 +3,11 @@ import type { UniversalBoxProps } from '../types/props';
 
 import { createSlot } from '../utils/createSlot';
 
-const Slot = createSlot<React.ComponentType<DivProps>>();
+const Slot = createSlot<React.ComponentType<HtmlDivProps>>();
 
-type DivProps = React.HTMLAttributes<HTMLDivElement>;
+type HtmlDivProps = React.HTMLAttributes<HTMLDivElement>;
 
-interface BoxProps extends UniversalBoxProps, DivProps {}
+interface BoxProps extends UniversalBoxProps, HtmlDivProps {}
 
 /**
  * A layout primitive that can be used to compose other components.
@@ -38,4 +38,6 @@ const Box = forwardRef<HTMLDivElement, BoxProps>(function Box(
   return <Comp ref={ref} {...props} />;
 });
 
-export { Box, type BoxProps, type DivProps };
+Box.displayName = 'Box';
+
+export { Box, type BoxProps, type HtmlDivProps };

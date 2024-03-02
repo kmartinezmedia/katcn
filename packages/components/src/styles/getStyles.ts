@@ -23,7 +23,9 @@ const lineColors: LineColor[] = [
   'black',
   'transparent',
 ];
+
 const borderWidths: BorderWidth[] = ['none', 'thin', 'medium', 'thick'];
+
 const borderRadii: BorderRadius[] = [
   'none',
   'xs',
@@ -33,6 +35,7 @@ const borderRadii: BorderRadius[] = [
   'xl',
   'full',
 ];
+
 const foregroundColors: ForegroundColor[] = [
   'accent',
   'alert',
@@ -46,6 +49,7 @@ const foregroundColors: ForegroundColor[] = [
   'black',
   'transparent',
 ];
+
 const backgroundColors: BackgroundColor[] = [
   'accent',
   'alert',
@@ -58,6 +62,7 @@ const backgroundColors: BackgroundColor[] = [
   'black',
   'transparent',
 ];
+
 const textVariants: TextVariant[] = [
   'display1',
   'title1',
@@ -72,6 +77,7 @@ const textVariants: TextVariant[] = [
   'caption2',
   'legal1',
 ];
+
 const elevations: Elevation[] = ['1', '2', '3'];
 
 const twMerge = extendTailwindMerge({
@@ -102,6 +108,7 @@ export interface GetStylesParams extends StyleProps {
 export const getStyles = ({
   color,
   colorChecked,
+  display,
   placeholderColor,
   fontFamily,
   fontSize,
@@ -123,15 +130,25 @@ export const getStyles = ({
   offsetBottom = offsetVertical,
   offsetStart = offsetHorizontal,
   offsetEnd = offsetHorizontal,
-  columnGap,
-  rowGap,
+  horizontalGap,
+  verticalGap,
+  direction,
+  grow,
+  shrink,
+  wrap,
+  justifyContent,
+  alignItems,
+  alignContent,
   backgroundColor,
   backgroundColorOnActive,
+  backgroundColorOnFocus,
   backgroundColorOnHover,
   backgroundColorOnChecked,
   borderColor,
   borderColorOnActive,
+  borderColorOnChecked,
   borderColorOnFocus,
+  borderColorOnHover,
   borderVerticalColor = borderColor,
   borderHorizontalColor = borderColor,
   borderTopColor = borderVerticalColor,
@@ -177,212 +194,442 @@ export const getStyles = ({
   const classNames = [];
 
   if (color) {
-    classNames.push(`text-${color}`);
+    const classNameToAdd = `text-${color}`;
+    classNames.push(classNameToAdd);
   }
   if (colorChecked) {
-    classNames.push(`data-[state=checked]:text-${colorChecked}`);
+    const classNameToAdd = `data-[state=checked]:text-${colorChecked}`;
+    classNames.push(classNameToAdd);
   }
+
+  if (display) {
+    const classNameToAdd = {
+      block: 'block',
+      'inline-block': 'inline-block',
+      inline: 'inline',
+      flex: 'flex',
+      'inline-flex': 'inline-flex',
+      table: 'table',
+      'inline-table': 'inline-table',
+      'table-caption': 'table-caption',
+      'table-cell': 'table-cell',
+      'table-column': 'table-column',
+      'table-column-group': 'table-column-group',
+      'table-footer-group': 'table-footer-group',
+      'table-header-group': 'table-header-group',
+      'table-row-group': 'table-row-group',
+      'table-row': 'table-row',
+      'flow-root': 'flow-root',
+      grid: 'grid',
+      contents: 'contents',
+    }[display];
+    classNames.push(classNameToAdd);
+  }
+
   if (placeholderColor) {
-    classNames.push(`placeholder:text-${placeholderColor}`);
+    const classNameToAdd = `placeholder:text-${placeholderColor}`;
+    classNames.push(classNameToAdd);
   }
   if (fontFamily) {
-    classNames.push(`font-${fontFamily}`);
+    const classNameToAdd = `font-${fontFamily}`;
+    classNames.push(classNameToAdd);
   }
   if (fontSize) {
-    classNames.push(`font-size-${fontSize}`);
+    const classNameToAdd = `font-size-${fontSize}`;
+    classNames.push(classNameToAdd);
   }
   if (fontWeight) {
-    classNames.push(`font-weight-${fontWeight}`);
+    const classNameToAdd = `font-weight-${fontWeight}`;
+    classNames.push(classNameToAdd);
   }
   if (lineHeight) {
-    classNames.push(`line-height-${lineHeight}`);
+    const classNameToAdd = `line-height-${lineHeight}`;
+    classNames.push(classNameToAdd);
   }
   if (textAlign) {
-    classNames.push(`text-${textAlign}`);
+    const classNameToAdd = `text-${textAlign}`;
+    classNames.push(classNameToAdd);
   }
   if (textTransform) {
-    classNames.push(`case-${textTransform}`);
+    const classNameToAdd = `case-${textTransform}`;
+    classNames.push(classNameToAdd);
   }
   if (spacingTop) {
-    classNames.push(`pt-${spacingTop}`);
+    const classNameToAdd = `pt-${spacingTop}`;
+    classNames.push(classNameToAdd);
   }
   if (spacingBottom) {
-    classNames.push(`pb-${spacingBottom}`);
+    const classNameToAdd = `pb-${spacingBottom}`;
+    classNames.push(classNameToAdd);
   }
   if (spacingStart) {
-    classNames.push(`ps-${spacingStart}`);
+    const classNameToAdd = `ps-${spacingStart}`;
+    classNames.push(classNameToAdd);
   }
   if (spacingEnd) {
-    classNames.push(`pe-${spacingEnd}`);
+    const classNameToAdd = `pe-${spacingEnd}`;
+    classNames.push(classNameToAdd);
   }
   if (offsetTop) {
-    classNames.push(`-mt-${offsetTop}`);
+    const classNameToAdd = `-mt-${offsetTop}`;
+    classNames.push(classNameToAdd);
   }
   if (offsetBottom) {
-    classNames.push(`-mb-${offsetBottom}`);
+    const classNameToAdd = `-mb-${offsetBottom}`;
+    classNames.push(classNameToAdd);
   }
   if (offsetStart) {
-    classNames.push(`-ms-${offsetStart}`);
+    const classNameToAdd = `-ms-${offsetStart}`;
+    classNames.push(classNameToAdd);
   }
   if (offsetEnd) {
-    classNames.push(`-me-${offsetEnd}`);
+    const classNameToAdd = `-me-${offsetEnd}`;
+    classNames.push(classNameToAdd);
   }
-  if (columnGap) {
-    classNames.push(`gap-x-${columnGap}`);
+
+  if (horizontalGap) {
+    classNames.push(`gap-x-${horizontalGap}`);
   }
-  if (rowGap) {
-    classNames.push(`gap-y-${rowGap}`);
+
+  if (verticalGap) {
+    classNames.push(`gap-y-${horizontalGap}`);
   }
 
   if (backgroundColor) {
-    classNames.push(`bg-${backgroundColor}`);
+    const classNameToAdd = `bg-${backgroundColor}`;
+    classNames.push(classNameToAdd);
   }
 
   if (backgroundColorOnActive) {
-    classNames.push(`active:bg-${backgroundColorOnActive}`);
+    const classNameToAdd = `active:bg-${backgroundColorOnActive}`;
+    classNames.push(classNameToAdd);
+  }
+
+  if (backgroundColorOnFocus) {
+    const classNameToAdd = `focus:bg-${backgroundColorOnFocus}`;
+    classNames.push(classNameToAdd);
   }
 
   if (backgroundColorOnHover) {
-    classNames.push(`hover:bg-${backgroundColorOnHover}`);
+    const classNameToAdd = `hover:bg-${backgroundColorOnHover}`;
+    classNames.push(classNameToAdd);
   }
 
   if (backgroundColorOnChecked) {
-    classNames.push(`data-[state=checked]:bg-${backgroundColorOnChecked}`);
+    const classNameToAdd = `data-[state=checked]:bg-${backgroundColorOnChecked}`;
+    classNames.push(classNameToAdd);
   }
 
   if (borderColorOnActive) {
     if (borderTopColor) {
-      classNames.push(`active:border-t-${borderColorOnActive}`);
+      const classNameToAdd = `active:border-t-${borderColorOnActive}`;
+      classNames.push(classNameToAdd);
     }
     if (borderBottomColor) {
-      classNames.push(`active:border-b-${borderColorOnActive}`);
+      const classNameToAdd = `active:border-b-${borderColorOnActive}`;
+      classNames.push(classNameToAdd);
     }
     if (borderStartColor) {
-      classNames.push(`active:border-s-${borderColorOnActive}`);
+      const classNameToAdd = `active:border-s-${borderColorOnActive}`;
+      classNames.push(classNameToAdd);
     }
     if (borderEndColor) {
-      classNames.push(`active:border-e-${borderColorOnActive}`);
+      const classNameToAdd = `active:border-e-${borderColorOnActive}`;
+      classNames.push(classNameToAdd);
+    }
+  }
+
+  if (borderColorOnChecked) {
+    if (borderTopColor) {
+      const classNameToAdd = `data-[state=checked]:border-t-${borderColorOnChecked}`;
+      classNames.push(classNameToAdd);
+    }
+    if (borderBottomColor) {
+      const classNameToAdd = `data-[state=checked]:border-b-${borderColorOnChecked}`;
+      classNames.push(classNameToAdd);
+    }
+    if (borderStartColor) {
+      const classNameToAdd = `data-[state=checked]:border-s-${borderColorOnChecked}`;
+      classNames.push(classNameToAdd);
+    }
+    if (borderEndColor) {
+      const classNameToAdd = `data-[state=checked]:border-e-${borderColorOnChecked}`;
+      classNames.push(classNameToAdd);
     }
   }
 
   if (borderColorOnFocus) {
     if (borderTopColor) {
-      classNames.push(`focus:border-t-${borderColorOnFocus}`);
+      const classNameToAdd = `focus:border-t-${borderColorOnFocus}`;
+      classNames.push(classNameToAdd);
     }
     if (borderBottomColor) {
-      classNames.push(`focus:border-b-${borderColorOnFocus}`);
+      const classNameToAdd = `focus:border-b-${borderColorOnFocus}`;
+      classNames.push(classNameToAdd);
     }
     if (borderStartColor) {
-      classNames.push(`focus:border-s-${borderColorOnFocus}`);
+      const classNameToAdd = `focus:border-s-${borderColorOnFocus}`;
+      classNames.push(classNameToAdd);
     }
     if (borderEndColor) {
-      classNames.push(`focus:border-e-${borderColorOnFocus}`);
+      const classNameToAdd = `focus:border-e-${borderColorOnFocus}`;
+      classNames.push(classNameToAdd);
+    }
+  }
+
+  if (borderColorOnHover) {
+    if (borderTopColor) {
+      const classNameToAdd = `hover:border-t-${borderColorOnHover}`;
+      classNames.push(classNameToAdd);
+    }
+    if (borderBottomColor) {
+      const classNameToAdd = `hover:border-b-${borderColorOnHover}`;
+      classNames.push(classNameToAdd);
+    }
+    if (borderStartColor) {
+      const classNameToAdd = `hover:border-s-${borderColorOnHover}`;
+      classNames.push(classNameToAdd);
+    }
+    if (borderEndColor) {
+      const classNameToAdd = `hover:border-e-${borderColorOnHover}`;
+      classNames.push(classNameToAdd);
+    }
+  }
+
+  if (borderColorOnActive) {
+    if (borderTopColor) {
+      const classNameToAdd = `active:border-t-${borderColorOnActive}`;
+      classNames.push(classNameToAdd);
+    }
+    if (borderBottomColor) {
+      const classNameToAdd = `active:border-b-${borderColorOnActive}`;
+      classNames.push(classNameToAdd);
+    }
+    if (borderStartColor) {
+      const classNameToAdd = `active:border-s-${borderColorOnActive}`;
+      classNames.push(classNameToAdd);
+    }
+    if (borderEndColor) {
+      const classNameToAdd = `active:border-e-${borderColorOnActive}`;
+      classNames.push(classNameToAdd);
+    }
+  }
+
+  if (borderColorOnFocus) {
+    if (borderTopColor) {
+      const classNameToAdd = `focus:border-t-${borderColorOnFocus}`;
+      classNames.push(classNameToAdd);
+    }
+    if (borderBottomColor) {
+      const classNameToAdd = `focus:border-b-${borderColorOnFocus}`;
+      classNames.push(classNameToAdd);
+    }
+    if (borderStartColor) {
+      const classNameToAdd = `focus:border-s-${borderColorOnFocus}`;
+      classNames.push(classNameToAdd);
+    }
+    if (borderEndColor) {
+      const classNameToAdd = `focus:border-e-${borderColorOnFocus}`;
+      classNames.push(classNameToAdd);
     }
   }
 
   if (borderTopColor) {
-    classNames.push(`border-t-${borderTopColor}`);
+    const classNameToAdd = `border-t-${borderTopColor}`;
+    classNames.push(classNameToAdd);
   }
   if (borderBottomColor) {
-    classNames.push(`border-b-${borderBottomColor}`);
+    const classNameToAdd = `border-b-${borderBottomColor}`;
+    classNames.push(classNameToAdd);
   }
   if (borderStartColor) {
-    classNames.push(`border-s-${borderStartColor}`);
+    const classNameToAdd = `border-s-${borderStartColor}`;
+    classNames.push(classNameToAdd);
   }
   if (borderEndColor) {
-    classNames.push(`border-e-${borderEndColor}`);
+    const classNameToAdd = `border-e-${borderEndColor}`;
+    classNames.push(classNameToAdd);
   }
   if (borderTopStartRadius) {
-    classNames.push(`rounded-ss-${borderTopStartRadius}`);
+    const classNameToAdd = `rounded-ss-${borderTopStartRadius}`;
+    classNames.push(classNameToAdd);
   }
   if (borderTopEndRadius) {
-    classNames.push(`rounded-se-${borderTopEndRadius}`);
+    const classNameToAdd = `rounded-se-${borderTopEndRadius}`;
+    classNames.push(classNameToAdd);
   }
   if (borderBottomStartRadius) {
-    classNames.push(`rounded-es-${borderBottomStartRadius}`);
+    const classNameToAdd = `rounded-es-${borderBottomStartRadius}`;
+    classNames.push(classNameToAdd);
   }
   if (borderBottomEndRadius) {
-    classNames.push(`rounded-ee-${borderBottomEndRadius}`);
+    const classNameToAdd = `rounded-ee-${borderBottomEndRadius}`;
+    classNames.push(classNameToAdd);
   }
   if (borderWidth) {
-    classNames.push(`border-${borderWidth}`);
+    const classNameToAdd = `border-${borderWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (borderVerticalWidth) {
-    classNames.push(`border-y-${borderVerticalWidth}`);
+    const classNameToAdd = `border-y-${borderVerticalWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (borderHorizontalWidth) {
-    classNames.push(`border-x-${borderHorizontalWidth}`);
+    const classNameToAdd = `border-x-${borderHorizontalWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (borderStartWidth) {
-    classNames.push(`border-s-${borderStartWidth}`);
+    const classNameToAdd = `border-s-${borderStartWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (borderEndWidth) {
-    classNames.push(`border-e-${borderEndWidth}`);
+    const classNameToAdd = `border-e-${borderEndWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (borderTopWidth) {
-    classNames.push(`border-t-${borderTopWidth}`);
+    const classNameToAdd = `border-t-${borderTopWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (borderBottomWidth) {
-    classNames.push(`border-b-${borderBottomWidth}`);
+    const classNameToAdd = `border-b-${borderBottomWidth}`;
+    classNames.push(classNameToAdd);
   }
   if (borderedTop) {
-    classNames.push('border-t-thin');
+    const classNameToAdd = 'border-t-thin';
+    classNames.push(classNameToAdd);
   }
   if (borderedBottom) {
-    classNames.push('border-b-thin');
+    const classNameToAdd = 'border-b-thin';
+    classNames.push(classNameToAdd);
   }
   if (borderedStart) {
-    classNames.push('border-s-thin');
+    const classNameToAdd = 'border-s-thin';
+    classNames.push(classNameToAdd);
   }
   if (borderedEnd) {
-    classNames.push('border-e-thin');
+    const classNameToAdd = 'border-e-thin';
+    classNames.push(classNameToAdd);
   }
   if (height) {
-    classNames.push(`h-${height}`);
+    const classNameToAdd =
+      typeof height === 'number' ? `h-[${height}px]` : `h-${height}`;
+    classNames.push(classNameToAdd);
   }
+
   if (minHeight) {
-    classNames.push(`min-h-${minHeight}`);
+    const classNameToAdd =
+      typeof minHeight === 'number'
+        ? `min-h-[${minHeight}px]`
+        : `min-h-${minHeight}`;
+    classNames.push(classNameToAdd);
   }
+
   if (maxHeight) {
-    classNames.push(`max-h-${maxHeight}`);
+    const classNameToAdd =
+      typeof maxHeight === 'number'
+        ? `max-h-[${maxHeight}px]`
+        : `max-h-${maxHeight}`;
+    classNames.push(classNameToAdd);
   }
   if (width) {
-    classNames.push(`w-${width}`);
+    const classNameToAdd =
+      typeof width === 'number' ? `w-[${width}px]` : `w-${width}`;
+    classNames.push(classNameToAdd);
   }
+
   if (minWidth) {
-    classNames.push(`min-w-${minWidth}`);
+    const classNameToAdd =
+      typeof minWidth === 'number'
+        ? `min-w-[${minWidth}px]`
+        : `min-w-${minWidth}`;
+    classNames.push(classNameToAdd);
   }
+
   if (maxWidth) {
-    classNames.push(`max-w-${maxWidth}`);
+    const classNameToAdd =
+      typeof maxWidth === 'number'
+        ? `max-w-[${maxWidth}px]`
+        : `max-w-${maxWidth}`;
+    classNames.push(classNameToAdd);
   }
+
   if (overflowX) {
-    classNames.push(`overflow-x-${overflowX}`);
+    const classNameToAdd = `overflow-x-${overflowX}`;
+    classNames.push(classNameToAdd);
   }
   if (overflowY) {
-    classNames.push(`overflow-y-${overflowY}`);
+    const classNameToAdd = `overflow-y-${overflowY}`;
+    classNames.push(classNameToAdd);
   }
   if (position) {
-    classNames.push(position);
+    const classNameToAdd = position;
+    classNames.push(classNameToAdd);
   }
   if (zIndex) {
-    classNames.push(`z-${zIndex}`);
+    const classNameToAdd = `z-${zIndex}`;
+    classNames.push(classNameToAdd);
   }
   if (opacity) {
-    classNames.push(`opacity-${opacity}`);
+    const classNameToAdd = `opacity-${opacity}`;
+    classNames.push(classNameToAdd);
   }
   if (contentFit) {
-    classNames.push(`object-${contentFit}`);
+    const classNameToAdd = `object-${contentFit}`;
+    classNames.push(classNameToAdd);
+  }
+
+  if (direction) {
+    const classNameToAdd = {
+      horizontal: 'flex-row',
+      vertical: 'flex-col',
+      'horizontal-reverse': 'flex-row-reverse',
+      'vertical-reverse': 'flex-col-reverse',
+    }[direction];
+    classNames.push(classNameToAdd);
+  }
+
+  if (grow !== undefined) {
+    if (grow === false) {
+      classNames.push('grow-0');
+    } else {
+      classNames.push('grow');
+    }
+  }
+
+  if (shrink !== undefined) {
+    if (shrink === false) {
+      classNames.push('shrink-0');
+    } else {
+      classNames.push('shrink');
+    }
+  }
+  if (wrap) {
+    classNames.push('flex-wrap');
+  }
+
+  if (justifyContent) {
+    const classNameToAdd = `justify-${justifyContent}`;
+    classNames.push(classNameToAdd);
+  }
+
+  if (alignItems) {
+    const classNameToAdd = `items-${alignItems}`;
+    classNames.push(classNameToAdd);
+  }
+
+  if (alignContent) {
+    const classNameToAdd = `content-${alignContent}`;
+    classNames.push(classNameToAdd);
   }
 
   if (iconSize) {
-    classNames.push(`icon-size-${iconSize}`);
+    const classNameToAdd = `icon-size-${iconSize}`;
+    classNames.push(classNameToAdd);
   }
   if (avatarSize) {
-    classNames.push(`avatar-size-${avatarSize}`);
+    const classNameToAdd = `avatar-size-${avatarSize}`;
+    classNames.push(classNameToAdd);
   }
-  // if (colorMode === 'dark') {
-  //   classNames.push(colorMode);
-  // }
 
   return twMerge(clsx(classNames, className));
 };
