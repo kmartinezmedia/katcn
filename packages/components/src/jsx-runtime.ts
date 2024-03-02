@@ -14,7 +14,8 @@ export function jsx(
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   key: any,
 ) {
-  const finalProps = extractStyleProps(props);
+  const componentName = typeof type === 'string' ? type : type.displayName;
+  const finalProps = extractStyleProps(props, componentName);
   return jsxOriginal(type, finalProps, key);
 }
 
@@ -26,7 +27,8 @@ export function jsxs(
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   key: any,
 ) {
-  const finalProps = extractStyleProps(props);
+  const componentName = typeof type === 'string' ? type : type.displayName;
+  const finalProps = extractStyleProps(props, componentName);
   return jsxsOriginal(type, finalProps, key);
 }
 
@@ -41,7 +43,8 @@ export function jsxDEV(
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   self: any,
 ) {
-  const finalProps = extractStyleProps(props);
+  const componentName = typeof type === 'string' ? type : type.displayName;
+  const finalProps = extractStyleProps(props, componentName);
   // console.log('jsxDEV from katcn');
   return jsxDevOriginal(type, finalProps, maybeKey, source, self);
 }

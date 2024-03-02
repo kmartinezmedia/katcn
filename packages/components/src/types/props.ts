@@ -1,5 +1,9 @@
 import { PropsWithChildren } from 'react';
+import { IconName } from '../icons/types';
 import {
+  AlignContent,
+  AlignItems,
+  AlignSelf,
   AvatarSize,
   BackgroundColor,
   BackgroundPaletteAlias,
@@ -9,21 +13,13 @@ import {
   CorePaletteAlias,
   Display,
   Elevation,
-  Flex,
-  FlexAlignContent,
-  FlexAlignItems,
-  FlexAlignSelf,
-  FlexBasis,
   FlexDirection,
-  FlexGrow,
-  FlexJustifyContent,
-  FlexShrink,
-  FlexWrap,
   FontFamilyGlobalAlias,
   FontWeightDescriptive,
   ForegroundColor,
   Height,
   IconSize,
+  JustifyContent,
   LineColor,
   MaxHeight,
   MaxWidth,
@@ -156,33 +152,27 @@ interface SpacingStyleProps {
   offsetStart?: SpacingAlias;
   /** Apply negative outer spacing on the top side. */
   offsetTop?: SpacingAlias;
-  /** Control the horizontal gutters between grid and flexbox items. */
-  columnGap?: SpacingAlias;
-  /** Control the vertical gutters between grid and flexbox items. */
-  rowGap?: SpacingAlias;
+  /** Control the horizontal gutters between grid and flexbox items. If set to auto, will add an equal space between items. */
+  horizontalGap?: SpacingAlias;
+  /** Control the vertical gutters between grid and flexbox items. If set to auto, will add an equal space between items. */
+  verticalGap?: SpacingAlias;
 }
 
 interface FlexStyleProps {
-  /** Sets the distribution of space between and around content items along a flexbox's cross-axis or a grid's block axis. */
-  alignContent?: FlexAlignContent;
-  /** Sets the align-self value on all direct children as a group. In Flexbox, it controls the alignment of items on the Cross Axis. In Grid Layout, it controls the alignment of items on the Block Axis within their grid area. */
-  alignItems?: FlexAlignItems;
-  /** Overrides a grid or flex item's align-items value. In Grid, it aligns the item inside the grid area. In Flexbox, it aligns the item on the cross axis. */
-  alignSelf?: FlexAlignSelf;
-  /** Sets how a flex item will grow or shrink to fit the space available in its flex container. */
-  flex?: Flex;
   /** Sets how flex items are placed in the flex container defining the main axis and the direction (normal or reversed). */
-  flexDirection?: FlexDirection;
+  direction?: FlexDirection;
   /** Sets the flex grow factor, which specifies how much of the flex container's remaining space should be assigned to the flex item's main size. */
-  flexGrow?: FlexGrow;
+  grow?: boolean;
   /** Sets the flex shrink factor of a flex item. If the size of all flex items is larger than the flex container, items shrink to fit according to flex-shrink. */
-  flexShrink?: FlexShrink;
+  shrink?: boolean;
   /** Sets whether flex items are forced onto one line or can wrap onto multiple lines. If wrapping is allowed, it sets the direction that lines are stacked. */
-  flexWrap?: FlexWrap;
+  wrap?: boolean;
   /** Defines how the browser distributes space between and around content items along the main-axis of a flex container, and the inline axis of a grid container. */
-  justifyContent?: FlexJustifyContent;
-  /** Sets the initial main size of a flex item. It sets the size of the content box unless otherwise set with box-sizing. https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis */
-  flexBasis?: FlexBasis;
+  justifyContent?: JustifyContent;
+  /** Sets the align-self value on all direct children as a group. In Flexbox, it controls the alignment of items on the Cross Axis. In Grid Layout, it controls the alignment of items on the Block Axis within their grid area. */
+  alignItems?: AlignItems;
+  /** Sets the distribution of space between and around content items along a flexbox's cross-axis or a grid's block axis. */
+  alignContent?: AlignContent;
 }
 
 interface OpacityStyleProps {
@@ -250,16 +240,17 @@ type CustomSizingStyleProps = {
   avatarSize?: AvatarSize;
 };
 
-type StyleProps = BackgroundStyleProps &
-  BorderStyleProps &
-  LayoutStyleProps &
-  FlexStyleProps &
-  SpacingStyleProps &
-  TextStyleProps &
-  OpacityStyleProps &
-  SizingStyleProps &
-  ImageStyleProps &
-  CustomSizingStyleProps;
+interface StyleProps
+  extends BackgroundStyleProps,
+    BorderStyleProps,
+    LayoutStyleProps,
+    FlexStyleProps,
+    SpacingStyleProps,
+    TextStyleProps,
+    OpacityStyleProps,
+    SizingStyleProps,
+    ImageStyleProps,
+    CustomSizingStyleProps {}
 
 /* -------------------------------------------------------------------------- */
 /*                          UNIVERSAL COMPONENT PROPS                         */
@@ -280,7 +271,7 @@ interface UniversalBoxProps
   asChild?: boolean;
 }
 
-interface UniversalStackProps extends Omit<UniversalBoxProps, 'flexDirection'> {
+interface UniversalStackProps extends Omit<UniversalBoxProps, 'direction'> {
   gap?: SpacingAlias;
 }
 
@@ -291,14 +282,11 @@ interface UniversalTextProps
   variant?: TextVariant;
 }
 
-type IconName = '';
-
 interface UniversalIconProps
   extends Omit<
-      UniversalTextProps,
-      'children' | 'fontFamily' | 'fontSize' | 'fontWeight' | 'lineHeight'
-    >,
-    UniversalBoxProps {
+    UniversalTextProps,
+    'children' | 'fontFamily' | 'fontSize' | 'fontWeight' | 'lineHeight'
+  > {
   size: IconSize;
   name: IconName;
 }
@@ -308,6 +296,7 @@ interface UniversalPressableProps extends UniversalBoxProps {
 }
 
 type ButtonStyle = 'solid' | 'outline' | 'ghost' | 'gradient';
+
 type ButtonVariant =
   | `${BackgroundPaletteAlias}-${ButtonStyle}`
   | `${CorePaletteAlias}-${ButtonStyle}`
@@ -316,31 +305,19 @@ type ButtonVariant =
 type ButtonSize = 's' | 'm' | 'l';
 
 interface UniversalIconButtonProps {
-  /**
-   * The variant of the button
-   * @default 'accent'
-   */
-  variant?: ButtonVariant;
-  /**
-   * The size of the button
-   * @default 'm'
-   */
-  size?: ButtonSize;
+  /** The variant of the button */
+  variant: ButtonVariant;
+  /** The size of the button  */
+  size: ButtonSize;
   /** The name of the icon to be displayed at the start of the button. */
   name: IconName;
 }
 
 interface UniversalButtonProps {
-  /**
-   * The variant of the button
-   * @default 'accent'
-   */
-  variant?: ButtonVariant;
-  /**
-   * The size of the button
-   * @default 'm'
-   */
-  size?: ButtonSize;
+  /** The variant of the button */
+  variant: ButtonVariant;
+  /** The size of the button  */
+  size: ButtonSize;
   /** The name of the icon to be displayed at the start of the button. */
   startIcon?: IconName;
   /** The name of the icon to be displayed at the end of the button. */
@@ -349,36 +326,24 @@ interface UniversalButtonProps {
   fullWidth?: boolean;
 }
 
-interface UniversalImageProps
-  extends Omit<UniversalBoxProps, 'width' | 'height'>,
-    ImageStyleProps {
+interface UniversalImageProps extends UniversalBoxProps, ImageStyleProps {
   /** The source URL of the image. */
   src: string;
   /**  Provides fallback (alternate) text to display when the image specified by the Image element is not loaded. */
-  alt?: string;
-  width?: number;
-  height?: number;
+  alt: string;
 }
 
 interface UniversalAvatarProps extends UniversalImageProps {
   /** The size of the Avatar. */
-  size?: AvatarSize;
+  size: AvatarSize;
   /** The shape of the Avatar. */
-  shape?: BorderRadius;
+  shape: BorderRadius;
 }
 
-interface UniversalTextInputProps {
+interface UniversalTextInputProps
+  extends Omit<UniversalTextProps, 'children' | 'colorChecked'> {
   disabled?: boolean;
   required?: boolean;
-  backgroundColor?: BackgroundColor;
-  borderColor?: LineColor;
-  borderWidth?: BorderWidth;
-  borderRadius?: BorderRadius;
-  color?: ForegroundColor;
-  fontSize?: TextVariant;
-  placeholderColor?: ForegroundColor;
-  spacingVertical?: SpacingAlias;
-  spacingHorizontal?: SpacingAlias;
 }
 
 export type {

@@ -12,7 +12,8 @@
     "update:preview": "cli expo update --platform ios --profile release-simulator",
     "lint": "cli tools lint",
     "typecheck": "cli tools typecheck",
-    "fix": "cli tools fix"
+    "fix": "cli tools fix",
+    "clean": "cli tools clean"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.2",
@@ -34,7 +35,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@types/react": "~18.2.14",
+    "@types/react": "~18.2.61",
     "tsconfig": "workspace:*"
   },
   "private": true

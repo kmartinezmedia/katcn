@@ -1,9 +1,9 @@
 import { forwardRef } from 'react';
 import { type UniversalStackProps } from '../types/props';
 
-import { Box, type DivProps } from './Box';
+import { Box, type HtmlDivProps } from './Box';
 
-type VStackProps = UniversalStackProps & DivProps;
+interface VStackProps extends HtmlDivProps, UniversalStackProps {}
 
 /**
  * The VStack is essentially the same component as [Box](/components/box) where it uses [flexbox](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox) but it lays out content in a column. VStack also allows for gaps between children via the `gap` prop.
@@ -68,12 +68,14 @@ const VStack = forwardRef<HTMLDivElement, VStackProps>(function VStack(
   return (
     <Box
       ref={ref}
-      flexDirection="column"
-      columnGap={gap}
-      rowGap={gap}
+      display="flex"
+      direction="vertical"
+      verticalGap={gap}
       {...props}
     />
   );
 });
+
+VStack.displayName = 'VStack';
 
 export { VStack, type VStackProps };

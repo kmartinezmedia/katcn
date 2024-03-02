@@ -34,10 +34,12 @@ interface PressableProps extends UniversalPressableProps, HtmlButtonProps {}
   ```
  */
 const Pressable = forwardRef<HTMLButtonElement, PressableProps>(
-  function Pressable({ asChild, ...props }, ref) {
+  function Pressable({ asChild, onPress, ...props }, ref) {
     const Comp = asChild ? Slot : 'button';
-    return <Comp ref={ref} {...props} />;
+    return <Comp ref={ref} onClick={onPress} {...props} />;
   },
 );
+
+Pressable.displayName = 'Pressable';
 
 export { Pressable, type PressableProps };

@@ -1,9 +1,9 @@
 import { type Ref, forwardRef } from 'react';
-import { type UniversalTextProps } from '../types/props';
+import { type StyleProps, type UniversalTextProps } from '../types/props';
 
 import { createSlot } from '../utils/createSlot';
 
-const Slot = createSlot<React.ComponentType<HtmlParagraphProps>>();
+const Slot = createSlot<React.ComponentType<HtmlParagraphProps & StyleProps>>();
 
 type HtmlParagraphProps = Omit<
   React.HTMLAttributes<HTMLParagraphElement>,
@@ -130,5 +130,7 @@ const Text = forwardRef(function Text(
 
   return <Comp ref={ref} {...props} />;
 });
+
+Text.displayName = 'Text';
 
 export { Text, type TextProps };

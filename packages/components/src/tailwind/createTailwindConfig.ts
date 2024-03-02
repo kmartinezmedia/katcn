@@ -193,7 +193,7 @@ const systemPlugin = plugin.withOptions(
   },
 );
 
-export function withSystem(
+export function createTailwindConfig(
   tailwindConfig: Config,
   systemConfig: UniversalTokensConfig = defaultTokensConfig,
 ): Config {

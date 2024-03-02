@@ -1,6 +1,6 @@
-import { withSystem } from 'katcn/tailwind/withSystem';
+import { createTailwindConfig } from 'katcn/tailwind/createTailwindConfig';
 
-export default withSystem({
+export default createTailwindConfig({
   content: [
     './src/pages/**/*.{ts,tsx,mdx}',
     './src/components/**/*.{ts,tsx,mdx}',

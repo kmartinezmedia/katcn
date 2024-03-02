@@ -1,9 +1,9 @@
 import { forwardRef } from 'react';
 import { type UniversalStackProps } from '../types/props';
 
-import { Box, type DivProps } from './Box';
+import { Box, type HtmlDivProps } from './Box';
 
-interface HStackProps extends UniversalStackProps, DivProps {}
+interface HStackProps extends HtmlDivProps, UniversalStackProps {}
 
 /**
  * A layout primitive that can be used to compose other components.
@@ -109,15 +109,9 @@ const HStack = forwardRef<HTMLDivElement, HStackProps>(function HStack(
   { gap, ...props },
   ref,
 ) {
-  return (
-    <Box
-      ref={ref}
-      flexDirection="row"
-      rowGap={gap}
-      columnGap={gap}
-      {...props}
-    />
-  );
+  return <Box ref={ref} display="flex" direction="horizontal" {...props} />;
 });
+
+HStack.displayName = 'HStack';
 
 export { HStack, type HStackProps };

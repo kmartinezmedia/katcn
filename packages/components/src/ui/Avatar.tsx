@@ -1,9 +1,12 @@
-interface AvatarProps {
-  src: string;
-  alt: string;
-  size?: 'sm' | 'md' | 'lg';
+import { UniversalAvatarProps } from '../types/props';
+import { HtmlImgProps, Image } from './Image';
+
+interface AvatarProps extends HtmlImgProps, UniversalAvatarProps {}
+
+function Avatar(props: AvatarProps) {
+  return <Image {...props} />;
 }
 
-export function Avatar({ src, alt, size = 'md' }: AvatarProps) {
-  return <img className={`avatar avatar-${size}`} src={src} alt={alt} />;
-}
+Avatar.displayName = 'Avatar';
+
+export { Avatar, type AvatarProps };
