@@ -275,5 +275,7 @@ export function extractStyleProps(
     className,
   });
 
-  return { ...otherProps, className: finalClassName };
+  return finalClassName
+    ? { ...otherProps, className: finalClassName }
+    : otherProps;
 }

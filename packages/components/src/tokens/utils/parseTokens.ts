@@ -74,20 +74,18 @@ function transformColorMode(colors: ColorsConfig) {
     elevation: {} as Record<keyof ElevationConfig, string>,
   };
 
-  for (const [hue, hueSteps] of entries(spectrum)) {
-    for (const [hueStep, value] of entries(hueSteps)) {
-      const name = `${hue}-${hueStep}`;
-      const varKey = `--${COLOR_PREFIX}-${name}`;
-      if (!tailwindConfig.spectrum[hue]) {
-        tailwindConfig.spectrum[hue] = {} as Record<HueStep, string>;
-      }
-      tailwindConfig.spectrum[hue][hueStep] = `rgb(var(${varKey}))`;
-      rootVars[varKey] = value;
+  function addSpectrumColor(hue: Hue, hueStep: HueStep, value: string) {
+    const name = `--${COLOR_PREFIX}-${hue}-${hueStep}`;
+    rootVars[name] = value;
+    if (!tailwindConfig.spectrum[hue]) {
+      tailwindConfig.spectrum[hue] = {} as Record<HueStep, string>;
     }
+    tailwindConfig.spectrum[hue][hueStep] = `rgb(var(${name}))`;
   }
 
   for (const [paletteType, paletteConfig] of entries(palette)) {
     for (const [paletteKey, { hue, step, opacity }] of entries(paletteConfig)) {
+      addSpectrumColor(hue, step, spectrum[hue][step]);
       if (!(paletteType in tailwindConfig.palette)) {
         // @ts-expect-error we fill this object later
         tailwindConfig.palette[paletteType] = {};

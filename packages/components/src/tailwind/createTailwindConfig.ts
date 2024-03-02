@@ -4,6 +4,7 @@ import { defaultTokensConfig } from '../tokens/defaultTokensConfig';
 import { alwaysPalette } from '../tokens/palette';
 import { parseTokens } from '../tokens/utils/parseTokens';
 import { UniversalTokensConfig } from '../types/tokens';
+import { getPreflight } from './preflight';
 import { transformTsx } from './transformTsx';
 
 interface TailwindPluginOptions {
@@ -13,7 +14,12 @@ interface TailwindPluginOptions {
 const systemPlugin = plugin.withOptions(
   ({ config = defaultTokensConfig }: TailwindPluginOptions) => {
     const parsedTokens = parseTokens(config);
-    return ({ addBase, matchUtilities }) => {
+
+    return ({ addBase, matchUtilities, theme }) => {
+      const preflight = getPreflight(theme);
+
+      addBase(preflight);
+
       addBase({
         ':root': {
           ...parsedTokens.colorMode.light.vars,
@@ -146,6 +152,7 @@ const systemPlugin = plugin.withOptions(
     const divideColor = borderColor;
     const outlineColor = borderColor;
     const ringColor = borderColor;
+    const ringWidth = borderWidth;
     const ringOffsetColor = borderColor;
     const stroke = borderColor;
 
@@ -186,6 +193,7 @@ const systemPlugin = plugin.withOptions(
           outlineColor,
           ringColor,
           ringOffsetColor,
+          ringWidth,
           stroke,
         },
       },
@@ -205,6 +213,11 @@ export function createTailwindConfig(
     ? tailwindConfig.plugins
     : [];
 
+  const experimental =
+    tailwindConfig.experimental === 'all'
+      ? { optimizeUniversalDefaults: true, matchVariant: true }
+      : { optimizeUniversalDefaults: true, ...tailwindConfig.experimental };
+
   return {
     ...tailwindConfig,
     content: {
@@ -214,6 +227,34 @@ export function createTailwindConfig(
         tsx: transformTsx,
       },
     },
+    corePlugins: {
+      backdropBlur: false,
+      backdropBrightness: false,
+      backdropContrast: false,
+      backdropGrayscale: false,
+      backdropHueRotate: false,
+      backdropInvert: false,
+      backdropSaturate: false,
+      backdropSepia: false,
+      backdropFilter: false,
+      gradientColorStops: false,
+      backgroundAttachment: false,
+      backgroundClip: false,
+      fontVariantNumeric: false,
+      blur: false,
+      brightness: false,
+      contrast: false,
+      grayscale: false,
+      hueRotate: false,
+      invert: false,
+      saturate: false,
+      sepia: false,
+      backgroundOpacity: false,
+      borderOpacity: false,
+      content: false,
+      preflight: false,
+    },
+    experimental,
     plugins: [...plugins, systemPlugin({ config: systemConfig })],
   };
 }
