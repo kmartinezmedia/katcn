@@ -8,7 +8,6 @@ import { VStackProps } from '../ui/VStack';
 import { type GetStylesParams, getStyles } from './getStyles';
 
 type StyleProp = keyof StyleProps | 'children' | 'asChild';
-type ComponentName = keyof ComponentPropsMap;
 type ComponentPropsMap = {
   Avatar: Omit<AvatarProps, StyleProp>;
   Icon: Omit<IconProps, StyleProp>;
@@ -40,6 +39,8 @@ export function extractStyleProps(
     case 'Icon': {
       const { size } = props as ComponentPropsMap['Icon'];
       defaults.iconSize = size;
+      defaults.color = 'primary';
+      defaults.fontFamily = 'icons';
       // @ts-expect-error this is fine
       props.size = undefined;
       break;
@@ -60,6 +61,7 @@ export function extractStyleProps(
       defaults.fontWeight = variant;
       defaults.lineHeight = variant;
       defaults.textTransform = variant;
+      defaults.color = 'primary';
       // @ts-expect-error this is fine
       props.variant = undefined;
       break;

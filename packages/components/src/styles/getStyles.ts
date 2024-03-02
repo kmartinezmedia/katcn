@@ -633,3 +633,5 @@ export const getStyles = ({
 
   return twMerge(clsx(classNames, className));
 };
+
+export const cx = clsx;
