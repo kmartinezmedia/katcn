@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "docgen": "cli docs build --input katcn",
     "build": "next build",
     "start": "next start",
     "lint": "cli tools lint",

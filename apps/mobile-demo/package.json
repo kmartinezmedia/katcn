@@ -1,9 +1,9 @@
 {
-  "name": "mobile-app",
+  "name": "mobile-demo",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "eas-build-post-install": "bun turbo run build --filter=mobile-app",
+    "eas-build-post-install": "bun turbo run build --filter=mobile-demo",
     "dev:ios": "cli expo dev --platform ios --profile debug",
     "build:ios-debug": "cli expo build --platform ios --profile debug",
     "build:ios-release-simulator": "cli expo build --platform ios --profile release-simulator",
