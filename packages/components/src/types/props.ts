@@ -240,17 +240,18 @@ type CustomSizingStyleProps = {
   avatarSize?: AvatarSize;
 };
 
-interface StyleProps
-  extends BackgroundStyleProps,
-    BorderStyleProps,
-    LayoutStyleProps,
-    FlexStyleProps,
-    SpacingStyleProps,
-    TextStyleProps,
-    OpacityStyleProps,
-    SizingStyleProps,
-    ImageStyleProps,
-    CustomSizingStyleProps {}
+type StyleProps = Partial<
+  BackgroundStyleProps &
+    BorderStyleProps &
+    LayoutStyleProps &
+    FlexStyleProps &
+    SpacingStyleProps &
+    TextStyleProps &
+    OpacityStyleProps &
+    SizingStyleProps &
+    ImageStyleProps &
+    CustomSizingStyleProps
+>;
 
 /* -------------------------------------------------------------------------- */
 /*                          UNIVERSAL COMPONENT PROPS                         */

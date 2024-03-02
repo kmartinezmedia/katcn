@@ -1,4 +1,3 @@
-import { watch as fsWatch } from 'node:fs';
 import path from 'node:path';
 import { $ } from 'bun';
 import { Options, build } from 'tsup';
@@ -44,29 +43,6 @@ export async function buildPackage(watch?: boolean) {
 }
 
 export async function buildTypes(watch?: boolean) {
-  console.log('[typescript]: building types...');
-  const _build = async () => {
-    await $`tsc -p ${rootOfRepo}/tsconfig.json`;
-  };
-
-  if (watch) {
-    console.log('[typescript]: watching for changes...');
-    const watcher = fsWatch(
-      `${rootOfRepo}/src`,
-      { recursive: true },
-      async (event, filename) => {
-        console.log(`typescript: detected ${event} in ${filename}`);
-        await _build();
-      },
-    );
-
-    process.on('SIGINT', () => {
-      // close watcher when Ctrl-C is pressed
-      console.log('[typescript]: closing watcher...');
-      watcher.close();
-      process.exit(0);
-    });
-  } else {
-    await _build();
-  }
+  const args = watch ? '--watch' : '';
+  await $`tsc -p ${rootOfRepo}/tsconfig.json ${args}`;
 }

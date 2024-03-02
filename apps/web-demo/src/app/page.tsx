@@ -1,3 +1,4 @@
+import { Icon } from 'katcn/ui/Icon';
 import { Text } from 'katcn/ui/Text';
 import { VStack } from 'katcn/ui/VStack';
 
@@ -8,6 +9,7 @@ export default function Home() {
         <Text color="on-color" variant="display1">
           something
         </Text>
+        <Icon name="addFile" size="lg" />
       </VStack>
     </VStack>
   );

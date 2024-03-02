@@ -8,6 +8,7 @@ import { createSlot } from '../utils/createSlot';
 const Slot = createSlot<React.ComponentType<HtmlSpanProps>>();
 
 type HtmlSpanProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'color'>;
+
 interface IconProps extends UniversalIconProps, HtmlSpanProps {}
 
 /**
