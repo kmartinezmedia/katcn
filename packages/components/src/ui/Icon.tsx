@@ -1,7 +1,7 @@
 // https://icons.craftwork.design/
 
 import { forwardRef } from 'react';
-import { type UniversalIconProps } from '../types/props';
+import type { UniversalIconProps } from '../types/props';
 
 import { createSlot } from '../utils/createSlot';
 

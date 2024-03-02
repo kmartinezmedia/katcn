@@ -1,4 +1,4 @@
-import { Props } from 'bluebun';
+import type { Props } from 'bluebun';
 import { $ } from 'bun';
 
 export default {

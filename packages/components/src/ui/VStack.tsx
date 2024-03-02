@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { type UniversalStackProps } from '../types/props';
+import type { UniversalStackProps } from '../types/props';
 
 import { Box, type HtmlDivProps } from './Box';
 

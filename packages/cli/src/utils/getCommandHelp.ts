@@ -1,6 +1,6 @@
 import {
-  CommandTree,
-  Props,
+  type CommandTree,
+  type Props,
   bold,
   calcWidestCommandName,
   commandTree,

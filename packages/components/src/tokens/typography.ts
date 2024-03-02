@@ -1,12 +1,12 @@
-import {
-  type FontFamilyConfig,
-  type FontFamilyGlobalConfig,
-  type FontSizeConfig,
-  type FontWeightConfig,
-  type FontWeightDescriptive,
-  type FontWeightNumeric,
-  type LineHeightConfig,
-  type TextTransformConfig,
+import type {
+  FontFamilyConfig,
+  FontFamilyGlobalConfig,
+  FontSizeConfig,
+  FontWeightConfig,
+  FontWeightDescriptive,
+  FontWeightNumeric,
+  LineHeightConfig,
+  TextTransformConfig,
 } from '../types/tokens';
 
 const sansFallbacks = ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'];
@@ -18,6 +18,10 @@ export const fontFamilyGlobal: FontFamilyGlobalConfig = {
   'sans-condensed': { fallbacks: sansFallbacks, name: 'sans-condensed' },
   'serif-text': { fallbacks: serifFallbacks, name: 'serif-text' },
   'serif-display': { fallbacks: serifFallbacks, name: 'serif-display' },
+  mono: {
+    fallbacks: ['Menlo', 'Monaco', 'Courier New', 'monospace'],
+    name: 'mono',
+  },
 };
 
 export const fontFamily: FontFamilyConfig = {

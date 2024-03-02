@@ -1,4 +1,4 @@
-import { type AvatarSizeConfig, type IconSizeConfig } from '../types/tokens';
+import type { AvatarSizeConfig, IconSizeConfig } from '../types/tokens';
 
 const compactAvatarSizes: AvatarSizeConfig = {
   sm: 16,

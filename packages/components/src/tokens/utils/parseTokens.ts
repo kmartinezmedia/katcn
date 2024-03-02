@@ -1,79 +1,34 @@
 import {
-  type ColorMode,
-  type ColorsConfig,
-  type ElevationConfig,
-  type FontFamilyGlobalConfig,
-  type FontWeightConfig,
-  type Hue,
-  type HueStep,
-  type PaletteConfig,
-  type PaletteType,
-  type ScaleMode,
-  type UniversalTokensConfig,
+  AVATAR_SIZE_PREFIX,
+  BORDER_RADIUS_PREFIX,
+  BORDER_WIDTH_PREFIX,
+  COLOR_PREFIX,
+  CSS_VAR_PREFIX,
+  FONT_FAMILY_PREFIX,
+  FONT_SIZE_PREFIX,
+  FONT_WEIGHT_PREFIX,
+  ICON_SIZE_PREFIX,
+  LINE_HEIGHT_PREFIX,
+  SPACING_PREFIX,
+  TEXT_TRANSFORM_PREFIX,
+  vars,
+} from '../../styles/vars';
+import type {
+  ColorMode,
+  ColorsConfig,
+  ElevationConfig,
+  FontFamilyGlobalConfig,
+  FontWeightConfig,
+  Hue,
+  HueStep,
+  PaletteConfig,
+  PaletteType,
+  ScaleMode,
+  UniversalTokensConfig,
 } from '../../types/tokens';
 import { entries } from '../../utils/entries';
 import { mapValues } from '../../utils/mapValues';
 import { fontWeightMap } from '../typography';
-
-export const KATCN_PREFIX = 'katcn';
-
-/* -------------------------------------------------------------------------- */
-/*                              CSS VAR PREFIXES                              */
-/* -------------------------------------------------------------------------- */
-export const COLOR_PREFIX = `${KATCN_PREFIX}-color`;
-export const ELEVATION_PREFIX = `${KATCN_PREFIX}-elevation`;
-export const FONT_FAMILY_PREFIX = `${KATCN_PREFIX}-font`;
-export const ICON_SIZE_PREFIX = `${KATCN_PREFIX}-icon-size`;
-export const AVATAR_SIZE_PREFIX = `${KATCN_PREFIX}-avatar-size`;
-export const BORDER_RADIUS_PREFIX = `${KATCN_PREFIX}-border-radius`;
-export const BORDER_WIDTH_PREFIX = `${KATCN_PREFIX}-border-width`;
-export const SPACING_PREFIX = `${KATCN_PREFIX}-spacing`;
-export const FONT_SIZE_PREFIX = `${KATCN_PREFIX}-font-size`;
-export const LINE_HEIGHT_PREFIX = `${KATCN_PREFIX}-line-height`;
-export const FONT_WEIGHT_PREFIX = `${KATCN_PREFIX}-font-weight`;
-export const TEXT_TRANSFORM_PREFIX = `${KATCN_PREFIX}-text-transform`;
-export type CssVarPrefix =
-  | typeof COLOR_PREFIX
-  | typeof ELEVATION_PREFIX
-  | typeof FONT_FAMILY_PREFIX
-  | typeof ICON_SIZE_PREFIX
-  | typeof AVATAR_SIZE_PREFIX
-  | typeof BORDER_RADIUS_PREFIX
-  | typeof BORDER_WIDTH_PREFIX
-  | typeof SPACING_PREFIX
-  | typeof FONT_SIZE_PREFIX
-  | typeof LINE_HEIGHT_PREFIX
-  | typeof FONT_WEIGHT_PREFIX
-  | typeof TEXT_TRANSFORM_PREFIX;
-
-/* -------------------------------------------------------------------------- */
-/*                               MODE CLASSNAMES                              */
-/* -------------------------------------------------------------------------- */
-export const DARK_COLOR_MODE_CLASSNAME = `${KATCN_PREFIX}-color-mode-dark`;
-export const LIGHT_COLOR_MODE_CLASSNAME = `${KATCN_PREFIX}-color-mode-light`;
-export const XSMALL_SCALE_MODE_CLASSNAME = `${KATCN_PREFIX}-scale-mode-xsmall`;
-export const SMALL_SCALE_MODE_CLASSNAME = `${KATCN_PREFIX}-scale-mode-small`;
-export const MEDIUM_SCALE_MODE_CLASSNAME = `${KATCN_PREFIX}-scale-mode-medium`;
-export const LARGE_SCALE_MODE_CLASSNAME = `${KATCN_PREFIX}-scale-mode-large`;
-export const XLARGE_SCALE_MODE_CLASSNAME = `${KATCN_PREFIX}-scale-mode-xlarge`;
-export const XXLARGE_SCALE_MODE_CLASSNAME = `${KATCN_PREFIX}-scale-mode-xxlarge`;
-export const XXXLARGE_SCALE_MODE_CLASSNAME = `${KATCN_PREFIX}-scale-mode-xxxlarge`;
-
-/* -------------------------------------------------------------------------- */
-/*                           DEFAULT MODE CLASSNAMES                          */
-/* -------------------------------------------------------------------------- */
-export const DEFAULT_COLOR_MODE_CLASSNAME = LIGHT_COLOR_MODE_CLASSNAME;
-export const DEFAULT_SCALE_MODE_CLASSNAME = LARGE_SCALE_MODE_CLASSNAME;
-
-/* -------------------------------------------------------------------------- */
-/*                               FONT VARIABLES                               */
-/* -------------------------------------------------------------------------- */
-export const FONT_ICONS_CSS_VAR = `--${KATCN_PREFIX}-font-icons`;
-export const FONT_SANS_CSS_VAR = `--${KATCN_PREFIX}-font-sans`;
-export const FONT_SANS_BETA_CSS_VAR = `--${KATCN_PREFIX}-font-sans-beta`;
-export const FONT_SANS_CONDENSED_CSS_VAR = `--${KATCN_PREFIX}-font-sans-condensed`;
-export const FONT_SERIF_DISPLAY_CSS_VAR = `--${KATCN_PREFIX}-font-serif-display`;
-export const FONT_SERIF_TEXT_CSS_VAR = `--${KATCN_PREFIX}-font-serif-text`;
 
 function transformColorMode(colors: ColorsConfig) {
   const { palette, spectrum, elevation } = colors;
@@ -103,10 +58,21 @@ function transformColorMode(colors: ColorsConfig) {
         // @ts-expect-error we fill this object later
         tailwindConfig.palette[paletteType] = {};
       }
-      const name = `--${KATCN_PREFIX}-${paletteType}-color-${paletteKey}`;
+      const name = vars.palette[paletteType as keyof typeof vars.palette][
+        paletteKey as keyof (typeof vars.palette)[typeof paletteType]
+      ] as string;
+
+      let keyForClassName = paletteKey;
+      if (paletteType === 'backgroundWash') {
+        keyForClassName = `${paletteKey}-wash`;
+      }
+      if (paletteType === 'elevation') {
+        keyForClassName = `elevation-${paletteKey}`;
+      }
+
       rootVars[name] = `var(--${COLOR_PREFIX}-${hue}-${step})`;
       // @ts-expect-error this is fine
-      tailwindConfig.palette[paletteType][paletteKey] = opacity
+      tailwindConfig.palette[paletteType][keyForClassName] = opacity
         ? `rgb(var(${name}) / ${opacity})`
         : `rgb(var(${name}))`;
     }
@@ -120,7 +86,7 @@ function transformColorMode(colors: ColorsConfig) {
       )
       .join(', ');
 
-    const name = `--${KATCN_PREFIX}-elevation-${elevationVariant}`;
+    const name = `--${CSS_VAR_PREFIX}-elevation-${elevationVariant}`;
     rootVars[name] = value;
     tailwindConfig.elevation[elevationVariant] = `var(--${name})`;
   }

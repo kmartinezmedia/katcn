@@ -1,5 +1,5 @@
 import { getCommandHelp } from '../../utils/getCommandHelp';
-import { type MobileProps } from './_setup';
+import type { MobileProps } from './_setup';
 
 export default {
   name: 'expo',

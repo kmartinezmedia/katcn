@@ -2,7 +2,7 @@ import { jsxDEV as jsxDevOriginal } from 'react/jsx-dev-runtime';
 import { jsx as jsxOriginal, jsxs as jsxsOriginal } from 'react/jsx-runtime';
 
 import { extractStyleProps } from './styles/extractStyleProps';
-import { GetStylesParams } from './styles/getStyles';
+import type { GetStylesParams } from './styles/getStyles';
 
 export { Fragment, createElement } from 'react';
 
@@ -45,6 +45,5 @@ export function jsxDEV(
 ) {
   const componentName = typeof type === 'string' ? type : type.displayName;
   const finalProps = extractStyleProps(props, componentName);
-  // console.log('jsxDEV from katcn');
   return jsxDevOriginal(type, finalProps, maybeKey, source, self);
 }

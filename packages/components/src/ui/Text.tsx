@@ -1,5 +1,5 @@
 import { type Ref, forwardRef } from 'react';
-import { type StyleProps, type UniversalTextProps } from '../types/props';
+import type { StyleProps, UniversalTextProps } from '../types/props';
 
 import { createSlot } from '../utils/createSlot';
 

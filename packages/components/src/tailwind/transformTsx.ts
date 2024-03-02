@@ -1,8 +1,15 @@
 import crypto from 'node:crypto';
 import { transformSync } from '@babel/core';
 
-import { CallExpression, Project, SourceFile, SyntaxKind, ts } from 'ts-morph';
+import {
+  type CallExpression,
+  Project,
+  type SourceFile,
+  SyntaxKind,
+  type ts,
+} from 'ts-morph';
 import { extractStyleProps } from '../styles/extractStyleProps';
+import { getStyles } from '../styles/getStyles';
 
 const tsConfigFilePath = `${process.env.PWD}/tsconfig.json`;
 
@@ -25,6 +32,12 @@ const babelConfig = {
   filename: '.turbo/placeholder-required-for-babel-to-transpile.ts',
 };
 
+function getCallExpressionName(
+  callExpression: CallExpression<ts.CallExpression>,
+) {
+  return callExpression.getFirstChildByKind(SyntaxKind.Identifier)?.getText();
+}
+
 function getPropsForExpression({
   sourceFile,
   callExpression,
@@ -34,6 +47,7 @@ function getPropsForExpression({
   callExpression: CallExpression<ts.CallExpression>;
   classNames: Set<string>;
 }) {
+  const fnName = getCallExpressionName(callExpression);
   const props = callExpression.getFirstChildByKind(
     SyntaxKind.ObjectLiteralExpression,
   );
@@ -63,12 +77,16 @@ function getPropsForExpression({
       }
     }
 
-    const componentName = callExpression.getArguments()[0].getText();
-    if (!componentName) {
-      console.log(callExpression.getText());
+    let extractedProps = {} as ReturnType<typeof extractStyleProps>;
+
+    if (fnName === 'getStyles') {
+      // TODO: Find where getStyles is applied and use that component name?
+      extractedProps.className = getStyles(propsObject);
+    } else {
+      const componentName = callExpression.getArguments()[0].getText();
+      extractedProps = extractStyleProps(propsObject, componentName);
     }
 
-    const extractedProps = extractStyleProps(propsObject, componentName);
     if (extractedProps?.className) {
       classNames.add(extractedProps.className);
     }
@@ -79,11 +97,18 @@ const jsxFnNames = ['jsxDEV', 'jsx', 'jsxs', '_jsxDEV', '_jsx', '_jsxs'];
 function isJsxCallExpression(
   callExpression: CallExpression<ts.CallExpression>,
 ) {
+  const fnCalled = getCallExpressionName(callExpression);
+  return fnCalled && jsxFnNames.includes(fnCalled);
+}
+
+function isGetStylesExpression(
+  callExpression: CallExpression<ts.CallExpression>,
+) {
   const fnCalled = callExpression
     .getFirstChildByKind(SyntaxKind.Identifier)
     ?.getText();
 
-  return fnCalled && jsxFnNames.includes(fnCalled);
+  return fnCalled === 'getStyles';
 }
 
 export function transformTsx(content: string) {
@@ -117,6 +142,9 @@ export function transformTsx(content: string) {
           classNames,
         });
       }
+    }
+    if (isGetStylesExpression(callExpression)) {
+      getPropsForExpression({ sourceFile, callExpression, classNames });
     }
   }
 

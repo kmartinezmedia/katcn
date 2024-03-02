@@ -1,10 +1,10 @@
-import { StyleProps } from '../types/props';
-import { AvatarProps } from '../ui/Avatar';
-import { HStackProps } from '../ui/HStack';
-import { IconProps } from '../ui/Icon';
-import { TextProps } from '../ui/Text';
-import { TextInputProps } from '../ui/TextInput';
-import { VStackProps } from '../ui/VStack';
+import type { StyleProps } from '../types/props';
+import type { AvatarProps } from '../ui/Avatar';
+import type { HStackProps } from '../ui/HStack';
+import type { IconProps } from '../ui/Icon';
+import type { TextProps } from '../ui/Text';
+import type { TextInputProps } from '../ui/TextInput';
+import type { VStackProps } from '../ui/VStack';
 import { type GetStylesParams, getStyles } from './getStyles';
 
 type StyleProp = keyof StyleProps | 'children' | 'asChild';
@@ -155,13 +155,6 @@ export function extractStyleProps(
     borderTopEndRadius = defaults?.borderTopEndRadius,
     borderBottomStartRadius = defaults?.borderBottomStartRadius,
     borderBottomEndRadius = defaults?.borderBottomEndRadius,
-    bordered = defaults?.bordered,
-    borderedHorizontal = defaults?.borderedHorizontal,
-    borderedVertical = defaults?.borderedVertical,
-    borderedTop = defaults?.borderedTop,
-    borderedBottom = defaults?.borderedBottom,
-    borderedStart = defaults?.borderedStart,
-    borderedEnd = defaults?.borderedEnd,
     borderWidth = defaults?.borderWidth,
     borderVerticalWidth = defaults?.borderVerticalWidth,
     borderHorizontalWidth = defaults?.borderHorizontalWidth,
@@ -244,13 +237,6 @@ export function extractStyleProps(
     borderTopEndRadius,
     borderBottomStartRadius,
     borderBottomEndRadius,
-    bordered,
-    borderedHorizontal,
-    borderedVertical,
-    borderedTop,
-    borderedBottom,
-    borderedStart,
-    borderedEnd,
     borderWidth,
     borderVerticalWidth,
     borderHorizontalWidth,

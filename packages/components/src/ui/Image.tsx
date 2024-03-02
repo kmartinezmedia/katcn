@@ -1,4 +1,4 @@
-import { UniversalImageProps } from '../types/props';
+import type { UniversalImageProps } from '../types/props';
 
 type HtmlImgProps = Omit<
   React.ImgHTMLAttributes<HTMLImageElement>,

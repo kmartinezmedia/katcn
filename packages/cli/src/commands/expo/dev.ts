@@ -1,4 +1,4 @@
-import { Props } from 'bluebun';
+import type { Props } from 'bluebun';
 import { $, sleep } from 'bun';
 
 import { type MobileProps, setup } from './_setup';
