@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import { $ } from 'bun';
 import { Options, build } from 'tsup';
@@ -44,5 +45,11 @@ export async function buildPackage(watch?: boolean) {
 
 export async function buildTypes(watch?: boolean) {
   const args = watch ? '--watch' : '';
+  if (!watch) {
+    if (fs.existsSync('dts')) {
+      fs.rm('dts', { recursive: true }, () => {});
+    }
+  }
+
   await $`tsc -p ${rootOfRepo}/tsconfig.json ${args}`;
 }

@@ -1,5 +1,6 @@
 {
   "exclude": ["dist", "dts", "scripts"],
+  "include": ["src", "typings"],
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "composite": true,
@@ -25,6 +26,8 @@
     "skipLibCheck": true,
     "sourceMap": false,
     "strict": true,
+    "noImplicitAny": true,
+    "resolvePackageJsonExports": true,
     "tsBuildInfoFile": "dts/tsconfig.tsbuildinfo",
   }
 }

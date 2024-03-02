@@ -32,6 +32,19 @@ export const FONT_SIZE_PREFIX = `${KATCN_PREFIX}-font-size`;
 export const LINE_HEIGHT_PREFIX = `${KATCN_PREFIX}-line-height`;
 export const FONT_WEIGHT_PREFIX = `${KATCN_PREFIX}-font-weight`;
 export const TEXT_TRANSFORM_PREFIX = `${KATCN_PREFIX}-text-transform`;
+export type CssVarPrefix =
+  | typeof COLOR_PREFIX
+  | typeof ELEVATION_PREFIX
+  | typeof FONT_FAMILY_PREFIX
+  | typeof ICON_SIZE_PREFIX
+  | typeof AVATAR_SIZE_PREFIX
+  | typeof BORDER_RADIUS_PREFIX
+  | typeof BORDER_WIDTH_PREFIX
+  | typeof SPACING_PREFIX
+  | typeof FONT_SIZE_PREFIX
+  | typeof LINE_HEIGHT_PREFIX
+  | typeof FONT_WEIGHT_PREFIX
+  | typeof TEXT_TRANSFORM_PREFIX;
 
 /* -------------------------------------------------------------------------- */
 /*                               MODE CLASSNAMES                              */
