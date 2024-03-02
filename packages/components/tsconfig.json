@@ -1,5 +1,5 @@
 {
-  "exclude": ["dist", "scripts"],
+  "exclude": ["dist", "dts", "scripts"],
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "composite": true,
@@ -19,12 +19,12 @@
     "noEmit": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "outDir": "dist",
+    "outDir": "dts",
     "resolveJsonModule": true,
     "rootDir": "src",
     "skipLibCheck": true,
     "sourceMap": false,
     "strict": true,
-    "tsBuildInfoFile": ".turbo/tsconfig.tsbuildinfo",
+    "tsBuildInfoFile": "dts/tsconfig.tsbuildinfo",
   }
 }

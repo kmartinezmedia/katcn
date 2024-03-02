@@ -3,15 +3,6 @@
     "quickfix.biome": "explicit",
     "source.organizeImports.biome": "explicit"
   },
-  "typescript.preferences.autoImportFileExcludePatterns": [
-    "**/*.d.ts",
-    "dist/**/*"
-  ],
-  "typescript.preferences.importModuleSpecifier": "shortest",
-  "typescript.suggest.includeCompletionsForImportStatements": true,
-  "typescript.suggest.autoImports": true,
-  "typescript.preferences.includePackageJsonAutoImports": "on",
-  "typescript.preferences.useAliasesForRenames": false,
   "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnSave": true,
   "explorer.fileNesting.enabled": true,

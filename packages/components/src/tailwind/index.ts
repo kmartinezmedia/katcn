@@ -1,2 +1,2 @@
 export * from './transformTsx';
-export * from './withSystem';
+export * from './createTailwindConfig';

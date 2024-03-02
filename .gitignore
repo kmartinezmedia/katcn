@@ -124,6 +124,7 @@ web-build/
 *.pem
 
 # typescript
+dts
 *.tsbuildinfo
 expo-env.d.ts
 

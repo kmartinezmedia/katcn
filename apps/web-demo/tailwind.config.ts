@@ -1,4 +1,4 @@
-import { createTailwindConfig } from 'katcn/tailwind/createTailwindConfig';
+import { createTailwindConfig } from 'katcn/tailwind';
 
 export default createTailwindConfig({
   content: [

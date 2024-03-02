@@ -1,25 +1,29 @@
-/// <reference types="bun-types" />
-
-import { Transpiler, hash } from 'bun';
+import crypto from 'node:crypto';
+import { transformSync } from '@babel/core';
 
 import { CallExpression, Project, SourceFile, SyntaxKind, ts } from 'ts-morph';
 import { extractStyleProps } from '../styles/extractStyleProps';
 
-const tsConfigFilePath = `${Bun.env.PWD}/tsconfig.json`;
+const tsConfigFilePath = `${process.env.PWD}/tsconfig.json`;
 
 const project = new Project({
   tsConfigFilePath,
   skipAddingFilesFromTsConfig: true,
 });
 
-const tsxTranspiler = new Transpiler({
-  loader: 'tsx',
-  macro: {
-    'katcn/styles/getStyles': {
-      getStyles: 'katcn/styles/getStyles',
-    },
-  },
-});
+const babelConfig = {
+  presets: [['@babel/preset-typescript', { isTSX: true, allExtensions: true }]],
+  plugins: [
+    [
+      '@babel/plugin-transform-react-jsx',
+      {
+        runtime: 'automatic',
+        importSource: 'katcn',
+      },
+    ],
+  ],
+  filename: '.turbo/placeholder-required-for-babel-to-transpile.ts',
+};
 
 function getPropsForExpression({
   sourceFile,
@@ -71,6 +75,7 @@ function getPropsForExpression({
   }
 }
 
+const jsxFnNames = ['jsxDEV', 'jsx', 'jsxs', '_jsxDEV', '_jsx', '_jsxs'];
 function isJsxCallExpression(
   callExpression: CallExpression<ts.CallExpression>,
 ) {
@@ -78,16 +83,20 @@ function isJsxCallExpression(
     .getFirstChildByKind(SyntaxKind.Identifier)
     ?.getText();
 
-  return fnCalled === 'jsxDEV' || fnCalled === 'jsx';
+  return fnCalled && jsxFnNames.includes(fnCalled);
 }
 
 export function transformTsx(content: string) {
-  const newContent = tsxTranspiler.transformSync(content);
+  const newContent = transformSync(content, babelConfig)?.code ?? '';
 
   const classNames = new Set<string>();
-  const hashedName = hash(newContent);
+  const hashedName = crypto
+    .createHash('md5')
+    .update(newContent, 'utf8')
+    .digest('hex');
+
   const sourceFile = project.createSourceFile(
-    `${Bun.env.PWD}/.next/purge/${hashedName}.js`,
+    `${process.env.PWD}/.next/purge/${hashedName}.js`,
     newContent,
     { overwrite: true },
   );

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "bun --bun next dev",
-    "build": "bun run docgen && bun --bun next build",
+    "build": "bun run docgen && next build",
     "docgen": "cli docs build --input katcn",
     "start": "next start",
     "lint": "cli tools lint",

@@ -65,15 +65,7 @@ const VStack = forwardRef<HTMLDivElement, VStackProps>(function VStack(
   { gap, ...props },
   ref,
 ) {
-  return (
-    <Box
-      ref={ref}
-      display="flex"
-      direction="vertical"
-      verticalGap={gap}
-      {...props}
-    />
-  );
+  return <Box ref={ref} display="flex" direction="vertical" {...props} />;
 });
 
 VStack.displayName = 'VStack';
