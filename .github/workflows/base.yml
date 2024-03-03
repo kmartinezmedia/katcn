@@ -19,10 +19,10 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: 1.0.29
-      - name: 👀 Dependency check
-        run: bun cli tools syncpack list-mismatches
       - name: 💾 Install dependencies
         run: bun install --frozen-lockfile
+      - name: 👀 Dependency check
+        run: cli tools syncpack list-mismatches
       - name: 🧹 Lint
         run: bun run lint
       - name: 🧹 Typecheck
