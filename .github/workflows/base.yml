@@ -22,7 +22,7 @@ jobs:
       - name: 💾 Install dependencies
         run: bun install --frozen-lockfile
       - name: 👀 Dependency check
-        run: cli tools syncpack list-mismatches
+        run: bun cli tools syncpack list-mismatches
       - name: 🧹 Lint
         run: bun run lint
       - name: 🧹 Typecheck
