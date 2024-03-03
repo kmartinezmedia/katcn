@@ -1,4 +1,3 @@
-import path from 'node:path';
 import type { ExpoConfig } from '@expo/config-types';
 
 export const expo: ExpoConfig = {
