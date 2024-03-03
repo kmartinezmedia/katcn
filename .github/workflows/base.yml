@@ -20,7 +20,7 @@ jobs:
         with:
           bun-version: 1.0.29
       - name: 👀 Dependency check
-        run: cli tools syncpack list-mismatches
+        run: bun cli tools syncpack list-mismatches
       - name: 💾 Install dependencies
         run: bun install --frozen-lockfile
       - name: 🧹 Lint
