@@ -1,27 +1,27 @@
 {
   "name": "katcn",
   "version": "0.1.0",
-  "packageManager": "bun@1.0.29",
   "private": true,
-  "workspaces": ["packages/*", "apps/*"],
   "scripts": {
-    "dev": "turbo run dev",
     "build": "turbo run build",
+    "clean": "turbo run clean && rm -rf node_modules && rm -rf .turbo",
+    "dev": "turbo run dev",
     "fix": "turbo run fix",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "test:watch": "turbo run test -- --watch",
     "typecheck": "turbo run typecheck",
-    "clean": "turbo run clean && rm -rf node_modules && rm -rf .turbo",
-    "update-deps": "cli tools update"
+    "update-deps": "syncpack update --config ./cli/src/commands/tools/.syncpackrc"
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
     "@types/node": "^20",
-    "@types/react": "^18",
+    "@types/react": "~18.2.61",
     "@types/react-dom": "^18",
-    "turbo": "^1.12.4",
     "tsconfig": "workspace:*",
+    "turbo": "^1.12.4",
     "typescript": "^5.3.3"
-  }
+  },
+  "packageManager": "bun@1.0.29",
+  "workspaces": ["packages/*", "apps/*"]
 }

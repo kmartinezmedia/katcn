@@ -1,5 +1,5 @@
 {
-  "exclude": ["dist", "dts", "scripts"],
+  "exclude": ["dist", "dts", "configs"],
   "include": ["src", "typings"],
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,

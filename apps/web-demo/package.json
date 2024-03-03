@@ -3,24 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "build": "next build",
+    "clean": "cli tools clean",
     "dev": "next dev",
     "docgen": "cli docs build --input katcn",
-    "build": "next build",
-    "start": "next start",
-    "lint": "cli tools lint",
-    "typecheck": "cli tools typecheck",
-    "test": "bun test",
     "fix": "cli tools fix",
-    "clean": "cli tools clean"
+    "lint": "cli tools lint",
+    "start": "next start",
+    "test": "bun test",
+    "typecheck": "cli tools typecheck"
   },
   "dependencies": {
     "katcn": "workspace:*",
-    "react": "^18",
-    "react-dom": "^18",
-    "next": "14.1.1"
+    "next": "14.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18",
+    "@types/react": "~18.2.61",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.18",
     "postcss": "^8",

@@ -1,19 +1,20 @@
 {
   "name": "mobile-demo",
-  "main": "expo-router/entry",
   "version": "1.0.0",
+  "private": true,
+  "main": "expo-router/entry",
   "scripts": {
-    "eas-build-post-install": "bun turbo run build --filter=mobile-demo",
-    "dev:ios": "cli expo dev --platform ios --profile debug",
     "build:ios-debug": "cli expo build --platform ios --profile debug",
     "build:ios-release-simulator": "cli expo build --platform ios --profile release-simulator",
-    "patch:ios-release-simulator": "cli expo patch --platform ios --profile release-simulator",
-    "launch:ios-release-simulator": "cli expo launch --platform ios --profile release-simulator",
-    "update:preview": "cli expo update --platform ios --profile release-simulator",
-    "lint": "cli tools lint",
-    "typecheck": "cli tools typecheck",
+    "clean": "cli tools clean",
+    "dev:ios": "cli expo dev --platform ios --profile debug",
+    "eas-build-post-install": "bun turbo run build --filter=mobile-demo",
     "fix": "cli tools fix",
-    "clean": "cli tools clean"
+    "launch:ios-release-simulator": "cli expo launch --platform ios --profile release-simulator",
+    "lint": "cli tools lint",
+    "patch:ios-release-simulator": "cli expo patch --platform ios --profile release-simulator",
+    "typecheck": "cli tools typecheck",
+    "update:preview": "cli expo update --platform ios --profile release-simulator"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.2",
@@ -27,16 +28,15 @@
     "expo-system-ui": "~2.9.3",
     "expo-updates": "~0.24.8",
     "expo-web-browser": "~12.8.1",
-    "react": "18.2.0",
+    "react": "^18.2.0",
     "react-native": "0.73.2",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-safe-area-context": "4.8.2",
     "react-native-screens": "~3.29.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0",
+    "@babel/core": "^7.24.0",
     "@types/react": "~18.2.61",
     "tsconfig": "workspace:*"
-  },
-  "private": true
+  }
 }
