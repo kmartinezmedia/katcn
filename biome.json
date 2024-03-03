@@ -24,8 +24,13 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "style": {
+        "useShorthandArrayType": "error"
+      },
       "nursery": {
-        "useImportType": "error"
+        "useImportType": "error",
+        "useExportType": "error",
+        "noUnusedImports": "error"
       }
     }
   },

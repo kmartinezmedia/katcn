@@ -40,10 +40,12 @@ export default {
       undefined
     >;
 
+    const inputDir = `${Bun.env.PWD}/${input}`;
+
     async function build() {
       const generatedFont = await webfont({
         centerHorizontally: true,
-        files: `${Bun.env.PWD}/${input}/*.svg`,
+        files: `${inputDir}/*.svg`,
         fontHeight: 4096,
         fontName,
         formats,
@@ -95,7 +97,7 @@ export default {
     if (watch) {
       console.log('[icons]: watching for changes...');
       const watcher = fsWatch(
-        input,
+        inputDir,
         { recursive: true },
         async (event, filename) => {
           console.log(`icons: detected ${event} in ${filename}`);
