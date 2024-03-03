@@ -2,6 +2,7 @@
   "recommendations": [
     "biomejs.biome",
     "github.vscode-github-actions",
-    "expo.vscode-expo-tools"
+    "expo.vscode-expo-tools",
+    "yzhang.markdown-all-in-one"
   ]
 }

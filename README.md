@@ -1,13 +1,14 @@
+| Quick link                                                  | Description                                           |
+| ----------------------------------------------------------- | ----------------------------------------------------- |
+| [Web Demo](https://katcn.vercel.app/)                       | Web Demo                                              |
+| [Chromatic](TODO)                                           | Storybook component demos & visual regression testing |
+| [Bundlemon](TODO)                                           | Bundle size monitoring dashboard                      |
+| [Renovate](https://developer.mend.io/github/kmartinezmedia) | Package dependency management dashboard               |
+
 # Install bun
 
 ```bash
 curl -fsSL https://bun.sh/install | bash
-```
-
-# Usage
-
-```bash
-bun create kmartinezmedia/create-monorepo mydir
 ```
 
 # Setup
