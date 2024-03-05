@@ -11,13 +11,6 @@ import {
 import { extractStyleProps } from '../styles/extractStyleProps';
 import { getStyles } from '../styles/getStyles';
 
-const tsConfigFilePath = `${process.env.PWD}/tsconfig.json`;
-
-const project = new Project({
-  tsConfigFilePath,
-  skipAddingFilesFromTsConfig: true,
-});
-
 const babelConfig = {
   presets: [['@babel/preset-typescript', { isTSX: true, allExtensions: true }]],
   plugins: [
@@ -83,8 +76,34 @@ function getPropsForExpression({
       // TODO: Find where getStyles is applied and use that component name?
       extractedProps.className = getStyles(propsObject);
     } else {
-      const componentName = callExpression.getArguments()[0].getText();
-      extractedProps = extractStyleProps(propsObject, componentName);
+      // get import for the call expression's first argument is a component aka not a string
+      const firstArg = callExpression.getArguments()[0];
+      const firstArgText = firstArg.getText();
+      if (firstArg.isKind(SyntaxKind.StringLiteral)) {
+        // this is a native html element i.e. 'body', 'div', etc
+      } else {
+        // this is a component
+        const symbol = firstArg.getSymbol();
+        const declarations = symbol?.getDeclarations();
+        if (declarations) {
+          for (const declaration of declarations) {
+            const importDeclaration = declaration.getFirstAncestorByKind(
+              SyntaxKind.ImportDeclaration,
+            );
+            /**
+             * Only extract props from allowed packages.
+             * This is to avoid any performance issues by unnecessarily extracting props from all packages
+             */
+            if (importDeclaration) {
+              const importPath = importDeclaration.getModuleSpecifierValue();
+              // if katcn then go straight to extracting props
+              if (importPath.startsWith('katcn')) {
+                extractedProps = extractStyleProps(propsObject, firstArgText);
+              }
+            }
+          }
+        }
+      }
     }
 
     if (extractedProps?.className) {
@@ -112,6 +131,13 @@ function isGetStylesExpression(
 }
 
 export function transformTsx(content: string) {
+  const tsConfigFilePath = `${process.env.PWD}/tsconfig.json`;
+
+  const project = new Project({
+    tsConfigFilePath,
+    skipAddingFilesFromTsConfig: true,
+  });
+
   const newContent = transformSync(content, babelConfig)?.code ?? '';
 
   const classNames = new Set<string>();

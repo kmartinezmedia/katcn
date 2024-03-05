@@ -16,7 +16,14 @@
     "noUnusedParameters": false,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "noEmit": false,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "sourceMap": false,
+    "noImplicitAny": true,
+    "resolvePackageJsonExports": true
   },
   "exclude": ["node_modules"]
 }
