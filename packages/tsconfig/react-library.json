@@ -3,7 +3,11 @@
   "display": "React Library",
   "extends": "./base.json",
   "compilerOptions": {
-    "jsx": "preserve",
-    "moduleResolution": "bundler"
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "incremental": true,
+    "jsx": "react-jsx"
   }
 }
