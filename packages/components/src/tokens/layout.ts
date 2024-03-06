@@ -1,4 +1,4 @@
-import type { AspectRatioConfig, ZIndexConfig } from '../types/tokens';
+import type { AspectRatioConfig, ZIndexConfig } from '../types';
 
 export const aspectRatio: AspectRatioConfig = {
   '1:1': '1 / 1',

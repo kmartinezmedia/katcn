@@ -1,11 +1,20 @@
 {
   "extends": "tsconfig/react-library.json",
-  "exclude": ["dist", "dts", "configs"],
-  "include": ["src", "typings"],
+  "exclude": [
+    "shared-config.ts",
+    "package-config.ts",
+    "runtime-config.ts",
+    "cli",
+    "configs",
+    "dist"
+  ],
+  "ignore": ["configs"],
   "compilerOptions": {
-    "outDir": "dts",
+    "outDir": "dist",
     "rootDir": "src",
+    "jsx": "react-jsx",
     "jsxImportSource": "katcn",
-    "tsBuildInfoFile": "dts/tsconfig.tsbuildinfo"
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "declarationMap": false
   }
 }

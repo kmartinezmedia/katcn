@@ -9,7 +9,8 @@
       ".env*",
       "expo-env.d.ts",
       "dist",
-      "dts"
+      "dts",
+      "public"
     ]
   },
   "organizeImports": {

@@ -2,6 +2,11 @@
   "name": "web-demo",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    "./tsconfig.json": "./tsconfig.json"
+  },
   "scripts": {
     "build": "next build",
     "clean": "cli tools clean",
@@ -14,6 +19,7 @@
     "typecheck": "cli tools typecheck"
   },
   "dependencies": {
+    "docgen": "workspace:*",
     "katcn": "workspace:*",
     "next": "14.1.1",
     "react": "^18.2.0",

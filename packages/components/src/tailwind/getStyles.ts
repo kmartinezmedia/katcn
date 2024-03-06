@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import { extendTailwindMerge } from 'tailwind-merge';
-import type { StyleProps } from '../types/props';
 import type {
   BackgroundColor,
   BorderRadius,
@@ -9,7 +8,8 @@ import type {
   ForegroundColor,
   LineColor,
   TextVariant,
-} from '../types/tokens';
+} from '../types';
+import type { StyleProps } from '../types';
 
 const lineColors: LineColor[] = [
   'accent',

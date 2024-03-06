@@ -1,4 +1,4 @@
-import type { ElevationConfig } from '../types/tokens';
+import type { ElevationConfig } from '../types';
 
 const lightElevation: ElevationConfig = {
   '1': [

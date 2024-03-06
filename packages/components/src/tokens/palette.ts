@@ -1,4 +1,4 @@
-import type { PaletteConfig } from '../types/tokens';
+import type { PaletteConfig } from '../types';
 
 const lightPalette: PaletteConfig = {
   core: {

@@ -1,4 +1,4 @@
-import type { UniversalTextInputProps } from '../types/props';
+import type { UniversalTextInputProps } from '../types';
 
 type HtmlTextInputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
