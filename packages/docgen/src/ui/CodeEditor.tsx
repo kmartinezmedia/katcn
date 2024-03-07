@@ -1,18 +1,10 @@
 'use client';
 
-import {
-  Editor,
-  type OnChange,
-  type OnMount,
-  type OnValidate,
-} from '@monaco-editor/react';
+import { Editor, type OnChange } from '@monaco-editor/react';
 import { VStack } from 'katcn';
 import type * as monacoType from 'monaco-editor';
-import { useCallback, useEffect, useRef } from 'react';
-import ts from 'typescript';
+import { useEffect, useRef } from 'react';
 import { PrettierFormatProvider } from '../utils/prettier';
-
-export const USER_CODE_PATH = 'file:///user.tsx';
 
 export type MonacoInstance = typeof monacoType;
 export type EditorInstance = monacoType.editor.IStandaloneCodeEditor;
@@ -23,30 +15,36 @@ export type TypescriptWorker = monacoType.languages.typescript.TypeScriptWorker;
 export type TypeError = monacoType.editor.IMarkerData;
 
 export interface CodeEditorProps {
-  /** the classes applied to the container div */
   className?: string;
   userCode: string;
   dtsLibs?: DtsLibs;
   tsconfig?: monacoType.languages.typescript.CompilerOptions;
   monaco?: MonacoInstance;
   editor?: EditorInstance;
-  onValidate?: OnValidate;
-  onMount?: OnMount;
   onChange?: OnChange;
 }
 
+interface Refs {
+  monaco: MonacoInstance | null;
+  editor: EditorInstance | null;
+  userModel: UserModel | null;
+  tsWorker: TypescriptWorker | null;
+}
+
+const USER_CODE_PATH = 'file:///user.tsx';
+
 export function CodeEditor({
   onChange,
-  onMount,
-  onValidate,
   userCode,
   dtsLibs = [],
 }: CodeEditorProps) {
   const wrapper = useRef<HTMLDivElement>(null);
-  const monacoInstance = useRef<MonacoInstance | null>(null);
-  const editorInstance = useRef<EditorInstance | null>(null);
-  const userModel = useRef<UserModel | null>(null);
-  const tsWorker = useRef<TypescriptWorker | null>(null);
+  const refs = useRef<Refs>({
+    monaco: null,
+    editor: null,
+    userModel: null,
+    tsWorker: null,
+  });
 
   useEffect(() => {
     const saveHandler = (e: KeyboardEvent) => {
@@ -57,11 +55,7 @@ export function CodeEditor({
         wrapper.current.contains(document.activeElement)
       ) {
         e.preventDefault();
-        editorInstance.current
-          ?.getAction('editor.action.formatDocument')
-          ?.run();
-
-        // TODO: show toast that changes were saved
+        refs.current.editor?.getAction('editor.action.formatDocument')?.run();
       }
     };
 
@@ -72,60 +66,8 @@ export function CodeEditor({
     };
   }, []);
 
-  const typeCheck = useCallback(async () => {
-    const userModeUriString = userModel.current?.uri?.toString();
-    const markers: TypeError[] = [];
-    // Keep code below if we want to run typecheck on multi page editor
-    // const models = monaco.editor.getModels();
-    // for (const model of models) {}
-
-    if (
-      !userModel.current ||
-      !tsWorker.current ||
-      !monacoInstance.current ||
-      !userModeUriString
-    ) {
-      return;
-    }
-
-    // const markers = monacoInstance.current.editor.getModelMarkers({resource: userModel.current.uri})
-    const diagnostics = (
-      await Promise.all([
-        tsWorker.current.getSyntacticDiagnostics(userModeUriString),
-        tsWorker.current.getSemanticDiagnostics(userModeUriString),
-      ])
-    ).reduce((a, b) => a.concat(b));
-    console.log('diagnostics', diagnostics);
-    for (const d of diagnostics) {
-      if (d.start && d.length) {
-        const start = userModel.current.getPositionAt(d.start);
-        const end = userModel.current.getPositionAt(d.start + d.length);
-
-        markers.push({
-          modelVersionId: userModel.current.getVersionId(),
-          severity: monacoInstance.current.MarkerSeverity.Error,
-          startLineNumber: start.lineNumber,
-          endLineNumber: end.lineNumber,
-          startColumn: start.column,
-          endColumn: end.column,
-          message: ts.flattenDiagnosticMessageText(d.messageText, '\n'),
-        } satisfies monacoType.editor.IMarkerData);
-      }
-    }
-
-    if (markers.length > 0) {
-      console.log('has errors');
-      console.log('markers', markers);
-      monacoInstance.current.editor.setModelMarkers(
-        userModel.current,
-        userModel.current.getLanguageId(),
-        markers,
-      );
-    }
-  }, []);
-
   return (
-    <VStack height="screen" backgroundColor="accent" ref={wrapper}>
+    <VStack height="screen" ref={wrapper}>
       <Editor
         defaultLanguage="typescript"
         language="typescript"
@@ -135,24 +77,64 @@ export function CodeEditor({
         defaultValue={userCode}
         value={userCode}
         defaultPath={USER_CODE_PATH}
-        options={{ minimap: { enabled: false } }}
+        options={{
+          minimap: { enabled: false },
+          fontSize: 18,
+        }}
         onMount={async (editor, monaco) => {
-          editorInstance.current = editor;
-          monacoInstance.current = monaco;
+          const stringToUri = monaco.Uri.parse;
+
+          /**
+           * Avoid flashing type errors on initial load by loading dts files first
+           */
+
+          /* -------------------------------------------------------------------------- */
+          /*                               ADD REACT TYPES                              */
+          /* -------------------------------------------------------------------------- */
+          const reactTypesResp = await fetch(
+            'https://unpkg.com/@types/react@18.2.0/index.d.ts',
+          );
+          const reactTypes = await reactTypesResp.text();
+          monaco.languages.typescript.typescriptDefaults.addExtraLib(
+            reactTypes,
+            'file:///node_modules/react/index.d.ts',
+          );
+          /* -------------------------------------------------------------------------- */
+          /*                                ADD DTS LIBS                                */
+          /* -------------------------------------------------------------------------- */
+          for (const lib of dtsLibs) {
+            const libUri = stringToUri(lib.filePath);
+            const extension = lib.filePath.split('.').pop();
+            switch (extension) {
+              case 'ts':
+              case 'tsx': {
+                if (!monaco.editor.getModel(libUri)) {
+                  monaco.languages.typescript.typescriptDefaults.addExtraLib(
+                    lib.content,
+                    lib.filePath,
+                  );
+                }
+                break;
+              }
+              default:
+                break;
+            }
+          }
+
+          /* -------------------------------------------------------------------------- */
+          /*                              SETUP TYPESCRIPT                              */
+          /* -------------------------------------------------------------------------- */
+
+          /** Use prettier to format the code on command + s */
           monaco.languages.registerDocumentFormattingEditProvider(
             'typescript',
             PrettierFormatProvider,
           );
-          monaco.languages.setLanguageConfiguration('typescript', {});
-          monaco?.languages.typescript.typescriptDefaults.setEagerModelSync(
-            true,
-          );
-          monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
-            noSemanticValidation: false,
-            noSyntaxValidation: false,
-          });
+
+          /** TODO: see what's in default compiler options and add only what's necessary */
           monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
-            // noLib: true,
+            ...monaco.languages.typescript.typescriptDefaults.getCompilerOptions(),
+            jsxImportSource: 'katcn',
             allowNonTsExtensions: true,
             strict: true,
             target: monaco.languages.typescript.ScriptTarget.ESNext,
@@ -161,84 +143,63 @@ export function CodeEditor({
               monaco.languages.typescript.ModuleResolutionKind.NodeJs,
             allowSyntheticDefaultImports: true,
             jsx: monaco.languages.typescript.JsxEmit.ReactJSX,
-            jsxImportSource: 'katcn',
             resolvePackageJsonExports: true,
             noEmit: true,
           });
-          monaco.languages.typescript.typescriptDefaults.setMaximumWorkerIdleTime(
-            -1,
-          );
+
+          /** TODO: see what's in default diagnostic options add only what's necessary */
           monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
-            noSemanticValidation: true,
+            ...monaco.languages.typescript.typescriptDefaults.getDiagnosticsOptions(),
+            noSemanticValidation: false,
+            noSuggestionDiagnostics: false,
             noSyntaxValidation: false,
           });
-          // Setup typechecking
-          for (const lib of dtsLibs) {
-            const libUri = monaco.Uri.parse(lib.filePath);
-            if (!monacoInstance.current.editor.getModel(libUri)) {
-              monaco.editor.createModel(lib.content, 'typescript', libUri);
-              // if (lib.filePath.includes('jsx-runtime')) {
-              //   monaco.editor.createModel(lib.content, 'typescript', libUri);
-              // }
-              if (lib.filePath.endsWith('.d.ts')) {
-                monaco.languages.typescript.typescriptDefaults.addExtraLib(
-                  lib.content,
-                  `ts:filename/${lib.filePath}`,
-                );
-              }
+
+          /**
+           * TS suggestions in monaco don't not the use same trigger characters as VSCode
+           * Originally reported here https://github.com/microsoft/monaco-editor/discussions/3711
+           * Monaco trigger characters https://github.com/microsoft/monaco-editor/blob/main/src/language/typescript/languageFeatures.ts#L436
+           * VScode trigger characters https://github.com/microsoft/vscode/blob/main/extensions/typescript-language-features/src/languageFeatures/completions.ts#L668
+           */
+
+          const { SuggestAdapter } = await import(
+            'monaco-editor/esm/vs/language/typescript/tsMode'
+          );
+
+          class MySuggestAdapter
+            extends SuggestAdapter
+            implements monacoType.languages.CompletionItemProvider
+          {
+            // @ts-expect-error this is fine
+            public get triggerCharacters() {
+              // VSCode's triggers has `" "` but its pretty noisy, so we removed that.
+              // Could probably add back, but make sure to filter out values when about to add attribute and vice versa.
+              return ['.', '"', "'", '`', '/', '@', '<', '""'];
             }
-          }
-          const uri = monaco.Uri.parse(USER_CODE_PATH);
-          userModel.current = monaco.editor.getModel(uri);
 
-          if (userModel.current) {
-            console.log('model exists');
-            monaco.languages.typescript
-              .getTypeScriptWorker()
-              .then(async (getWorker) => {
-                // biome-ignore lint/style/noNonNullAssertion: <explanation>
-                tsWorker.current = await getWorker(userModel.current!.uri);
-                console.log('worker', tsWorker.current);
-                typeCheck();
-              });
-          } else {
-            console.log('model does not exist');
-            userModel.current = monaco.editor.createModel(
-              userCode,
-              'typescript',
-              uri,
-            );
+            // TODO: filter out dupes in suggestions
           }
 
-          onMount?.({ editor, monaco: monacoInstance.current });
+          const getTsWorker =
+            await monaco.languages.typescript.getTypeScriptWorker();
+          const suggestionAdapter = new MySuggestAdapter(getTsWorker);
+          monaco.languages.registerCompletionItemProvider(
+            'typescript',
+            suggestionAdapter,
+          );
+
+          /* -------------------------------------------------------------------------- */
+          /*                                 UPDATE REFS                                */
+          /* -------------------------------------------------------------------------- */
+          refs.current.editor = editor;
+          refs.current.monaco = monaco;
         }}
         onChange={(value, changeEvent) => {
           const code = value ?? '';
           onChange?.(code, changeEvent);
-          typeCheck();
+          // typeCheck();
           // Figure out how to transpile the code to preview and render the jsx in the browser
           // setTranspiledCode(transformSync(code).code);
-          console.log('change', changeEvent);
-          console.log(monacoInstance.current);
-          // get last item in changeEvent.changes
-          const lastChange =
-            changeEvent.changes[changeEvent.changes.length - 1];
-          if (userModel.current) {
-            tsWorker.current
-              ?.getCompletionsAtPosition(
-                userModel.current.uri.toString(),
-                lastChange.range.startColumn,
-              )
-              .then((completions) => {
-                // this is showing completions for the interfaces I expect, but no data for what
-                // properties are available or anything like that
-                console.log('completions', completions);
-              });
-          }
-        }}
-        onValidate={(vMarkers) => {
-          console.log('vMarkers', vMarkers);
-          onValidate?.(vMarkers);
         }}
       />
     </VStack>

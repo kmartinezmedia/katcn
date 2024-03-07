@@ -28,8 +28,6 @@ export default async function Home() {
     'public/katcn/package.json',
     'utf-8',
   );
-  console.log(katPackageJson);
-  console.log(katDtsFiles);
 
   const parsedKatDtsFiles = await getDtsFiles(
     'public/katcn/dist',
