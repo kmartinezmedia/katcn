@@ -9,15 +9,7 @@ export const sharedConfig = {
   minify: false,
   bundle: true,
   dts: true,
-  noExternal: [
-    'clsx',
-    // '@babel/core',
-    // '@babel/plugin-transform-react-jsx',
-    // '@babel/preset-typescript',
-    'tailwind-merge',
-    // 'tailwindcss',
-    // 'ts-morph',
-  ],
+  noExternal: ['clsx', 'tailwind-merge'],
   external: [
     'react',
     'katcn',
