@@ -1,13 +1,6 @@
 {
   "extends": "tsconfig/react-library.json",
-  "exclude": [
-    "shared-config.ts",
-    "package-config.ts",
-    "runtime-config.ts",
-    "cli",
-    "configs",
-    "dist"
-  ],
+  "exclude": ["tsup.config.ts", "cli", "dist"],
   "ignore": ["configs"],
   "compilerOptions": {
     "outDir": "dist",

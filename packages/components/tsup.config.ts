@@ -1,3 +1,6 @@
+import fs, { copyFile } from 'node:fs';
+import { cp } from 'node:fs/promises';
+import path from 'node:path';
 import { defineConfig } from 'tsup';
 
 export default defineConfig(({ watch }) => {
@@ -12,8 +15,8 @@ export default defineConfig(({ watch }) => {
     dts: true,
     noExternal: ['clsx', 'tailwind-merge'],
     external: [
-      'react',
       'katcn',
+      'react',
       'tailwindcss',
       'clsx',
       'ts-morph',
@@ -22,15 +25,41 @@ export default defineConfig(({ watch }) => {
       '@babel/preset-typescript',
     ],
     watch,
-    clean: !watch,
+    clean: true,
     tsconfig: './tsconfig.build.json',
     entry: {
+      index: 'src/index.ts',
+      types: 'src/types/index.ts',
       'jsx-runtime': 'src/jsx-runtime.ts',
       'jsx-dev-runtime': 'src/jsx-dev-runtime.ts',
       getStyles: 'src/tailwind/getStyles.ts',
-      types: 'src/types/index.ts',
-      index: 'src/index.ts',
       tailwind: 'src/tailwind/index.ts',
+    },
+    async onSuccess() {
+      const rootOfRepo = path.resolve(__dirname);
+      const publicDir = path.resolve(rootOfRepo, '../../apps/web-demo/public');
+      const katcnDist = path.resolve(rootOfRepo, 'dist');
+      const katcnOut = path.resolve(publicDir, 'katcn/dist');
+      const katcnPkgJson = path.resolve(rootOfRepo, 'package.json');
+      const katcnPkgJsonOut = path.resolve(katcnOut, '../package.json');
+
+      console.log(`Copying ${katcnDist} to`, katcnOut);
+      fs.mkdirSync(katcnOut, { recursive: true });
+      cp(katcnDist, katcnOut, { recursive: true, force: true });
+
+      console.log(`Copying ${katcnPkgJson} to`, katcnPkgJsonOut);
+      copyFile(katcnPkgJson, katcnPkgJsonOut, () => {});
+
+      const reactDtsFileName = '@types/react/index.d.ts';
+      const reactDtsDist = path.resolve(
+        `../../node_modules/${reactDtsFileName}`,
+      );
+      const reactDtsOut = path.resolve(
+        publicDir,
+        `${publicDir}/${reactDtsFileName}`,
+      );
+      console.log(`Copying ${reactDtsDist} to`, reactDtsOut);
+      copyFile(reactDtsDist, reactDtsOut, () => {});
     },
   };
 });

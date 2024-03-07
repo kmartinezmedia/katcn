@@ -1,5 +1,6 @@
 {
   "exclude": ["dist"],
+  "include": ["src"],
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
@@ -7,6 +8,7 @@
     "jsxImportSource": "katcn",
     "lib": ["ESNext"],
     "moduleResolution": "Bundler",
-    "module": "ESNext"
+    "module": "ESNext",
+    "emitDeclarationOnly": true
   }
 }
