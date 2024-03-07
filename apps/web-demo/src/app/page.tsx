@@ -22,7 +22,6 @@ async function getDtsFiles(
 
 export default async function Home() {
   const katDtsFiles = await fs.readdir('public/katcn/dist');
-  const typesDtsFiles = await fs.readdir('public/@types');
   const katPackageJson = await fs.readFile(
     'public/katcn/package.json',
     'utf-8',
@@ -33,23 +32,16 @@ export default async function Home() {
     katDtsFiles,
     'katcn',
   );
-  const parsedTypesDtsFiles = await getDtsFiles(
-    'public/@types',
-    typesDtsFiles,
-    '@types',
-  );
 
   const dtsLibs = [
     {
       content: katPackageJson,
       filePath: 'file:///node_modules/katcn/package.json',
     },
-    ...parsedTypesDtsFiles,
     ...parsedKatDtsFiles,
   ];
 
   console.log('parsedKatDtsFiles', parsedKatDtsFiles);
-  console.log('parsedTypesDtsFiles', parsedTypesDtsFiles);
   console.log('katPackageJson', katPackageJson);
 
   return (
