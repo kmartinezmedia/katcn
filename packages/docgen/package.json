@@ -17,6 +17,12 @@
     "./tsconfig.json": "./tsconfig.json",
     "./package.json": "./package.json"
   },
+  "imports": {
+    "#themes/*": {
+      "types": "./src/themes/themes.d.ts",
+      "default": "./dist/themes/*.js"
+    }
+  },
   "scripts": {
     "build": "tsup",
     "clean": "cli tools clean",
@@ -28,6 +34,7 @@
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
+    "colord": "^2.9.3",
     "katcn": "workspace:*",
     "monaco-editor": "^0.46.0",
     "prettier": "^3.2.5"
@@ -36,7 +43,8 @@
     "cli": "workspace:*",
     "concurrently": "^8.2.2",
     "react": "^18.2.0",
-    "tsup": "^8.0.2"
+    "tsup": "^8.0.2",
+    "tsconfig": "workspace:*"
   },
   "peerDependencies": {
     "next": "14.1.1"

@@ -5,28 +5,33 @@
  * VScode trigger characters https://github.com/microsoft/vscode/blob/main/extensions/typescript-language-features/src/languageFeatures/completions.ts#L668
  */
 declare module 'monaco-editor/esm/vs/language/typescript/tsMode' {
-  import type * as monacoType from 'monaco-editor';
-  export class SuggestAdapter
-    implements monacoType.languages.CompletionItemProvider
-  {
+  type CompletionItemProvider =
+    import('monaco-editor').languages.CompletionItemProvider;
+  export class SuggestAdapter implements CompletionItemProvider {
     constructor(
       protected _worker: (
-        ...uris: monacoType.Uri[]
-      ) => Promise<monacoType.languages.typescript.TypeScriptWorker>,
+        ...uris: import('monaco-editor').Uri[]
+      ) => Promise<
+        import('monaco-editor').languages.typescript.TypeScriptWorker
+      >,
     );
     triggerCharacters?: string[];
     /**
      * Provide completion items for the given position and document.
      */
     provideCompletionItems(
-      model: monacoType.editor.ITextModel,
-      position: monacoType.Position,
-      context: monacoType.languages.CompletionContext,
-      token: monacoType.CancellationToken,
-    ): monacoType.languages.ProviderResult<monacoType.languages.CompletionList>;
+      model: import('monaco-editor').editor.ITextModel,
+      position: import('monaco-editor').Position,
+      context: import('monaco-editor').languages.CompletionContext,
+      token: import('monaco-editor').CancellationToken,
+    ): import('monaco-editor').languages.ProviderResult<
+      import('monaco-editor').languages.CompletionList
+    >;
     resolveCompletionItem?(
-      item: monacoType.languages.CompletionItem,
-      token: monacoType.CancellationToken,
-    ): monacoType.languages.ProviderResult<monacoType.languages.CompletionItem>;
+      item: import('monaco-editor').languages.CompletionItem,
+      token: import('monaco-editor').CancellationToken,
+    ): import('monaco-editor').languages.ProviderResult<
+      import('monaco-editor').languages.CompletionItem
+    >;
   }
 }

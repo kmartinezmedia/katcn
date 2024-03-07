@@ -21,7 +21,6 @@ async function getDtsFiles(
 }
 
 export default async function Home() {
-  // const katPackage = await fs.readFile('public/katcn/package.json', 'utf-8');
   const katDtsFiles = await fs.readdir('public/katcn/dist');
   const typesDtsFiles = await fs.readdir('public/@types');
   const katPackageJson = await fs.readFile(

@@ -23,7 +23,8 @@
     "resolveJsonModule": true,
     "sourceMap": false,
     "noImplicitAny": true,
-    "resolvePackageJsonExports": true
+    "resolvePackageJsonExports": true,
+    "resolvePackageJsonImports": true
   },
   "exclude": ["node_modules"]
 }
