@@ -9,7 +9,7 @@
     "dev": "bun run src/index.ts",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
-    "start": "bun run src/index.ts",
+    "start": "NODE_ENV=production bun run dev",
     "test": "bun test",
     "typecheck": "cli tools typecheck"
   },
