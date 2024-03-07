@@ -85,6 +85,22 @@ export function CodeEditor({
           }}
           onMount={async (editor, monaco) => {
             const stringToUri = monaco.Uri.parse;
+
+            /**
+             * Avoid flashing type errors on initial load by loading dts files first
+             */
+
+            /* -------------------------------------------------------------------------- */
+            /*                               ADD REACT TYPES                              */
+            /* -------------------------------------------------------------------------- */
+            const reactTypesResp = await fetch(
+              'https://unpkg.com/@types/react@18.2.0/index.d.ts',
+            );
+            const reactTypes = await reactTypesResp.text();
+            monaco.languages.typescript.typescriptDefaults.addExtraLib(
+              reactTypes,
+              'file:///node_modules/react/index.d.ts',
+            );
             /* -------------------------------------------------------------------------- */
             /*                                ADD DTS LIBS                                */
             /* -------------------------------------------------------------------------- */

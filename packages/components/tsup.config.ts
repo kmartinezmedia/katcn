@@ -49,17 +49,6 @@ export default defineConfig(({ watch }) => {
 
       console.log(`Copying ${katcnPkgJson} to`, katcnPkgJsonOut);
       copyFile(katcnPkgJson, katcnPkgJsonOut, () => {});
-
-      const reactDtsFileName = '@types/react/index.d.ts';
-      const reactDtsDist = path.resolve(
-        `../../node_modules/${reactDtsFileName}`,
-      );
-      const reactDtsOut = path.resolve(
-        publicDir,
-        `${publicDir}/${reactDtsFileName}`,
-      );
-      console.log(`Copying ${reactDtsDist} to`, reactDtsOut);
-      copyFile(reactDtsDist, reactDtsOut, () => {});
     },
   };
 });
