@@ -1,4 +1,4 @@
-import type { SpectrumConfig } from '../types/tokens';
+import type { SpectrumConfig } from '../types';
 
 export const spectrum: SpectrumConfig = {
   rose: {

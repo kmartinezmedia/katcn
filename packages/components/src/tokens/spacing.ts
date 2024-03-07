@@ -1,4 +1,4 @@
-import type { SpacingConfig } from '../types/tokens';
+import type { SpacingConfig } from '../types';
 
 const compactSpacing: SpacingConfig = {
   '0': 0,

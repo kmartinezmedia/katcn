@@ -1,4 +1,4 @@
-import type { StyleProps } from '../types/props';
+import type { StyleProps } from '../types';
 import type { AvatarProps } from '../ui/Avatar';
 import type { HStackProps } from '../ui/HStack';
 import type { IconProps } from '../ui/Icon';

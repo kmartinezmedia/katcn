@@ -1,0 +1,14 @@
+{
+  "exclude": ["dist"],
+  "include": ["src"],
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "jsx": "react-jsx",
+    "jsxImportSource": "katcn",
+    "lib": ["ESNext"],
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "emitDeclarationOnly": true
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "extends": "tsconfig/react-library.json",
+  "exclude": ["dist", "dts", "ata", "tsup.config.ts"],
+  "include": ["."],
+  "compilerOptions": {
+    "outDir": "dts",
+    "rootDir": "src",
+    "jsxImportSource": "katcn",
+    "tsBuildInfoFile": "dts/tsconfig.tsbuildinfo",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"]
+  },
+  "references": [
+    {
+      "path": "../components"
+    }
+  ]
+}

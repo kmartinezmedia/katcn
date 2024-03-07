@@ -4,5 +4,15 @@
   "private": true,
   "dependencies": {
     "bun-types": "^1.0.29"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./base.json": "./base.json",
+    "./bun.json": "./bun.json",
+    "./next-app.json": "./next-app.json",
+    "./node.json": "./node.json",
+    "./react-library.json": "./react-library.json",
+    "./react-native-app.json": "./react-native-app.json",
+    "./react-native-library.json": "./react-native-library.json"
   }
 }

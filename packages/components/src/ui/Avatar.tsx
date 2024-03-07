@@ -1,4 +1,4 @@
-import type { UniversalAvatarProps } from '../types/props';
+import type { UniversalAvatarProps } from '../types';
 import { type HtmlImgProps, Image } from './Image';
 
 interface AvatarProps extends HtmlImgProps, UniversalAvatarProps {}

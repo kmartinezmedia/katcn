@@ -7,7 +7,7 @@ import type {
   FontWeightNumeric,
   LineHeightConfig,
   TextTransformConfig,
-} from '../types/tokens';
+} from '../types';
 
 const sansFallbacks = ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'];
 const serifFallbacks = ['Georgia', 'Times', 'Times New Roman', 'serif'];

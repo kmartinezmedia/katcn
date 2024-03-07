@@ -5,5 +5,6 @@ export default createTailwindConfig({
     './src/pages/**/*.{ts,tsx,mdx}',
     './src/components/**/*.{ts,tsx,mdx}',
     './src/app/**/*.{ts,tsx,mdx}',
+    '../../packages/docgen/src/ui/**/*.{ts,tsx}',
   ],
 });

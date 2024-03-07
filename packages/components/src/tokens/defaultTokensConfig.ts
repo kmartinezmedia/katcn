@@ -1,4 +1,4 @@
-import type { UniversalTokensConfig } from '../types/tokens';
+import type { UniversalTokensConfig } from '../types';
 import { compactBorderRadius, normalBorderRadius } from './borderRadius';
 import { compactBorderWidths, normalBorderWidths } from './borderWidth';
 import { darkElevation, lightElevation } from './elevation';

@@ -1,3 +1,19 @@
+import { fontWeightMap } from '../tokens/typography';
+import type {
+  ColorMode,
+  ColorsConfig,
+  ElevationConfig,
+  FontFamilyGlobalConfig,
+  FontWeightConfig,
+  Hue,
+  HueStep,
+  PaletteConfig,
+  PaletteType,
+  ScaleMode,
+  UniversalTokensConfig,
+} from '../types';
+import { entries } from '../utils/entries';
+import { mapValues } from '../utils/mapValues';
 import {
   AVATAR_SIZE_PREFIX,
   BORDER_RADIUS_PREFIX,
@@ -12,23 +28,7 @@ import {
   SPACING_PREFIX,
   TEXT_TRANSFORM_PREFIX,
   vars,
-} from '../../styles/vars';
-import type {
-  ColorMode,
-  ColorsConfig,
-  ElevationConfig,
-  FontFamilyGlobalConfig,
-  FontWeightConfig,
-  Hue,
-  HueStep,
-  PaletteConfig,
-  PaletteType,
-  ScaleMode,
-  UniversalTokensConfig,
-} from '../../types/tokens';
-import { entries } from '../../utils/entries';
-import { mapValues } from '../../utils/mapValues';
-import { fontWeightMap } from '../typography';
+} from './vars';
 
 function transformColorMode(colors: ColorsConfig) {
   const { palette, spectrum, elevation } = colors;

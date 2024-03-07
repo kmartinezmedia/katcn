@@ -6,7 +6,7 @@ import type {
   FontFamilyGlobalAlias,
   ForegroundPaletteAlias,
   LinePaletteAlias,
-} from '../types/tokens';
+} from '../types';
 
 export const CSS_VAR_PREFIX = 'katcn';
 
