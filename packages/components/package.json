@@ -25,7 +25,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "rm -rf ./dist && tsup",
+    "build": "rm -rf ./dist && tsup && bun run ./scripts/postbuild.ts",
     "build:icons": "cli icons build --formats woff2,ttf --input ./src/icons/svg --outputFonts ./src/icons/fonts --outputTypes ./src/icons/types.ts",
     "clean": "cli tools clean",
     "dev": "concurrently bun:dev:*",

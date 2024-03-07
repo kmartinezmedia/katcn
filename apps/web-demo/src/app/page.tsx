@@ -39,18 +39,22 @@ export default async function Home() {
     '@types',
   );
 
+  const dtsLibs = [
+    {
+      content: katPackageJson,
+      filePath: 'file:///node_modules/katcn/package.json',
+    },
+    ...parsedTypesDtsFiles,
+    ...parsedKatDtsFiles,
+  ];
+
+  console.log('parsedKatDtsFiles', parsedKatDtsFiles);
+  console.log('parsedTypesDtsFiles', parsedTypesDtsFiles);
+  console.log('katPackageJson', katPackageJson);
+
   return (
     <HStack>
-      <Editor
-        dtsLibs={[
-          {
-            content: katPackageJson,
-            filePath: 'file:///node_modules/katcn/package.json',
-          },
-          ...parsedTypesDtsFiles,
-          ...parsedKatDtsFiles,
-        ]}
-      />
+      <Editor dtsLibs={dtsLibs} />
       <VStack backgroundColor="alert">
         <VStack width="1/2" backgroundColor="accent">
           <Text color="on-color" variant="display1">
