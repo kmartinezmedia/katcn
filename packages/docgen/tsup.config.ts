@@ -6,12 +6,20 @@ export default defineConfig(({ watch }) => {
     dts: true,
     outDir: 'dist',
     splitting: false,
-    bundle: false,
+    bundle: true,
+    external: [
+      'colord',
+      'prettier',
+      '@monaco-editor/react',
+      'katcn',
+      'react',
+      'react-dom',
+    ],
     sourcemap: false,
     minify: false,
     watch,
     clean: !watch,
-    entry: ['src/**/*.{ts,tsx,json}'],
+    entry: ['src/index.ts'],
     tsconfig: './tsconfig.build.json',
   };
 });
