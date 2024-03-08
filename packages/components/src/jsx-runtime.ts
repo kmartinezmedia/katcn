@@ -1,7 +1,7 @@
 import { jsx as jsxOriginal, jsxs as jsxsOriginal } from 'react/jsx-runtime';
 
-import { extractStyleProps } from './tailwind/extractStyleProps';
-import type { StyleProps } from './types/props';
+import { extractStyleProps } from '#extractStyleProps';
+import type { StyleProps } from './types';
 
 interface Props extends StyleProps {
   className?: string;

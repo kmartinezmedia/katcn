@@ -1,11 +1,12 @@
-import type { StyleProps } from '../types';
-import type { AvatarProps } from '../ui/Avatar';
-import type { HStackProps } from '../ui/HStack';
-import type { IconProps } from '../ui/Icon';
-import type { TextProps } from '../ui/Text';
-import type { TextInputProps } from '../ui/TextInput';
-import type { VStackProps } from '../ui/VStack';
-import { type GetStylesParams, getStyles } from './getStyles';
+import type { StyleProps } from './types';
+import type { AvatarProps } from './ui/Avatar';
+import type { HStackProps } from './ui/HStack';
+import type { IconProps } from './ui/Icon';
+import type { TextProps } from './ui/Text';
+import type { TextInputProps } from './ui/TextInput';
+import type { VStackProps } from './ui/VStack';
+
+import { type GetStylesParams, getStyles } from '#getStyles';
 
 type StyleProp = keyof StyleProps | 'children' | 'asChild';
 type ComponentPropsMap = {

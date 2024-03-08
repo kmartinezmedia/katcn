@@ -7,9 +7,9 @@ import type {
   Elevation,
   ForegroundColor,
   LineColor,
+  StyleProps,
   TextVariant,
-} from '../types';
-import type { StyleProps } from '../types';
+} from './types';
 
 const lineColors: LineColor[] = [
   'accent',

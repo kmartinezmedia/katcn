@@ -1,6 +1,6 @@
 import { jsxDEV as jsxDevOriginal } from 'react/jsx-dev-runtime';
-import { extractStyleProps } from './tailwind/extractStyleProps';
-import type { StyleProps } from './types/props';
+import { extractStyleProps } from '#extractStyleProps';
+import type { StyleProps } from './types';
 export { Fragment, createElement } from 'react';
 
 interface Props extends StyleProps {

@@ -7,10 +7,11 @@
       ".turbo",
       ".docgen",
       ".env*",
-      "expo-env.d.ts",
+      "*.d.ts",
       "dist",
       "dts",
-      "public"
+      "public",
+      "node_modules"
     ]
   },
   "organizeImports": {

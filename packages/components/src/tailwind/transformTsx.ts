@@ -8,8 +8,8 @@ import {
   SyntaxKind,
   type ts,
 } from 'ts-morph';
-import { extractStyleProps } from './extractStyleProps';
-import { getStyles } from './getStyles';
+import { extractStyleProps } from '#extractStyleProps';
+import { getStyles } from '#getStyles';
 
 const babelConfig = {
   presets: [['@babel/preset-typescript', { isTSX: true, allExtensions: true }]],
