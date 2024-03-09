@@ -1,8 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Bun",
-  "extends": "./node.json",
   "compilerOptions": {
-    "types": ["bun-types"]
+    "types": ["bun-types"],
+    "target": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
   }
 }

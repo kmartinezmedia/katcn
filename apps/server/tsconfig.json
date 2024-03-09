@@ -1,10 +1,10 @@
 {
   "extends": "tsconfig/bun.json",
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "compilerOptions": {
+    "jsx": "react-jsx",
     "jsxImportSource": "katcn"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "public"],
   "references": [
     {
       "path": "../../packages/components"

@@ -1,5 +1,4 @@
 'use server';
-import { HStack, Icon, Text, VStack } from 'katcn';
 
 import { promises as fs } from 'fs';
 import { Editor } from '@/ui/Editor';
@@ -41,20 +40,8 @@ export default async function Home() {
     ...parsedKatDtsFiles,
   ];
 
-  console.log('parsedKatDtsFiles', parsedKatDtsFiles);
-  console.log('katPackageJson', katPackageJson);
+  // console.log('parsedKatDtsFiles', parsedKatDtsFiles);
+  // console.log('katPackageJson', katPackageJson);
 
-  return (
-    <HStack>
-      <Editor dtsLibs={dtsLibs} />
-      <VStack backgroundColor="alert">
-        <VStack width="1/2" backgroundColor="accent">
-          <Text color="on-color" variant="display1">
-            something
-          </Text>
-          <Icon name="addFile" size="lg" />
-        </VStack>
-      </VStack>
-    </HStack>
-  );
+  return <Editor dtsLibs={dtsLibs} />;
 }

@@ -1,5 +1,5 @@
-'use client';
-import { CodeEditor, type OnChange, type DtsLibs } from 'docgen';
+import { describe, expect, it } from 'bun:test';
+import app from './index';
 
 const exampleCode = `
 import { VStack, Text, Icon } from 'katcn';
@@ -26,11 +26,15 @@ export default function Example() {
  }
 `;
 
-export function Editor({
-  dtsLibs,
-  onChange,
-}: { dtsLibs: DtsLibs; onChange?: OnChange }) {
-  return (
-    <CodeEditor userCode={exampleCode} dtsLibs={dtsLibs} onChange={onChange} />
-  );
-}
+describe('My first test', () => {
+  it('Should return 200 Response', async () => {
+    const req = new Request('http://localhost:3001/transform', {
+      body: exampleCode,
+      method: 'POST',
+    });
+    const res = await app.fetch(req);
+    const data = await res.text();
+    console.log(data);
+    expect(res.status).toBe(200);
+  });
+});
