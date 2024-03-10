@@ -4,7 +4,6 @@ import type {
   BackgroundColor,
   BorderRadius,
   BorderWidth,
-  Elevation,
   ForegroundColor,
   LineColor,
   StyleProps,
@@ -56,16 +55,8 @@ const backgroundColors: BackgroundColor[] = [
   'brand',
   'positive',
   'warning',
-  'accent-wash',
-  'alert-wash',
-  'brand-wash',
-  'positive-wash',
-  'warning-wash',
   'primary',
   'secondary',
-  'elevation-1',
-  'elevation-2',
-  'elevation-3',
   'white',
   'black',
   'transparent',
@@ -86,8 +77,6 @@ const textVariants: TextVariant[] = [
   'legal1',
 ];
 
-const elevations: Elevation[] = ['1', '2', '3'];
-
 const twMerge = extendTailwindMerge({
   cacheSize: 0,
   extend: {
@@ -103,7 +92,6 @@ const twMerge = extendTailwindMerge({
       'bg-color': [{ bg: backgroundColors }],
       'font-family': [{ font: ['icons', ...textVariants] }],
       leading: [{ leading: textVariants }],
-      shadow: [{ shadow: elevations }],
     },
     conflictingClassGroups: {},
   },
@@ -185,7 +173,6 @@ export const getStyles = ({
   overflowX,
   overflowY,
   position,
-  elevation,
   zIndex,
   opacity,
   contentFit,
@@ -548,9 +535,6 @@ export const getStyles = ({
   }
   if (position) {
     classNames.push(position);
-  }
-  if (elevation) {
-    classNames.push(`shadow-${elevation}`);
   }
   if (zIndex) {
     classNames.push(`z-${zIndex}`);

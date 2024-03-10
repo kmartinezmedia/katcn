@@ -1,7 +1,7 @@
 import { type Ref, forwardRef } from 'react';
 import type { StyleProps, UniversalTextProps } from '../types';
 
-import { createSlot } from '../utils/createSlot';
+import { createSlot } from '../helpers';
 
 const Slot = createSlot<React.ComponentType<HtmlParagraphProps & StyleProps>>();
 

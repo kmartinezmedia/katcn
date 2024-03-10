@@ -11,7 +11,8 @@
       "dist",
       "dts",
       "public",
-      "node_modules"
+      "node_modules",
+      "macros/**"
     ]
   },
   "organizeImports": {

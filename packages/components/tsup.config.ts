@@ -22,7 +22,7 @@ export default defineConfig(({ watch }) => {
       'jsx-dev-runtime': 'src/jsx-dev-runtime.ts',
       extractStyleProps: 'src/extractStyleProps.ts',
       getStyles: 'src/getStyles.ts',
-      tailwind: 'src/tailwind/index.ts',
+      helpers: 'src/helpers/index.ts',
     },
   };
 });

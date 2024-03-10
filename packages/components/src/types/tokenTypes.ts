@@ -3,49 +3,42 @@
 /* -------------------------------------------------------------------------- */
 // https://uicolors.app/browse/tailwind-colors
 export type PaletteType = keyof PaletteConfig;
-export type PaletteValue =
-  | { hue: Hue; step: HueStep; opacity?: string }
-  | `${number} ${number} ${number}`;
+
+export type PaletteValue = { hue: Hue; step: HueStep; opacity?: string };
+
 export type Palette = { [key in PaletteType]: keyof PaletteConfig[key] };
 
 export type Hue =
-  | 'rose'
+  | 'red'
   | 'pink'
-  | 'fuchsia'
   | 'purple'
   | 'violet'
   | 'indigo'
   | 'blue'
-  | 'sky'
   | 'cyan'
   | 'teal'
-  | 'emerald'
   | 'green'
   | 'lime'
   | 'yellow'
-  | 'amber'
-  | 'orange'
-  | 'red'
-  | 'stone'
-  | 'neutral'
-  | 'zinc'
-  | 'gray'
-  | 'slate';
+  | 'orange';
 
 export type HueStep =
-  | '50'
-  | '100'
-  | '200'
-  | '300'
-  | '400'
-  | '500'
-  | '600'
-  | '700'
-  | '800'
-  | '900'
-  | '950';
-
-export type SpectrumColor = `${Hue}-${HueStep}`;
+  | 0
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 13
+  | 14
+  | 15;
 
 export type CorePaletteAlias =
   | 'accent'
@@ -57,12 +50,6 @@ export type CorePalette = Record<CorePaletteAlias, PaletteValue>;
 
 export type BackgroundPaletteAlias = 'primary' | 'secondary';
 export type BackgroundPalette = Record<BackgroundPaletteAlias, PaletteValue>;
-
-export type BackgroundWashPaletteAlias = CorePaletteAlias;
-export type BackgroundWashPalette = Record<
-  BackgroundWashPaletteAlias,
-  PaletteValue
->;
 
 export type ElevationPaletteAlias = '1' | '2' | '3';
 export type ElevationPalette = Record<ElevationPaletteAlias, PaletteValue>;
@@ -93,8 +80,6 @@ export type LineColor =
 export type BackgroundColor =
   | CorePaletteAlias
   | BackgroundPaletteAlias
-  | `${BackgroundWashPaletteAlias}-wash`
-  | `elevation-${ElevationPaletteAlias}`
   | AlwaysPaletteAlias;
 
 /* -------------------------------------------------------------------------- */
@@ -195,8 +180,6 @@ export type AvatarShape = 'circle' | 'square' | 'rounded';
 /* -------------------------------------------------------------------------- */
 /*                                   LAYOUT                                   */
 /* -------------------------------------------------------------------------- */
-export type AspectRatio = `${number}:${number}`;
-export type AspectRatioConfig = Record<AspectRatio, string>;
 
 export type SpacingAlias =
   | '0'
@@ -268,17 +251,13 @@ export type ColorModeConfig = {
 export type ColorsConfig = {
   palette: PaletteConfig;
   spectrum: SpectrumConfig;
-  elevation: ElevationConfig;
 };
 
-export type SpectrumValue = Record<HueStep, string>;
-export type SpectrumConfig = Record<Hue, SpectrumValue>;
+export type SpectrumConfig = Record<Hue, number>;
 
 export type PaletteConfig = {
   core: CorePalette;
   background: BackgroundPalette;
-  backgroundWash: BackgroundWashPalette;
-  elevation: ElevationPalette;
   foreground: ForegroundPalette;
   line: LinePalette;
 };
@@ -309,7 +288,6 @@ export type ScaleModeConfig = {
 export type UniversalTokensConfig = {
   colorMode: ColorModeConfig;
   scaleMode: ScaleModeConfig;
-  aspectRatio: Record<string, string>;
   fontFamily: FontFamilyGlobalConfig;
   zIndex: ZIndexConfig;
 };

@@ -6,12 +6,10 @@ import type {
   AvatarSize,
   BackgroundColor,
   BackgroundPaletteAlias,
-  BackgroundWashPaletteAlias,
   BorderRadius,
   BorderWidth,
   CorePaletteAlias,
   Display,
-  Elevation,
   FlexDirection,
   FontFamilyGlobalAlias,
   FontWeightDescriptive,
@@ -32,7 +30,7 @@ import type {
   TextVariant,
   Width,
   ZIndex,
-} from './tokens';
+} from './tokenTypes';
 
 /* -------------------------------------------------------------------------- */
 /*                                 STYLE PROPS                                */
@@ -217,7 +215,7 @@ interface BackgroundStyleProps {
   /** Utility for controlling an element's background color on hover. */
   backgroundColorOnHover?: BackgroundColor;
   /** Determines box shadow styles. Parent should have overflow set to visible to ensure styles are not clipped. */
-  elevation?: Elevation;
+  // elevation?: Elevation;
 }
 
 type CustomSizingStyleProps = {
@@ -285,8 +283,7 @@ type ButtonStyle = 'solid' | 'outline' | 'ghost' | 'gradient';
 
 type ButtonVariant =
   | `${BackgroundPaletteAlias}-${ButtonStyle}`
-  | `${CorePaletteAlias}-${ButtonStyle}`
-  | `${BackgroundWashPaletteAlias}-${ButtonStyle}`;
+  | `${CorePaletteAlias}-${ButtonStyle}`;
 
 type ButtonSize = 's' | 'm' | 'l';
 

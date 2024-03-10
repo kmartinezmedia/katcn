@@ -1,9 +1,4 @@
-import type { AspectRatioConfig, ZIndexConfig } from '../types';
-
-export const aspectRatio: AspectRatioConfig = {
-  '1:1': '1 / 1',
-  '16:9': '16 / 9',
-};
+import type { ZIndexConfig } from '../types';
 
 export const zIndex: ZIndexConfig = {
   auto: 'auto',

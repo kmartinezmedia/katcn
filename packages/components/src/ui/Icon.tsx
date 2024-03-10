@@ -3,7 +3,7 @@
 import { forwardRef } from 'react';
 import type { UniversalIconProps } from '../types';
 
-import { createSlot } from '../utils/createSlot';
+import { createSlot } from '../helpers';
 
 const Slot = createSlot<React.ComponentType<HtmlSpanProps>>();
 

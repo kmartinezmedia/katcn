@@ -1,2 +1,2 @@
-export * from './props';
-export * from './tokens';
+export * from './propTypes';
+export * from './tokenTypes';
