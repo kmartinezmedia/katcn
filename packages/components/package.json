@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "files": ["package.json", "tsconfig.json", "src", "dist", "css"],
+  "files": ["package.json", "tsconfig.json", "src", "dist"],
   "style": "dist/index.css",
   "exports": {
     ".": {
@@ -22,14 +22,6 @@
       "types": "./dist/jsx-dev-runtime.d.ts",
       "default": "./dist/jsx-dev-runtime.js"
     },
-    "./base.css": "./css/base.css",
-    "./base": "./css/base.css",
-    "./preflight.css": "./css/preflight.css",
-    "./preflight": "./css/preflight.css",
-    "./theme.css": "./css/theme.css",
-    "./theme": "./css/theme.css",
-    "./utilities.css": "./css/utilities.css",
-    "./utilities": "./css/utilities.css",
     "./tsconfig.json": "./tsconfig.json",
     "./package.json": "./package.json"
   },
@@ -42,9 +34,7 @@
       "types": "./src/getStyles.ts",
       "default": "./dist/getStyles.js"
     },
-    "#css": "./src/css/index.ts",
     "#macros": "./src/macros/index.ts",
-    "#macros/*": "./src/macros/*.ts",
     "#tokens/*": "./src/tokens/*.ts"
   },
   "scripts": {
