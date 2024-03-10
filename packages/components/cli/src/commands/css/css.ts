@@ -8,7 +8,6 @@ interface CssProps extends Props {
   options: {
     watch?: boolean;
   };
-  x;
 }
 
 export default {

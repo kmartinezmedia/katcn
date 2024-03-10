@@ -21,7 +21,7 @@ interface WriteCssOptions {
   };
 }
 
-export async function writeCss({ out, config }: WriteCssOptions) {
+export async function writeCss({ out, config, safelist }: WriteCssOptions) {
   const base = createBase(config);
   const utilities = createUtilities();
   const darkTheme = createTheme({ colorMode: 'dark', config });
@@ -67,6 +67,8 @@ export async function writeCss({ out, config }: WriteCssOptions) {
 `;
 
   /** Lightning css to purge final stylesheet */
+  // use safelist to keep classes only the used classnames
+
   const formattedContent = await prettier.format(cssContent, {
     parser: 'css',
   });
