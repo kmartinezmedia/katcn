@@ -1,29 +1,43 @@
-import crypto from 'node:crypto';
-import { transformSync } from '@babel/core';
-
 import {
   type CallExpression,
-  Project,
+  type Project,
   type SourceFile,
   SyntaxKind,
   type ts,
 } from 'ts-morph';
 import { extractStyleProps } from '#extractStyleProps';
 import { getStyles } from '#getStyles';
+import { Transpiler } from 'bun';
+import path from 'node:path';
 
-const babelConfig = {
-  presets: [['@babel/preset-typescript', { isTSX: true, allExtensions: true }]],
-  plugins: [
-    [
-      '@babel/plugin-transform-react-jsx',
-      {
-        runtime: 'automatic',
-        importSource: 'katcn',
-      },
-    ],
-  ],
-  filename: '.turbo/placeholder-required-for-babel-to-transpile.ts',
-};
+// const babelConfig = {
+//   presets: [['@babel/preset-typescript', { isTSX: true, allExtensions: true }]],
+//   plugins: [
+//     [
+//       '@babel/plugin-transform-react-jsx',
+//       {
+//         runtime: 'automatic',
+//         importSource: 'katcn',
+//       },
+//     ],
+//   ],
+//   filename: '.turbo/placeholder-required-for-babel-to-transpile.ts',
+// };
+
+const transpiler = new Transpiler({
+  loader: 'tsx',
+  tsconfig: {
+    compilerOptions: {
+      jsx: 'react-jsx',
+      jsxImportSource: 'katcn',
+    },
+  },
+  macro: {
+    katcn: {
+      getStyles: 'katcn/getStyles',
+    },
+  },
+});
 
 function getCallExpressionName(
   callExpression: CallExpression<ts.CallExpression>,
@@ -130,24 +144,21 @@ function isGetStylesExpression(
   return fnCalled === 'getStyles';
 }
 
-export function transformTsx(content: string) {
-  const tsConfigFilePath = `${process.env.PWD}/tsconfig.json`;
-
-  const project = new Project({
-    tsConfigFilePath,
-    skipAddingFilesFromTsConfig: true,
-  });
-
-  const newContent = transformSync(content, babelConfig)?.code ?? '';
-
+export function transformTsx({
+  project,
+  content,
+  filePath,
+}: {
+  project: Project;
+  content: string;
+  filePath: string;
+}) {
   const classNames = new Set<string>();
-  const hashedName = crypto
-    .createHash('md5')
-    .update(newContent, 'utf8')
-    .digest('hex');
+  const newContent = transpiler.transformSync(content);
+  const relativeFilePath = path.relative(process.env.PWD, filePath);
 
   const sourceFile = project.createSourceFile(
-    `${process.env.PWD}/.next/purge/${hashedName}.js`,
+    `${Bun.env.PWD}/.katcn/${relativeFilePath.replace('.tsx', '.js')}`,
     newContent,
     { overwrite: true },
   );
@@ -174,10 +185,5 @@ export function transformTsx(content: string) {
     }
   }
 
-  if (classNames.size > 0) {
-    const classNamesAsString = Array.from(classNames).join(' ');
-    return `<div className="${classNamesAsString}" />`;
-  }
-
-  return newContent;
+  return Array.from(classNames.values());
 }

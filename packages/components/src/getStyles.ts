@@ -183,343 +183,323 @@ export const getStyles = ({
   const classNames = [];
 
   if (color) {
-    classNames.push(`text-${color}`);
+    classNames.push(`color-${color}`);
   }
   if (colorChecked) {
-    classNames.push(`data-[state=checked]:text-${colorChecked}`);
+    classNames.push(`data-[state=checked]:color-${colorChecked}`);
   }
 
   if (display) {
-    const classNameToAdd = {
-      block: 'block',
-      'inline-block': 'inline-block',
-      inline: 'inline',
-      flex: 'flex',
-      'inline-flex': 'inline-flex',
-      table: 'table',
-      'inline-table': 'inline-table',
-      'table-caption': 'table-caption',
-      'table-cell': 'table-cell',
-      'table-column': 'table-column',
-      'table-column-group': 'table-column-group',
-      'table-footer-group': 'table-footer-group',
-      'table-header-group': 'table-header-group',
-      'table-row-group': 'table-row-group',
-      'table-row': 'table-row',
-      'flow-root': 'flow-root',
-      grid: 'grid',
-      contents: 'contents',
-    }[display];
-    classNames.push(classNameToAdd);
+    classNames.push(display);
   }
 
   if (placeholderColor) {
-    classNames.push(`placeholder:text-${placeholderColor}`);
+    classNames.push(`placeholder:color-${placeholderColor}`);
   }
   if (fontFamily) {
-    classNames.push(`font-${fontFamily}`);
+    classNames.push(`fontFamily-${fontFamily}`);
   }
   if (fontSize) {
-    classNames.push(`font-size-${fontSize}`);
+    classNames.push(`fontSize-${fontSize}`);
   }
   if (fontWeight) {
-    classNames.push(`font-weight-${fontWeight}`);
+    classNames.push(`fontWeight-${fontWeight}`);
   }
   if (lineHeight) {
-    classNames.push(`line-height-${lineHeight}`);
+    classNames.push(`lineHeight-${lineHeight}`);
   }
   if (textAlign) {
-    classNames.push(`text-${textAlign}`);
+    classNames.push(`textAlign-${textAlign}`);
   }
   if (textTransform) {
-    classNames.push(`case-${textTransform}`);
+    classNames.push(`textTransform-${textTransform}`);
   }
   if (spacing) {
-    classNames.push(`p-${spacing}`);
+    classNames.push(`spacing-${spacing}`);
   }
   if (spacingHorizontal) {
-    classNames.push(`px-${spacingHorizontal}`);
+    classNames.push(`spacingHorizontal-${spacingHorizontal}`);
   }
   if (spacingVertical) {
-    classNames.push(`py-${spacingVertical}`);
+    classNames.push(`spacingVertical-${spacingVertical}`);
   }
   if (spacingTop) {
-    classNames.push(`pt-${spacingTop}`);
+    classNames.push(`spacingTop-${spacingTop}`);
   }
   if (spacingBottom) {
-    classNames.push(`pb-${spacingBottom}`);
+    classNames.push(`spacingBottom-${spacingBottom}`);
   }
   if (spacingStart) {
-    classNames.push(`ps-${spacingStart}`);
+    classNames.push(`spacingStart-${spacingStart}`);
   }
   if (spacingEnd) {
-    classNames.push(`pe-${spacingEnd}`);
+    classNames.push(`spacingEnd-${spacingEnd}`);
   }
   if (offset) {
-    classNames.push(`-m-${offset}`);
+    classNames.push(`offset-${offset}`);
   }
   if (offsetVertical) {
-    classNames.push(`-my-${offsetVertical}`);
+    classNames.push(`offsetVertical-${offsetVertical}`);
   }
   if (offsetHorizontal) {
-    classNames.push(`-mx-${offsetHorizontal}`);
+    classNames.push(`offsetHorizontal-${offsetHorizontal}`);
   }
   if (offsetTop) {
-    classNames.push(`-mt-${offsetTop}`);
+    classNames.push(`offsetTop-${offsetTop}`);
   }
   if (offsetBottom) {
-    classNames.push(`-mb-${offsetBottom}`);
+    classNames.push(`offsetBottom-${offsetBottom}`);
   }
   if (offsetStart) {
-    classNames.push(`-ms-${offsetStart}`);
+    classNames.push(`offsetStart-${offsetStart}`);
   }
   if (offsetEnd) {
-    classNames.push(`-me-${offsetEnd}`);
+    classNames.push(`offsetEnd-${offsetEnd}`);
   }
   if (horizontalGap) {
-    classNames.push(`gap-x-${horizontalGap}`);
+    classNames.push(`horizontalGap-${horizontalGap}`);
   }
   if (verticalGap) {
-    classNames.push(`gap-y-${horizontalGap}`);
+    classNames.push(`verticalGap-${horizontalGap}`);
   }
   if (backgroundColor) {
-    classNames.push(`bg-${backgroundColor}`);
+    classNames.push(`backgroundColor-${backgroundColor}`);
   }
   if (backgroundColorOnActive) {
-    classNames.push(`active:bg-${backgroundColorOnActive}`);
+    classNames.push(`backgroundColorOnActive-${backgroundColorOnActive}`);
   }
   if (backgroundColorOnFocus) {
-    classNames.push(`focus:bg-${backgroundColorOnFocus}`);
+    classNames.push(`backgroundColorOnFocus-${backgroundColorOnFocus}`);
   }
   if (backgroundColorOnHover) {
-    classNames.push(`hover:bg-${backgroundColorOnHover}`);
+    classNames.push(`backgroundColorOnHover-${backgroundColorOnHover}`);
   }
 
   if (backgroundColorOnChecked) {
-    classNames.push(`data-[state=checked]:bg-${backgroundColorOnChecked}`);
+    classNames.push(`backgroundColorOnChecked:bg-${backgroundColorOnChecked}`);
   }
 
   if (borderColorOnActive) {
     if (borderColor) {
-      classNames.push(`active:border-${borderColorOnActive}`);
+      classNames.push(`borderColorOnActive-${borderColorOnActive}`);
     }
     if (borderTopColor) {
-      classNames.push(`active:border-t-${borderColorOnActive}`);
+      classNames.push(`borderColorOnActive-t-${borderColorOnActive}`);
     }
     if (borderBottomColor) {
-      classNames.push(`active:border-b-${borderColorOnActive}`);
+      classNames.push(`borderColorOnActive-b-${borderColorOnActive}`);
     }
     if (borderStartColor) {
-      classNames.push(`active:border-s-${borderColorOnActive}`);
+      classNames.push(`borderColorOnActive-s-${borderColorOnActive}`);
     }
     if (borderEndColor) {
-      classNames.push(`active:border-e-${borderColorOnActive}`);
+      classNames.push(`borderColorOnActive-e-${borderColorOnActive}`);
     }
   }
 
   if (borderColorOnChecked) {
     if (borderColor) {
-      classNames.push(`data-[state=checked]:border-${borderColorOnChecked}`);
+      classNames.push(`borderColorOnChecked-${borderColorOnChecked}`);
     }
     if (borderTopColor) {
-      classNames.push(`data-[state=checked]:border-t-${borderColorOnChecked}`);
+      classNames.push(`borderColorOnChecked-t-${borderColorOnChecked}`);
     }
     if (borderBottomColor) {
-      classNames.push(`data-[state=checked]:border-b-${borderColorOnChecked}`);
+      classNames.push(`borderColorOnChecked-b-${borderColorOnChecked}`);
     }
     if (borderStartColor) {
-      classNames.push(`data-[state=checked]:border-s-${borderColorOnChecked}`);
+      classNames.push(`borderColorOnChecked-s-${borderColorOnChecked}`);
     }
     if (borderEndColor) {
-      classNames.push(`data-[state=checked]:border-e-${borderColorOnChecked}`);
+      classNames.push(`borderColorOnChecked-e-${borderColorOnChecked}`);
     }
   }
 
   if (borderColorOnFocus) {
     if (borderColor) {
-      classNames.push(`focus:border-${borderColorOnFocus}`);
+      classNames.push(`borderColorOnFocus-${borderColorOnFocus}`);
     }
     if (borderTopColor) {
-      classNames.push(`focus:border-t-${borderColorOnFocus}`);
+      classNames.push(`borderColorOnFocus-t-${borderColorOnFocus}`);
     }
     if (borderBottomColor) {
-      classNames.push(`focus:border-b-${borderColorOnFocus}`);
+      classNames.push(`borderColorOnFocus-b-${borderColorOnFocus}`);
     }
     if (borderStartColor) {
-      classNames.push(`focus:border-s-${borderColorOnFocus}`);
+      classNames.push(`borderColorOnFocus-s-${borderColorOnFocus}`);
     }
     if (borderEndColor) {
-      classNames.push(`focus:border-e-${borderColorOnFocus}`);
+      classNames.push(`borderColorOnFocus-e-${borderColorOnFocus}`);
     }
   }
 
   if (borderColorOnHover) {
     if (borderColor) {
-      classNames.push(`hover:border-${borderColorOnHover}`);
+      classNames.push(`borderColorOnHover-${borderColorOnHover}`);
     }
     if (borderTopColor) {
-      classNames.push(`hover:border-t-${borderColorOnHover}`);
+      classNames.push(`borderColorOnHover-t-${borderColorOnHover}`);
     }
     if (borderBottomColor) {
-      classNames.push(`hover:border-b-${borderColorOnHover}`);
+      classNames.push(`borderColorOnHover-b-${borderColorOnHover}`);
     }
     if (borderStartColor) {
-      classNames.push(`hover:border-s-${borderColorOnHover}`);
+      classNames.push(`borderColorOnHover-s-${borderColorOnHover}`);
     }
     if (borderEndColor) {
-      classNames.push(`hover:border-e-${borderColorOnHover}`);
+      classNames.push(`borderColorOnHover-e-${borderColorOnHover}`);
     }
   }
 
   if (borderColorOnActive) {
     if (borderColor) {
-      classNames.push(`active:border-${borderColorOnActive}`);
+      classNames.push(`borderColorOnActive-${borderColorOnActive}`);
     }
     if (borderTopColor) {
-      classNames.push(`active:border-t-${borderColorOnActive}`);
+      classNames.push(`borderColorOnActive-t-${borderColorOnActive}`);
     }
     if (borderBottomColor) {
-      classNames.push(`active:border-b-${borderColorOnActive}`);
+      classNames.push(`borderColorOnActive-b-${borderColorOnActive}`);
     }
     if (borderStartColor) {
-      classNames.push(`active:border-s-${borderColorOnActive}`);
+      classNames.push(`borderColorOnActive-s-${borderColorOnActive}`);
     }
     if (borderEndColor) {
-      classNames.push(`active:border-e-${borderColorOnActive}`);
+      classNames.push(`borderColorOnActive-e-${borderColorOnActive}`);
     }
   }
 
   if (borderColorOnFocus) {
     if (borderTopColor) {
-      classNames.push(`focus:border-t-${borderColorOnFocus}`);
+      classNames.push(`borderColorOnFocus-t-${borderColorOnFocus}`);
     }
     if (borderBottomColor) {
-      classNames.push(`focus:border-b-${borderColorOnFocus}`);
+      classNames.push(`borderColorOnFocus-b-${borderColorOnFocus}`);
     }
     if (borderStartColor) {
-      classNames.push(`focus:border-s-${borderColorOnFocus}`);
+      classNames.push(`borderColorOnFocus-s-${borderColorOnFocus}`);
     }
     if (borderEndColor) {
-      classNames.push(`focus:border-e-${borderColorOnFocus}`);
+      classNames.push(`borderColorOnFocus-e-${borderColorOnFocus}`);
     }
   }
 
   if (borderColor) {
-    classNames.push(`border-${borderColor}`);
+    classNames.push(`borderColor-${borderColor}`);
   }
 
   if (borderVerticalColor) {
-    classNames.push(`border-y-${borderVerticalColor}`);
+    classNames.push(`borderVerticalColor-${borderVerticalColor}`);
   }
 
   if (borderHorizontalColor) {
-    classNames.push(`border-x-${borderHorizontalColor}`);
+    classNames.push(`borderHorizontalColor-${borderHorizontalColor}`);
   }
 
   if (borderTopColor) {
-    classNames.push(`border-t-${borderTopColor}`);
+    classNames.push(`borderTopColor-${borderTopColor}`);
   }
 
   if (borderBottomColor) {
-    classNames.push(`border-b-${borderBottomColor}`);
+    classNames.push(`borderBottomColor-${borderBottomColor}`);
   }
 
   if (borderStartColor) {
-    classNames.push(`border-s-${borderStartColor}`);
+    classNames.push(`borderStartColor-${borderStartColor}`);
   }
 
   if (borderEndColor) {
-    classNames.push(`border-e-${borderEndColor}`);
+    classNames.push(`borderEndColor-${borderEndColor}`);
   }
 
   if (borderRadius) {
-    classNames.push(`rounded-${borderRadius}`);
+    classNames.push(`borderRadius-${borderRadius}`);
   }
 
   if (borderTopStartRadius) {
-    classNames.push(`rounded-ss-${borderTopStartRadius}`);
+    classNames.push(`borderTopStartRadius-${borderTopStartRadius}`);
   }
 
   if (borderTopEndRadius) {
-    classNames.push(`rounded-se-${borderTopEndRadius}`);
+    classNames.push(`borderTopEndRadius-${borderTopEndRadius}`);
   }
 
   if (borderBottomStartRadius) {
-    classNames.push(`rounded-es-${borderBottomStartRadius}`);
+    classNames.push(`borderBottomStartRadius-${borderBottomStartRadius}`);
   }
 
   if (borderBottomEndRadius) {
-    classNames.push(`rounded-ee-${borderBottomEndRadius}`);
+    classNames.push(`borderBottomEndRadius-${borderBottomEndRadius}`);
   }
 
   if (borderWidth) {
-    classNames.push(`border-${borderWidth}`);
+    classNames.push(`borderWidth-${borderWidth}`);
   }
 
   if (borderVerticalWidth) {
-    classNames.push(`border-y-${borderVerticalWidth}`);
+    classNames.push(`borderVerticalWidth-${borderVerticalWidth}`);
   }
 
   if (borderHorizontalWidth) {
-    classNames.push(`border-x-${borderHorizontalWidth}`);
+    classNames.push(`borderHorizontalWidth-${borderHorizontalWidth}`);
   }
 
   if (borderStartWidth) {
-    classNames.push(`border-s-${borderStartWidth}`);
+    classNames.push(`borderStartWidth-${borderStartWidth}`);
   }
 
   if (borderEndWidth) {
-    classNames.push(`border-e-${borderEndWidth}`);
+    classNames.push(`borderEndWidth-${borderEndWidth}`);
   }
 
   if (borderTopWidth) {
-    classNames.push(`border-t-${borderTopWidth}`);
+    classNames.push(`borderTopWidth-${borderTopWidth}`);
   }
 
   if (borderBottomWidth) {
-    classNames.push(`border-b-${borderBottomWidth}`);
+    classNames.push(`borderBottomWidth-${borderBottomWidth}`);
   }
 
   if (height) {
     const classNameToAdd =
-      typeof height === 'number' ? `h-[${height}px]` : `h-${height}`;
+      typeof height === 'number' ? `height-[${height}px]` : `height-${height}`;
     classNames.push(classNameToAdd);
   }
 
   if (minHeight) {
     const classNameToAdd =
       typeof minHeight === 'number'
-        ? `min-h-[${minHeight}px]`
-        : `min-h-${minHeight}`;
+        ? `minHeight-[${minHeight}px]`
+        : `minHeight-${minHeight}`;
     classNames.push(classNameToAdd);
   }
 
   if (maxHeight) {
     const classNameToAdd =
       typeof maxHeight === 'number'
-        ? `max-h-[${maxHeight}px]`
-        : `max-h-${maxHeight}`;
+        ? `maxHeight-[${maxHeight}px]`
+        : `maxHeight-${maxHeight}`;
     classNames.push(classNameToAdd);
   }
   if (width) {
     const classNameToAdd =
-      typeof width === 'number' ? `w-[${width}px]` : `w-${width}`;
+      typeof width === 'number' ? `width-[${width}px]` : `width-${width}`;
     classNames.push(classNameToAdd);
   }
 
   if (minWidth) {
     const classNameToAdd =
       typeof minWidth === 'number'
-        ? `min-w-[${minWidth}px]`
-        : `min-w-${minWidth}`;
+        ? `minWidth-[${minWidth}px]`
+        : `minWidth-${minWidth}`;
     classNames.push(classNameToAdd);
   }
 
   if (maxWidth) {
     const classNameToAdd =
       typeof maxWidth === 'number'
-        ? `max-w-[${maxWidth}px]`
-        : `max-w-${maxWidth}`;
+        ? `maxWidth-[${maxWidth}px]`
+        : `maxWidth-${maxWidth}`;
     classNames.push(classNameToAdd);
   }
 
@@ -528,70 +508,56 @@ export const getStyles = ({
   }
 
   if (overflowX) {
-    classNames.push(`overflow-x-${overflowX}`);
+    classNames.push(`overflowX-${overflowX}`);
   }
   if (overflowY) {
-    classNames.push(`overflow-y-${overflowY}`);
+    classNames.push(`overflowY-${overflowY}`);
   }
   if (position) {
-    classNames.push(position);
+    classNames.push(`position-${position}`);
   }
   if (zIndex) {
-    classNames.push(`z-${zIndex}`);
+    classNames.push(`zIndex-${zIndex}`);
   }
   if (opacity) {
     classNames.push(`opacity-${opacity}`);
   }
   if (contentFit) {
-    classNames.push(`object-${contentFit}`);
+    classNames.push(`contentFit-${contentFit}`);
   }
 
   if (direction) {
-    const classNameToAdd = {
-      horizontal: 'flex-row',
-      vertical: 'flex-col',
-      'horizontal-reverse': 'flex-row-reverse',
-      'vertical-reverse': 'flex-col-reverse',
-    }[direction];
-    classNames.push(classNameToAdd);
+    classNames.push(`direction-${direction}`);
   }
 
   if (grow !== undefined) {
-    if (grow === false) {
-      classNames.push('grow-0');
-    } else {
-      classNames.push('grow');
-    }
+    classNames.push(`grow-${grow}`);
   }
 
   if (shrink !== undefined) {
-    if (shrink === false) {
-      classNames.push('shrink-0');
-    } else {
-      classNames.push('shrink');
-    }
+    classNames.push(`shrink-${shrink}`);
   }
   if (wrap) {
-    classNames.push('flex-wrap');
+    classNames.push(`wrap=${wrap}`);
   }
 
   if (justifyContent) {
-    classNames.push(`justify-${justifyContent}`);
+    classNames.push(`justifyContent-${justifyContent}`);
   }
 
   if (alignItems) {
-    classNames.push(`items-${alignItems}`);
+    classNames.push(`alignItems-${alignItems}`);
   }
 
   if (alignContent) {
-    classNames.push(`content-${alignContent}`);
+    classNames.push(`alignContent-${alignContent}`);
   }
 
   if (iconSize) {
-    classNames.push(`icon-size-${iconSize}`);
+    classNames.push(`iconSize-${iconSize}`);
   }
   if (avatarSize) {
-    classNames.push(`avatar-size-${avatarSize}`);
+    classNames.push(`avatarSize-${avatarSize}`);
   }
 
   return twMerge(clsx(classNames, className));

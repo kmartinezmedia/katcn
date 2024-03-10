@@ -1,7 +1,8 @@
 'use server';
 
+import '#css';
 import { promises as fs, existsSync } from 'fs';
-import { Editor } from '@/ui/Editor';
+// import { Editor } from '@/ui/Editor';
 import { VStack } from 'katcn';
 
 async function getDtsFiles(
@@ -48,8 +49,11 @@ export default async function Home() {
     // console.log('katPackageJson', katPackageJson);
 
     // return <Editor dtsLibs={dtsLibs} />;
-
-    return <VStack backgroundColor="accent">hi</VStack>;
   }
-  return <VStack backgroundColor="accent">hi</VStack>;
+
+  return (
+    <VStack backgroundColor="positive" color="alert">
+      hi
+    </VStack>
+  );
 }

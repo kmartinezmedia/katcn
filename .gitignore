@@ -133,5 +133,5 @@ expo-env.d.ts
 
 # Docgen
 .docgen
-web-demo/public/katcn
-packages/components/css
+.katcn
+apps/web-demo/public/katcn/**

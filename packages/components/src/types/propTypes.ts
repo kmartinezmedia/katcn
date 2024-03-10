@@ -11,21 +11,30 @@ import type {
   CorePaletteAlias,
   Display,
   FlexDirection,
-  FontFamilyGlobalAlias,
-  FontWeightDescriptive,
+  FlexGrow,
+  FlexShrink,
+  FlexWrap,
+  FontFamily,
+  FontSize,
+  FontWeight,
   ForegroundColor,
   Height,
   IconSize,
   JustifyContent,
   LineColor,
+  LineHeight,
   MaxHeight,
   MaxWidth,
   MinHeight,
   MinWidth,
   Opacity,
   Overflow,
+  PlaceContent,
+  PlaceItems,
+  PlaceSelf,
   Position,
   SpacingAlias,
+  TextAlign,
   TextTransform,
   TextVariant,
   Width,
@@ -145,17 +154,23 @@ interface FlexStyleProps {
   /** Sets how flex items are placed in the flex container defining the main axis and the direction (normal or reversed). */
   direction?: FlexDirection;
   /** Sets the flex grow factor, which specifies how much of the flex container's remaining space should be assigned to the flex item's main size. */
-  grow?: boolean;
+  grow?: FlexGrow;
   /** Sets the flex shrink factor of a flex item. If the size of all flex items is larger than the flex container, items shrink to fit according to flex-shrink. */
-  shrink?: boolean;
+  shrink?: FlexShrink;
   /** Sets whether flex items are forced onto one line or can wrap onto multiple lines. If wrapping is allowed, it sets the direction that lines are stacked. */
-  wrap?: boolean;
+  wrap?: FlexWrap;
   /** Defines how the browser distributes space between and around content items along the main-axis of a flex container, and the inline axis of a grid container. */
   justifyContent?: JustifyContent;
   /** Sets the align-self value on all direct children as a group. In Flexbox, it controls the alignment of items on the Cross Axis. In Grid Layout, it controls the alignment of items on the Block Axis within their grid area. */
   alignItems?: AlignItems;
   /** Sets the distribution of space between and around content items along a flexbox's cross-axis or a grid's block axis. */
   alignContent?: AlignContent;
+}
+
+interface GridStyleProps {
+  placeContent?: PlaceContent;
+  placeItems?: PlaceItems;
+  placeSelf?: PlaceSelf;
 }
 
 interface OpacityStyleProps {
@@ -190,17 +205,17 @@ interface TextStyleProps {
   /** Utility for controlling the color of a placeholder element */
   placeholderColor?: ForegroundColor;
   /** Utility for controlling the font family of a Text element */
-  fontFamily?: TextVariant | FontFamilyGlobalAlias;
+  fontFamily?: FontFamily;
   /** Utility for controlling the font size of a Text element */
-  fontSize?: TextVariant;
+  fontSize?: FontSize;
   /** Utility for controlling the font weight of a Text element */
-  fontWeight?: TextVariant | FontWeightDescriptive;
+  fontWeight?: FontWeight;
   /** Utility for controlling the line height of a Text element */
-  lineHeight?: TextVariant;
+  lineHeight?: LineHeight;
   /** Utility for controlling the text alignment of a Text element */
-  textAlign?: 'center' | 'justify' | 'start' | 'end';
+  textAlign?: TextAlign;
   /** Utility for controlling the text transformation of a Text element */
-  textTransform?: TextVariant | TextTransform;
+  textTransform?: TextTransform;
 }
 
 interface BackgroundStyleProps {
@@ -355,4 +370,5 @@ export type {
   UniversalStackProps,
   UniversalTextInputProps,
   UniversalTextProps,
+  GridStyleProps,
 };

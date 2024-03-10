@@ -1,14 +1,22 @@
 import { defaultTokensConfig } from '#tokens/defaultTokensConfig';
-import type { ColorMode, UniversalTokensConfig } from '../../types';
-import { mapValues } from '../../helpers';
+import { mapValues } from '../helpers';
+import { UniversalTokensConfig } from '../types';
+import { createTheme } from './createTheme';
 
-export function createSpectrum(
-  colorMode: ColorMode,
+export function createBase(
   config: UniversalTokensConfig = defaultTokensConfig,
 ) {
-  const colorConfig = config.colorMode[colorMode].spectrum;
+  const theme = createTheme({
+    colorMode: 'light',
+    scaleMode: 'large',
+    config,
+  });
   return {
-    color: mapValues(colorConfig, (value) => {
+    font: mapValues(
+      config.fontFamily,
+      (value) => `${value.name}, ${value.fallbacks.join(', ')}`,
+    ),
+    color: mapValues(config.colorMode.light.spectrum, (value) => {
       return {
         '0': `oklch(99% .03 ${value})`,
         '1': `oklch(95% .06 ${value})`,
@@ -28,5 +36,6 @@ export function createSpectrum(
         '15': `oklch(11% .05 ${value})`,
       };
     }),
+    ...theme,
   };
 }

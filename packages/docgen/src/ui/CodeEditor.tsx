@@ -69,7 +69,7 @@ export function CodeEditor({
 
   return (
     <HStack>
-      <VStack height="screen" width="1/2">
+      <VStack height="100vh" width="half">
         <Editor
           defaultLanguage="typescript"
           language="typescript"
@@ -211,7 +211,7 @@ export function CodeEditor({
           }}
         />
       </VStack>
-      <VStack width="1/2" height="full" backgroundColor="accent">
+      <VStack width="half" height="full" backgroundColor="accent">
         {transformedCode}
       </VStack>
     </HStack>

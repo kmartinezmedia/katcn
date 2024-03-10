@@ -18,7 +18,23 @@ export function css(
           [Symbol.toPrimitive](hint: string) {
             if (hint === 'string') {
               const keys = Object.keys(item as object);
-              const isVar = keys.every((key) => key === 'color');
+              const isVar = keys.every((key) =>
+                [
+                  'color',
+                  'palette',
+                  'font',
+                  'font-size',
+                  'font-weight',
+                  'font-family',
+                  'line-height',
+                  'text-transform',
+                  'border-width',
+                  'radii',
+                  'icon-size',
+                  'avatar-size',
+                  'spacing',
+                ].includes(key),
+              );
 
               const separator: string = isVar ? ':' : ' ';
               const prefix = isVar ? '--' : '.';

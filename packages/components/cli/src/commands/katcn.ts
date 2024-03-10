@@ -1,7 +1,8 @@
-import { type Props, commandHelp, print } from 'bluebun';
+import type { Props } from 'bluebun';
+import { commandHelp, print } from 'bluebun';
 
 export default {
-  name: 'css',
+  name: 'katcn',
   description: '',
   run: async (props: Props) => {
     print(await commandHelp(props));

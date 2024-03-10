@@ -1,6 +1,6 @@
 {
   "extends": "tsconfig/react-library.json",
-  "include": ["tsup.config.ts", "src", "typings"],
+  "include": ["tsup.config.ts", "src", "typings", "cli"],
   "compilerOptions": {
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   }
