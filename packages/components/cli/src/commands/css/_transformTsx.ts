@@ -10,20 +10,6 @@ import { getStyles } from '#getStyles';
 import { Transpiler } from 'bun';
 import path from 'node:path';
 
-// const babelConfig = {
-//   presets: [['@babel/preset-typescript', { isTSX: true, allExtensions: true }]],
-//   plugins: [
-//     [
-//       '@babel/plugin-transform-react-jsx',
-//       {
-//         runtime: 'automatic',
-//         importSource: 'katcn',
-//       },
-//     ],
-//   ],
-//   filename: '.turbo/placeholder-required-for-babel-to-transpile.ts',
-// };
-
 const transpiler = new Transpiler({
   loader: 'tsx',
   tsconfig: {
