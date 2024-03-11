@@ -2,7 +2,7 @@ import path from 'node:path';
 
 import { Project } from 'ts-morph';
 
-const typesFile = path.resolve(__dirname, '../types/tokenTypes.ts');
+const typesFile = path.resolve(__dirname, '../../types/tokenTypes.ts');
 
 const project = new Project();
 const typeFile = project.addSourceFileAtPath(typesFile);

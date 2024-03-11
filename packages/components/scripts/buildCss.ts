@@ -4,7 +4,7 @@ import {
   createTheme,
   createUtilities,
   createPreflight,
-  css,
+  cssTemplate,
 } from '#macros';
 import prettier from 'prettier';
 import { watch } from 'node:fs';
@@ -24,7 +24,7 @@ async function writeCss() {
   const xxxLarge = createTheme({ scaleMode: 'xxxLarge' });
   const utilities = createUtilities();
 
-  const cssContent = css`
+  const cssContent = cssTemplate`
 @layer base {
   ${preflight}
   :where(html) {

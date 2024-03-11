@@ -1,11 +1,3 @@
-import {
-  createBase,
-  createPreflight,
-  createTheme,
-  createUtilities,
-  css,
-} from '#macros';
-import type { UniversalTokensConfig } from '#types';
 import prettier from 'prettier';
 import {
   type CustomAtRules,
@@ -13,6 +5,12 @@ import {
   composeVisitors,
   transform,
 } from 'lightningcss';
+import { UniversalTokensConfig } from '../../types';
+import { createPreflight } from '../css/createPreflight';
+import { createBase } from '../css/createBase';
+import { createUtilities } from '../css/createUtilities';
+import { createTheme } from '../css/createTheme';
+import { cssTemplate } from './cssTemplate';
 
 interface TransformCssOptions {
   config?: UniversalTokensConfig;
@@ -65,10 +63,10 @@ export async function transformCss({
     ? createTheme({ scaleMode: 'xxxLarge', config })
     : '';
 
-  const cssContent = css`
+  const cssContent = cssTemplate`
     @layer base {
       ${preflight}
-      
+
       :where(html) {
         ${base}
       }

@@ -1,9 +1,12 @@
 import type { Props } from 'bluebun';
-import { CssPurger } from './_cssPurger';
+import { transform } from '#macros';
+import path from 'node:path';
 
 interface CssProps extends Props {
   options: {
     watch?: boolean;
+    /** @default '.katcn/styles.css' */
+    outFile?: string;
   };
 }
 
@@ -15,7 +18,13 @@ export default {
       `${Bun.env.PWD}/.katcn/types/css.d.ts`,
       `declare module '#katcn/*.css' {}`,
     );
-    const cssRegistry = new CssPurger({ watch: props.options.watch });
-    await cssRegistry.processFiles();
+    await transform({
+      watch: !!props.options.watch,
+      outFile:
+        props.options.outFile ?? path.resolve(Bun.env.PWD, '.katcn/styles.css'),
+      tsmorphOptions: {
+        tsConfigFilePath: path.resolve(Bun.env.PWD, 'tsconfig.json'),
+      },
+    });
   },
 };

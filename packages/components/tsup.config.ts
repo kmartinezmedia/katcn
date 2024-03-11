@@ -23,6 +23,7 @@ export default defineConfig(({ watch }) => {
       extractStyleProps: 'src/extractStyleProps.ts',
       getStyles: 'src/getStyles.ts',
       helpers: 'src/helpers/index.ts',
+      macros: 'src/macros/index.ts',
     },
   };
 });

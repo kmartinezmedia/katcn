@@ -11,9 +11,17 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./macros": {
+      "types": "./dist/macros/index.d.ts",
+      "default": "./dist/macros/index.js"
+    },
     "./getStyles": {
       "types": "./dist/getStyles.d.ts",
       "default": "./dist/getStyles.js"
+    },
+    "./extractStyleProps": {
+      "types": "./dist/extractStyleProps.d.ts",
+      "default": "./dist/extractStyleProps.js"
     },
     "./jsx-runtime": {
       "types": "./dist/jsx-runtime.d.ts",
@@ -31,12 +39,7 @@
       "types": "./src/extractStyleProps.ts",
       "default": "./dist/extractStyleProps.js"
     },
-    "#getStyles": {
-      "types": "./src/getStyles.ts",
-      "default": "./dist/getStyles.js"
-    },
     "#macros": "./src/macros/index.ts",
-    "#types": "./src/types/index.ts",
     "#tokens/*": "./src/tokens/*.ts"
   },
   "scripts": {

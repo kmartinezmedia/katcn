@@ -1,4 +1,4 @@
-import { fromEntries } from '../helpers';
+import { fromEntries } from '../../helpers';
 import type {
   AlignContent,
   AlignItems,
@@ -37,9 +37,9 @@ import type {
   FontFamilyGlobalAlias,
   FontWeightDescriptive,
   TextVariant,
-} from '../types';
+} from '../../types';
+import { cssEscape } from '../../helpers/cssEscape';
 import { typesToConstants } from '#macros' with { type: 'macro' };
-import { cssEscape } from '../helpers/cssEscape';
 
 export function createUtilities() {
   const names = {

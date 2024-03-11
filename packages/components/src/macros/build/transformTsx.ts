@@ -1,3 +1,5 @@
+/// <reference types="bun-types" />
+
 import {
   type CallExpression,
   type Project,
@@ -5,10 +7,9 @@ import {
   SyntaxKind,
   type ts,
 } from 'ts-morph';
-import { extractStyleProps } from '#extractStyleProps';
-import { getStyles } from '#getStyles';
 import { Transpiler } from 'bun';
-import path from 'node:path';
+import { getStyles } from '../../getStyles';
+import { extractStyleProps } from '../../extractStyleProps';
 
 const varRegex = /--katcn-[^:,\s")]+/g;
 
@@ -150,7 +151,6 @@ export function transformTsx({
   const varsToKeep = new Set<string>();
 
   const newContent = transpiler.transformSync(content);
-  const relativeFilePath = path.relative(process.env.PWD, filePath);
 
   const foundVars = newContent.matchAll(varRegex);
   for (const variable of foundVars) {
@@ -158,12 +158,11 @@ export function transformTsx({
   }
 
   const sourceFile = project.createSourceFile(
-    `${Bun.env.PWD}/.katcn/${relativeFilePath.replace('.tsx', '.js')}`,
+    `${filePath.replace('.tsx', '.js')}`,
     newContent,
     { overwrite: true },
   );
 
-  sourceFile.saveSync();
   const callExpressions = sourceFile.getDescendantsOfKind(
     SyntaxKind.CallExpression,
   );

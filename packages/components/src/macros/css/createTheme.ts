@@ -1,12 +1,11 @@
 import {
   ColorMode,
-  Modes,
   PaletteValue,
   ScaleMode,
   UniversalTokensConfig,
-} from '../types';
-import { defaultTokensConfig } from '#tokens/defaultTokensConfig';
-import { mapValues } from '../helpers';
+} from '../../types';
+import { mapValues } from '../../helpers';
+import { defaultTokensConfig } from '../../tokens';
 
 interface CreateThemeOpts {
   colorMode?: ColorMode;

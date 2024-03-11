@@ -56,6 +56,7 @@ export default async function Home() {
         some text
       </Text>
       <Icon name="arrow1" size="lg" color="on-color" />
+      <Icon name="arrow1" size="lg" color="brand" />
     </VStack>
   );
 }

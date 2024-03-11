@@ -1,6 +1,6 @@
-import { flattenObj } from '../helpers';
+import { flattenObj } from '../../helpers';
 
-export function css(
+export function cssTemplate(
   literalSections: TemplateStringsArray,
   ...strings: unknown[]
 ) {
