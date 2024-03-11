@@ -16,14 +16,11 @@ const lightPalette: PaletteConfig = {
     primary: { hue: 'gray', step: 13 },
     secondary: { hue: 'gray', step: 12 },
     tertiary: { hue: 'gray', step: 9 },
-    muted: { hue: 'gray', step: 8 },
     'on-color': { hue: 'gray', step: 0 },
   },
   line: {
     primary: { hue: 'gray', step: 12 },
     secondary: { hue: 'gray', step: 9 },
-    tertiary: { hue: 'gray', step: 7 },
-    muted: { hue: 'gray', step: 3 },
   },
 };
 
@@ -44,14 +41,11 @@ const darkPalette: PaletteConfig = {
     primary: { hue: 'gray', step: 14 },
     secondary: { hue: 'gray', step: 13 },
     tertiary: { hue: 'gray', step: 9 },
-    muted: { hue: 'gray', step: 8 },
     'on-color': { hue: 'gray', step: 0 },
   },
   line: {
     primary: { hue: 'gray', step: 12 },
     secondary: { hue: 'gray', step: 9 },
-    tertiary: { hue: 'gray', step: 7 },
-    muted: { hue: 'gray', step: 3 },
   },
 };
 

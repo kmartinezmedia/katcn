@@ -1,6 +1,6 @@
 import type { Props } from 'bluebun';
 import { print } from 'bluebun';
-import packageJson from '../../package.json';
+import packageJson from '../../../package.json';
 
 export default {
   name: 'version',

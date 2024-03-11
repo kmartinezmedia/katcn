@@ -20,7 +20,8 @@ export type Hue =
   | 'green'
   | 'lime'
   | 'yellow'
-  | 'orange';
+  | 'orange'
+  | 'gray';
 
 export type HueStep =
   | 0

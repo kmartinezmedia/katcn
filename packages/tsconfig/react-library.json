@@ -4,10 +4,8 @@
   "extends": "./base.json",
   "compilerOptions": {
     "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": true,
     "incremental": true,
+    "moduleResolution": "bundler",
     "jsx": "react-jsx"
   }
 }

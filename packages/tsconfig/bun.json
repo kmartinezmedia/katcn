@@ -1,11 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Bun",
+  "extends": "./base.json",
   "compilerOptions": {
     "types": ["bun-types"],
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
     "strict": true
   }
 }

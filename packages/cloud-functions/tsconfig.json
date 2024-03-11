@@ -1,6 +1,6 @@
 {
   "extends": "tsconfig/bun.json",
-  "exclude": [".turbo", "node_modules", "dist"],
+  "include": ["src"],
   "compilerOptions": {
     "allowSyntheticDefaultImports": true
   }

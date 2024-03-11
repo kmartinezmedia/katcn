@@ -3,11 +3,10 @@
   "exclude": ["dist", "dts", "ata", "tsup.config.ts"],
   "include": ["."],
   "compilerOptions": {
-    "outDir": "dts",
+    "outDir": "dist",
     "rootDir": "src",
     "jsxImportSource": "katcn",
-    "tsBuildInfoFile": "dts/tsconfig.tsbuildinfo",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"]
+    "tsBuildInfoFile": "dts/tsconfig.tsbuildinfo"
   },
   "references": [
     {

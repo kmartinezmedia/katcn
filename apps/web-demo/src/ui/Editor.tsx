@@ -32,7 +32,7 @@ export function Editor({
   onChange,
 }: { dtsLibs: DtsLibs; onChange?: OnChange }) {
   return (
-    <VStack height="screen">
+    <VStack height="100vh">
       <CodeEditor
         userCode={exampleCode}
         dtsLibs={dtsLibs}

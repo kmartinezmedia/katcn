@@ -1,31 +1,31 @@
-import { type Ref, forwardRef } from 'react';
-import type { StyleProps, UniversalTextProps } from '../types';
+import React, { forwardRef } from 'react';
+import type { UniversalTextProps } from '../types';
 
 import { createSlot } from '../helpers';
 
-const Slot = createSlot<React.ComponentType<HtmlParagraphProps & StyleProps>>();
+const Slot = createSlot<React.ComponentType<HtmlParagraphProps>>();
 
 type HtmlParagraphProps = Omit<
-  React.HTMLAttributes<HTMLParagraphElement>,
+  Pick<
+    Partial<React.ComponentPropsWithoutRef<NativeTextElementTag>>,
+    keyof React.ComponentPropsWithoutRef<NativeTextElementTag>
+  >,
   'color'
 >;
-type TextElementTagName =
+
+type NativeTextElementTag =
   | 'h1'
   | 'h2'
   | 'h3'
   | 'h4'
   | 'h5'
   | 'p'
-  | 'strong'
   | 'span'
-  | 'label'
-  | 'li'
   | 'th'
   | 'td';
 
 interface TextProps extends UniversalTextProps, HtmlParagraphProps {
-  ref?: Ref<HTMLElement>;
-  as?: TextElementTagName;
+  as?: NativeTextElementTag;
 }
 
 /**
@@ -122,13 +122,13 @@ interface TextProps extends UniversalTextProps, HtmlParagraphProps {
     }
     ```
  */
-const Text = forwardRef(function Text(
-  { asChild, as = 'p', ...props }: TextProps,
-  ref: React.ForwardedRef<HTMLElement>,
+const Text = forwardRef<typeof Slot, TextProps>(function Text(
+  { asChild, as = 'p', ...props },
+  ref,
 ) {
   const Comp = asChild ? Slot : as;
 
-  return <Comp ref={ref} {...props} />;
+  return <Comp ref={ref as unknown as string} {...props} />;
 });
 
 Text.displayName = 'Text';
