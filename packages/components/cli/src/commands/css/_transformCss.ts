@@ -1,4 +1,10 @@
-import { createBase, createTheme, createUtilities, css } from '#macros';
+import {
+  createBase,
+  createPreflight,
+  createTheme,
+  createUtilities,
+  css,
+} from '#macros';
 import type { UniversalTokensConfig } from '#types';
 import prettier from 'prettier';
 import {
@@ -36,6 +42,7 @@ export async function transformCss({
   scaleMode,
   colorMode,
 }: TransformCssOptions) {
+  const preflight = createPreflight();
   const base = createBase(config);
   const utilities = createUtilities();
   const darkTheme = colorMode ? createTheme({ colorMode: 'dark', config }) : '';
@@ -60,6 +67,8 @@ export async function transformCss({
 
   const cssContent = css`
     @layer base {
+      ${preflight}
+      
       :where(html) {
         ${base}
       }

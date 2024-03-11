@@ -1,3 +1,9 @@
+/**
+ * Port of tailwind css preflight
+ * https://github.com/tailwindlabs/tailwindcss/blob/next/packages/tailwindcss/preflight.css
+ */
+export const createPreflight = () => {
+  return `
 /*
   Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
 */
@@ -22,9 +28,9 @@
   1. Use a consistent sensible line-height in all browsers.
   2. Prevent adjustments of font size after orientation changes in iOS.
   3. Use a more readable tab size.
-  4. Use the user's configured `sans` font-family by default.
-  5. Use the user's configured `sans` font-feature-settings by default.
-  6. Use the user's configured `sans` font-variation-settings by default.
+  4. Use the user's configured \`sans\` font-family by default.
+  5. Use the user's configured \`sans\` font-feature-settings by default.
+  6. Use the user's configured \`sans\` font-variation-settings by default.
   7. Disable tap highlights on iOS.
 */
 
@@ -34,7 +40,7 @@ html,
   -webkit-text-size-adjust: 100%; /* 2 */
   tab-size: 4; /* 3 */
   font-family: var(
-    --default-font-family,
+    --font-sans,
     ui-sans-serif,
     system-ui,
     sans-serif,
@@ -43,13 +49,13 @@ html,
     'Segoe UI Symbol',
     'Noto Color Emoji'
   ); /* 4 */
-  font-feature-settings: var(--default-font-feature-settings, normal); /* 5 */
-  font-variation-settings: var(--default-font-variation-settings, normal); /* 6 */
+  font-feature-settings: var(--katcn-font-sans-font-feature-settings, normal); /* 5 */
+  font-variation-settings: var(--katcn-font-sans-font-variation-settings, normal); /* 6 */
   -webkit-tap-highlight-color: transparent; /* 7 */
 }
 
 /*
-  Inherit line-height from `html` so users can set them as a class directly on the `html` element.
+  Inherit line-height from \`html\` so users can set them as a class directly on the \`html\` element.
 */
 
 body {
@@ -112,10 +118,10 @@ strong {
 }
 
 /*
-  1. Use the user's configured `mono` font-family by default.
-  2. Use the user's configured `mono` font-feature-settings by default.
-  3. Use the user's configured `mono` font-variation-settings by default.
-  4. Correct the odd `em` font sizing in all browsers.
+  1. Use the user's configured \`mono\` font-family by default.
+  2. Use the user's configured \`mono\` font-feature-settings by default.
+  3. Use the user's configured \`mono\` font-variation-settings by default.
+  4. Correct the odd \`em\` font sizing in all browsers.
 */
 
 code,
@@ -123,7 +129,7 @@ kbd,
 samp,
 pre {
   font-family: var(
-    --default-mono-font-family,
+    --katcn-font-mono,
     ui-monospace,
     SFMono-Regular,
     Menlo,
@@ -133,8 +139,8 @@ pre {
     'Courier New',
     monospace
   ); /* 4 */
-  font-feature-settings: var(--default-mono-font-feature-settings, normal); /* 5 */
-  font-variation-settings: var(--default-mono-font-variation-settings, normal); /* 6 */
+  font-feature-settings: var(--katcn-font-mono-font-feature-settings, normal); /* 5 */
+  font-variation-settings: var(--katcn-font-mono-font-variation-settings, normal); /* 6 */
   font-size: 1em; /* 4 */
 }
 
@@ -147,7 +153,7 @@ small {
 }
 
 /*
-  Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+  Prevent \`sub\` and \`sup\` elements from affecting the line height in all browsers.
 */
 
 sub,
@@ -220,7 +226,7 @@ input:where([type='button'], [type='reset'], [type='submit']),
 }
 
 /*
-  Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
+  Remove the additional \`:invalid\` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
 */
 
 :-moz-ui-invalid {
@@ -319,8 +325,8 @@ textarea {
 }
 
 /*
-  1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
-  2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
+  1. Make replaced elements \`display: block\` by default. (https://github.com/mozdevs/cssremedy/issues/14)
+  2. Add \`vertical-align: middle\` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
      This can trigger a poorly considered lint error in some tools but is included by design.
 */
 
@@ -353,3 +359,5 @@ video {
 [hidden] {
   display: none !important;
 }
+`;
+};

@@ -11,8 +11,7 @@
       "dist",
       "dts",
       "public",
-      "node_modules",
-      "macros/**"
+      "node_modules"
     ]
   },
   "organizeImports": {
@@ -31,8 +30,6 @@
         "useShorthandArrayType": "error"
       },
       "nursery": {
-        "useImportType": "error",
-        "useExportType": "error",
         "noUnusedImports": "error"
       }
     }

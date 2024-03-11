@@ -1,5 +1,11 @@
 import { defaultTokensConfig } from '#tokens/defaultTokensConfig';
-import { createBase, createTheme, createUtilities, css } from '#macros';
+import {
+  createBase,
+  createTheme,
+  createUtilities,
+  createPreflight,
+  css,
+} from '#macros';
 import prettier from 'prettier';
 import { watch } from 'node:fs';
 import path from 'node:path';
@@ -7,6 +13,7 @@ import path from 'node:path';
 const outDir = `${Bun.env.PWD}/dist`;
 
 async function writeCss() {
+  const preflight = createPreflight();
   const base = createBase(defaultTokensConfig);
   const darkTheme = createTheme({ colorMode: 'dark' });
   const xSmall = createTheme({ scaleMode: 'xSmall' });
@@ -19,6 +26,7 @@ async function writeCss() {
 
   const cssContent = css`
 @layer base {
+  ${preflight}
   :where(html) {
     ${base}
   }
@@ -56,8 +64,6 @@ async function writeCss() {
   });
   // console.log(formattedContent);
   Bun.write(outFile, formattedContent);
-  // const preflight = Bun.file(`${Bun.env.PWD}/src/css/preflight.css`);
-  // await Bun.write(`${outDir}/preflight.css`, preflight);
 }
 
 function createWatcher(dir: string) {
