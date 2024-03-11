@@ -28,13 +28,9 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "next",
-    "@tailwindcss/postcss": "next",
     "@types/react": "~18.2.61",
     "@types/react-dom": "^18",
-    "autoprefixer": "^10.4.18",
     "concurrently": "^8.2.2",
-    "tailwindcss": "next",
     "tsconfig": "workspace:*"
   },
   "imports": {
@@ -42,9 +38,12 @@
       "types": ".docgen/*.ts",
       "default": ".docgen/*.ts"
     },
-    "#css": {
-      "types": ".katcn/css.ts",
-      "default": ".katcn/css.tsx"
+    "#katcn/*.css": {
+      "default": ".katcn/*.css"
+    },
+    "#katcn/*": {
+      "types": ".katcn/*.d.ts",
+      "default": ".katcn/*.js"
     }
   }
 }

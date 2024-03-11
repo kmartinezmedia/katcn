@@ -1,9 +1,8 @@
 'use server';
 
-import '#css';
 import { promises as fs, existsSync } from 'fs';
 // import { Editor } from '@/ui/Editor';
-import { VStack } from 'katcn';
+import { VStack, Text } from 'katcn';
 
 async function getDtsFiles(
   inputDir: string,
@@ -53,7 +52,9 @@ export default async function Home() {
 
   return (
     <VStack backgroundColor="positive" color="alert">
-      hi
+      <Text color="on-color" variant="display1">
+        some text
+      </Text>
     </VStack>
   );
 }

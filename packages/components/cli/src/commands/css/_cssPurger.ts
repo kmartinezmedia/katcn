@@ -11,21 +11,29 @@ class CssRegistry {
   varsToKeep = new Map<string, Set<string>>();
 
   get allClassNamesToKeep() {
-    return new Set(
-      Array.from(this.classNamesToKeep.values()).flatMap((item) => {
-        return Array.from(item.values()).flatMap((item) => {
-          return item.trimStart().trimEnd().split(' ');
-        });
-      }),
-    );
+    const allClassNames = new Set<string>();
+
+    for (const classNames of this.classNamesToKeep.values()) {
+      for (const className of classNames) {
+        const splitClassName = className.trimStart().trimEnd().split(' ');
+        for (const sClassName of splitClassName) {
+          allClassNames.add(sClassName);
+        }
+      }
+    }
+
+    return allClassNames;
   }
 
   get allVarsToKeep() {
-    return new Set(
-      Array.from(this.varsToKeep.values()).flatMap((item) => [
-        ...item.values(),
-      ]),
-    );
+    const allVars = new Set<string>();
+
+    for (const vars of this.varsToKeep.values()) {
+      for (const v of vars) {
+        allVars.add(v);
+      }
+    }
+    return allVars;
   }
 
   updateRegistry({

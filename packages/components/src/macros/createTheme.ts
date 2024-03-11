@@ -54,7 +54,7 @@ export function createTheme({
         ),
         'line-height': mapValues(
           config.scaleMode[scaleMode].lineHeight,
-          (value) => value,
+          (value) => `${value}px`,
         ),
         'text-transform': mapValues(
           config.scaleMode[scaleMode].textTransform,
