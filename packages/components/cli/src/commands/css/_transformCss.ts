@@ -33,16 +33,30 @@ export async function transformCss({
   config,
   classNamesToKeep = new Set<string>(),
   varsToKeep = new Set<string>(),
+  scaleMode,
+  colorMode,
 }: TransformCssOptions) {
   const base = createBase(config);
   const utilities = createUtilities();
-  const darkTheme = createTheme({ colorMode: 'dark', config });
-  const xSmall = createTheme({ scaleMode: 'xSmall', config });
-  const small = createTheme({ scaleMode: 'small', config });
-  const medium = createTheme({ scaleMode: 'medium', config });
-  const xLarge = createTheme({ scaleMode: 'xLarge', config });
-  const xxLarge = createTheme({ scaleMode: 'xxLarge', config });
-  const xxxLarge = createTheme({ scaleMode: 'xxxLarge', config });
+  const darkTheme = colorMode ? createTheme({ colorMode: 'dark', config }) : '';
+  const xSmall = scaleMode?.xSmall
+    ? createTheme({ scaleMode: 'xSmall', config })
+    : '';
+  const small = scaleMode?.small
+    ? createTheme({ scaleMode: 'small', config })
+    : '';
+  const medium = scaleMode?.medium
+    ? createTheme({ scaleMode: 'medium', config })
+    : '';
+  const xLarge = scaleMode?.xLarge
+    ? createTheme({ scaleMode: 'xLarge', config })
+    : '';
+  const xxLarge = scaleMode?.xxLarge
+    ? createTheme({ scaleMode: 'xxLarge', config })
+    : '';
+  const xxxLarge = scaleMode?.xxLarge
+    ? createTheme({ scaleMode: 'xxxLarge', config })
+    : '';
 
   const cssContent = css`
     @layer base {
@@ -165,7 +179,9 @@ export async function transformCss({
     parser: 'css',
   });
 
-  console.log(formattedCss);
+  // console.log({ varsToKeep });
+
+  // console.log(formattedCss);
 
   return formattedCss;
 }

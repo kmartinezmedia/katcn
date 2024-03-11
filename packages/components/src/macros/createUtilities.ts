@@ -32,10 +32,11 @@ import type {
   LineHeight,
   TextTransform,
   IconSize,
-  FontFamily,
-  FontWeight,
   TextAlign,
   AvatarSize,
+  FontFamilyGlobalAlias,
+  FontWeightDescriptive,
+  TextVariant,
 } from '../types';
 import { typesToConstants } from '#macros' with { type: 'macro' };
 import { cssEscape } from '../helpers/cssEscape';
@@ -76,9 +77,14 @@ export function createUtilities() {
     opacity: typesToConstants<Opacity>('Opacity'),
     borderRadius: typesToConstants<BorderRadius>('BorderRadius'),
     spacingAlias: typesToConstants<SpacingAlias>('SpacingAlias'),
-    fontFamily: typesToConstants<FontFamily>('FontFamily'),
+    FontFamilyGlobalAlias: typesToConstants<FontFamilyGlobalAlias>(
+      'FontFamilyGlobalAlias',
+    ),
+    textVariant: typesToConstants<TextVariant>('TextVariant'),
     fontSize: typesToConstants<FontSize>('FontSize'),
-    fontWeight: typesToConstants<FontWeight>('FontWeight'),
+    fontWeightDescriptive: typesToConstants<FontWeightDescriptive>(
+      'FontWeightDescriptive',
+    ),
     lineHeight: typesToConstants<LineHeight>('LineHeight'),
     textTransform: typesToConstants<TextTransform>('TextTransform'),
     textAlign: typesToConstants<TextAlign>('TextAlign'),
@@ -655,12 +661,20 @@ export function createUtilities() {
     ]),
   );
 
-  const fontFamily = fromEntries(
-    names.fontFamily.map((alias) => [
-      `${alias}`,
-      `{ font-family: var(--katcn-font-family-${alias}); }`,
-    ]),
-  );
+  const fontFamily = {
+    ...fromEntries(
+      names.FontFamilyGlobalAlias.map((alias) => [
+        alias,
+        `{ font-family: var(--katcn-font-${alias}); }`,
+      ]),
+    ),
+    ...fromEntries(
+      names.textVariant.map((alias) => [
+        alias,
+        `{ font-family: var(--katcn-font-family-${alias}); }`,
+      ]),
+    ),
+  };
 
   const fontSize = fromEntries(
     names.fontSize.map((alias) => [
@@ -669,12 +683,20 @@ export function createUtilities() {
     ]),
   );
 
-  const fontWeight = fromEntries(
-    names.fontWeight.map((alias) => [
-      `${alias}`,
-      `{ font-weight: var(--katcn-font-weight-${alias}); }`,
-    ]),
-  );
+  const fontWeight = {
+    ...fromEntries(
+      names.textVariant.map((alias) => [
+        `${alias}`,
+        `{ font-weight: var(--katcn-font-weight-${alias}); }`,
+      ]),
+    ),
+    ...fromEntries(
+      names.fontWeightDescriptive.map((alias) => [
+        `${alias}`,
+        `{ font-weight: ${alias}; }`,
+      ]),
+    ),
+  };
 
   const lineHeight = fromEntries(
     names.lineHeight.map((alias) => [
@@ -697,7 +719,7 @@ export function createUtilities() {
   const iconSize = fromEntries(
     names.iconSize.map((alias) => [
       `${alias}`,
-      `{ width: var(--katcn-icon-size-${alias}); height: var(--katcn-icon-size-${alias}); font-size: var(--katcn-icon-size-${alias}); line-height: var(--katcn-icon-size-${alias}); }`,
+      `{ display: block; width: var(--katcn-icon-size-${alias}); height: var(--katcn-icon-size-${alias}); font-size: var(--katcn-icon-size-${alias}); line-height: var(--katcn-icon-size-${alias}); }`,
     ]),
   );
 

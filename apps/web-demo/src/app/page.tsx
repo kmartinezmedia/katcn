@@ -2,7 +2,7 @@
 
 import { promises as fs, existsSync } from 'fs';
 // import { Editor } from '@/ui/Editor';
-import { VStack, Text } from 'katcn';
+import { VStack, Text, Icon } from 'katcn';
 
 async function getDtsFiles(
   inputDir: string,
@@ -51,10 +51,11 @@ export default async function Home() {
   }
 
   return (
-    <VStack backgroundColor="positive" color="alert">
+    <VStack backgroundColor="accent">
       <Text color="on-color" variant="display1">
         some text
       </Text>
+      <Icon name="arrow1" size="lg" color="on-color" />
     </VStack>
   );
 }

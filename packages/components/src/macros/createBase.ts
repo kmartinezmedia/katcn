@@ -14,7 +14,7 @@ export function createBase(
   return {
     font: mapValues(
       config.fontFamily,
-      (value) => `${value.name}, ${value.fallbacks.join(', ')}`,
+      (value) => `${value.fallbacks.join(', ')}`,
     ),
     color: mapValues(config.colorMode.light.spectrum, (value) => {
       return {

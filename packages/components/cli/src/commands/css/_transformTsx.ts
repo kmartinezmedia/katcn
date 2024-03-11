@@ -10,7 +10,7 @@ import { getStyles } from '#getStyles';
 import { Transpiler } from 'bun';
 import path from 'node:path';
 
-const varRegex = /--katcn-[^:,)\s]+/g;
+const varRegex = /--katcn-[^:,\s")]+/g;
 
 const transpiler = new Transpiler({
   loader: 'tsx',
