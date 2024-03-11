@@ -22,7 +22,7 @@ function createPalette(
   return mapValues(palette, (nestedConfig) => {
     return mapValues(nestedConfig, (value) => {
       const { hue, step, opacity = 1 } = value as PaletteValue;
-      return `var(--color-${hue}-${step})`;
+      return `var(--katcn-color-${hue}-${step})`;
     });
   });
 }
@@ -42,7 +42,7 @@ export function createTheme({
     ? {
         'font-family': mapValues(
           config.scaleMode.large.fontFamily,
-          (value) => `var(--font-${value})`,
+          (value) => `var(--katcn-font-${value})`,
         ),
         'font-size': mapValues(
           config.scaleMode[scaleMode].fontSize,

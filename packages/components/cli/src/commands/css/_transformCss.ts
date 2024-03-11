@@ -8,9 +8,10 @@ import {
   transform,
 } from 'lightningcss';
 
-interface WriteCssOptions {
+interface TransformCssOptions {
   config?: UniversalTokensConfig;
-  safelist?: string[];
+  classNamesToKeep?: Set<string>;
+  varsToKeep?: Set<string>;
   scaleMode?: {
     xSmall?: boolean;
     small?: boolean;
@@ -28,7 +29,11 @@ interface WriteCssOptions {
 
 const decoder = new TextDecoder();
 
-export async function writeCss({ config, safelist }: WriteCssOptions) {
+export async function transformCss({
+  config,
+  classNamesToKeep = new Set<string>(),
+  varsToKeep = new Set<string>(),
+}: TransformCssOptions) {
   const base = createBase(config);
   const utilities = createUtilities();
   const darkTheme = createTheme({ colorMode: 'dark', config });
@@ -74,7 +79,6 @@ export async function writeCss({ config, safelist }: WriteCssOptions) {
       ${utilities}
     }
 `;
-  const varsToKeep = new Set<string>();
 
   const ruleVisitor = {
     Rule(rule) {
@@ -87,7 +91,7 @@ export async function writeCss({ config, safelist }: WriteCssOptions) {
             }
 
             if (sel.type === 'class') {
-              if (safelist?.includes(sel.name)) {
+              if (classNamesToKeep?.has(sel.name)) {
                 for (const decl of rule.value.declarations.declarations) {
                   if (decl.property === 'unparsed') {
                     for (const val of decl.value.value) {
@@ -164,11 +168,4 @@ export async function writeCss({ config, safelist }: WriteCssOptions) {
   console.log(formattedCss);
 
   return formattedCss;
-
-  // convert code to string
-
-  // console.log(formattedContent);
-  // await Bun.write(out, result.code);
-  // const preflight = Bun.file(`${Bun.env.PWD}/src/css/preflight.css`);
-  // await Bun.write(`${outDir}/preflight.css`, preflight);
 }

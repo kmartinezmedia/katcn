@@ -10,6 +10,8 @@ import { getStyles } from '#getStyles';
 import { Transpiler } from 'bun';
 import path from 'node:path';
 
+const varRegex = /--katcn-[^:,)\s]+/g;
+
 const transpiler = new Transpiler({
   loader: 'tsx',
   tsconfig: {
@@ -31,15 +33,17 @@ function getCallExpressionName(
   return callExpression.getFirstChildByKind(SyntaxKind.Identifier)?.getText();
 }
 
+interface GetPropsForExpressionOptions {
+  sourceFile: SourceFile;
+  callExpression: CallExpression<ts.CallExpression>;
+  classNamesToKeep?: Set<string>;
+}
+
 function getPropsForExpression({
   sourceFile,
   callExpression,
-  classNames,
-}: {
-  sourceFile: SourceFile;
-  callExpression: CallExpression<ts.CallExpression>;
-  classNames: Set<string>;
-}) {
+  classNamesToKeep = new Set<string>(),
+}: GetPropsForExpressionOptions) {
   const fnName = getCallExpressionName(callExpression);
   const props = callExpression.getFirstChildByKind(
     SyntaxKind.ObjectLiteralExpression,
@@ -107,12 +111,13 @@ function getPropsForExpression({
     }
 
     if (extractedProps?.className) {
-      classNames.add(extractedProps.className);
+      classNamesToKeep.add(extractedProps.className);
     }
   }
 }
 
 const jsxFnNames = ['jsxDEV', 'jsx', 'jsxs', '_jsxDEV', '_jsx', '_jsxs'];
+
 function isJsxCallExpression(
   callExpression: CallExpression<ts.CallExpression>,
 ) {
@@ -130,18 +135,27 @@ function isGetStylesExpression(
   return fnCalled === 'getStyles';
 }
 
+interface TransformTsxOptiosn {
+  project: Project;
+  content: string;
+  filePath: string;
+}
+
 export function transformTsx({
   project,
   content,
   filePath,
-}: {
-  project: Project;
-  content: string;
-  filePath: string;
-}) {
-  const classNames = new Set<string>();
+}: TransformTsxOptiosn) {
+  const classNamesToKeep = new Set<string>();
+  const varsToKeep = new Set<string>();
+
   const newContent = transpiler.transformSync(content);
   const relativeFilePath = path.relative(process.env.PWD, filePath);
+
+  const foundVars = newContent.matchAll(varRegex);
+  for (const variable of foundVars) {
+    varsToKeep.add(variable[0]);
+  }
 
   const sourceFile = project.createSourceFile(
     `${Bun.env.PWD}/.katcn/${relativeFilePath.replace('.tsx', '.js')}`,
@@ -155,21 +169,29 @@ export function transformTsx({
   );
   for (const callExpression of callExpressions) {
     if (isJsxCallExpression(callExpression)) {
-      getPropsForExpression({ sourceFile, callExpression, classNames });
+      getPropsForExpression({
+        sourceFile,
+        callExpression,
+        classNamesToKeep,
+      });
       for (const childCallExpression of callExpression
         .getChildrenOfKind(SyntaxKind.CallExpression)
         .filter(isJsxCallExpression)) {
         getPropsForExpression({
           sourceFile,
           callExpression: childCallExpression,
-          classNames,
+          classNamesToKeep,
         });
       }
     }
     if (isGetStylesExpression(callExpression)) {
-      getPropsForExpression({ sourceFile, callExpression, classNames });
+      getPropsForExpression({
+        sourceFile,
+        callExpression,
+        classNamesToKeep,
+      });
     }
   }
 
-  return Array.from(classNames.values());
+  return { classNamesToKeep, varsToKeep };
 }

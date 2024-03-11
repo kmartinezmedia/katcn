@@ -90,13 +90,13 @@ export function createUtilities() {
     ...fromEntries(
       names.palette.core.map((alias) => [
         alias,
-        `{ background-color: var(--palette-core-${alias}); }`,
+        `{ background-color: var(--katcn-palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       names.palette.background.map((alias) => [
         alias,
-        `{ background-color: var(--palette-background-${alias}); }`,
+        `{ background-color: var(--katcn-palette-background-${alias}); }`,
       ]),
     ),
   };
@@ -105,13 +105,13 @@ export function createUtilities() {
     ...fromEntries(
       names.palette.core.map((alias) => [
         alias,
-        `{ color: var(--palette-core-${alias}); }`,
+        `{ color: var(--katcn-palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       names.palette.foreground.map((alias) => [
         alias,
-        `{ color: var(--palette-foreground-${alias}); }`,
+        `{ color: var(--katcn-palette-foreground-${alias}); }`,
       ]),
     ),
   };
@@ -120,13 +120,13 @@ export function createUtilities() {
     ...fromEntries(
       names.palette.core.map((alias) => [
         alias,
-        `{ border-color: var(--palette-core-${alias}); }`,
+        `{ border-color: var(--katcn-palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       names.palette.line.map((alias) => [
         alias,
-        `{ border-color: var(--palette-line-${alias}); }`,
+        `{ border-color: var(--katcn-palette-line-${alias}); }`,
       ]),
     ),
   };
@@ -135,13 +135,13 @@ export function createUtilities() {
     ...fromEntries(
       names.palette.core.map((alias) => [
         alias,
-        `{ border-top-color: var(--palette-core-${alias}); }`,
+        `{ border-top-color: var(--katcn-palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       names.palette.line.map((alias) => [
         alias,
-        `{ border-top-color: var(--palette-line-${alias}); }`,
+        `{ border-top-color: var(--katcn-palette-line-${alias}); }`,
       ]),
     ),
   };
@@ -150,13 +150,13 @@ export function createUtilities() {
     ...fromEntries(
       names.palette.core.map((alias) => [
         alias,
-        `{ border-bottom-color: var(--palette-core-${alias}); }`,
+        `{ border-bottom-color: var(--katcn-palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       names.palette.line.map((alias) => [
         alias,
-        `{ border-bottom-color: var(--palette-line-${alias}); }`,
+        `{ border-bottom-color: var(--katcn-palette-line-${alias}); }`,
       ]),
     ),
   };
@@ -165,13 +165,13 @@ export function createUtilities() {
     ...fromEntries(
       names.palette.core.map((alias) => [
         alias,
-        `{ border-inline-start-color: var(--palette-core-${alias}); }`,
+        `{ border-inline-start-color: var(--katcn-palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       names.palette.line.map((alias) => [
         alias,
-        `{ border-inline-start-color: var(--palette-line-${alias}); }`,
+        `{ border-inline-start-color: var(--katcn-palette-line-${alias}); }`,
       ]),
     ),
   };
@@ -180,13 +180,13 @@ export function createUtilities() {
     ...fromEntries(
       names.palette.core.map((alias) => [
         alias,
-        `{ border-inline-end-color: var(--palette-core-${alias}); }`,
+        `{ border-inline-end-color: var(--katcn-palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       names.palette.line.map((alias) => [
         alias,
-        `{ border-inline-end-color: var(--palette-line-${alias}); }`,
+        `{ border-inline-end-color: var(--katcn-palette-line-${alias}); }`,
       ]),
     ),
   };
@@ -195,13 +195,13 @@ export function createUtilities() {
     ...fromEntries(
       names.palette.core.map((alias) => [
         alias,
-        `{ border-left-color: var(--palette-core-${alias}); border-right-color: var(--palette-core-${alias}); }`,
+        `{ border-left-color: var(--katcn-palette-core-${alias}); border-right-color: var(--katcn-palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       names.palette.line.map((alias) => [
         alias,
-        `{ border-left-color: var(--palette-line-${alias}); border-right-color: var(--palette-line-${alias}); }`,
+        `{ border-left-color: var(--katcn-palette-line-${alias}); border-right-color: var(--katcn-palette-line-${alias}); }`,
       ]),
     ),
   };
@@ -210,13 +210,13 @@ export function createUtilities() {
     ...fromEntries(
       names.palette.core.map((alias) => [
         alias,
-        `{ border-top-color: var(--palette-core-${alias}); border-bottom-color: var(--palette-core-${alias}); }`,
+        `{ border-top-color: var(--katcn-palette-core-${alias}); border-bottom-color: var(--katcn-palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       names.palette.line.map((alias) => [
         alias,
-        `{ border-top-color: var(--palette-line-${alias}); border-bottom-color: var(--palette-line-${alias}); }`,
+        `{ border-top-color: var(--katcn-palette-line-${alias}); border-bottom-color: var(--katcn-palette-line-${alias}); }`,
       ]),
     ),
   };
@@ -224,49 +224,49 @@ export function createUtilities() {
   const borderWidth = fromEntries(
     names.borderWidth.map((alias) => [
       alias,
-      `{ border-width: var(--border-width-${alias}); }`,
+      `{ border-width: var(--katcn-border-width-${alias}); }`,
     ]),
   );
 
   const borderStartWidth = fromEntries(
     names.borderWidth.map((alias) => [
       alias,
-      `{ border-inline-start-width: var(--border-width-${alias}); }`,
+      `{ border-inline-start-width: var(--katcn-border-width-${alias}); }`,
     ]),
   );
 
   const borderEndWidth = fromEntries(
     names.borderWidth.map((alias) => [
       alias,
-      `{ border-inline-end-width: var(--border-width-${alias}); }`,
+      `{ border-inline-end-width: var(--katcn-border-width-${alias}); }`,
     ]),
   );
 
   const borderTopWidth = fromEntries(
     names.borderWidth.map((alias) => [
       alias,
-      `{ border-top-width: var(--border-width-${alias}); }`,
+      `{ border-top-width: var(--katcn-border-width-${alias}); }`,
     ]),
   );
 
   const borderBottomWidth = fromEntries(
     names.borderWidth.map((alias) => [
       alias,
-      `{ border-bottom-width: var(--border-width-${alias}); }`,
+      `{ border-bottom-width: var(--katcn-border-width-${alias}); }`,
     ]),
   );
 
   const borderHorizontalWidth = fromEntries(
     names.borderWidth.map((alias) => [
       alias,
-      `{ border-left-width: var(--border-width-${alias}); border-right-width: var(--border-width-${alias});  }`,
+      `{ border-left-width: var(--katcn-border-width-${alias}); border-right-width: var(--katcn-border-width-${alias});  }`,
     ]),
   );
 
   const borderVerticalWidth = fromEntries(
     names.borderWidth.map((alias) => [
       alias,
-      `{ border-top-width: var(--border-width-${alias}); border-bottom-width: var(--border-width-${alias});  }`,
+      `{ border-top-width: var(--katcn-border-width-${alias}); border-bottom-width: var(--katcn-border-width-${alias});  }`,
     ]),
   );
 
@@ -487,112 +487,112 @@ export function createUtilities() {
   const spacing = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ padding: var(--spacing-${alias}); }`,
+      `{ padding: var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
   const spacingTop = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ padding-top: var(--spacing-${alias}); }`,
+      `{ padding-top: var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
   const spacingStart = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ padding-inline-start: var(--spacing-${alias}); }`,
+      `{ padding-inline-start: var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
   const spacingEnd = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ padding-inline-end: var(--spacing-${alias}); }`,
+      `{ padding-inline-end: var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
   const spacingBottom = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ padding-bottom: var(--spacing-${alias}); }`,
+      `{ padding-bottom: var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
   const spacingHorizontal = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ padding-left: var(--spacing-${alias}); padding-right: var(--spacing-${alias}); }`,
+      `{ padding-left: var(--katcn-spacing-${alias}); padding-right: var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
   const spacingVertical = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ padding-top: var(--spacing-${alias}); padding-bottom: var(--spacing-${alias}); }`,
+      `{ padding-top: var(--katcn-spacing-${alias}); padding-bottom: var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
   const offset = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ margin: -var(--offset-${alias}); }`,
+      `{ margin: -var(--katcn-offset-${alias}); }`,
     ]),
   );
 
   const offsetTop = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ margin-top: -var(--spacing-${alias}); }`,
+      `{ margin-top: -var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
   const offsetStart = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ margin-inline-start: -var(--spacing-${alias}); }`,
+      `{ margin-inline-start: -var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
   const offsetEnd = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ margin-inline-end: -var(--spacing-${alias}); }`,
+      `{ margin-inline-end: -var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
   const offsetBottom = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ margin-bottom: -var(--spacing-${alias}); }`,
+      `{ margin-bottom: -var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
   const offsetHorizontal = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ margin-left: -var(--spacing-${alias}); margin-right: -var(--spacing-${alias}); }`,
+      `{ margin-left: -var(--katcn-spacing-${alias}); margin-right: -var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
   const offsetVertical = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ margin-top: -var(--spacing-${alias}); margin-bottom: -var(--spacing-${alias}); }`,
+      `{ margin-top: -var(--katcn-spacing-${alias}); margin-bottom: -var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
   const horizontalGap = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ column-gap: -var(--spacing-${alias}); }`,
+      `{ column-gap: -var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
   const verticalGap = fromEntries(
     names.spacingAlias.map((alias) => [
       alias,
-      `{ row-gap: -var(--spacing-${alias}); }`,
+      `{ row-gap: -var(--katcn-spacing-${alias}); }`,
     ]),
   );
 
@@ -623,70 +623,70 @@ export function createUtilities() {
   const borderRadius = fromEntries(
     names.borderRadius.map((alias) => [
       `${alias}`,
-      `{ border-radius: var(--radii-${alias}); }`,
+      `{ border-radius: var(--katcn-radii-${alias}); }`,
     ]),
   );
 
   const borderTopStartRadius = fromEntries(
     names.borderRadius.map((alias) => [
       `${alias}`,
-      `{ border-start-start-radius: var(--radii-${alias}); }`,
+      `{ border-start-start-radius: var(--katcn-radii-${alias}); }`,
     ]),
   );
 
   const borderTopEndRadius = fromEntries(
     names.opacity.map((alias) => [
       `${alias}`,
-      `{ border-start-end-radius: var(--radii-${alias}); }`,
+      `{ border-start-end-radius: var(--katcn-radii-${alias}); }`,
     ]),
   );
 
   const borderBottomStartRadius = fromEntries(
     names.borderRadius.map((alias) => [
       `${alias}`,
-      `{ border-end-start-radius: var(--radii-${alias}); }`,
+      `{ border-end-start-radius: var(--katcn-radii-${alias}); }`,
     ]),
   );
 
   const borderBottomEndRadius = fromEntries(
     names.borderRadius.map((alias) => [
       `${alias}`,
-      `{ border-end-end-radius: var(--radii-${alias}); }`,
+      `{ border-end-end-radius: var(--katcn-radii-${alias}); }`,
     ]),
   );
 
   const fontFamily = fromEntries(
     names.fontFamily.map((alias) => [
       `${alias}`,
-      `{ font-family: var(--font-family-${alias}); }`,
+      `{ font-family: var(--katcn-font-family-${alias}); }`,
     ]),
   );
 
   const fontSize = fromEntries(
     names.fontSize.map((alias) => [
       `${alias}`,
-      `{ font-size: var(--font-size-${alias}); }`,
+      `{ font-size: var(--katcn-font-size-${alias}); }`,
     ]),
   );
 
   const fontWeight = fromEntries(
     names.fontWeight.map((alias) => [
       `${alias}`,
-      `{ font-weight: var(--font-weight-${alias}); }`,
+      `{ font-weight: var(--katcn-font-weight-${alias}); }`,
     ]),
   );
 
   const lineHeight = fromEntries(
     names.lineHeight.map((alias) => [
       `${alias}`,
-      `{ line-height: var(--line-height-${alias}); }`,
+      `{ line-height: var(--katcn-line-height-${alias}); }`,
     ]),
   );
 
   const textTransform = fromEntries(
     names.textTransform.map((alias) => [
       `${alias}`,
-      `{ text-transform: var(--text-transform-${alias}); }`,
+      `{ text-transform: var(--katcn-text-transform-${alias}); }`,
     ]),
   );
 
@@ -697,14 +697,14 @@ export function createUtilities() {
   const iconSize = fromEntries(
     names.iconSize.map((alias) => [
       `${alias}`,
-      `{ width: var(--icon-size-${alias}); height: var(--icon-size-${alias}); font-size: var(--icon-size-${alias}); line-height: var(--icon-size-${alias}); }`,
+      `{ width: var(--katcn-icon-size-${alias}); height: var(--katcn-icon-size-${alias}); font-size: var(--katcn-icon-size-${alias}); line-height: var(--katcn-icon-size-${alias}); }`,
     ]),
   );
 
   const avatarSize = fromEntries(
     names.avatarSize.map((alias) => [
       `${alias}`,
-      `{ text-transform: var(--text-transform-${alias}); }`,
+      `{ text-transform: var(--katcn-text-transform-${alias}); }`,
     ]),
   );
 

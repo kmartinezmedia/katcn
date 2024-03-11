@@ -37,7 +37,7 @@ export function css(
               );
 
               const separator: string = isVar ? ':' : ' ';
-              const prefix = isVar ? '--' : '.';
+              const prefix = isVar ? '--katcn-' : '.';
               const suffix = isVar ? ';' : '';
               return flattenObj(item as object, { prefix, suffix, separator });
             }
