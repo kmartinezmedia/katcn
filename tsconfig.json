@@ -1,3 +1,27 @@
 {
-  "extends": "tsconfig/base.json"
+  "extends": "tsconfig/base.json",
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/cli"
+    },
+    {
+      "path": "./packages/components"
+    },
+    {
+      "path": "./packages/cloud-functions"
+    },
+    {
+      "path": "./packages/docgen"
+    },
+    {
+      "path": "./apps/mobile-demo"
+    },
+    {
+      "path": "./apps/server"
+    },
+    {
+      "path": "./apps/web-demo"
+    }
+  ]
 }

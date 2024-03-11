@@ -1,8 +1,8 @@
 'use server';
-import { HStack, Icon, Text, VStack } from 'katcn';
 
-import { promises as fs } from 'fs';
-import { Editor } from '@/ui/Editor';
+import { promises as fs, existsSync } from 'fs';
+// import { Editor } from '@/ui/Editor';
+import { VStack, Text, Icon } from 'katcn';
 
 async function getDtsFiles(
   inputDir: string,
@@ -20,41 +20,42 @@ async function getDtsFiles(
   );
 }
 
+const katcnDistDir = 'pubdlic/katcn/dist';
+
 export default async function Home() {
-  const katDtsFiles = await fs.readdir('public/katcn/dist');
-  const katPackageJson = await fs.readFile(
-    'public/katcn/package.json',
-    'utf-8',
-  );
+  if (existsSync(katcnDistDir)) {
+    const katDtsFiles = await fs.readdir(katcnDistDir);
+    const katPackageJson = await fs.readFile(
+      'public/katcn/package.json',
+      'utf-8',
+    );
 
-  const parsedKatDtsFiles = await getDtsFiles(
-    'public/katcn/dist',
-    katDtsFiles,
-    'katcn',
-  );
+    const parsedKatDtsFiles = await getDtsFiles(
+      katcnDistDir,
+      katDtsFiles,
+      'katcn',
+    );
 
-  const dtsLibs = [
-    {
-      content: katPackageJson,
-      filePath: 'file:///node_modules/katcn/package.json',
-    },
-    ...parsedKatDtsFiles,
-  ];
+    const dtsLibs = [
+      {
+        content: katPackageJson,
+        filePath: 'file:///node_modules/katcn/package.json',
+      },
+      ...parsedKatDtsFiles,
+    ];
 
-  console.log('parsedKatDtsFiles', parsedKatDtsFiles);
-  console.log('katPackageJson', katPackageJson);
+    // console.log('parsedKatDtsFiles', parsedKatDtsFiles);
+    // console.log('katPackageJson', katPackageJson);
+
+    // return <Editor dtsLibs={dtsLibs} />;
+  }
 
   return (
-    <HStack>
-      <Editor dtsLibs={dtsLibs} />
-      <VStack backgroundColor="alert">
-        <VStack width="1/2" backgroundColor="accent">
-          <Text color="on-color" variant="display1">
-            something
-          </Text>
-          <Icon name="addFile" size="lg" />
-        </VStack>
-      </VStack>
-    </HStack>
+    <VStack backgroundColor="accent">
+      <Text color="on-color" variant="display1">
+        some text
+      </Text>
+      <Icon name="arrow1" size="lg" color="on-color" />
+    </VStack>
   );
 }

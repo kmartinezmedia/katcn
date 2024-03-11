@@ -7,5 +7,5 @@ export * from './ui/Pressable';
 export * from './ui/Text';
 export * from './ui/TextInput';
 export * from './ui/VStack';
-export * from './types/props';
-export * from './types/tokens';
+export * from './types/propTypes';
+export * from './types/tokenTypes';

@@ -1,14 +1,16 @@
 {
-  "exclude": ["dist"],
-  "include": ["src"],
+  "include": ["src", "typings"],
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
+    "baseUrl": "src",
+    "rootDir": ".",
     "jsx": "react-jsx",
     "jsxImportSource": "katcn",
     "lib": ["ESNext"],
     "moduleResolution": "Bundler",
     "module": "ESNext",
-    "emitDeclarationOnly": true
+    "emitDeclarationOnly": true,
+    "incremental": true,
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   }
 }

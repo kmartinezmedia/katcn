@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
-import './globals.css';
+import '#katcn/styles.css';
 
 const iconFont = localFont({
   src: '../../../../packages/components/src/icons/fonts/icons.woff2',

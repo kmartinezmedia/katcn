@@ -7,10 +7,11 @@
       ".turbo",
       ".docgen",
       ".env*",
-      "expo-env.d.ts",
+      "*.d.ts",
       "dist",
       "dts",
-      "public"
+      "public",
+      "node_modules"
     ]
   },
   "organizeImports": {
@@ -29,8 +30,6 @@
         "useShorthandArrayType": "error"
       },
       "nursery": {
-        "useImportType": "error",
-        "useExportType": "error",
         "noUnusedImports": "error"
       }
     }

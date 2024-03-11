@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import type { UniversalBoxProps } from '../types';
 
-import { createSlot } from '../utils/createSlot';
+import { createSlot } from '../helpers';
 
 const Slot = createSlot<React.ComponentType<HtmlDivProps>>();
 

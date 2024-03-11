@@ -1,4 +1,4 @@
-import 'react';
+import * as react from 'react';
 
 declare module 'react' {
   interface CSSProperties {
@@ -19,3 +19,5 @@ declare module 'react/jsx-runtime' {
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   export function jsxs(type: any, props: any, ...args: any): any;
 }
+
+export {};

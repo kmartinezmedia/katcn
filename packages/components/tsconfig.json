@@ -1,13 +1,7 @@
 {
   "extends": "tsconfig/react-library.json",
-  "exclude": ["tsup.config.ts", "cli", "dist"],
-  "ignore": ["configs"],
+  "include": ["tsup.config.ts", "src", "typings"],
   "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src",
-    "jsx": "react-jsx",
-    "jsxImportSource": "katcn",
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
-    "declarationMap": false
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   }
 }

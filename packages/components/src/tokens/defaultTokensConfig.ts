@@ -1,8 +1,7 @@
 import type { UniversalTokensConfig } from '../types';
 import { compactBorderRadius, normalBorderRadius } from './borderRadius';
 import { compactBorderWidths, normalBorderWidths } from './borderWidth';
-import { darkElevation, lightElevation } from './elevation';
-import { aspectRatio, zIndex } from './layout';
+import { zIndex } from './layout';
 import { darkPalette, lightPalette } from './palette';
 import {
   compactAvatarSizes,
@@ -53,12 +52,10 @@ export const defaultTokensConfig: UniversalTokensConfig = {
     light: {
       palette: lightPalette,
       spectrum: spectrum,
-      elevation: lightElevation,
     },
     dark: {
       palette: darkPalette,
       spectrum: spectrum,
-      elevation: darkElevation,
     },
   },
   scaleMode: {
@@ -91,7 +88,6 @@ export const defaultTokensConfig: UniversalTokensConfig = {
       ...xxxLarge,
     },
   },
-  aspectRatio,
   fontFamily: fontFamilyGlobal,
   zIndex,
 };

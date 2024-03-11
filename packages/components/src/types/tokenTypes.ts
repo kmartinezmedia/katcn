@@ -3,49 +3,43 @@
 /* -------------------------------------------------------------------------- */
 // https://uicolors.app/browse/tailwind-colors
 export type PaletteType = keyof PaletteConfig;
-export type PaletteValue =
-  | { hue: Hue; step: HueStep; opacity?: string }
-  | `${number} ${number} ${number}`;
+
+export type PaletteValue = { hue: Hue; step: HueStep; opacity?: string };
+
 export type Palette = { [key in PaletteType]: keyof PaletteConfig[key] };
 
 export type Hue =
-  | 'rose'
+  | 'red'
   | 'pink'
-  | 'fuchsia'
   | 'purple'
   | 'violet'
   | 'indigo'
   | 'blue'
-  | 'sky'
   | 'cyan'
   | 'teal'
-  | 'emerald'
   | 'green'
   | 'lime'
   | 'yellow'
-  | 'amber'
   | 'orange'
-  | 'red'
-  | 'stone'
-  | 'neutral'
-  | 'zinc'
-  | 'gray'
-  | 'slate';
+  | 'gray';
 
 export type HueStep =
-  | '50'
-  | '100'
-  | '200'
-  | '300'
-  | '400'
-  | '500'
-  | '600'
-  | '700'
-  | '800'
-  | '900'
-  | '950';
-
-export type SpectrumColor = `${Hue}-${HueStep}`;
+  | 0
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 13
+  | 14
+  | 15;
 
 export type CorePaletteAlias =
   | 'accent'
@@ -57,12 +51,6 @@ export type CorePalette = Record<CorePaletteAlias, PaletteValue>;
 
 export type BackgroundPaletteAlias = 'primary' | 'secondary';
 export type BackgroundPalette = Record<BackgroundPaletteAlias, PaletteValue>;
-
-export type BackgroundWashPaletteAlias = CorePaletteAlias;
-export type BackgroundWashPalette = Record<
-  BackgroundWashPaletteAlias,
-  PaletteValue
->;
 
 export type ElevationPaletteAlias = '1' | '2' | '3';
 export type ElevationPalette = Record<ElevationPaletteAlias, PaletteValue>;
@@ -93,8 +81,6 @@ export type LineColor =
 export type BackgroundColor =
   | CorePaletteAlias
   | BackgroundPaletteAlias
-  | `${BackgroundWashPaletteAlias}-wash`
-  | `elevation-${ElevationPaletteAlias}`
   | AlwaysPaletteAlias;
 
 /* -------------------------------------------------------------------------- */
@@ -151,7 +137,11 @@ export type FontWeightDescriptive =
   | 'extrabold'
   | 'black';
 
-export type TextTransform = 'none' | 'uppercase' | 'lowercase' | 'capitalize';
+export type TextTransformDescriptive =
+  | 'none'
+  | 'uppercase'
+  | 'lowercase'
+  | 'capitalize';
 export type LetterSpacing =
   | 'tighter'
   | 'tight'
@@ -160,14 +150,12 @@ export type LetterSpacing =
   | 'wider'
   | 'widest';
 export type LineClampAlias = '1' | '2' | '3' | '4' | '5' | '6';
-export type LineHeight = number;
-export type FontSize = number;
 
-export type TextTransformConfig = Record<TextVariant, TextTransform>;
-export type FontSizeConfig = Record<TextVariant, FontSize>;
+export type TextTransformConfig = Record<TextVariant, TextTransformDescriptive>;
+export type FontSizeConfig = Record<TextVariant, number>;
 export type FontFamilyConfig = Record<TextVariant, FontFamilyGlobalAlias>;
 export type FontWeightConfig = Record<TextVariant, FontWeightDescriptive>;
-export type LineHeightConfig = Record<TextVariant, LineHeight>;
+export type LineHeightConfig = Record<TextVariant, number>;
 export type ConfigurableTextProperty =
   | 'fontFamily'
   | 'fontSize'
@@ -175,6 +163,12 @@ export type ConfigurableTextProperty =
   | 'lineHeight'
   | 'textTransform';
 
+export type FontSize = TextVariant;
+export type FontWeight = TextVariant | FontWeightDescriptive;
+export type FontFamily = TextVariant | FontFamilyGlobalAlias;
+export type LineHeight = TextVariant;
+export type TextTransform = TextVariant | TextTransformDescriptive;
+export type TextAlign = 'center' | 'justify' | 'start' | 'end';
 /* -------------------------------------------------------------------------- */
 /*                                   SIZING                                   */
 /* -------------------------------------------------------------------------- */
@@ -195,8 +189,6 @@ export type AvatarShape = 'circle' | 'square' | 'rounded';
 /* -------------------------------------------------------------------------- */
 /*                                   LAYOUT                                   */
 /* -------------------------------------------------------------------------- */
-export type AspectRatio = `${number}:${number}`;
-export type AspectRatioConfig = Record<AspectRatio, string>;
 
 export type SpacingAlias =
   | '0'
@@ -268,17 +260,13 @@ export type ColorModeConfig = {
 export type ColorsConfig = {
   palette: PaletteConfig;
   spectrum: SpectrumConfig;
-  elevation: ElevationConfig;
 };
 
-export type SpectrumValue = Record<HueStep, string>;
-export type SpectrumConfig = Record<Hue, SpectrumValue>;
+export type SpectrumConfig = Record<Hue, number>;
 
 export type PaletteConfig = {
   core: CorePalette;
   background: BackgroundPalette;
-  backgroundWash: BackgroundWashPalette;
-  elevation: ElevationPalette;
   foreground: ForegroundPalette;
   line: LinePalette;
 };
@@ -309,7 +297,6 @@ export type ScaleModeConfig = {
 export type UniversalTokensConfig = {
   colorMode: ColorModeConfig;
   scaleMode: ScaleModeConfig;
-  aspectRatio: Record<string, string>;
   fontFamily: FontFamilyGlobalConfig;
   zIndex: ZIndexConfig;
 };
@@ -370,13 +357,15 @@ export type TransitionTiming = 'linear' | 'in' | 'out' | 'in-out';
 /*                                    FLEX                                    */
 /* -------------------------------------------------------------------------- */
 export type AlignContent =
+  | 'center'
   | 'start'
   | 'end'
-  | 'center'
-  | 'stretch'
   | 'between'
-  | 'around';
-export type AlignItems = 'start' | 'end' | 'center' | 'stretch' | 'baseline';
+  | 'around'
+  | 'evenly'
+  | 'baseline'
+  | 'stretch';
+export type AlignItems = 'start' | 'end' | 'center' | 'baseline' | 'stretch';
 export type AlignSelf =
   | 'auto'
   | 'start'
@@ -395,79 +384,45 @@ export type JustifyContent =
   | 'center'
   | 'between'
   | 'around'
-  | 'evenly';
+  | 'evenly'
+  | 'stretch';
+export type PlaceContent =
+  | 'center'
+  | 'start'
+  | 'end'
+  | 'between'
+  | 'around'
+  | 'evenly'
+  | 'baseline'
+  | 'stretch';
+export type PlaceItems = 'start' | 'end' | 'center' | 'baseline' | 'stretch';
+export type PlaceSelf = 'auto' | 'start' | 'end' | 'center' | 'stretch';
+export type FlexShrink = 'allow' | 'prevent';
+export type FlexGrow = 'allow' | 'prevent';
+export type FlexWrap = 'allow' | 'prevent' | 'reverse';
 
 /* -------------------------------------------------------------------------- */
 /*                                   LAYOUT                                   */
 /* -------------------------------------------------------------------------- */
 export type Height =
-  | 'auto'
-  | '1/2'
-  | '1/3'
-  | '2/3'
-  | '1/4'
-  | '2/4'
-  | '3/4'
-  | '1/5'
-  | '2/5'
-  | '3/5'
-  | '4/5'
-  | '1/6'
-  | '2/6'
-  | '3/6'
-  | '4/6'
-  | '5/6'
+  | 'half'
   | 'full'
-  | 'screen'
-  | 'min'
-  | 'max'
-  | 'fit'
+  | '100vh'
+  | `${'min' | 'max' | 'fit'}-content`
+  | 'unset'
   | number;
-export type MaxHeight =
-  | 'none'
-  | 'full'
-  | 'screen'
-  | 'min'
-  | 'max'
-  | 'fit'
-  | number;
-export type MaxWidth = 'none' | 'full' | 'min' | 'max' | 'fit' | number;
-export type MinHeight = 'full' | 'min' | 'max' | 'fit' | 'screen' | number;
-export type MinWidth = 'full' | 'min' | 'max' | 'fit' | 'screen' | number;
+export type MaxHeight = Height;
+export type MinHeight = Height;
 export type Width =
-  | 'auto'
+  | `${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12}/12`
+  | `${'min' | 'max' | 'fit'}-content`
+  | 'unset'
+  | '100vw'
+  | 'half'
   | 'full'
-  | 'screen'
-  | 'min'
-  | 'max'
-  | 'fit'
-  | '1/2'
-  | '1/3'
-  | '2/3'
-  | '1/4'
-  | '2/4'
-  | '3/4'
-  | '1/5'
-  | '2/5'
-  | '3/5'
-  | '4/5'
-  | '1/6'
-  | '2/6'
-  | '3/6'
-  | '4/6'
-  | '5/6'
-  | '1/12'
-  | '2/12'
-  | '3/12'
-  | '4/12'
-  | '5/12'
-  | '6/12'
-  | '7/12'
-  | '8/12'
-  | '9/12'
-  | '10/12'
-  | '11/12'
   | number;
+export type MinWidth = Width;
+export type MaxWidth = Width;
 
 export type Display =
   | 'block'
@@ -487,6 +442,9 @@ export type Display =
   | 'table-row'
   | 'flow-root'
   | 'grid'
-  | 'contents';
+  | 'inline-grid'
+  | 'contents'
+  | 'list-item'
+  | 'none';
 export type Overflow = 'auto' | 'hidden' | 'clip' | 'visible' | 'scroll';
 export type Position = 'static' | 'fixed' | 'absolute' | 'relative' | 'sticky';

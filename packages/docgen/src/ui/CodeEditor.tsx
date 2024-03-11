@@ -1,9 +1,9 @@
 'use client';
 
-import { Editor, type OnChange } from '@monaco-editor/react';
+import { Editor } from '@monaco-editor/react';
 import { HStack, VStack } from 'katcn';
 import type * as monacoType from 'monaco-editor';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PrettierFormatProvider } from '../utils/prettier';
 
 export type MonacoInstance = typeof monacoType;
@@ -13,6 +13,10 @@ export type DtsLibs = DtsLib[];
 export type UserModel = monacoType.editor.ITextModel;
 export type TypescriptWorker = monacoType.languages.typescript.TypeScriptWorker;
 export type TypeError = monacoType.editor.IMarkerData;
+export type OnChange = (
+  value: string | undefined,
+  ev: monacoType.editor.IModelContentChangedEvent,
+) => void | Promise<void>;
 
 export interface CodeEditorProps {
   className?: string;
@@ -32,13 +36,15 @@ interface Refs {
 }
 
 const USER_CODE_PATH = 'file:///user.tsx';
+// const TRANSFORM_URL = 'http://167.71.186.74:3001/';
+const TRANSFORM_URL = 'http://localhost:3001/transform';
 
 export function CodeEditor({
   onChange,
   userCode,
   dtsLibs = [],
 }: CodeEditorProps) {
-  const wrapper = useRef<HTMLDivElement>(null);
+  const [transformedCode, setTransformedCode] = useState<string>('');
   const refs = useRef<Refs>({
     monaco: null,
     editor: null,
@@ -48,12 +54,7 @@ export function CodeEditor({
 
   useEffect(() => {
     const saveHandler = (e: KeyboardEvent) => {
-      if (
-        (e.ctrlKey || e.metaKey) &&
-        e.code === 'KeyS' &&
-        wrapper.current &&
-        wrapper.current.contains(document.activeElement)
-      ) {
+      if ((e.ctrlKey || e.metaKey) && e.code === 'KeyS') {
         e.preventDefault();
         refs.current.editor?.getAction('editor.action.formatDocument')?.run();
       }
@@ -68,7 +69,7 @@ export function CodeEditor({
 
   return (
     <HStack>
-      <VStack height="screen" width="1/2" ref={wrapper}>
+      <VStack height="100vh" width="half">
         <Editor
           defaultLanguage="typescript"
           language="typescript"
@@ -198,17 +199,20 @@ export function CodeEditor({
             refs.current.editor = editor;
             refs.current.monaco = monaco;
           }}
-          onChange={(value, changeEvent) => {
+          onChange={async (value, changeEvent) => {
             const code = value ?? '';
-            onChange?.(code, changeEvent);
-            // typeCheck();
-            // Figure out how to transpile the code to preview and render the jsx in the browser
-            // setTranspiledCode(transformSync(code).code);
+            const res = await fetch(TRANSFORM_URL, {
+              method: 'POST',
+              body: code,
+              mode: 'no-cors',
+            });
+            const _transformedCode = await res.text();
+            setTransformedCode(_transformedCode);
           }}
         />
       </VStack>
-      <VStack width="1/2" height="full" backgroundColor="accent">
-        something
+      <VStack width="half" height="full" backgroundColor="accent">
+        {transformedCode}
       </VStack>
     </HStack>
   );

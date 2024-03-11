@@ -1,11 +1,12 @@
-import type { StyleProps } from '../types';
-import type { AvatarProps } from '../ui/Avatar';
-import type { HStackProps } from '../ui/HStack';
-import type { IconProps } from '../ui/Icon';
-import type { TextProps } from '../ui/Text';
-import type { TextInputProps } from '../ui/TextInput';
-import type { VStackProps } from '../ui/VStack';
-import { type GetStylesParams, getStyles } from './getStyles';
+import type { StyleProps } from './types';
+import type { AvatarProps } from './ui/Avatar';
+import type { HStackProps } from './ui/HStack';
+import type { IconProps } from './ui/Icon';
+import type { TextProps } from './ui/Text';
+import type { TextInputProps } from './ui/TextInput';
+import type { VStackProps } from './ui/VStack';
+
+import { type GetStylesParams, getStyles } from '#getStyles';
 
 type StyleProp = keyof StyleProps | 'children' | 'asChild';
 type ComponentPropsMap = {
@@ -172,7 +173,6 @@ export function extractStyleProps(
     overflowX = defaults?.overflowX,
     overflowY = defaults?.overflowY,
     position = defaults?.position,
-    elevation = defaults?.elevation,
     zIndex = defaults?.zIndex,
     opacity = defaults?.opacity,
     contentFit = defaults?.contentFit,
@@ -254,7 +254,6 @@ export function extractStyleProps(
     overflowX,
     overflowY,
     position,
-    elevation,
     zIndex,
     opacity,
     contentFit,
