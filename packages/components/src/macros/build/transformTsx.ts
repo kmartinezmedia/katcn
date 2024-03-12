@@ -150,16 +150,16 @@ export function transformTsx({
   const classNamesToKeep = new Set<string>();
   const varsToKeep = new Set<string>();
 
-  const newContent = transpiler.transformSync(content);
+  const jsContent = transpiler.transformSync(content);
 
-  const foundVars = newContent.matchAll(varRegex);
+  const foundVars = jsContent.matchAll(varRegex);
   for (const variable of foundVars) {
     varsToKeep.add(variable[0]);
   }
 
   const sourceFile = project.createSourceFile(
     `${filePath.replace('.tsx', '.js')}`,
-    newContent,
+    jsContent,
     { overwrite: true },
   );
 
@@ -192,5 +192,5 @@ export function transformTsx({
     }
   }
 
-  return { classNamesToKeep, varsToKeep };
+  return { classNamesToKeep, varsToKeep, jsContent };
 }

@@ -1,7 +1,7 @@
 'use server';
 
 import { promises as fs, existsSync } from 'fs';
-// import { Editor } from '@/ui/Editor';
+import { Editor } from '@/ui/Editor';
 import { VStack, Text, Icon } from 'katcn';
 
 async function getDtsFiles(
@@ -20,11 +20,13 @@ async function getDtsFiles(
   );
 }
 
-const katcnDistDir = 'pubdlic/katcn/dist';
+const katcnDistDir = 'public/katcn/dist';
 
 export default async function Home() {
   if (existsSync(katcnDistDir)) {
     const katDtsFiles = await fs.readdir(katcnDistDir);
+    console.log('katDtsFiles', katDtsFiles);
+
     const katPackageJson = await fs.readFile(
       'public/katcn/package.json',
       'utf-8',
@@ -47,7 +49,7 @@ export default async function Home() {
     // console.log('parsedKatDtsFiles', parsedKatDtsFiles);
     // console.log('katPackageJson', katPackageJson);
 
-    // return <Editor dtsLibs={dtsLibs} />;
+    return <Editor dtsLibs={dtsLibs} />;
   }
 
   return (

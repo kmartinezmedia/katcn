@@ -1,17 +1,23 @@
 import path from 'node:path';
+import { Project, SourceFile } from 'ts-morph';
 
-import { Project } from 'ts-morph';
-
-const typesFile = path.resolve(__dirname, '../../types/tokenTypes.ts');
-
-const project = new Project();
-const typeFile = project.addSourceFileAtPath(typesFile);
+let typesToConstantsProject: Project;
+let typesToConstantsSourceFile: SourceFile;
 
 export function typesToConstants<TypeToReturn>(
   typeName: string,
 ): TypeToReturn[] {
+  if (!typesToConstantsProject) {
+    typesToConstantsProject = new Project();
+  }
+  if (!typesToConstantsSourceFile) {
+    typesToConstantsSourceFile = typesToConstantsProject.addSourceFileAtPath(
+      path.resolve(__dirname, '../../types/tokenTypes.ts'),
+    );
+  }
+
   return (
-    typeFile
+    typesToConstantsSourceFile
       .getTypeAlias(typeName)
       ?.getType()
       // @ts-expect-error compilerType.types is fine. https://ts-ast-viewer.com/

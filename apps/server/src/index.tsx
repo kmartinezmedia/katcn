@@ -1,20 +1,5 @@
-import { Transpiler } from 'bun';
+import { transform, createTsMorphProject } from 'katcn/macros';
 import { Hono } from 'hono';
-
-const transpiler = new Transpiler({
-  loader: 'tsx',
-  tsconfig: {
-    compilerOptions: {
-      jsx: 'react',
-      jsxImportSource: 'katcn',
-    },
-  },
-  macro: {
-    katcn: {
-      getStyles: 'katcn/getStyles',
-    },
-  },
-});
 
 const app = new Hono();
 
@@ -22,8 +7,16 @@ app.post('/transform', async (c) => {
   const body = await c.req.text();
   console.log('body');
   // const imports = transpiler.scanImports(code);
-  const transformedCode = transpiler.transformSync(body);
-  return c.text(transformedCode);
+  const project = createTsMorphProject();
+  project.createSourceFile('temp.tsx', body, { overwrite: true });
+
+  const files = await transform({
+    watch: false,
+    project,
+  });
+  console.log(files);
+
+  return c.json({});
 });
 
 // biome-ignore lint/style/noNonNullAssertion: <explanation>

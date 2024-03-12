@@ -12,8 +12,8 @@
       "default": "./dist/index.js"
     },
     "./macros": {
-      "types": "./dist/macros/index.d.ts",
-      "default": "./dist/macros/index.js"
+      "types": "./dist/macros.d.ts",
+      "default": "./dist/macros.js"
     },
     "./getStyles": {
       "types": "./dist/getStyles.d.ts",
@@ -39,8 +39,10 @@
       "types": "./src/extractStyleProps.ts",
       "default": "./dist/extractStyleProps.js"
     },
-    "#macros": "./src/macros/index.ts",
-    "#tokens/*": "./src/tokens/*.ts"
+    "#macros": {
+      "types": "./src/macros/index.ts",
+      "default": "./dist/macros.js"
+    }
   },
   "scripts": {
     "build": "rm -rf ./dist && tsup && bun run ./scripts/postbuild.ts && bun run build:css",

@@ -1,10 +1,4 @@
-import {
-  FileSystemRefreshResult,
-  Project,
-  ProjectOptions,
-  ts,
-  type SourceFile,
-} from 'ts-morph';
+import { FileSystemRefreshResult, Project, type SourceFile } from 'ts-morph';
 import { transformTsx } from './transformTsx';
 import { transformCss } from './transformCss';
 import { watch, type FSWatcher } from 'node:fs';
@@ -57,33 +51,25 @@ export class CssRegistry {
 
 interface TransformOptions {
   config?: UniversalTokensConfig;
-  tsmorphOptions?: ProjectOptions;
+  project: Project;
   outFile?: string;
   watch?: boolean;
 }
 
 export async function transform({
   config = defaultTokensConfig,
-  tsmorphOptions,
+  project,
   outFile,
   watch: shouldWatch = false,
 }: TransformOptions) {
   const watchers: FSWatcher[] = [];
   const registry = new CssRegistry();
-  const project = new Project({
-    ...tsmorphOptions,
-    compilerOptions: {
-      jsx: ts.JsxEmit.ReactJSX,
-      jsxImportSource: 'katcn',
-    },
-    skipAddingFilesFromTsConfig: false,
-  });
   const sourceFiles = project.getSourceFiles();
 
   async function processFile(sourceFile: SourceFile, filePath: string) {
     // const relativeFilePath = path.relative(Bun.env.PWD, filePath);
     const content = sourceFile.getFullText();
-    const { classNamesToKeep, varsToKeep } = transformTsx({
+    const { classNamesToKeep, varsToKeep, jsContent } = transformTsx({
       project: project,
       content,
       filePath,
@@ -102,7 +88,7 @@ export async function transform({
       if (outFile) {
         await Bun.write(outFile, cssContent);
       }
-      return cssContent;
+      return { cssContent, jsContent };
     }
   }
 

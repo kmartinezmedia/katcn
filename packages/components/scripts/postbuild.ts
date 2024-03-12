@@ -1,7 +1,13 @@
+/// <reference types="bun-types" />
 import fs, { copyFile } from 'node:fs';
 import { cp } from 'node:fs/promises';
 import { watch } from 'node:fs';
+import { Transpiler } from 'bun';
 import path from 'node:path';
+
+async function buildMacros() {
+  await Bun.build({ entrypoints: ['src/fixtures'], outdir: 'dist' });
+}
 
 async function copyDist() {
   const rootOfRepo = path.resolve(__dirname, '..');
@@ -39,4 +45,4 @@ if (Bun.argv.includes('--watch')) {
   });
 }
 
-await copyDist();
+await Promise.all([buildMacros(), copyDist()]);

@@ -1,11 +1,11 @@
-import { defaultTokensConfig } from '#tokens/defaultTokensConfig';
+import { defaultTokensConfig } from '../src/tokens/defaultTokensConfig';
 import {
   createBase,
   createTheme,
   createUtilities,
   createPreflight,
   cssTemplate,
-} from '#macros';
+} from '../src/macros';
 import prettier from 'prettier';
 import { watch } from 'node:fs';
 import path from 'node:path';
