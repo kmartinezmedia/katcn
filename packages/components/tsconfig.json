@@ -1,7 +1,17 @@
 {
   "extends": "tsconfig/react-library.json",
-  "include": ["tsup.config.ts", "src", "typings"],
+  "exclude": ["dist", "typings", "tsup.config.ts", "cli", "scripts"],
   "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
-  }
+  },
+  "references": [
+    {
+      "path": "../cli"
+    },
+    {
+      "path": "../tsconfig"
+    }
+  ]
 }

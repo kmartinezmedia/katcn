@@ -1,6 +1,6 @@
 import { mapValues } from '../../helpers';
 import { defaultTokensConfig } from '../../tokens';
-import { UniversalTokensConfig } from '../../types';
+import type { UniversalTokensConfig } from '../../types';
 import { createTheme } from './createTheme';
 
 export function createBase(

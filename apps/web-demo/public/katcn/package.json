@@ -4,24 +4,19 @@
   "private": true,
   "type": "module",
   "files": ["package.json", "tsconfig.json", "cli", "src", "dist"],
-  "style": "./dist/index.css",
   "bin": "./cli/bin",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./src/index.ts",
       "default": "./dist/index.js"
     },
     "./macros": {
-      "types": "./dist/macros.d.ts",
-      "default": "./dist/macros.js"
+      "types": "./src/macros/index.ts",
+      "default": "./src/macros/index.ts"
     },
     "./getStyles": {
       "types": "./dist/getStyles.d.ts",
       "default": "./dist/getStyles.js"
-    },
-    "./extractStyleProps": {
-      "types": "./dist/extractStyleProps.d.ts",
-      "default": "./dist/extractStyleProps.js"
     },
     "./jsx-runtime": {
       "types": "./dist/jsx-runtime.d.ts",
@@ -35,18 +30,13 @@
     "./package.json": "./package.json"
   },
   "imports": {
-    "#extractStyleProps": {
-      "types": "./src/extractStyleProps.ts",
-      "default": "./dist/extractStyleProps.js"
-    },
-    "#macros": {
-      "types": "./src/macros/index.ts",
-      "default": "./dist/macros.js"
-    },
-    "#typesToConstants": "./dist/typesToConstants.js",
     "#fixtures": {
       "types": "./src/fixtures.ts",
       "default": "./dist/fixtures.js"
+    },
+    "#tokens": {
+      "types": "./src/tokens/index.ts",
+      "default": "./src/tokens/index.ts"
     }
   },
   "scripts": {

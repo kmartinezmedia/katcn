@@ -1,5 +1,5 @@
 import type { Props } from 'bluebun';
-import { createTsMorphProject, transform } from '#macros';
+import { createTsMorphProject, transformProject } from 'katcn/macros';
 import path from 'node:path';
 
 interface CssProps extends Props {
@@ -18,11 +18,14 @@ export default {
       `${Bun.env.PWD}/.katcn/types/css.d.ts`,
       `declare module '#katcn/*.css' {}`,
     );
-    await transform({
+    await transformProject({
       watch: !!props.options.watch,
       outFile:
         props.options.outFile ?? path.resolve(Bun.env.PWD, '.katcn/styles.css'),
-      project: createTsMorphProject(),
+      project: createTsMorphProject({
+        tsConfigFilePath: path.resolve(Bun.env.PWD, 'tsconfig.json'),
+        skipAddingFilesFromTsConfig: false,
+      }),
     });
   },
 };

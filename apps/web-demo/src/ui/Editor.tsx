@@ -3,8 +3,7 @@ import { CodeEditor, type OnChange, type DtsLibs } from 'docgen';
 import { VStack } from 'katcn';
 
 const exampleCode = `
-import { VStack, Text, Icon } from 'katcn';
-import { getStyles } from 'katcn/getStyles';
+import { VStack, Text, Icon, getStyles } from 'katcn';
 
 export default function Example() {
   const customStyles = getStyles({

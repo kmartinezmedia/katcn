@@ -1,9 +1,18 @@
 {
   "extends": "tsconfig/bun.json",
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
   "compilerOptions": {
     "paths": {
-      "~/*": ["./*"]
+      "~/*": [
+        "./*"
+      ]
     }
-  }
+  },
+  "references": [
+    {
+      "path": "../tsconfig"
+    }
+  ]
 }

@@ -21,9 +21,10 @@ const transpiler = new Transpiler({
       jsxImportSource: 'katcn',
     },
   },
+  autoImportJSX: false,
   macro: {
     katcn: {
-      getStyles: 'katcn/getStyles',
+      getStyles: 'katcn',
     },
   },
 });
@@ -136,17 +137,11 @@ function isGetStylesExpression(
   return fnCalled === 'getStyles';
 }
 
-interface TransformTsxOptiosn {
-  project: Project;
-  content: string;
-  filePath: string;
-}
+export function transformTsx(sourceFile: SourceFile) {
+  const project = sourceFile.getProject();
+  const content = sourceFile.getFullText();
+  const filePath = sourceFile.getFilePath();
 
-export function transformTsx({
-  project,
-  content,
-  filePath,
-}: TransformTsxOptiosn) {
   const classNamesToKeep = new Set<string>();
   const varsToKeep = new Set<string>();
 
@@ -157,19 +152,17 @@ export function transformTsx({
     varsToKeep.add(variable[0]);
   }
 
-  const sourceFile = project.createSourceFile(
-    `${filePath.replace('.tsx', '.js')}`,
-    jsContent,
-    { overwrite: true },
-  );
+  const sourceFile2 = project.createSourceFile(`test/${filePath}`, jsContent, {
+    overwrite: true,
+  });
 
-  const callExpressions = sourceFile.getDescendantsOfKind(
+  const callExpressions = sourceFile2.getDescendantsOfKind(
     SyntaxKind.CallExpression,
   );
   for (const callExpression of callExpressions) {
     if (isJsxCallExpression(callExpression)) {
       getPropsForExpression({
-        sourceFile,
+        sourceFile: sourceFile2,
         callExpression,
         classNamesToKeep,
       });
@@ -177,7 +170,7 @@ export function transformTsx({
         .getChildrenOfKind(SyntaxKind.CallExpression)
         .filter(isJsxCallExpression)) {
         getPropsForExpression({
-          sourceFile,
+          sourceFile: sourceFile2,
           callExpression: childCallExpression,
           classNamesToKeep,
         });
@@ -185,12 +178,25 @@ export function transformTsx({
     }
     if (isGetStylesExpression(callExpression)) {
       getPropsForExpression({
-        sourceFile,
+        sourceFile: sourceFile2,
         callExpression,
         classNamesToKeep,
       });
     }
   }
 
-  return { classNamesToKeep, varsToKeep, jsContent };
+  // ensure classNames are split by spaces and unique
+  const finalClassNamesToKeep = new Set<string>();
+  for (const className of classNamesToKeep) {
+    const splitClassNames = className.trimStart().trimEnd().split(' ');
+    for (const splitClassName of splitClassNames) {
+      finalClassNamesToKeep.add(splitClassName);
+    }
+  }
+
+  return {
+    classNamesToKeep: finalClassNamesToKeep,
+    varsToKeep,
+    jsContent,
+  };
 }

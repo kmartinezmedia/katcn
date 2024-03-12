@@ -1,0 +1,7 @@
+{
+  "extends": "./base.json",
+  "include": ["./*.json"],
+  "compilerOptions": {
+    "resolveJsonModule": true
+  }
+}

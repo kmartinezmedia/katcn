@@ -1,4 +1,4 @@
-import { GetStylesParams, getStyles } from './getStyles';
+import { type GetStylesParams, getStyles } from './getStyles';
 import type { StyleProps } from './types';
 import type { AvatarProps } from './ui/Avatar';
 import type { HStackProps } from './ui/HStack';

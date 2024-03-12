@@ -1,6 +1,6 @@
 'use server';
 
-import { promises as fs, existsSync } from 'fs';
+import { promises as fs, existsSync } from 'node:fs';
 import { Editor } from '@/ui/Editor';
 import { VStack, Text, Icon } from 'katcn';
 

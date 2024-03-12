@@ -5,7 +5,7 @@ import {
   composeVisitors,
   transform,
 } from 'lightningcss';
-import { UniversalTokensConfig } from '../../types';
+import type { UniversalTokensConfig } from '../../types';
 import { createPreflight } from '../css/createPreflight';
 import { createBase } from '../css/createBase';
 import { createUtilities } from '../css/createUtilities';
@@ -44,6 +44,7 @@ export async function transformCss({
   const base = createBase(config);
   const utilities = createUtilities();
   const darkTheme = colorMode ? createTheme({ colorMode: 'dark', config }) : '';
+
   const xSmall = scaleMode?.xSmall
     ? createTheme({ scaleMode: 'xSmall', config })
     : '';
@@ -185,10 +186,6 @@ export async function transformCss({
   const formattedCss = await prettier.format(finalCss, {
     parser: 'css',
   });
-
-  // console.log({ varsToKeep });
-
-  // console.log(formattedCss);
 
   return formattedCss;
 }
