@@ -2,14 +2,12 @@
 
 import {
   type CallExpression,
-  type Project,
   type SourceFile,
   SyntaxKind,
   type ts,
 } from 'ts-morph';
 import { Transpiler } from 'bun';
-import { getStyles } from '../../getStyles';
-import { extractStyleProps } from '../../getStyles';
+import { getStyles, extractStyleProps } from '../../getStyles';
 
 const varRegex = /--katcn-[^:,\s")]+/g;
 
@@ -26,7 +24,7 @@ const transpiler = new Transpiler({
   autoImportJSX: false,
   macro: {
     katcn: {
-      getStyles: 'katcn',
+      getStyles: 'katcn/getStyles',
     },
   },
 });
@@ -154,9 +152,13 @@ export function transformTsx(sourceFile: SourceFile) {
     varsToKeep.add(variable[0]);
   }
 
-  const sourceFile2 = project.createSourceFile(`test/${filePath}`, jsContent, {
-    overwrite: true,
-  });
+  const sourceFile2 = project.createSourceFile(
+    `transformTsx/${filePath}`,
+    jsContent,
+    {
+      overwrite: true,
+    },
+  );
 
   const callExpressions = sourceFile2.getDescendantsOfKind(
     SyntaxKind.CallExpression,

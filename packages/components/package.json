@@ -14,6 +14,11 @@
       "types": "./src/macros/index.ts",
       "default": "./src/macros/index.ts"
     },
+    "./playground": "./dist/playground.js",
+    "./getStyles": {
+      "types": "./dist/getStyles.d.ts",
+      "default": "./dist/getStyles.js"
+    },
     "./jsx-runtime": {
       "types": "./dist/jsx-runtime.d.ts",
       "default": "./dist/jsx-runtime.js"
@@ -29,10 +34,6 @@
     "#fixtures": {
       "types": "./src/fixtures.ts",
       "default": "./dist/fixtures.js"
-    },
-    "#getStyles": {
-      "types": "./src/getStyles.ts",
-      "default": "./dist/getStyles.js"
     },
     "#tokens": {
       "types": "./src/tokens/index.ts",
@@ -55,6 +56,7 @@
   },
   "devDependencies": {
     "cli": "workspace:*",
+    "clsx": "^2.1.0",
     "concurrently": "^8.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

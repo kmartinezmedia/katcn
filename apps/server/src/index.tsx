@@ -31,19 +31,32 @@ function Example() {
  }
 `;
 
+const tsmorphOptions = {
+  overwrite: true,
+} as const;
+
 app.get('/playground/:hash', async (c) => {
-  const [katcnRuntime, katcnLib] = await Promise.all([
-    Bun.file(require.resolve('katcn/jsx-runtime')).text(),
-    Bun.file(require.resolve('katcn')).text(),
-  ]);
+  const katcn = await Bun.file(require.resolve('katcn/playground')).text();
 
   const { hash } = c.req.param();
-  const sourceFile = project.createSourceFile('temp.tsx', exampleCode);
   const data = await transformSourceFile({
-    sourceFile,
+    sourceFile: project.createSourceFile(
+      `playground-${hash}-input.tsx`,
+      exampleCode,
+      tsmorphOptions,
+    ),
   });
+  const sourceFile1 = project.createSourceFile(
+    `playground-${hash}-output.tsx`,
+    data.js,
+    tsmorphOptions,
+  );
 
-  sourceFile.deleteImmediately();
+  for (const iDeclaration of sourceFile1.getImportDeclarations()) {
+    iDeclaration.remove();
+  }
+
+  const jsCode = sourceFile1.getFullText();
 
   return c.html(
     html`<!DOCTYPE html>
@@ -51,17 +64,11 @@ app.get('/playground/:hash', async (c) => {
         ${raw(data.css)}
       </style>
 <script type="module">
+import { jsxDEV as jsxDevOriginal } from 'https://esm.sh/react@18.2.0/jsx-dev-runtime.js';
+import { forwardRef } from 'https://esm.sh/react@18.2.0';
 import { createRoot } from 'https://esm.sh/react-dom@18.2.0/client';
-${raw(
-  katcnRuntime
-    .replaceAll(
-      'react/jsx-runtime',
-      'https://esm.sh/react@18.2.0/jsx-runtime.js',
-    )
-    .replaceAll(`"react"`, `"https://esm.sh/react@18.2.0"`)
-    .replaceAll('import { extractStyleProps } from "#getStyles";', ''),
-)}
-${raw(katcnLib.replaceAll(`import { jsx } from "katcn/jsx-runtime";`, ''))}
+${raw(katcn)}
+${raw(jsCode)}
 const root = createRoot(document.getElementById('app'));
 root.render(Example());
 </script>

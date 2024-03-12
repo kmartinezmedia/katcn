@@ -2,8 +2,8 @@
 import fs, { copyFile } from 'node:fs';
 import { cp } from 'node:fs/promises';
 import { watch } from 'node:fs';
-import { Transpiler } from 'bun';
 import path from 'node:path';
+import { buildPlayground } from './buildPlayground';
 
 async function buildFixtures() {
   const data = await Bun.build({
@@ -51,4 +51,4 @@ if (Bun.argv.includes('--watch')) {
   });
 }
 
-await Promise.all([buildFixtures(), copyDist()]);
+await Promise.all([buildFixtures(), buildPlayground(), copyDist()]);

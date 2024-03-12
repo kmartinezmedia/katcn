@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { extendTailwindMerge } from 'tailwind-merge';
 import type {
   BackgroundColor,
@@ -81,22 +82,6 @@ const textVariants: TextVariant[] = [
   'caption2',
   'legal1',
 ];
-
-export function clsx(...args: unknown[]) {
-  let i = 0;
-  let tmp: unknown;
-  let str = '';
-  const len = args.length;
-  for (; i < len; i++) {
-    tmp = args[i];
-    if (tmp) {
-      if (typeof tmp === 'string') {
-        str += (str && ' ') + tmp;
-      }
-    }
-  }
-  return str;
-}
 
 const twMerge = extendTailwindMerge({
   cacheSize: 0,
