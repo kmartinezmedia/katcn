@@ -12,7 +12,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".katcn/types/**/*.ts",
+    ".katcn/types/**/*.ts"
   ],
   "exclude": ["node_modules", "public"],
   "references": [
@@ -21,6 +21,9 @@
     },
     {
       "path": "../../packages/docgen"
+    },
+    {
+      "path": "../../packages/tsconfig"
     }
   ]
 }

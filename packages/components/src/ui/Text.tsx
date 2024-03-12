@@ -1,9 +1,9 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import type { UniversalTextProps } from '../types';
 
 import { createSlot } from '../helpers';
 
-const Slot = createSlot<React.ComponentType<HtmlParagraphProps>>();
+const TextSlot = createSlot<React.ComponentType<HtmlParagraphProps>>();
 
 type HtmlParagraphProps = Omit<
   Pick<
@@ -122,11 +122,11 @@ interface TextProps extends UniversalTextProps, HtmlParagraphProps {
     }
     ```
  */
-const Text = forwardRef<typeof Slot, TextProps>(function Text(
+const Text = forwardRef<typeof TextSlot, TextProps>(function Text(
   { asChild, as = 'p', ...props },
   ref,
 ) {
-  const Comp = asChild ? Slot : as;
+  const Comp = asChild ? TextSlot : as;
 
   return <Comp ref={ref as unknown as string} {...props} />;
 });

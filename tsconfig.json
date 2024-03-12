@@ -3,25 +3,29 @@
   "files": [],
   "references": [
     {
-      "path": "./packages/cli"
+      "path": "packages/cli"
     },
     {
-      "path": "./packages/components"
+      "path": "packages/cloud-functions"
     },
     {
-      "path": "./packages/cloud-functions"
+      "path": "packages/components"
     },
     {
-      "path": "./packages/docgen"
+      "path": "packages/docgen"
     },
     {
-      "path": "./apps/mobile-demo"
+      "path": "packages/tsconfig"
     },
     {
-      "path": "./apps/server"
+      "path": "apps/mobile-demo"
     },
     {
-      "path": "./apps/web-demo"
+      "path": "apps/server"
+    },
+    {
+      "path": "apps/web-demo"
     }
-  ]
+  ],
+  "compilerOptions": {}
 }

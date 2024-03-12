@@ -1,18 +1,16 @@
 import {
-  createBase,
-  createPreflight,
-  createTheme,
-  createUtilities,
-  css,
-} from '#macros';
-import type { UniversalTokensConfig } from '#types';
-import prettier from 'prettier';
-import {
   type CustomAtRules,
   type Visitor,
   composeVisitors,
   transform,
 } from 'lightningcss';
+import prettier from 'prettier';
+import type { UniversalTokensConfig } from '../../types';
+import { createBase } from '../css/createBase';
+import { createPreflight } from '../css/createPreflight';
+import { createTheme } from '../css/createTheme';
+import { createUtilities } from '../css/createUtilities';
+import { cssTemplate } from './cssTemplate';
 
 interface TransformCssOptions {
   config?: UniversalTokensConfig;
@@ -46,6 +44,7 @@ export async function transformCss({
   const base = createBase(config);
   const utilities = createUtilities();
   const darkTheme = colorMode ? createTheme({ colorMode: 'dark', config }) : '';
+
   const xSmall = scaleMode?.xSmall
     ? createTheme({ scaleMode: 'xSmall', config })
     : '';
@@ -65,10 +64,10 @@ export async function transformCss({
     ? createTheme({ scaleMode: 'xxxLarge', config })
     : '';
 
-  const cssContent = css`
+  const cssContent = cssTemplate`
     @layer base {
       ${preflight}
-      
+
       :where(html) {
         ${base}
       }
@@ -187,10 +186,6 @@ export async function transformCss({
   const formattedCss = await prettier.format(finalCss, {
     parser: 'css',
   });
-
-  // console.log({ varsToKeep });
-
-  // console.log(formattedCss);
 
   return formattedCss;
 }

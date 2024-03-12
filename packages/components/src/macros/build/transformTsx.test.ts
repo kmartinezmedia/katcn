@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'bun:test';
-import app from './index';
+import { createTsMorphProject } from '../tsmorph/createTsMorphProject';
+import { transformTsx } from './transformTsx';
 
-const exampleCode = `
+const testCode = `
 import { VStack, Text, Icon, getStyles } from 'katcn';
 
-export default function Example() {
+function Example() {
   const customStyles = getStyles({
     borderWidth: 'thick',
     borderColor: 'warning',
@@ -14,7 +15,7 @@ export default function Example() {
 
   return (
     <VStack backgroundColor="alert">
-      <VStack width="1/2" backgroundColor="accent">
+      <VStack width="half" backgroundColor="accent">
         <Text color="on-color" variant="display1" className={customStyles}>
           something
         </Text>
@@ -24,16 +25,14 @@ export default function Example() {
   )
  }
 `;
-
-describe('My first test', () => {
-  it('Should return 200 Response', async () => {
-    const req = new Request('http://localhost:3001/transform', {
-      body: exampleCode,
-      method: 'POST',
+describe('transformTsx', () => {
+  it('Should return correct js data', async () => {
+    const project = createTsMorphProject({
+      skipAddingFilesFromTsConfig: true,
     });
-    const res = await app.fetch(req);
-    const data = await res.text();
+    const sourceFile = project.createSourceFile('test.tsx', testCode);
+    const data = transformTsx(sourceFile);
     console.log(data);
-    expect(res.status).toBe(200);
+    expect(data).toBeDefined();
   });
 });

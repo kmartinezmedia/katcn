@@ -1,10 +1,10 @@
 {
   "name": "cli",
   "version": "0.0.1",
-  "files": ["bin", "src"],
   "bin": {
     "cli": "./bin"
   },
+  "files": ["bin", "src"],
   "scripts": {
     "clean": "./bin tools clean",
     "fix": "./bin tools fix",

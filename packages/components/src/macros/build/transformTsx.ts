@@ -1,25 +1,27 @@
+/// <reference types="bun-types" />
+
+import { Transpiler } from 'bun';
 import {
   type CallExpression,
-  type Project,
   type SourceFile,
   SyntaxKind,
   type ts,
 } from 'ts-morph';
-import { extractStyleProps } from '#extractStyleProps';
-import { getStyles } from '#getStyles';
-import { Transpiler } from 'bun';
-import path from 'node:path';
+import { extractStyleProps, getStyles } from '../../getStyles';
 
 const varRegex = /--katcn-[^:,\s")]+/g;
 
+Bun.env.NODE_ENV;
 const transpiler = new Transpiler({
   loader: 'tsx',
+  define: { 'process.env.NODE_ENV': 'production' },
   tsconfig: {
     compilerOptions: {
       jsx: 'react-jsx',
       jsxImportSource: 'katcn',
     },
   },
+  autoImportJSX: false,
   macro: {
     katcn: {
       getStyles: 'katcn/getStyles',
@@ -135,42 +137,36 @@ function isGetStylesExpression(
   return fnCalled === 'getStyles';
 }
 
-interface TransformTsxOptiosn {
-  project: Project;
-  content: string;
-  filePath: string;
-}
+export function transformTsx(sourceFile: SourceFile) {
+  const project = sourceFile.getProject();
+  const content = sourceFile.getFullText();
+  const filePath = sourceFile.getFilePath();
 
-export function transformTsx({
-  project,
-  content,
-  filePath,
-}: TransformTsxOptiosn) {
   const classNamesToKeep = new Set<string>();
   const varsToKeep = new Set<string>();
 
-  const newContent = transpiler.transformSync(content);
-  const relativeFilePath = path.relative(process.env.PWD, filePath);
+  const jsContent = transpiler.transformSync(content);
 
-  const foundVars = newContent.matchAll(varRegex);
+  const foundVars = jsContent.matchAll(varRegex);
   for (const variable of foundVars) {
     varsToKeep.add(variable[0]);
   }
 
-  const sourceFile = project.createSourceFile(
-    `${Bun.env.PWD}/.katcn/${relativeFilePath.replace('.tsx', '.js')}`,
-    newContent,
-    { overwrite: true },
+  const sourceFile2 = project.createSourceFile(
+    `transformTsx/${filePath}`,
+    jsContent,
+    {
+      overwrite: true,
+    },
   );
 
-  sourceFile.saveSync();
-  const callExpressions = sourceFile.getDescendantsOfKind(
+  const callExpressions = sourceFile2.getDescendantsOfKind(
     SyntaxKind.CallExpression,
   );
   for (const callExpression of callExpressions) {
     if (isJsxCallExpression(callExpression)) {
       getPropsForExpression({
-        sourceFile,
+        sourceFile: sourceFile2,
         callExpression,
         classNamesToKeep,
       });
@@ -178,7 +174,7 @@ export function transformTsx({
         .getChildrenOfKind(SyntaxKind.CallExpression)
         .filter(isJsxCallExpression)) {
         getPropsForExpression({
-          sourceFile,
+          sourceFile: sourceFile2,
           callExpression: childCallExpression,
           classNamesToKeep,
         });
@@ -186,12 +182,25 @@ export function transformTsx({
     }
     if (isGetStylesExpression(callExpression)) {
       getPropsForExpression({
-        sourceFile,
+        sourceFile: sourceFile2,
         callExpression,
         classNamesToKeep,
       });
     }
   }
 
-  return { classNamesToKeep, varsToKeep };
+  // ensure classNames are split by spaces and unique
+  const finalClassNamesToKeep = new Set<string>();
+  for (const className of classNamesToKeep) {
+    const splitClassNames = className.trimStart().trimEnd().split(' ');
+    for (const splitClassName of splitClassNames) {
+      finalClassNamesToKeep.add(splitClassName);
+    }
+  }
+
+  return {
+    classNamesToKeep: finalClassNamesToKeep,
+    varsToKeep,
+    jsContent,
+  };
 }

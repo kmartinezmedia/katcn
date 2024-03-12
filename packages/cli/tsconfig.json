@@ -5,5 +5,10 @@
     "paths": {
       "~/*": ["./*"]
     }
-  }
+  },
+  "references": [
+    {
+      "path": "../tsconfig"
+    }
+  ]
 }

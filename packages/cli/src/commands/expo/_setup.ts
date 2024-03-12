@@ -140,7 +140,7 @@ export async function setup({
    *
    */
   const appDirectory = Bun.env.PWD;
-  const easJsonAccessor = EasJsonAccessor.fromProjectPath(appDirectory);
+  const easJsonAccessor = EasJsonAccessor.fromProjectPath(appDirectory ?? '');
   const easProfiles =
     await EasJsonUtils.getBuildProfileNamesAsync(easJsonAccessor);
 

@@ -1,14 +1,14 @@
-import { defaultTokensConfig } from '#tokens/defaultTokensConfig';
-import {
-  createBase,
-  createTheme,
-  createUtilities,
-  createPreflight,
-  css,
-} from '#macros';
-import prettier from 'prettier';
 import { watch } from 'node:fs';
 import path from 'node:path';
+import {
+  createBase,
+  createPreflight,
+  createTheme,
+  createUtilities,
+  cssTemplate,
+} from 'katcn/macros';
+import prettier from 'prettier';
+import { defaultTokensConfig } from '#tokens';
 
 const outDir = `${Bun.env.PWD}/dist`;
 
@@ -24,7 +24,7 @@ async function writeCss() {
   const xxxLarge = createTheme({ scaleMode: 'xxxLarge' });
   const utilities = createUtilities();
 
-  const cssContent = css`
+  const cssContent = cssTemplate`
 @layer base {
   ${preflight}
   :where(html) {

@@ -1,36 +1,26 @@
 import path from 'node:path';
+import { Project, type SourceFile, SyntaxKind } from 'ts-morph';
 
-import { Project, SourceFile, SyntaxKind } from 'ts-morph';
+let typesToObjectProject: Project;
+let typesToObjectSourceFile: SourceFile;
 
-const relativePath = path.resolve(
-  import.meta.dirname,
-  '../types/tokenTypes.ts',
-);
-
-const cache = new Map<string, { project: Project; sourceFile: SourceFile }>();
-
-export function typesToObject<TypeToReturn>(
-  typeName: string,
-  fileWithTypes = relativePath,
-): {
+export function typesToObject<TypeToReturn>(typeName: string): {
   name: keyof TypeToReturn;
   description: string;
   value: string;
   isOptional: boolean;
 }[] {
-  let project: Project;
-  let sourceFile: SourceFile;
-  if (cache.has(fileWithTypes)) {
-    const cacheData = cache.get(fileWithTypes)!;
-    project = cacheData.project;
-    sourceFile = cacheData.sourceFile;
-  } else {
-    project = new Project();
-    sourceFile = project.addSourceFileAtPath(fileWithTypes);
+  if (!typesToObjectProject) {
+    typesToObjectProject = new Project();
+  }
+  if (!typesToObjectSourceFile) {
+    typesToObjectSourceFile = typesToObjectProject.addSourceFileAtPath(
+      path.resolve(__dirname, '../../types/tokenTypes.ts'),
+    );
   }
 
   const props =
-    sourceFile
+    typesToObjectSourceFile
       .getInterface(typeName)
       ?.getChildrenOfKind(SyntaxKind.PropertySignature)
       .map((item) => {

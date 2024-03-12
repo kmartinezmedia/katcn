@@ -1,7 +1,19 @@
+/// <reference types="bun-types" />
 import fs, { copyFile } from 'node:fs';
-import { cp } from 'node:fs/promises';
 import { watch } from 'node:fs';
+import { cp } from 'node:fs/promises';
 import path from 'node:path';
+import { buildPlayground } from './buildPlayground';
+
+async function buildFixtures() {
+  const data = await Bun.build({
+    format: 'esm',
+    target: 'node',
+    entrypoints: ['src/fixtures.ts'],
+    outdir: 'dist',
+  });
+  console.log(data);
+}
 
 async function copyDist() {
   const rootOfRepo = path.resolve(__dirname, '..');
@@ -39,4 +51,4 @@ if (Bun.argv.includes('--watch')) {
   });
 }
 
-await copyDist();
+await Promise.all([buildFixtures(), buildPlayground(), copyDist()]);

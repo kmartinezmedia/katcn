@@ -3,7 +3,7 @@ import type { UniversalBoxProps } from '../types';
 
 import { createSlot } from '../helpers';
 
-const Slot = createSlot<React.ComponentType<HtmlDivProps>>();
+const BoxSlot = createSlot<React.ComponentType<HtmlDivProps>>();
 
 type HtmlDivProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -33,7 +33,7 @@ const Box = forwardRef<HTMLDivElement, BoxProps>(function Box(
   { asChild, ...props },
   ref,
 ) {
-  const Comp = asChild ? Slot : 'div';
+  const Comp = asChild ? BoxSlot : 'div';
 
   return <Comp ref={ref} {...props} />;
 });

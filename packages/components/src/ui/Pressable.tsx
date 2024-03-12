@@ -3,7 +3,7 @@ import type { UniversalPressableProps } from '../types';
 
 import { createSlot } from '../helpers';
 
-const Slot = createSlot<React.ComponentType<HtmlButtonProps>>();
+const PressableSlot = createSlot<React.ComponentType<HtmlButtonProps>>();
 
 type HtmlButtonProps = Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -35,7 +35,7 @@ interface PressableProps extends UniversalPressableProps, HtmlButtonProps {}
  */
 const Pressable = forwardRef<HTMLButtonElement, PressableProps>(
   function Pressable({ asChild, onPress, ...props }, ref) {
-    const Comp = asChild ? Slot : 'button';
+    const Comp = asChild ? PressableSlot : 'button';
     return <Comp ref={ref} onClick={onPress} {...props} />;
   },
 );

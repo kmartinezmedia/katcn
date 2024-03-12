@@ -28,9 +28,6 @@
       "recommended": true,
       "style": {
         "useShorthandArrayType": "error"
-      },
-      "nursery": {
-        "noUnusedImports": "error"
       }
     }
   },

@@ -1,0 +1,42 @@
+import type { Project } from 'ts-morph';
+import { defaultTokensConfig } from '../../tokens';
+import type { UniversalTokensConfig } from '../../types';
+import {
+  type TransformedData,
+  transformSourceFile,
+} from './transformSourceFile';
+import {
+  type OnSourceFileChange,
+  transformWatchers,
+} from './transformWatchers';
+
+interface TransformOptions {
+  config?: UniversalTokensConfig;
+  project: Project;
+  outFile?: string;
+  watch?: boolean;
+}
+
+export async function transformProject({
+  config = defaultTokensConfig,
+  project,
+  outFile,
+  watch: shouldWatch = false,
+}: TransformOptions) {
+  const sourceFiles = project.getSourceFiles();
+  const transformedData: TransformedData[] = [];
+
+  const onChange: OnSourceFileChange = (sFile) =>
+    transformSourceFile({ sourceFile: sFile });
+
+  if (shouldWatch) {
+    transformWatchers({ project, onChange });
+  }
+
+  for await (const sourceFile of sourceFiles) {
+    const data = await transformSourceFile({ sourceFile, config, outFile });
+    transformedData.push(data);
+  }
+
+  return transformedData;
+}

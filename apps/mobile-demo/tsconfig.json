@@ -1,7 +1,7 @@
 {
   "extends": "tsconfig/react-native-app.json",
   "compilerOptions": {
-    "strict": true,
+    "strict": true
   },
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"],
   "exclude": [
@@ -12,4 +12,9 @@
     "metro.config.js",
     "node_modules"
   ],
+  "references": [
+    {
+      "path": "../../packages/tsconfig"
+    }
+  ]
 }

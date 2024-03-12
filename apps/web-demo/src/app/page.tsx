@@ -1,8 +1,8 @@
 'use server';
 
-import { promises as fs, existsSync } from 'fs';
-// import { Editor } from '@/ui/Editor';
-import { VStack, Text, Icon } from 'katcn';
+import { promises as fs, existsSync } from 'node:fs';
+import { Editor } from '@/ui/Editor';
+import { Icon, Text, VStack } from 'katcn';
 
 async function getDtsFiles(
   inputDir: string,
@@ -20,11 +20,13 @@ async function getDtsFiles(
   );
 }
 
-const katcnDistDir = 'pubdlic/katcn/dist';
+const katcnDistDir = 'public/katcn/dist';
 
 export default async function Home() {
   if (existsSync(katcnDistDir)) {
     const katDtsFiles = await fs.readdir(katcnDistDir);
+    console.log('katDtsFiles', katDtsFiles);
+
     const katPackageJson = await fs.readFile(
       'public/katcn/package.json',
       'utf-8',
@@ -47,7 +49,7 @@ export default async function Home() {
     // console.log('parsedKatDtsFiles', parsedKatDtsFiles);
     // console.log('katPackageJson', katPackageJson);
 
-    // return <Editor dtsLibs={dtsLibs} />;
+    return <Editor dtsLibs={dtsLibs} />;
   }
 
   return (
@@ -56,6 +58,7 @@ export default async function Home() {
         some text
       </Text>
       <Icon name="arrow1" size="lg" color="on-color" />
+      <Icon name="arrow1" size="lg" color="brand" />
     </VStack>
   );
 }

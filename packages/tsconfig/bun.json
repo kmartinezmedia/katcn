@@ -3,7 +3,6 @@
   "display": "Bun",
   "extends": "./base.json",
   "compilerOptions": {
-    "types": ["bun-types"],
-    "strict": true
+    "types": ["bun-types"]
   }
 }

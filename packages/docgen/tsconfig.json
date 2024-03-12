@@ -10,7 +10,13 @@
   },
   "references": [
     {
+      "path": "../cli"
+    },
+    {
       "path": "../components"
+    },
+    {
+      "path": "../tsconfig"
     }
   ]
 }

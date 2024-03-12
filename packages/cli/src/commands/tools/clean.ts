@@ -1,9 +1,11 @@
+import { rmSync } from 'node:fs';
 import { $ } from 'bun';
 
 export default {
   name: 'clean',
   description: '🧹 Clean',
   run: async () => {
-    await $`rm -rf .turbo && rm -rf dist && rm -rf node_modules && rm -rf .next`;
+    rmSync('dist', { recursive: true, force: true });
+    await $`rm -rf .turbo && rm -rf node_modules && rm -rf .next`;
   },
 };
