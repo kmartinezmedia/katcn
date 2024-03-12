@@ -4,9 +4,7 @@
     "target": "ESNext",
     "jsxImportSource": "katcn",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
@@ -16,10 +14,7 @@
     ".next/types/**/*.ts",
     ".katcn/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "public"
-  ],
+  "exclude": ["node_modules", "public"],
   "references": [
     {
       "path": "../../packages/components"

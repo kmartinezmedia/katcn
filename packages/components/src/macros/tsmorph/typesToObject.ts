@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { Project, SourceFile, SyntaxKind } from 'ts-morph';
+import { Project, type SourceFile, SyntaxKind } from 'ts-morph';
 
 let typesToObjectProject: Project;
 let typesToObjectSourceFile: SourceFile;

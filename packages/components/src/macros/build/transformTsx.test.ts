@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { transformTsx } from './transformTsx';
 import { createTsMorphProject } from '../tsmorph/createTsMorphProject';
+import { transformTsx } from './transformTsx';
 
 const testCode = `
 import { VStack, Text, Icon, getStyles } from 'katcn';

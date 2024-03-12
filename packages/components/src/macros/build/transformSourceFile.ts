@@ -1,9 +1,9 @@
 import type { SourceFile } from 'ts-morph';
-import { transformTsx } from './transformTsx';
-import { transformCss } from './transformCss';
-import type { UniversalTokensConfig } from '../../types';
 import { defaultTokensConfig } from '../../tokens';
+import type { UniversalTokensConfig } from '../../types';
 import { CssRegistry } from './cssRegistry';
+import { transformCss } from './transformCss';
+import { transformTsx } from './transformTsx';
 
 export interface TransformSourceFileOptions {
   config?: UniversalTokensConfig;

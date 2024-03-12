@@ -1,5 +1,5 @@
 'use client';
-import { CodeEditor, type OnChange, type DtsLibs } from 'docgen';
+import { CodeEditor, type DtsLibs, type OnChange } from 'docgen';
 import { VStack } from 'katcn';
 
 const exampleCode = `

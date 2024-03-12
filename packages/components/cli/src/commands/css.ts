@@ -1,6 +1,6 @@
+import path from 'node:path';
 import type { Props } from 'bluebun';
 import { createTsMorphProject, transformProject } from 'katcn/macros';
-import path from 'node:path';
 
 interface CssProps extends Props {
   options: {

@@ -1,14 +1,14 @@
-import { defaultTokensConfig } from '#tokens';
+import { watch } from 'node:fs';
+import path from 'node:path';
 import {
   createBase,
+  createPreflight,
   createTheme,
   createUtilities,
-  createPreflight,
   cssTemplate,
 } from 'katcn/macros';
 import prettier from 'prettier';
-import { watch } from 'node:fs';
-import path from 'node:path';
+import { defaultTokensConfig } from '#tokens';
 
 const outDir = `${Bun.env.PWD}/dist`;
 

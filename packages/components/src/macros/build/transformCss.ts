@@ -1,15 +1,15 @@
-import prettier from 'prettier';
 import {
   type CustomAtRules,
   type Visitor,
   composeVisitors,
   transform,
 } from 'lightningcss';
+import prettier from 'prettier';
 import type { UniversalTokensConfig } from '../../types';
-import { createPreflight } from '../css/createPreflight';
 import { createBase } from '../css/createBase';
-import { createUtilities } from '../css/createUtilities';
+import { createPreflight } from '../css/createPreflight';
 import { createTheme } from '../css/createTheme';
+import { createUtilities } from '../css/createUtilities';
 import { cssTemplate } from './cssTemplate';
 
 interface TransformCssOptions {

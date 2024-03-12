@@ -2,7 +2,7 @@
 
 import { promises as fs, existsSync } from 'node:fs';
 import { Editor } from '@/ui/Editor';
-import { VStack, Text, Icon } from 'katcn';
+import { Icon, Text, VStack } from 'katcn';
 
 async function getDtsFiles(
   inputDir: string,

@@ -1,13 +1,13 @@
 /// <reference types="bun-types" />
 
+import { Transpiler } from 'bun';
 import {
   type CallExpression,
   type SourceFile,
   SyntaxKind,
   type ts,
 } from 'ts-morph';
-import { Transpiler } from 'bun';
-import { getStyles, extractStyleProps } from '../../getStyles';
+import { extractStyleProps, getStyles } from '../../getStyles';
 
 const varRegex = /--katcn-[^:,\s")]+/g;
 

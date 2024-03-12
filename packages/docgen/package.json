@@ -1,7 +1,7 @@
 {
   "name": "docgen",
-  "version": "0.0.1",
   "description": "A simple documentation generator",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "files": ["package.json", "tsconfig.json", "src", "dist", "dts"],
@@ -16,12 +16,6 @@
     },
     "./tsconfig.json": "./tsconfig.json",
     "./package.json": "./package.json"
-  },
-  "imports": {
-    "#themes/*": {
-      "types": "./src/themes/themes.d.ts",
-      "default": "./dist/themes/*.js"
-    }
   },
   "scripts": {
     "build": "tsup",
@@ -43,7 +37,13 @@
     "colord": "^2.9.3",
     "concurrently": "^8.2.2",
     "react": "^18.2.0",
-    "tsup": "^8.0.2",
-    "tsconfig": "workspace:*"
+    "tsconfig": "workspace:*",
+    "tsup": "^8.0.2"
+  },
+  "imports": {
+    "#themes/*": {
+      "types": "./src/themes/themes.d.ts",
+      "default": "./dist/themes/*.js"
+    }
   }
 }

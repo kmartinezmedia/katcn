@@ -1,5 +1,5 @@
-import { $ } from 'bun';
 import { rmSync } from 'node:fs';
+import { $ } from 'bun';
 
 export default {
   name: 'clean',

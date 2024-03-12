@@ -1,7 +1,7 @@
 /// <reference types="bun-types" />
 import fs, { copyFile } from 'node:fs';
-import { cp } from 'node:fs/promises';
 import { watch } from 'node:fs';
+import { cp } from 'node:fs/promises';
 import path from 'node:path';
 import { buildPlayground } from './buildPlayground';
 

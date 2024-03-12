@@ -1,14 +1,14 @@
 import type { Project } from 'ts-morph';
-import type { UniversalTokensConfig } from '../../types';
 import { defaultTokensConfig } from '../../tokens';
-import {
-  type OnSourceFileChange,
-  transformWatchers,
-} from './transformWatchers';
+import type { UniversalTokensConfig } from '../../types';
 import {
   type TransformedData,
   transformSourceFile,
 } from './transformSourceFile';
+import {
+  type OnSourceFileChange,
+  transformWatchers,
+} from './transformWatchers';
 
 interface TransformOptions {
   config?: UniversalTokensConfig;

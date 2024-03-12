@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "files": ["package.json", "tsconfig.json", "cli", "src", "dist"],
   "bin": "./cli/bin",
+  "files": ["package.json", "tsconfig.json", "cli", "src", "dist"],
   "exports": {
     ".": {
       "types": "./dist/index.js",
@@ -30,29 +30,24 @@
     "./tsconfig.json": "./tsconfig.json",
     "./package.json": "./package.json"
   },
-  "imports": {
-    "#fixtures": {
-      "types": "./src/fixtures.ts",
-      "default": "./dist/fixtures.js"
-    },
-    "#tokens": {
-      "types": "./src/tokens/index.ts",
-      "default": "./src/tokens/index.ts"
-    }
-  },
   "scripts": {
     "build": "rm -rf ./dist && tsup && bun run ./scripts/postbuild.ts && bun run build:css",
     "build:css": "bun run ./scripts/buildCss.ts",
     "build:icons": "cli icons build --formats woff2,ttf --input ./src/icons/svg --outputFonts ./src/icons/fonts --outputTypes ./src/icons/types.ts",
     "clean": "cli tools clean",
     "dev": "bun run build && concurrently bun:dev:*",
+    "dev:css": "bun run build:css --watch",
     "dev:icons": "bun run build:icons --watch",
     "dev:src": "tsup --watch",
-    "dev:css": "bun run build:css --watch",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
     "test": "bun test",
     "typecheck": "cli tools typecheck"
+  },
+  "dependencies": {
+    "lightningcss": "^1.24.0",
+    "prettier": "^3.2.5",
+    "ts-morph": "^22.0.0"
   },
   "devDependencies": {
     "cli": "workspace:*",
@@ -65,9 +60,14 @@
     "tsup": "^8.0.2",
     "webfont": "^11.2.26"
   },
-  "dependencies": {
-    "lightningcss": "^1.24.0",
-    "ts-morph": "^22.0.0",
-    "prettier": "^3.2.5"
+  "imports": {
+    "#fixtures": {
+      "types": "./src/fixtures.ts",
+      "default": "./dist/fixtures.js"
+    },
+    "#tokens": {
+      "types": "./src/tokens/index.ts",
+      "default": "./src/tokens/index.ts"
+    }
   }
 }
