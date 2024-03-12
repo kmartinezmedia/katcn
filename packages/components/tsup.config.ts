@@ -11,7 +11,7 @@ export default defineConfig(({ watch }) => {
       minify: false,
       bundle: true,
       dts: true,
-      noExternal: ['clsx', 'tailwind-merge'],
+      noExternal: ['tailwind-merge'],
       skipNodeModulesBundle: true,
       watch,
       clean: !watch,

@@ -1,6 +1,6 @@
 import { jsx as jsxOriginal, jsxs as jsxsOriginal } from 'react/jsx-runtime';
 
-import { extractStyleProps } from './extractStyleProps';
+import { extractStyleProps } from '#getStyles';
 import type { StyleProps } from './types';
 
 interface Props extends StyleProps {

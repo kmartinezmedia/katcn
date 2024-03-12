@@ -1,5 +1,5 @@
 import { jsxDEV as jsxDevOriginal } from 'react/jsx-dev-runtime';
-import { extractStyleProps } from './extractStyleProps';
+import { extractStyleProps } from '#getStyles';
 import type { StyleProps } from './types';
 export { Fragment, createElement } from 'react';
 

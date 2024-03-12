@@ -33,7 +33,7 @@ function Example() {
 
 app.get('/playground/:hash', async (c) => {
   const [katcnRuntime, katcnLib] = await Promise.all([
-    Bun.file(require.resolve('katcn/jsx-dev-runtime')).text(),
+    Bun.file(require.resolve('katcn/jsx-runtime')).text(),
     Bun.file(require.resolve('katcn')).text(),
   ]);
 
@@ -55,12 +55,13 @@ import { createRoot } from 'https://esm.sh/react-dom@18.2.0/client';
 ${raw(
   katcnRuntime
     .replaceAll(
-      'react/jsx-dev-runtime',
-      'https://esm.sh/react@18.2.0/jsx-dev-runtime.js',
+      'react/jsx-runtime',
+      'https://esm.sh/react@18.2.0/jsx-runtime.js',
     )
-    .replaceAll(`"react"`, `"https://esm.sh/react@18.2.0"`),
+    .replaceAll(`"react"`, `"https://esm.sh/react@18.2.0"`)
+    .replaceAll('import { extractStyleProps } from "#getStyles";', ''),
 )}
-${raw(katcnLib)}
+${raw(katcnLib.replaceAll(`import { jsx } from "katcn/jsx-runtime";`, ''))}
 const root = createRoot(document.getElementById('app'));
 root.render(Example());
 </script>

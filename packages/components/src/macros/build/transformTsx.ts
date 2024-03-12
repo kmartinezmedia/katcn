@@ -9,12 +9,14 @@ import {
 } from 'ts-morph';
 import { Transpiler } from 'bun';
 import { getStyles } from '../../getStyles';
-import { extractStyleProps } from '../../extractStyleProps';
+import { extractStyleProps } from '../../getStyles';
 
 const varRegex = /--katcn-[^:,\s")]+/g;
 
+Bun.env.NODE_ENV;
 const transpiler = new Transpiler({
   loader: 'tsx',
+  define: { 'process.env.NODE_ENV': 'production' },
   tsconfig: {
     compilerOptions: {
       jsx: 'react-jsx',
