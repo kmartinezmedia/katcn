@@ -1,11 +1,14 @@
 {
-  "extends": "tsconfig/bun.json",
   "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "types": ["bun-types"],
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
     "jsx": "react-jsx",
-    "jsxImportSource": "katcn"
+    "jsxImportSource": "katcn",
+    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "module": "ESNext"
   },
   "references": [
     {
