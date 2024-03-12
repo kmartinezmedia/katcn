@@ -5,8 +5,14 @@ import { watch } from 'node:fs';
 import { Transpiler } from 'bun';
 import path from 'node:path';
 
-async function buildMacros() {
-  await Bun.build({ entrypoints: ['src/fixtures'], outdir: 'dist' });
+async function buildFixtures() {
+  const data = await Bun.build({
+    format: 'esm',
+    target: 'node',
+    entrypoints: ['src/fixtures.ts'],
+    outdir: 'dist',
+  });
+  console.log(data);
 }
 
 async function copyDist() {
@@ -45,4 +51,4 @@ if (Bun.argv.includes('--watch')) {
   });
 }
 
-await Promise.all([buildMacros(), copyDist()]);
+await Promise.all([buildFixtures(), copyDist()]);

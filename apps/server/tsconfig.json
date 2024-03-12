@@ -1,6 +1,10 @@
 {
   "extends": "tsconfig/bun.json",
   "include": ["src"],
+  "compilerOptions": {
+    "jsx": "react",
+    "jsxImportSource": "katcn"
+  },
   "references": [
     {
       "path": "../../packages/components"

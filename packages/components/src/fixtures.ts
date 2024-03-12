@@ -1,6 +1,4 @@
-import { typesToConstants } from './macros/tsmorph/typesToConstants' with {
-  type: 'macro',
-};
+import { typesToConstants } from './typesToConstants' with { type: 'macro' };
 
 import type {
   AlignContent,

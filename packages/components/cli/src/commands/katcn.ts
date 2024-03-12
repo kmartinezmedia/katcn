@@ -5,6 +5,14 @@ export default {
   name: 'katcn',
   description: '',
   run: async (props: Props) => {
-    print(await commandHelp(props));
+    console.log(props);
+    switch (props?.first) {
+      case 'css':
+        return (await import('./css')).default.run(props);
+      default: {
+        await commandHelp(props);
+        break;
+      }
+    }
   },
 };

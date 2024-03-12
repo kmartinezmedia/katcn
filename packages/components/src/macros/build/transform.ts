@@ -54,19 +54,37 @@ interface TransformOptions {
   project: Project;
   outFile?: string;
   watch?: boolean;
+  onProcess?: OnProcessCallbackFn;
 }
+
+export type OnProcessCallbackFnParams = {
+  sourceFile: SourceFile;
+  classNamesToKeep: Set<string>;
+  varsToKeep: Set<string>;
+  jsContent: string;
+  cssContent: string;
+};
+
+export type OnProcessCallbackFn = (params: OnProcessCallbackFnParams) => void;
 
 export async function transform({
   config = defaultTokensConfig,
   project,
   outFile,
   watch: shouldWatch = false,
+  onProcess,
 }: TransformOptions) {
   const watchers: FSWatcher[] = [];
   const registry = new CssRegistry();
   const sourceFiles = project.getSourceFiles();
 
-  async function processFile(sourceFile: SourceFile, filePath: string) {
+  async function processFile({
+    sourceFile,
+    filePath,
+  }: {
+    sourceFile: SourceFile;
+    filePath: string;
+  }) {
     // const relativeFilePath = path.relative(Bun.env.PWD, filePath);
     const content = sourceFile.getFullText();
     const { classNamesToKeep, varsToKeep, jsContent } = transformTsx({
@@ -88,6 +106,13 @@ export async function transform({
       if (outFile) {
         await Bun.write(outFile, cssContent);
       }
+      onProcess?.({
+        sourceFile,
+        classNamesToKeep,
+        varsToKeep,
+        jsContent,
+        cssContent,
+      });
       return { cssContent, jsContent };
     }
   }
@@ -98,7 +123,7 @@ export async function transform({
         const sourceFile = project.getSourceFile(filePath);
         sourceFile?.refreshFromFileSystem().then((status) => {
           if (status === FileSystemRefreshResult.Updated) {
-            processFile(sourceFile, filePath);
+            processFile({ sourceFile, filePath });
           }
         });
       }
@@ -122,7 +147,7 @@ export async function transform({
         if (shouldWatch) {
           createWatcher(filePath);
         }
-        return await processFile(sourceFile, filePath);
+        return await processFile({ sourceFile, filePath });
       }
     }),
   );

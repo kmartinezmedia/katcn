@@ -42,6 +42,11 @@
     "#macros": {
       "types": "./src/macros/index.ts",
       "default": "./dist/macros.js"
+    },
+    "#typesToConstants": "./dist/typesToConstants.js",
+    "#fixtures": {
+      "types": "./src/fixtures.ts",
+      "default": "./dist/fixtures.js"
     }
   },
   "scripts": {
@@ -49,7 +54,7 @@
     "build:css": "bun run ./scripts/buildCss.ts",
     "build:icons": "cli icons build --formats woff2,ttf --input ./src/icons/svg --outputFonts ./src/icons/fonts --outputTypes ./src/icons/types.ts",
     "clean": "cli tools clean",
-    "dev": "rm -rf ./dist && tsup && concurrently bun:dev:*",
+    "dev": "bun run build && concurrently bun:dev:*",
     "dev:icons": "bun run build:icons --watch",
     "dev:src": "tsup --watch",
     "dev:css": "bun run build:css --watch",

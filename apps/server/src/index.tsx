@@ -1,22 +1,29 @@
-import { transform, createTsMorphProject } from 'katcn/macros';
+import {
+  transform,
+  createTsMorphProject,
+  OnProcessCallbackFnParams,
+} from 'katcn/macros';
 import { Hono } from 'hono';
+import { jsxRenderer, useRequestContext } from 'hono/jsx-renderer';
 
 const app = new Hono();
+const project = createTsMorphProject();
 
 app.post('/transform', async (c) => {
   const body = await c.req.text();
-  console.log('body');
-  // const imports = transpiler.scanImports(code);
-  const project = createTsMorphProject();
-  project.createSourceFile('temp.tsx', body, { overwrite: true });
+  const sourceFile = project.createSourceFile('temp.tsx', body);
+  let cssContent = '';
 
-  const files = await transform({
+  await transform({
     watch: false,
     project,
+    onProcess: (val: OnProcessCallbackFnParams) => {
+      cssContent = val.cssContent;
+    },
   });
-  console.log(files);
 
-  return c.json({});
+  sourceFile.deleteImmediately();
+  return c.text(cssContent);
 });
 
 // biome-ignore lint/style/noNonNullAssertion: <explanation>
