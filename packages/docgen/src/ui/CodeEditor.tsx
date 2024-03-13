@@ -201,6 +201,7 @@ export function CodeEditor({
           }}
           onChange={async (value, changeEvent) => {
             const code = value ?? '';
+            console.log(changeEvent);
             const res = await fetch(TRANSFORM_URL, {
               method: 'POST',
               body: code,

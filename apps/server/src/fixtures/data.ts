@@ -1,8 +1,4 @@
-'use client';
-import { CodeEditor, type DtsLibs, type OnChange } from 'docgen';
-import { VStack } from 'katcn';
-
-const exampleCode = `
+export const fallbackExampleCode = `
 import { VStack, Text, Icon, getStyles } from 'katcn';
 
 function Example() {
@@ -24,18 +20,3 @@ function Example() {
   )
  }
 `;
-
-export function Editor({
-  dtsLibs,
-  onChange,
-}: { dtsLibs: DtsLibs; onChange?: OnChange }) {
-  return (
-    <VStack height="100vh">
-      <CodeEditor
-        userCode={exampleCode}
-        dtsLibs={dtsLibs}
-        onChange={onChange}
-      />
-    </VStack>
-  );
-}

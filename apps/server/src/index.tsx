@@ -1,53 +1,37 @@
 import { Hono } from 'hono';
 import { html, raw } from 'hono/html';
 import { createTsMorphProject, transformSourceFile } from 'katcn/macros';
+import { fallbackExampleCode } from './fixtures/data';
 
 const app = new Hono();
 const project = createTsMorphProject({
   skipAddingFilesFromTsConfig: false,
 });
 
-const exampleCode = `
-import { VStack, Text, Icon, getStyles } from 'katcn';
-
-function Example() {
-  const customStyles = getStyles({
-    borderWidth: 'thick',
-    borderColor: 'warning',
-    backgroundColor: 'accent-wash',
-    elevation: '1',
-  });
-
-  return (
-    <VStack backgroundColor="alert">
-      <VStack width="1/2" backgroundColor="accent">
-        <Text color="on-color" variant="display1" className={customStyles}>
-          something
-        </Text>
-        <Icon name="addFile" size="lg" />
-      </VStack>
-    </VStack>
-  )
- }
-`;
+const transformMap = new Map<string, { css: string; js: string }>();
 
 const tsmorphOptions = {
   overwrite: true,
 } as const;
 
-app.get('/playground/:hash', async (c) => {
+app.get('/playground/:id', async (c) => {
+  if (transformMap.size > 1000) {
+    transformMap.clear();
+  }
   const katcn = await Bun.file(require.resolve('katcn/playground')).text();
 
-  const { hash } = c.req.param();
-  const data = await transformSourceFile({
-    sourceFile: project.createSourceFile(
-      `playground-${hash}-input.tsx`,
-      exampleCode,
-      tsmorphOptions,
-    ),
-  });
+  const { id } = c.req.param();
+  const data = await (transformMap.get(id) ??
+    transformSourceFile({
+      sourceFile: project.createSourceFile(
+        `playground-${id}-input.tsx`,
+        fallbackExampleCode,
+        tsmorphOptions,
+      ),
+    }));
+
   const sourceFile1 = project.createSourceFile(
-    `playground-${hash}-output.tsx`,
+    `playground-${id}-output.tsx`,
     data.js,
     tsmorphOptions,
   );
@@ -78,18 +62,29 @@ root.render(Example());
 });
 
 app.post('/transform', async (c) => {
+  if (transformMap.size > 1000) {
+    transformMap.clear();
+  }
   const body = await c.req.text();
-  const sourceFile = project.createSourceFile('temp.tsx', body, {
-    overwrite: true,
-  });
+  const id = Bun.hash(body).toString();
+
+  console.log(id);
+  if (transformMap.has(id)) {
+    return c.json(transformMap.get(id));
+  }
+  const sourceFile = project.createSourceFile(
+    `playground-${id}-input.tsx`,
+    body,
+    tsmorphOptions,
+  );
 
   const data = await transformSourceFile({
     sourceFile,
   });
 
-  console.log(sourceFile.getFullText());
   sourceFile.deleteImmediately();
-  return c.text(data.js);
+  transformMap.set(id, data);
+  return c.json(data);
 });
 
 // biome-ignore lint/style/noNonNullAssertion: <explanation>
