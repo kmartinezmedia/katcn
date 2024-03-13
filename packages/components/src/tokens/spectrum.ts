@@ -13,5 +13,5 @@ export const spectrum: SpectrumConfig = {
   lime: 125,
   yellow: 100,
   orange: 75,
-  gray: 0,
+  gray: 50,
 };

@@ -14,12 +14,12 @@ const lightPalette: PaletteConfig = {
   },
   foreground: {
     primary: { hue: 'gray', step: 13 },
-    secondary: { hue: 'gray', step: 12 },
+    secondary: { hue: 'gray', step: 14 },
     tertiary: { hue: 'gray', step: 9 },
     'on-color': { hue: 'gray', step: 0 },
   },
   line: {
-    primary: { hue: 'gray', step: 12 },
+    primary: { hue: 'gray', step: 14 },
     secondary: { hue: 'gray', step: 9 },
   },
 };
@@ -44,7 +44,7 @@ const darkPalette: PaletteConfig = {
     'on-color': { hue: 'gray', step: 0 },
   },
   line: {
-    primary: { hue: 'gray', step: 12 },
+    primary: { hue: 'gray', step: 14 },
     secondary: { hue: 'gray', step: 9 },
   },
 };

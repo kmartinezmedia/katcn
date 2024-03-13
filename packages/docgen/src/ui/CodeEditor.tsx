@@ -26,6 +26,7 @@ export interface CodeEditorProps {
   monaco?: MonacoInstance;
   editor?: EditorInstance;
   onChange?: OnChange;
+  Preview?: React.ComponentType<{ code: string }>;
 }
 
 interface Refs {
@@ -43,8 +44,9 @@ export function CodeEditor({
   onChange,
   userCode,
   dtsLibs = [],
+  Preview,
 }: CodeEditorProps) {
-  const [transformedCode, setTransformedCode] = useState<string>('');
+  const [hashId, setHashId] = useState<string>('15580922508895177590');
   const refs = useRef<Refs>({
     monaco: null,
     editor: null,
@@ -68,7 +70,7 @@ export function CodeEditor({
   }, []);
 
   return (
-    <HStack>
+    <HStack width="full">
       <VStack height="100vh" width="half">
         <Editor
           defaultLanguage="typescript"
@@ -201,20 +203,37 @@ export function CodeEditor({
           }}
           onChange={async (value, changeEvent) => {
             const code = value ?? '';
-            console.log(changeEvent);
-            const res = await fetch(TRANSFORM_URL, {
-              method: 'POST',
-              body: code,
-              mode: 'no-cors',
-            });
-            const _transformedCode = await res.text();
-            setTransformedCode(_transformedCode);
+            // console.log(changeEvent);
+            const monaco = refs.current?.monaco;
+            const editor = monaco?.editor;
+
+            if (editor) {
+              const markers = editor
+                ?.getModelMarkers({})
+                .filter(
+                  (marker) =>
+                    marker.message !==
+                    "'Example' is declared but its value is never read.",
+                );
+              console.log(markers);
+              if (markers?.length <= 1) {
+                const res = await fetch(TRANSFORM_URL, {
+                  method: 'GET',
+                  body: code,
+                  mode: 'no-cors',
+                  headers: {
+                    'Content-Type': 'text/plain',
+                    Accept: 'application/json',
+                  },
+                });
+                const hashId = await res.json();
+                setHashId(hashId);
+              }
+            }
           }}
         />
       </VStack>
-      <VStack width="half" height="full" backgroundColor="accent">
-        {transformedCode}
-      </VStack>
+      {Preview && <Preview code={userCode} />}
     </HStack>
   );
 }

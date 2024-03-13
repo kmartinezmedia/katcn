@@ -1,0 +1,27 @@
+{
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "types": ["bun-types"],
+  "compilerOptions": {
+    "composite": true,
+    "incremental": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "jsx": "react-jsx",
+    "jsxImportSource": "katcn",
+    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "module": "ESNext",
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../packages/components"
+    },
+    {
+      "path": "../../packages/docgen"
+    },
+    {
+      "path": "../../packages/tsconfig"
+    }
+  ]
+}
