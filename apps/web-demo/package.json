@@ -10,7 +10,7 @@
   "scripts": {
     "build": "bun run css && next build",
     "clean": "cli tools clean",
-    "css": "katcn css --include docgen --outFile ./kat/styles.css",
+    "css": "katcn css --include docgen --outFile ./.katcn/styles.css",
     "dev": "concurrently bun:dev:*",
     "dev:css": "bun run css --watch",
     "dev:next": "next dev",
