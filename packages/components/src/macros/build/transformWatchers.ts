@@ -1,4 +1,4 @@
-import { type FSWatcher, watch } from 'node:fs';
+import { type FSWatcher, watch, existsSync } from 'node:fs';
 import {
   FileSystemRefreshResult,
   type Project,
@@ -41,7 +41,7 @@ export function transformWatchers({
 
   for (const sourceFile of project.getSourceFiles()) {
     const filePath = sourceFile.getFilePath();
-    if (filePath.endsWith('tsx')) {
+    if (filePath.endsWith('tsx') && existsSync(filePath)) {
       watchers.push(createTransformWatcher({ sourceFile, onChange }));
     }
   }

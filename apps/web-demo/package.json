@@ -8,10 +8,11 @@
     "./tsconfig.json": "./tsconfig.json"
   },
   "scripts": {
-    "build": "katcn css && next build",
+    "build": "bun run css && next build",
     "clean": "cli tools clean",
+    "css": "katcn css --include docgen --outFile ./.katcn/styles.css",
     "dev": "concurrently bun:dev:*",
-    "dev:css": "katcn css --watch",
+    "dev:css": "bun run css --watch",
     "dev:next": "next dev",
     "docgen": "cli docs build --input katcn",
     "fix": "cli tools fix",
