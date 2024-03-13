@@ -1,10 +1,9 @@
 {
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "scripts/**/*.ts"],
   "types": ["bun-types"],
   "compilerOptions": {
     "composite": true,
     "incremental": true,
-    "rootDir": "src",
     "outDir": "dist",
     "jsx": "react-jsx",
     "jsxImportSource": "katcn",

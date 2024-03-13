@@ -1,5 +1,5 @@
 {
-  "name": "web-demo-2",
+  "name": "playground",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -7,7 +7,8 @@
   "scripts": {
     "clean": "cli tools clean",
     "css": "katcn css --include docgen --outFile ./.katcn/styles.css",
-    "dev": "bun run --hot src/index.tsx",
+    "init": "bun run ./scripts/init.ts",
+    "dev": "NODE_ENV=production bun run init && bun run --hot src/index.ts",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
     "test": "bun test",
