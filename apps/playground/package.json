@@ -17,7 +17,8 @@
   "dependencies": {
     "base64-url": "^2.3.3",
     "hono": "^4.0.10",
-    "katcn": "workspace:*"
+    "katcn": "workspace:*",
+    "ts-morph": "^22.0.0"
   },
   "devDependencies": {
     "@types/base64-url": "^2.2.2"
