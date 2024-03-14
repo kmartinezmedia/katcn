@@ -1,64 +1,47 @@
 'use server';
 
-import { promises as fs, existsSync } from 'node:fs';
-import { Editor } from '@/ui/Editor';
-import { Icon, Text, VStack } from 'katcn';
+import { CodeEditor } from 'docgen';
 
-async function getDtsFiles(
-  inputDir: string,
-  dtsFiles: string[],
-  scopeName: string,
-) {
-  return await Promise.all(
-    dtsFiles.map(async (file) => {
-      const content = await fs.readFile(`${inputDir}/${file}`, 'utf-8');
-      return {
-        content,
-        filePath: `file:///node_modules/${scopeName}/${file}`,
-      };
-    }),
-  );
-}
+const exampleCode = `
+import { VStack, Text, Icon, getStyles } from 'katcn';
 
-const katcnDistDir = 'public/katcn/dist';
-
-export default async function Home() {
-  if (existsSync(katcnDistDir)) {
-    const katDtsFiles = await fs.readdir(katcnDistDir);
-    console.log('katDtsFiles', katDtsFiles);
-
-    const katPackageJson = await fs.readFile(
-      'public/katcn/package.json',
-      'utf-8',
-    );
-
-    const parsedKatDtsFiles = await getDtsFiles(
-      katcnDistDir,
-      katDtsFiles,
-      'katcn',
-    );
-
-    const dtsLibs = [
-      {
-        content: katPackageJson,
-        filePath: 'file:///node_modules/katcn/package.json',
-      },
-      ...parsedKatDtsFiles,
-    ];
-
-    // console.log('parsedKatDtsFiles', parsedKatDtsFiles);
-    // console.log('katPackageJson', katPackageJson);
-
-    return <Editor dtsLibs={dtsLibs} />;
-  }
+function Example() {
+  const customStyles = getStyles({
+    borderWidth: 'thick',
+    borderColor: 'warning',
+    backgroundColor: 'accent'
+  });
 
   return (
-    <VStack backgroundColor="accent">
-      <Text color="on-color" variant="display1">
-        some text
-      </Text>
-      <Icon name="arrow1" size="lg" color="on-color" />
-      <Icon name="arrow1" size="lg" color="brand" />
+    <VStack backgroundColor="alert">
+      <VStack width="half" backgroundColor="accent">
+        <Text color="on-color" variant="display1" className={customStyles}>
+          something
+        </Text>
+        <Icon name="addFile" size="lg" />
+      </VStack>
     </VStack>
+  )
+ }
+`;
+
+const serverUrl =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:4001'
+    : 'http://167.71.186.74:4001';
+
+export default async function Home() {
+  const dtsLibsResp = await fetch(`${serverUrl}/dtsLibs`, {
+    method: 'GET',
+    cache: 'no-store',
+  });
+  const dtsLibs = await dtsLibsResp.json();
+
+  return (
+    <CodeEditor
+      serverUrl={serverUrl}
+      userCode={exampleCode}
+      dtsLibs={dtsLibs}
+    />
   );
 }

@@ -15,6 +15,7 @@ import type { IconProps } from './ui/Icon';
 import type { TextProps } from './ui/Text';
 import type { TextInputProps } from './ui/TextInput';
 import type { VStackProps } from './ui/VStack';
+import type { BoxProps } from './ui/Box';
 
 const lineColors: LineColor[] = [
   'accent',
@@ -196,7 +197,7 @@ export const getStyles = ({
   }
 
   if (display) {
-    classNames.push(display);
+    classNames.push(`display-${display}`);
   }
 
   if (placeholderColor) {
@@ -573,6 +574,7 @@ type StyleProp = keyof StyleProps | 'children' | 'asChild';
 type ComponentPropsMap = {
   Avatar: Omit<AvatarProps, StyleProp>;
   Icon: Omit<IconProps, StyleProp>;
+  Box: BoxProps;
   HStack: Omit<HStackProps, StyleProp>;
   VStack: Omit<VStackProps, StyleProp>;
   Text: Omit<TextProps, StyleProp>;
@@ -608,8 +610,14 @@ export function extractStyleProps(
       break;
     }
 
+    case 'Box': {
+      defaults.display = 'flex';
+      break;
+    }
+
     case 'HStack': {
       const { gap } = props as ComponentPropsMap['HStack'];
+      defaults.display = 'flex';
       defaults.horizontalGap = gap;
       // @ts-expect-error this is fine
       props.gap = undefined;
@@ -652,6 +660,7 @@ export function extractStyleProps(
 
     case 'VStack': {
       const { gap } = props as ComponentPropsMap['VStack'];
+      defaults.display = 'flex';
       defaults.verticalGap = gap;
       // @ts-expect-error this is fine
       props.gap = undefined;

@@ -9,7 +9,7 @@ import { composeRefs } from './composeRefs';
 export function createSlot<
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   T extends React.ComponentType<{ children?: any }>,
->() {
+>(): T {
   type SlotProps = React.ComponentPropsWithRef<T>;
   const Slot = forwardRef<T, SlotProps>((props, forwardedRef) => {
     const { children, ...slotProps } = props;

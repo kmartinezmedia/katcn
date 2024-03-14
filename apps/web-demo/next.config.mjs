@@ -9,8 +9,7 @@ const nextConfig = async function nextConfig() {
 
       return config;
     },
-    output: 'standalone',
-    transpilePackages: ['katcn', 'docgen', 'tsconfig'],
+    transpilePackages: ['katcn', 'docgen'],
   };
 };
 

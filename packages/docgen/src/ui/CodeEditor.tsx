@@ -1,9 +1,10 @@
 'use client';
 
 import { Editor } from '@monaco-editor/react';
-import { HStack, VStack } from 'katcn';
 import type * as monacoType from 'monaco-editor';
+import { HStack, VStack } from 'katcn';
 import { useEffect, useRef, useState } from 'react';
+import { encode } from 'base64-url';
 import { PrettierFormatProvider } from '../utils/prettier';
 
 export type MonacoInstance = typeof monacoType;
@@ -20,12 +21,12 @@ export type OnChange = (
 
 export interface CodeEditorProps {
   className?: string;
+  serverUrl: string;
   userCode: string;
   dtsLibs?: DtsLibs;
   tsconfig?: monacoType.languages.typescript.CompilerOptions;
-  monaco?: MonacoInstance;
-  editor?: EditorInstance;
-  onChange?: OnChange;
+  // monaco?: MonacoInstance;
+  // editor?: EditorInstance;
 }
 
 interface Refs {
@@ -37,14 +38,14 @@ interface Refs {
 
 const USER_CODE_PATH = 'file:///user.tsx';
 // const TRANSFORM_URL = 'http://167.71.186.74:3001/';
-const TRANSFORM_URL = 'http://localhost:3001/transform';
 
 export function CodeEditor({
-  onChange,
   userCode,
   dtsLibs = [],
+  serverUrl,
 }: CodeEditorProps) {
-  const [transformedCode, setTransformedCode] = useState<string>('');
+  console.log(dtsLibs);
+  const [preview, setPreview] = useState<string>('');
   const refs = useRef<Refs>({
     monaco: null,
     editor: null,
@@ -68,7 +69,7 @@ export function CodeEditor({
   }, []);
 
   return (
-    <HStack>
+    <HStack width="full">
       <VStack height="100vh" width="half">
         <Editor
           defaultLanguage="typescript"
@@ -201,19 +202,35 @@ export function CodeEditor({
           }}
           onChange={async (value, changeEvent) => {
             const code = value ?? '';
-            const res = await fetch(TRANSFORM_URL, {
-              method: 'POST',
-              body: code,
-              mode: 'no-cors',
-            });
-            const _transformedCode = await res.text();
-            setTransformedCode(_transformedCode);
+            // console.log(changeEvent);
+            const monaco = refs.current?.monaco;
+            const editor = monaco?.editor;
+
+            if (editor) {
+              const markers = editor
+                ?.getModelMarkers({})
+                .filter(
+                  (marker) =>
+                    marker.message !==
+                    "'Example' is declared but its value is never read.",
+                );
+              console.log(markers);
+
+              if (markers?.length <= 1) {
+                const encoded = encode(code);
+                console.log('encoded', encoded);
+                setPreview(encoded);
+              }
+            }
           }}
         />
       </VStack>
-      <VStack width="half" height="full" backgroundColor="accent">
-        {transformedCode}
-      </VStack>
+      <iframe
+        title="Preview"
+        src={`${serverUrl}/playground?code=${preview}`}
+        width="half"
+        height="100vh"
+      />
     </HStack>
   );
 }
