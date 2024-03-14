@@ -4,7 +4,7 @@ import { serveStatic } from 'hono/bun';
 import { logger } from 'hono/logger';
 import { createTsMorphProject, transformSourceFile } from 'katcn/macros';
 import { defaultExample } from './fixtures/defaultExample';
-import { dtsLibs } from './fixtures/dtsLibs';
+import { dtsLibs } from '#dtsLibs';
 import { decode } from 'base64-url';
 
 const app = new Hono();
