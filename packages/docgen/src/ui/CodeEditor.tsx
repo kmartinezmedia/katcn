@@ -44,7 +44,6 @@ export function CodeEditor({
   dtsLibs = [],
   serverUrl,
 }: CodeEditorProps) {
-  console.log(dtsLibs);
   const [preview, setPreview] = useState<string>('');
   const refs = useRef<Refs>({
     monaco: null,
@@ -202,7 +201,6 @@ export function CodeEditor({
           }}
           onChange={async (value, changeEvent) => {
             const code = value ?? '';
-            // console.log(changeEvent);
             const monaco = refs.current?.monaco;
             const editor = monaco?.editor;
 
@@ -214,11 +212,9 @@ export function CodeEditor({
                     marker.message !==
                     "'Example' is declared but its value is never read.",
                 );
-              console.log(markers);
 
               if (markers?.length <= 1) {
                 const encoded = encode(code);
-                console.log('encoded', encoded);
                 setPreview(encoded);
               }
             }

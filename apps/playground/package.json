@@ -14,6 +14,12 @@
     "test": "bun test",
     "typecheck": "cli tools typecheck"
   },
+  "imports": {
+    "#dtsLibs": {
+      "types": "./src/fixtures/dtsLibs.d.ts",
+      "default": "./src/fixtures/dtsLibs.ts"
+    }
+  },
   "dependencies": {
     "base64-url": "^2.3.3",
     "hono": "^4.0.10",

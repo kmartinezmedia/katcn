@@ -57,7 +57,6 @@ export async function transformProject({
     });
 
     if (outFile) {
-      console.log(registry);
       await Bun.write(outFile, cssContent);
     }
   }
