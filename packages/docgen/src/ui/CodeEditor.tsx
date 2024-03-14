@@ -21,11 +21,12 @@ export type OnChange = (
 
 export interface CodeEditorProps {
   className?: string;
+  serverUrl: string;
   userCode: string;
   dtsLibs?: DtsLibs;
   tsconfig?: monacoType.languages.typescript.CompilerOptions;
-  monaco?: MonacoInstance;
-  editor?: EditorInstance;
+  // monaco?: MonacoInstance;
+  // editor?: EditorInstance;
 }
 
 interface Refs {
@@ -38,7 +39,11 @@ interface Refs {
 const USER_CODE_PATH = 'file:///user.tsx';
 // const TRANSFORM_URL = 'http://167.71.186.74:3001/';
 
-export function CodeEditor({ userCode, dtsLibs = [] }: CodeEditorProps) {
+export function CodeEditor({
+  userCode,
+  dtsLibs = [],
+  serverUrl,
+}: CodeEditorProps) {
   console.log(dtsLibs);
   const [preview, setPreview] = useState<string>('');
   const refs = useRef<Refs>({
@@ -222,7 +227,7 @@ export function CodeEditor({ userCode, dtsLibs = [] }: CodeEditorProps) {
       </VStack>
       <iframe
         title="Preview"
-        src={`http://localhost:4001/playground?code=${preview}`}
+        src={`${serverUrl}/playground?code=${preview}`}
         width="half"
         height="100vh"
       />
