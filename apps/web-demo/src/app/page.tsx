@@ -25,12 +25,23 @@ function Example() {
  }
 `;
 
+const serverUrl =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:4001'
+    : 'http://167.71.186.74:4001';
+
 export default async function Home() {
-  const dtsLibsResp = await fetch('http://localhost:4001/dtsLibs', {
+  const dtsLibsResp = await fetch(`${serverUrl}/dtsLibs`, {
     method: 'GET',
     cache: 'no-store',
   });
   const dtsLibs = await dtsLibsResp.json();
 
-  return <CodeEditor userCode={exampleCode} dtsLibs={dtsLibs} />;
+  return (
+    <CodeEditor
+      serverUrl={serverUrl}
+      userCode={exampleCode}
+      dtsLibs={dtsLibs}
+    />
+  );
 }
