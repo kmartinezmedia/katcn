@@ -20,48 +20,48 @@ app.use(
 
 const initJS = await Bun.file('./dist/init.js').text();
 
-const transpiler = new Bun.Transpiler({
-  loader: 'tsx',
-  tsconfig: {
-    compilerOptions: {
-      jsx: 'react-jsx',
-      jsxImportSource: 'katcn',
-    },
-  },
-  autoImportJSX: false,
-});
-
 app.get('/dtsLibs', (c) => {
   return c.json(dtsLibs);
 });
 
+app.get('/playground/:id', (c) => {
+  return c.html(html``);
+});
+
 app.get('/playground', async (c) => {
-  const codeQuery = c.req.query('code');
-  let code = defaultExample;
-  let filename = 'defaultExample.tsx';
-  if (codeQuery) {
-    code = decode(codeQuery);
-    const hash = Bun.hash(codeQuery).toString();
-    filename = `e-${hash}`;
-  }
-  const project = createTsMorphProject({
-    skipAddingFilesFromTsConfig: false,
-  });
-  const sourceFile = project.createSourceFile(`${filename}.tsx`, code, {
-    overwrite: true,
-  });
-  const data = await transformSourceFile({
-    sourceFile: sourceFile,
-    removeImports: true,
-  });
-
-  sourceFile.deleteImmediately();
-
   const props = {
     title: 'katcn Playground',
     description: 'katcn Playground',
     image: 'https://hono.dev/public/hono.png',
   };
+
+  let data = { css: '', js: '' };
+
+  try {
+    const codeQuery = c.req.query('code');
+    let code = defaultExample;
+    let filename = 'defaultExample.tsx';
+    if (codeQuery) {
+      code = decode(codeQuery);
+      const hash = Bun.hash(codeQuery).toString();
+      filename = `e-${hash}`;
+    }
+    const project = createTsMorphProject({
+      skipAddingFilesFromTsConfig: false,
+    });
+    const sourceFile = project.createSourceFile(`${filename}.tsx`, code, {
+      overwrite: true,
+    });
+
+    data = await transformSourceFile({
+      sourceFile: sourceFile,
+      removeImports: true,
+    });
+
+    sourceFile.deleteImmediately();
+  } catch (e) {
+    console.error(e);
+  }
 
   return c.html(
     html`
