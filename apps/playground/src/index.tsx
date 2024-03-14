@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { html, raw } from 'hono/html';
 import { serveStatic } from 'hono/bun';
+import { logger } from 'hono/logger';
 import { createTsMorphProject, transformSourceFile } from 'katcn/macros';
 import { defaultExample } from './fixtures/defaultExample';
 import { dtsLibs } from './fixtures/dtsLibs';
@@ -8,6 +9,7 @@ import { decode } from 'base64-url';
 
 const app = new Hono();
 
+app.use(logger());
 app.use(
   '/dist/*',
   serveStatic({
