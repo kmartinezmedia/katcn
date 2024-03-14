@@ -4,6 +4,7 @@ import { Editor } from '@monaco-editor/react';
 import type * as monacoType from 'monaco-editor';
 import { HStack, VStack } from 'katcn';
 import { useEffect, useRef, useState } from 'react';
+import { encode } from 'base64-url';
 import { PrettierFormatProvider } from '../utils/prettier';
 
 export type MonacoInstance = typeof monacoType;
@@ -25,8 +26,6 @@ export interface CodeEditorProps {
   tsconfig?: monacoType.languages.typescript.CompilerOptions;
   monaco?: MonacoInstance;
   editor?: EditorInstance;
-  onChange?: OnChange;
-  Preview?: React.ComponentType<{ code: string }>;
 }
 
 interface Refs {
@@ -38,15 +37,10 @@ interface Refs {
 
 const USER_CODE_PATH = 'file:///user.tsx';
 // const TRANSFORM_URL = 'http://167.71.186.74:3001/';
-const TRANSFORM_URL = '/transform';
 
-export function CodeEditor({
-  onChange,
-  userCode,
-  dtsLibs = [],
-  Preview,
-}: CodeEditorProps) {
-  const [hashId, setHashId] = useState<string>('15580922508895177590');
+export function CodeEditor({ userCode, dtsLibs = [] }: CodeEditorProps) {
+  console.log(dtsLibs);
+  const [preview, setPreview] = useState<string>('');
   const refs = useRef<Refs>({
     monaco: null,
     editor: null,
@@ -216,23 +210,22 @@ export function CodeEditor({
                     "'Example' is declared but its value is never read.",
                 );
               console.log(markers);
+
               if (markers?.length <= 1) {
-                const res = await fetch(TRANSFORM_URL, {
-                  method: 'POST',
-                  body: code,
-                  mode: 'no-cors',
-                  headers: {
-                    'Content-Type': 'text/plain',
-                    Accept: 'text/plain',
-                  },
-                });
-                const hashId = await res.text();
-                setHashId(hashId);
+                const encoded = encode(code);
+                console.log('encoded', encoded);
+                setPreview(encoded);
               }
             }
           }}
         />
       </VStack>
+      <iframe
+        title="Preview"
+        src={`http://localhost:4001/playground?code=${preview}`}
+        width="half"
+        height="100vh"
+      />
     </HStack>
   );
 }

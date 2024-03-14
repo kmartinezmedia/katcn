@@ -4,6 +4,7 @@ import { Project, type SourceFile } from 'ts-morph';
 
 const playgroundDir = path.resolve(__dirname, '../');
 const katcnDir = path.resolve(__dirname, '../../../packages/components');
+const katcnDistDir = path.resolve(katcnDir, 'dist');
 
 function cleanSourceFile(sourceFile: SourceFile) {
   const sourceImports = sourceFile.getImportDeclarations();
@@ -64,7 +65,7 @@ async function getDtsLibs() {
   });
 
   const katDtsFiles = new Bun.Glob('*.d.ts').scanSync({
-    cwd: `${katcnDir}/dist`,
+    cwd: katcnDistDir,
     absolute: true,
   });
 
@@ -72,7 +73,10 @@ async function getDtsLibs() {
     const content = await Bun.file(file).text();
     dtsLibs.push({
       content,
-      filePath: `file:///node_modules/katcn/${file}`,
+      filePath: `file:///node_modules/katcn/${path.relative(
+        katcnDistDir,
+        file,
+      )}`,
     });
   }
 
@@ -138,10 +142,7 @@ export async function init() {
   });
 
   outputCode = cleanSourceFile(sourceFile);
-
   await Bun.write(`${playgroundDir}/dist/init.js`, outputCode);
-  const katcnCss = await Bun.file(`${katcnDir}/dist/index.css`).text();
-  await Bun.write(`${playgroundDir}/dist/katcn.css`, katcnCss);
 }
 
 // copy icon font to dist

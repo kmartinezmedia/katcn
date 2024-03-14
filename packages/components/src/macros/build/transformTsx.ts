@@ -203,7 +203,7 @@ export function transformTsx(
     }
   }
 
-  if (opts.removeImports) {
+  if (opts?.removeImports) {
     for (const importDecl of sourceFile2.getImportDeclarations()) {
       importDecl.remove();
     }

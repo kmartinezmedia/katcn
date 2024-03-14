@@ -15,10 +15,11 @@
     "typecheck": "cli tools typecheck"
   },
   "dependencies": {
+    "base64-url": "^2.3.3",
     "hono": "^4.0.10",
     "katcn": "workspace:*"
   },
   "devDependencies": {
-    "tsconfig": "workspace:*"
+    "@types/base64-url": "^2.2.2"
   }
 }

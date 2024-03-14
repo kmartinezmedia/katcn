@@ -1,26 +1,19 @@
 {
   "include": ["src/**/*.ts", "src/**/*.tsx", "scripts/**/*.ts"],
-  "types": ["bun-types", "hono"],
+  "types": ["bun-types"],
   "compilerOptions": {
-    "composite": true,
+    "composite": false,
     "incremental": true,
+    "declaration": false,
     "outDir": "dist",
     "jsx": "react-jsx",
     "jsxImportSource": "katcn",
     "moduleResolution": "bundler",
     "target": "ESNext",
     "module": "ESNext",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
-  },
-  "references": [
-    {
-      "path": "../../packages/components"
-    },
-    {
-      "path": "../../packages/docgen"
-    },
-    {
-      "path": "../../packages/tsconfig"
-    }
-  ]
+  }
 }

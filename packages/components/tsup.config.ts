@@ -13,7 +13,7 @@ export default defineConfig(({ watch }) => {
       dts: true,
       skipNodeModulesBundle: true,
       watch,
-      clean: !watch,
+      // clean: !watch,
       tsconfig: './tsconfig.build.json',
       entry: {
         index: 'src/index.ts',

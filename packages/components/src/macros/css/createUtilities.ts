@@ -1,4 +1,4 @@
-import fixtures from '#fixtures';
+import fixtures from '../../fixtures';
 import { fromEntries } from '../../helpers';
 import { cssEscape } from '../../helpers/cssEscape';
 import type { Height, Width } from '../../types/tokenTypes';

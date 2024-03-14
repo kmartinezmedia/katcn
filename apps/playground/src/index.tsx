@@ -4,6 +4,7 @@ import { serveStatic } from 'hono/bun';
 import { createTsMorphProject, transformSourceFile } from 'katcn/macros';
 import { defaultExample } from './fixtures/defaultExample';
 import { dtsLibs } from './fixtures/dtsLibs';
+import { decode } from 'base64-url';
 
 const app = new Hono();
 
@@ -19,10 +20,6 @@ app.use(
 
 const initJS = await Bun.file('./dist/init.js').text();
 
-const project = createTsMorphProject({
-  skipAddingFilesFromTsConfig: false,
-});
-
 const transpiler = new Bun.Transpiler({
   loader: 'tsx',
   tsconfig: {
@@ -34,22 +31,32 @@ const transpiler = new Bun.Transpiler({
   autoImportJSX: false,
 });
 
-const defaultExampleSourceFile = project.createSourceFile(
-  'defaultExample.tsx',
-  transpiler.transformSync(defaultExample),
-  { overwrite: true },
-);
-
-const data = await transformSourceFile({
-  sourceFile: defaultExampleSourceFile,
-  removeImports: true,
-});
-
 app.get('/dtsLibs', (c) => {
   return c.json(dtsLibs);
 });
 
 app.get('/playground', async (c) => {
+  const codeQuery = c.req.query('code');
+  let code = defaultExample;
+  let filename = 'defaultExample.tsx';
+  if (codeQuery) {
+    code = decode(codeQuery);
+    const hash = Bun.hash(codeQuery).toString();
+    filename = `e-${hash}`;
+  }
+  const project = createTsMorphProject({
+    skipAddingFilesFromTsConfig: false,
+  });
+  const sourceFile = project.createSourceFile(`${filename}.tsx`, code, {
+    overwrite: true,
+  });
+  const data = await transformSourceFile({
+    sourceFile: sourceFile,
+    removeImports: true,
+  });
+
+  sourceFile.deleteImmediately();
+
   const props = {
     title: 'katcn Playground',
     description: 'katcn Playground',
@@ -91,6 +98,9 @@ app.get('/playground', async (c) => {
   );
 });
 
-console.log('Server is running on port 3001');
+console.log('Server is running on port 4001');
 
-export default app;
+export default {
+  port: 4001,
+  fetch: app.fetch,
+};

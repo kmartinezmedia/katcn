@@ -28,11 +28,13 @@
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
+    "base-url": "^1.0.0",
     "katcn": "workspace:*",
     "monaco-editor": "^0.47.0",
     "prettier": "^3.2.5"
   },
   "devDependencies": {
+    "@types/base64-url": "^2.2.2",
     "cli": "workspace:*",
     "colord": "^2.9.3",
     "concurrently": "^8.2.2",

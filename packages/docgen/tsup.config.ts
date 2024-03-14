@@ -7,7 +7,9 @@ export default defineConfig(({ watch }) => {
     outDir: 'dist',
     splitting: false,
     bundle: true,
+    banner: { js: `'use client';` },
     external: [
+      'base-url',
       'colord',
       'prettier',
       '@monaco-editor/react',

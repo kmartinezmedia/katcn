@@ -42,12 +42,6 @@ export async function transformSourceFile({
       await Bun.write(outFile, cssContent);
     }
 
-    console.log({
-      css: cssContent,
-      js: jsContent,
-      classNamesToKeep,
-      varsToKeep,
-    });
     return { css: cssContent, js: jsContent };
   }
   return { css: '', js: jsContent };
