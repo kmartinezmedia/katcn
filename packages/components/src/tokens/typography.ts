@@ -13,7 +13,7 @@ const sansFallbacks = ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'];
 const serifFallbacks = ['Georgia', 'Times', 'Times New Roman', 'serif'];
 
 export const fontFamilyGlobal: FontFamilyGlobalConfig = {
-  icons: { fallbacks: sansFallbacks, name: 'icons' },
+  icons: { fallbacks: ['icons', ...sansFallbacks], name: 'icons' },
   sans: { fallbacks: sansFallbacks, name: 'sans' },
   'sans-condensed': { fallbacks: sansFallbacks, name: 'sans-condensed' },
   'serif-text': { fallbacks: serifFallbacks, name: 'serif-text' },

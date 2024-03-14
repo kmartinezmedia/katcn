@@ -137,10 +137,15 @@ function isGetStylesExpression(
   return fnCalled === 'getStyles';
 }
 
-export function transformTsx(sourceFile: SourceFile) {
+export function transformTsx(
+  sourceFile: SourceFile,
+  opts?: { removeImports?: boolean },
+) {
   const project = sourceFile.getProject();
   const content = sourceFile.getFullText();
   const filePath = sourceFile.getFilePath();
+
+  sourceFile.applyTextChanges;
 
   const classNamesToKeep = new Set<string>();
   const varsToKeep = new Set<string>();
@@ -198,9 +203,15 @@ export function transformTsx(sourceFile: SourceFile) {
     }
   }
 
+  if (opts.removeImports) {
+    for (const importDecl of sourceFile2.getImportDeclarations()) {
+      importDecl.remove();
+    }
+  }
+
   return {
     classNamesToKeep: finalClassNamesToKeep,
     varsToKeep,
-    jsContent,
+    jsContent: sourceFile2.getFullText(),
   };
 }

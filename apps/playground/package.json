@@ -8,22 +8,17 @@
     "clean": "cli tools clean",
     "css": "katcn css --include docgen --outFile ./.katcn/styles.css",
     "init": "bun run ./scripts/init.ts",
-    "dev": "NODE_ENV=production bun run init && bun run --hot src/index.ts",
+    "dev": "NODE_ENV=production bun run init && NODE_ENV=production bun run --hot src/index.tsx",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
     "test": "bun test",
     "typecheck": "cli tools typecheck"
   },
   "dependencies": {
-    "docgen": "workspace:*",
     "hono": "^4.0.10",
-    "katcn": "workspace:*",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "katcn": "workspace:*"
   },
   "devDependencies": {
-    "@types/react": "~18.2.61",
-    "@types/react-dom": "^18",
     "tsconfig": "workspace:*"
   }
 }

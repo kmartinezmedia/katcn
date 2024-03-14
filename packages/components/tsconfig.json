@@ -4,7 +4,12 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "typeRoots": [
+      "../../node_modules/@types",
+      "../../node_modules/@types/react",
+      "../../node_modules/@types/react-dom"
+    ]
   },
   "references": [
     {

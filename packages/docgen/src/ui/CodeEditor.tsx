@@ -1,8 +1,8 @@
 'use client';
 
 import { Editor } from '@monaco-editor/react';
-import { HStack, VStack } from 'katcn';
 import type * as monacoType from 'monaco-editor';
+import { HStack, VStack } from 'katcn';
 import { useEffect, useRef, useState } from 'react';
 import { PrettierFormatProvider } from '../utils/prettier';
 
@@ -38,7 +38,7 @@ interface Refs {
 
 const USER_CODE_PATH = 'file:///user.tsx';
 // const TRANSFORM_URL = 'http://167.71.186.74:3001/';
-const TRANSFORM_URL = 'http://localhost:3001/transform';
+const TRANSFORM_URL = '/transform';
 
 export function CodeEditor({
   onChange,
@@ -218,22 +218,21 @@ export function CodeEditor({
               console.log(markers);
               if (markers?.length <= 1) {
                 const res = await fetch(TRANSFORM_URL, {
-                  method: 'GET',
+                  method: 'POST',
                   body: code,
                   mode: 'no-cors',
                   headers: {
                     'Content-Type': 'text/plain',
-                    Accept: 'application/json',
+                    Accept: 'text/plain',
                   },
                 });
-                const hashId = await res.json();
+                const hashId = await res.text();
                 setHashId(hashId);
               }
             }
           }}
         />
       </VStack>
-      {Preview && <Preview code={userCode} />}
     </HStack>
   );
 }

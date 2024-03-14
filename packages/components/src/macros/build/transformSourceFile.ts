@@ -9,6 +9,7 @@ export interface TransformSourceFileOptions {
   config?: UniversalTokensConfig;
   sourceFile: SourceFile;
   outFile?: string;
+  removeImports?: boolean;
 }
 
 export type TransformedData = { css: string; js: string };
@@ -17,11 +18,12 @@ export async function transformSourceFile({
   config = defaultTokensConfig,
   sourceFile,
   outFile,
+  removeImports,
 }: TransformSourceFileOptions) {
   const registry = new CssRegistry();
   const filePath = sourceFile.getFilePath();
 
-  const transformedTsx = transformTsx(sourceFile);
+  const transformedTsx = transformTsx(sourceFile, { removeImports });
 
   const { classNamesToKeep, varsToKeep, jsContent } = transformedTsx;
 
@@ -40,8 +42,13 @@ export async function transformSourceFile({
       await Bun.write(outFile, cssContent);
     }
 
+    console.log({
+      css: cssContent,
+      js: jsContent,
+      classNamesToKeep,
+      varsToKeep,
+    });
     return { css: cssContent, js: jsContent };
   }
-
   return { css: '', js: jsContent };
 }

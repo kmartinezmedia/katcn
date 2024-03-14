@@ -10,6 +10,8 @@
       "types": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./icons.woff2": "./src/icons/fonts/icons.woff2",
+    "./icons.ttf": "./src/icons/fonts/icons.ttf",
     "./macros": {
       "types": "./src/macros/index.ts",
       "default": "./src/macros/index.ts"

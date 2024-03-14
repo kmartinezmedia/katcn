@@ -1,4 +1,4 @@
-export const fallbackExampleCode = `
+export const defaultExample = `
 import { VStack, Text, Icon, getStyles } from 'katcn';
 
 function Example() {

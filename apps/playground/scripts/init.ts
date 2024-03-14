@@ -1,9 +1,9 @@
+/// <reference types="bun-types" />
 import path from 'node:path';
 import { Project, type SourceFile } from 'ts-morph';
 
 const playgroundDir = path.resolve(__dirname, '../');
 const katcnDir = path.resolve(__dirname, '../../../packages/components');
-const docgenDist = path.resolve(__dirname, '../../../packages/docgen/dist');
 
 function cleanSourceFile(sourceFile: SourceFile) {
   const sourceImports = sourceFile.getImportDeclarations();
@@ -42,6 +42,43 @@ function cleanSourceFile(sourceFile: SourceFile) {
   return [finalImports, body].join('\n');
 }
 
+async function getDtsLibs() {
+  const dtsLibs: {
+    content: string;
+    filePath: string;
+  }[] = [];
+
+  const katPackageJson = await Bun.file(`${katcnDir}/package.json`).text();
+  const reactTypesResp = await fetch(
+    'https://unpkg.com/@types/react@18.2.0/index.d.ts',
+  );
+
+  dtsLibs.push({
+    content: await reactTypesResp.text(),
+    filePath: 'file:///node_modules/react/index.d.ts',
+  });
+
+  dtsLibs.push({
+    content: katPackageJson,
+    filePath: 'file:///node_modules/katcn/package.json',
+  });
+
+  const katDtsFiles = new Bun.Glob('*.d.ts').scanSync({
+    cwd: `${katcnDir}/dist`,
+    absolute: true,
+  });
+
+  for await (const file of katDtsFiles) {
+    const content = await Bun.file(file).text();
+    dtsLibs.push({
+      content,
+      filePath: `file:///node_modules/katcn/${file}`,
+    });
+  }
+
+  return `export const dtsLibs = ${JSON.stringify(dtsLibs)};`;
+}
+
 export async function init() {
   const project = new Project({ skipAddingFilesFromTsConfig: true });
   const transpiler = new Bun.Transpiler({
@@ -52,13 +89,23 @@ export async function init() {
         jsxImportSource: 'katcn',
       },
     },
+    macro: {
+      katcn: {
+        getStyles: 'katcn/getStyles',
+      },
+    },
     autoImportJSX: true,
   });
 
   const codeAsString: string[] = [];
+  const dtsLibsTxt = await getDtsLibs();
+  await Bun.write(`${playgroundDir}/src/fixtures/dtsLibs.ts`, dtsLibsTxt);
+
   const components = new Bun.Glob('**/*.tsx').scanSync({
     cwd: `${katcnDir}/src`,
+    absolute: true,
   });
+
   let outputCode = '';
 
   if (Bun.env.NODE_ENV === 'development') {
@@ -73,9 +120,8 @@ export async function init() {
     codeAsString.push(jsxRuntimeCode);
   }
 
-  for (const component of components) {
-    const componentPath = `${katcnDir}/src/${component}`;
-    const componentCode = await Bun.file(componentPath).text();
+  for (const file of components) {
+    const componentCode = await Bun.file(file).text();
     const newCode = transpiler.transformSync(componentCode);
     codeAsString.push(newCode);
   }
@@ -83,11 +129,7 @@ export async function init() {
   const defaultTokensConfigTxt = await Bun.file(
     `${katcnDir}/dist/tokens.js`,
   ).text();
-  // codeAsString.push('// ./tokens/index.ts \n');
   codeAsString.push(transpiler.transformSync(defaultTokensConfigTxt));
-
-  const editorCode = await Bun.file(`${docgenDist}/index.js`).text();
-  codeAsString.push(editorCode);
 
   outputCode = codeAsString.join('\n');
 
@@ -97,9 +139,13 @@ export async function init() {
 
   outputCode = cleanSourceFile(sourceFile);
 
-  await Bun.write(`${playgroundDir}/src/static/init.js`, outputCode);
+  await Bun.write(`${playgroundDir}/dist/init.js`, outputCode);
   const katcnCss = await Bun.file(`${katcnDir}/dist/index.css`).text();
-  await Bun.write(`${playgroundDir}/src/static/katcn.css`, katcnCss);
+  await Bun.write(`${playgroundDir}/dist/katcn.css`, katcnCss);
 }
+
+// copy icon font to dist
+const iconFont = Bun.file(`${katcnDir}/src/icons/fonts/icons.woff2`);
+await Bun.write(`${playgroundDir}/dist/icons.woff2`, iconFont);
 
 await init();
