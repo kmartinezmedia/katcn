@@ -3,7 +3,7 @@ import { defineConfig } from 'tsup';
 export default defineConfig(({ watch }) => {
   return {
     format: ['esm'],
-    dts: true,
+    dts: (process.env.NODE_ENV as string) === 'server' ? false : true,
     outDir: 'dist',
     splitting: false,
     bundle: true,

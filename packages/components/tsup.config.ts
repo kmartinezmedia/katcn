@@ -10,7 +10,7 @@ export default defineConfig(({ watch }) => {
       sourcemap: false,
       minify: false,
       bundle: true,
-      dts: true,
+      dts: (process.env.NODE_ENV as string) === 'server' ? false : true,
       skipNodeModulesBundle: true,
       watch,
       // clean: !watch,
