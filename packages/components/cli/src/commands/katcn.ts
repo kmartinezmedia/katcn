@@ -5,7 +5,6 @@ export default {
   name: 'katcn',
   description: '',
   run: async (props: Props) => {
-    console.log(props);
     switch (props?.first) {
       case 'css':
         return (await import('./css')).default.run(props);
