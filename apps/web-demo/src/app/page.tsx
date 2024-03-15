@@ -25,10 +25,8 @@ function Example() {
  }
 `;
 
-const serverUrl =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:4001'
-    : 'http://167.71.186.74:4001';
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const serverUrl = process.env.SERVER_URL!;
 
 export default async function Home() {
   const dtsLibsResp = await fetch(`${serverUrl}/dtsLibs`, {
