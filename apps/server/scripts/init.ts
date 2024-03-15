@@ -3,7 +3,7 @@ import path from 'node:path';
 import { Project, type SourceFile } from 'ts-morph';
 
 const serverDir = path.resolve(__dirname, '../');
-const katcnDir = path.resolve(__dirname, '../../../packages/components');
+const katcnDir = path.resolve(__dirname, '../../../packages/katcn');
 const katcnDistDir = path.resolve(katcnDir, 'dist');
 
 function cleanSourceFile(sourceFile: SourceFile) {

@@ -13,7 +13,7 @@
       "path": "../cli"
     },
     {
-      "path": "../components"
+      "path": "../katcn"
     }
   ]
 }

@@ -9,7 +9,7 @@
       "path": "packages/cloud-functions"
     },
     {
-      "path": "packages/components"
+      "path": "packages/katcn"
     },
     {
       "path": "packages/docgen"
