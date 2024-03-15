@@ -100,9 +100,10 @@ app.get('/playground', async (c) => {
   );
 });
 
-console.log('Server is running on port 4001');
+const PORT = process.env.PORT ?? 3000;
+console.log(`Server is running on port ${PORT}`);
 
 export default {
-  port: 4001,
+  port: PORT,
   fetch: app.fetch,
 };
