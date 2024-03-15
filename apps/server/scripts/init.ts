@@ -2,7 +2,7 @@
 import path from 'node:path';
 import { Project, type SourceFile } from 'ts-morph';
 
-const playgroundDir = path.resolve(__dirname, '../');
+const serverDir = path.resolve(__dirname, '../');
 const katcnDir = path.resolve(__dirname, '../../../packages/components');
 const katcnDistDir = path.resolve(katcnDir, 'dist');
 
@@ -103,7 +103,7 @@ export async function init() {
 
   const codeAsString: string[] = [];
   const dtsLibsTxt = await getDtsLibs();
-  await Bun.write(`${playgroundDir}/src/fixtures/dtsLibs.ts`, dtsLibsTxt);
+  await Bun.write(`${serverDir}/src/fixtures/dtsLibs.ts`, dtsLibsTxt);
 
   const components = new Bun.Glob('**/*.tsx').scanSync({
     cwd: `${katcnDir}/src`,
@@ -142,11 +142,11 @@ export async function init() {
   });
 
   outputCode = cleanSourceFile(sourceFile);
-  await Bun.write(`${playgroundDir}/dist/init.js`, outputCode);
+  await Bun.write(`${serverDir}/dist/init.js`, outputCode);
 }
 
 // copy icon font to dist
 const iconFont = Bun.file(`${katcnDir}/src/icons/fonts/icons.woff2`);
-await Bun.write(`${playgroundDir}/dist/icons.woff2`, iconFont);
+await Bun.write(`${serverDir}/dist/icons.woff2`, iconFont);
 
 await init();

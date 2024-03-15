@@ -37,7 +37,7 @@ export default async function Home() {
 
   return (
     <CodeEditor
-      serverUrl={serverUrl}
+      serverUrl={`${serverUrl}/preview`}
       userCode={exampleCode}
       dtsLibs={dtsLibs}
     />

@@ -16,7 +16,6 @@
       "types": "./src/macros/index.ts",
       "default": "./src/macros/index.ts"
     },
-    "./playground": "./dist/playground.js",
     "./getStyles": {
       "types": "./dist/getStyles.d.ts",
       "default": "./dist/getStyles.js"

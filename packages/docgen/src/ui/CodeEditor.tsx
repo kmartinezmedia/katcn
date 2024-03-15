@@ -37,7 +37,6 @@ interface Refs {
 }
 
 const USER_CODE_PATH = 'file:///user.tsx';
-// const TRANSFORM_URL = 'http://167.71.186.74:3001/';
 
 export function CodeEditor({
   userCode,
@@ -223,7 +222,7 @@ export function CodeEditor({
       </VStack>
       <iframe
         title="Preview"
-        src={`${serverUrl}/playground?code=${preview}`}
+        src={`${serverUrl}?code=${preview}`}
         width="half"
         height="100vh"
       />
