@@ -25,21 +25,24 @@ function Example() {
  }
 `;
 
-const serverUrl =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:4001'
-    : 'http://167.71.186.74:4001';
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const serverUrl = process.env.SERVER_URL!;
 
 export default async function Home() {
-  const dtsLibsResp = await fetch(`${serverUrl}/dtsLibs`, {
-    method: 'GET',
-    cache: 'no-store',
-  });
-  const dtsLibs = await dtsLibsResp.json();
+  let dtsLibs = [];
+  try {
+    const dtsLibsResp = await fetch(`${serverUrl}/dtsLibs`, {
+      method: 'GET',
+      cache: 'no-store',
+    });
+    dtsLibs = await dtsLibsResp.json();
+  } catch (e) {
+    console.error(e);
+  }
 
   return (
     <CodeEditor
-      serverUrl={serverUrl}
+      serverUrl={`${serverUrl}/preview`}
       userCode={exampleCode}
       dtsLibs={dtsLibs}
     />

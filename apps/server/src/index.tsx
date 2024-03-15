@@ -26,15 +26,15 @@ app.get('/dtsLibs', (c) => {
   return c.json(dtsLibs);
 });
 
-app.get('/playground/:id', (c) => {
+app.get('/preview/:id', (c) => {
   return c.html(html``);
 });
 
-app.get('/playground', async (c) => {
+app.get('/preview', async (c) => {
   const props = {
-    title: 'katcn Playground',
-    description: 'katcn Playground',
-    image: 'https://hono.dev/public/hono.png',
+    title: 'katcn',
+    description: 'ui component library',
+    image: '',
   };
 
   let data = { css: '', js: '' };
@@ -100,9 +100,10 @@ app.get('/playground', async (c) => {
   );
 });
 
-console.log('Server is running on port 4001');
+const PORT = process.env.PORT ?? 3000;
+console.log(`Server is running on port ${PORT}`);
 
 export default {
-  port: 4001,
+  port: PORT,
   fetch: app.fetch,
 };
