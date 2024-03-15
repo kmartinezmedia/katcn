@@ -11,7 +11,6 @@ import { extractStyleProps, getStyles } from '../../getStyles';
 
 const varRegex = /--katcn-[^:,\s")]+/g;
 
-Bun.env.NODE_ENV;
 const transpiler = new Transpiler({
   loader: 'tsx',
   define: { 'process.env.NODE_ENV': 'production' },
