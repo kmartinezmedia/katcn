@@ -9,13 +9,15 @@ import type {
   StyleProps,
   TextVariant,
 } from './types';
-import type { AvatarProps } from './ui/Avatar';
-import type { HStackProps } from './ui/HStack';
-import type { IconProps } from './ui/Icon';
-import type { TextProps } from './ui/Text';
-import type { TextInputProps } from './ui/TextInput';
-import type { VStackProps } from './ui/VStack';
-import type { BoxProps } from './ui/Box';
+import type {
+  AvatarProps,
+  HStackProps,
+  IconProps,
+  TextProps,
+  TextInputProps,
+  VStackProps,
+  BoxProps,
+} from './components';
 
 const lineColors: LineColor[] = [
   'accent',

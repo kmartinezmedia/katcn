@@ -13,7 +13,6 @@ const varRegex = /--katcn-[^:,\s")]+/g;
 
 const transpiler = new Transpiler({
   loader: 'tsx',
-  define: { 'process.env.NODE_ENV': 'production' },
   tsconfig: {
     compilerOptions: {
       jsx: 'react-jsx',

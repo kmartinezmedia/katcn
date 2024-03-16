@@ -15,7 +15,7 @@ export function typesToObject<TypeToReturn>(typeName: string): {
   }
   if (!typesToObjectSourceFile) {
     typesToObjectSourceFile = typesToObjectProject.addSourceFileAtPath(
-      path.resolve(__dirname, '../../types/tokenTypes.ts'),
+      path.resolve(__dirname, '../../types.ts'),
     );
   }
 

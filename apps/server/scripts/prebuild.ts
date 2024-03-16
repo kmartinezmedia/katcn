@@ -44,10 +44,7 @@ function cleanSourceFile(sourceFile: SourceFile) {
 }
 
 async function getDtsLibs() {
-  const dtsLibs: {
-    content: string;
-    filePath: string;
-  }[] = [];
+  const dtsLibs: typeof import('#dtsLibs').dtsLibs = [];
 
   const katPackageJson = await Bun.file(`${katcnDir}/package.json`).text();
   const reactTypesResp = await fetch(
@@ -75,66 +72,28 @@ async function getDtsLibs() {
       content,
       filePath: `file:///node_modules/katcn/${path.relative(
         katcnDistDir,
-        file,
+        file.replace('components.d.ts', 'index.d.ts'),
       )}`,
     });
   }
 
-  return `export const dtsLibs = ${JSON.stringify(dtsLibs)};`;
+  return JSON.stringify(dtsLibs);
 }
 
 export async function init() {
   const project = new Project({ skipAddingFilesFromTsConfig: true });
-  const transpiler = new Bun.Transpiler({
-    loader: 'tsx',
-    tsconfig: {
-      compilerOptions: {
-        jsx: 'react-jsx',
-        jsxImportSource: 'katcn',
-      },
-    },
-    macro: {
-      katcn: {
-        getStyles: 'katcn/getStyles',
-      },
-    },
-    autoImportJSX: true,
-  });
 
   const codeAsString: string[] = [];
   const dtsLibsTxt = await getDtsLibs();
-  await Bun.write(`${serverDir}/src/fixtures/dtsLibs.ts`, dtsLibsTxt);
-
-  const components = new Bun.Glob('**/*.tsx').scanSync({
-    cwd: `${katcnDir}/src`,
-    absolute: true,
-  });
+  await Bun.write(`${serverDir}/dist/dtsLibs.json`, dtsLibsTxt);
 
   let outputCode = '';
 
-  if (Bun.env.NODE_ENV === 'development') {
-    const jsxRuntimeCode = await Bun.file(
-      `${katcnDir}/dist/jsx-runtime.js`,
-    ).text();
-    codeAsString.push(jsxRuntimeCode);
-  } else {
-    const jsxRuntimeCode = await Bun.file(
-      `${katcnDir}/dist/jsx-runtime.js`,
-    ).text();
-    codeAsString.push(jsxRuntimeCode);
-  }
-
-  for (const file of components) {
-    const componentCode = await Bun.file(file).text();
-    const newCode = transpiler.transformSync(componentCode);
-    codeAsString.push(newCode);
-  }
-
-  const defaultTokensConfigTxt = await Bun.file(
-    `${katcnDir}/dist/tokens.js`,
-  ).text();
-  codeAsString.push(transpiler.transformSync(defaultTokensConfigTxt));
-
+  codeAsString.push(await Bun.file(require.resolve('katcn/getStyles')).text());
+  codeAsString.push(
+    await Bun.file(require.resolve('katcn/jsx-runtime')).text(),
+  );
+  codeAsString.push(await Bun.file(require.resolve('katcn')).text());
   outputCode = codeAsString.join('\n');
 
   const sourceFile = project.createSourceFile('code-temp.tsx', outputCode, {

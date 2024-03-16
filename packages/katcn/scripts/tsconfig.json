@@ -1,3 +1,7 @@
 {
-  "extends": "tsconfig/bun.json"
+  "extends": "tsconfig/bun.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  }
 }

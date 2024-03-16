@@ -3,7 +3,7 @@ import { Project } from 'ts-morph';
 
 const project = new Project();
 const sourceFile = project.addSourceFileAtPath(
-  path.resolve(__dirname, './types/tokenTypes.ts'),
+  path.resolve(__dirname, '../../types.ts'),
 );
 
 export function typesToConstants<TypeToReturn>(

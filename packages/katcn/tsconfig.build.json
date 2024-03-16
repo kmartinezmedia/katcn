@@ -1,16 +1,20 @@
 {
-  "include": ["src", "typings"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["marcos/**/*.ts", "helpers/**/*.ts"],
   "compilerOptions": {
     "outDir": "dist",
     "baseUrl": "src",
-    "rootDir": ".",
+    "rootDir": "src",
     "jsx": "react-jsx",
     "jsxImportSource": "katcn",
-    "lib": ["ESNext"],
     "moduleResolution": "Bundler",
+    "moduleDetection": "force",
     "module": "ESNext",
+    "target": "ESNext",
     "emitDeclarationOnly": true,
+    "declarationMap": true,
     "incremental": true,
+    "skipLibCheck": true,
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   }
 }

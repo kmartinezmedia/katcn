@@ -7,14 +7,18 @@
   "files": ["package.json", "tsconfig.json", "cli", "src", "dist"],
   "exports": {
     ".": {
-      "types": "./dist/index.js",
-      "default": "./dist/index.js"
+      "types": "./dist/components.js",
+      "default": "./dist/components.js"
     },
     "./icons.woff2": "./src/icons/fonts/icons.woff2",
     "./icons.ttf": "./src/icons/fonts/icons.ttf",
     "./macros": {
       "types": "./src/macros/index.ts",
       "default": "./src/macros/index.ts"
+    },
+    "./fixtures": {
+      "types": "./dist/fixtures.d.ts",
+      "default": "./dist/fixtures.js"
     },
     "./getStyles": {
       "types": "./dist/getStyles.d.ts",
@@ -28,12 +32,15 @@
       "types": "./dist/jsx-dev-runtime.d.ts",
       "default": "./dist/jsx-dev-runtime.js"
     },
+    "./tokens": {
+      "types": "./dist/tokens.d.ts",
+      "default": "./dist/tokens.js"
+    },
     "./tsconfig.json": "./tsconfig.json",
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "tsup && bun run ./scripts/postbuild.ts && bun run build:css",
-    "build:css": "bun run ./scripts/buildCss.ts",
+    "build": "NODE_ENV=production bun scripts/build.ts",
     "build:icons": "cli icons build --formats woff2,ttf --input ./src/icons/svg --outputFonts ./src/icons/fonts --outputTypes ./src/icons/types.ts",
     "clean": "cli tools clean",
     "dev": "bun run build && concurrently bun:dev:*",

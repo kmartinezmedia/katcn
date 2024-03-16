@@ -5,6 +5,7 @@
     "composite": false,
     "incremental": true,
     "declaration": false,
+    "rootDir": ".",
     "outDir": "dist",
     "jsx": "react-jsx",
     "jsxImportSource": "katcn",

@@ -1,11 +1,5 @@
 import * as react from 'react';
 
-declare module 'react' {
-  interface CSSProperties {
-    [key: `--${import('katcn/tokens/utils/parseTokens').CssVarPrefix}`]: string;
-  }
-}
-
 declare module 'react/jsx-dev-runtime' {
   export const Fragment: unique symbol;
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
