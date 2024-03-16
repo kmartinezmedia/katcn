@@ -3,7 +3,7 @@ import localFont from 'next/font/local';
 import '#katcn/styles.css';
 
 const iconFont = localFont({
-  src: '../../../../packages/components/src/icons/fonts/icons.woff2',
+  src: '../../../../packages/katcn/src/icons/fonts/icons.woff2',
   variable: '--katcn-font-icons',
 });
 

@@ -7,8 +7,8 @@
   "scripts": {
     "clean": "cli tools clean",
     "css": "katcn css --include docgen --outFile ./.katcn/styles.css",
-    "init": "bun run ./scripts/init.ts",
-    "dev": "NODE_ENV=production bun run init && NODE_ENV=production bun run --hot src/index.tsx",
+    "prebuild": "NODE_ENV=production bun run ./scripts/prebuild.ts",
+    "dev": "NODE_ENV=production bun run --hot src/index.tsx",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
     "test": "bun test",
@@ -16,8 +16,8 @@
   },
   "imports": {
     "#dtsLibs": {
-      "types": "./src/fixtures/dtsLibs.d.ts",
-      "default": "./src/fixtures/dtsLibs.ts"
+      "types": "./src/dtsLibs.d.ts",
+      "default": "./dist/dtsLibs.json"
     }
   },
   "dependencies": {

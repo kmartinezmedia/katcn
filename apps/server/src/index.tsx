@@ -4,7 +4,7 @@ import { serveStatic } from 'hono/bun';
 import { logger } from 'hono/logger';
 import { createTsMorphProject, transformSourceFile } from 'katcn/macros';
 import { defaultExample } from './fixtures/defaultExample';
-import { dtsLibs } from '#dtsLibs';
+import dtsLibs from '#dtsLibs' with { type: 'json' };
 import { decode } from 'base64-url';
 
 const app = new Hono();
@@ -100,7 +100,7 @@ app.get('/preview', async (c) => {
   );
 });
 
-const PORT = process.env.PORT ?? 3000;
+const PORT = process.env.PORT ?? process.env.SERVER_PORT ?? 3001;
 console.log(`Server is running on port ${PORT}`);
 
 export default {

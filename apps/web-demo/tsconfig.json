@@ -17,7 +17,7 @@
   "exclude": ["node_modules", "public"],
   "references": [
     {
-      "path": "../../packages/components"
+      "path": "../../packages/katcn"
     },
     {
       "path": "../../packages/docgen"
