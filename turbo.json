@@ -4,10 +4,6 @@
   "pipeline": {
     "build": {
       "outputs": ["dist/**", "build/**", ".next/**", "!.next/cache/**"],
-      "dependsOn": ["^build", "prebuild"]
-    },
-    "prebuild": {
-      "outputs": ["dist/**", "build/**", ".next/**", "!.next/cache/**"],
       "dependsOn": ["^build"]
     },
     "clean": {
@@ -16,7 +12,7 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["^build", "prebuild"]
+      "dependsOn": ["^build"]
     },
     "start": {
       "cache": false,

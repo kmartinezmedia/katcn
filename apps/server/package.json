@@ -6,8 +6,7 @@
   "module": "src/index.ts",
   "scripts": {
     "clean": "cli tools clean",
-    "css": "katcn css --include docgen --outFile ./.katcn/styles.css",
-    "prebuild": "NODE_ENV=production bun run ./scripts/prebuild.ts",
+    "build": "NODE_ENV=production bun run ./scripts/build.ts",
     "dev": "NODE_ENV=production bun run --hot src/index.tsx",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
