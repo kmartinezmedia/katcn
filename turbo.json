@@ -7,7 +7,8 @@
       "dependsOn": ["^build", "prebuild"]
     },
     "prebuild": {
-      "outputs": ["dist/**", "build/**", ".next/**", "!.next/cache/**"]
+      "outputs": ["dist/**", "build/**", ".next/**", "!.next/cache/**"],
+      "dependsOn": ["^build"]
     },
     "clean": {
       "cache": false
