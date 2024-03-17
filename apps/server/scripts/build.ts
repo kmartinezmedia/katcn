@@ -1,6 +1,7 @@
 /// <reference types="bun-types" />
 import path from 'node:path';
 import { Project, type SourceFile } from 'ts-morph';
+import { transpiler } from 'katcn/transpiler';
 
 const serverDir = path.resolve(__dirname, '../');
 const katcnDir = path.resolve(__dirname, '../../../packages/katcn');
@@ -18,6 +19,9 @@ function cleanSourceFile(sourceFile: SourceFile) {
       !moduleSpecifierValue.startsWith('.') &&
       !moduleSpecifierValue.startsWith('katcn')
     ) {
+      if (moduleSpecifierValue === 'react') {
+        sourceImport.addNamedImport('useEffect');
+      }
       const newImport = sourceImport
         .getText()
         .replaceAll(
@@ -94,6 +98,7 @@ export async function init() {
     await Bun.file(require.resolve('katcn/jsx-runtime')).text(),
   );
   codeAsString.push(await Bun.file(require.resolve('katcn')).text());
+
   outputCode = codeAsString.join('\n');
 
   const sourceFile = project.createSourceFile('code-temp.tsx', outputCode, {

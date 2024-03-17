@@ -7,6 +7,7 @@
   "scripts": {
     "clean": "cli tools clean",
     "build": "NODE_ENV=production bun run ./scripts/build.ts",
+    "predev": "bun run build",
     "dev": "NODE_ENV=production bun run --hot src/index.tsx",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
