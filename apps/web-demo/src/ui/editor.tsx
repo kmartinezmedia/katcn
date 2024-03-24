@@ -3,14 +3,15 @@ import { setId } from '@/actions/id';
 import {
   CodeEditor,
   type CodeEditorRefs,
-  type CodeEditorProps,
   type OnChange,
   type DtsLibs,
   type OnMount,
 } from 'docgen';
-import { HStack, Pressable, Text } from 'katcn';
+import { HStack, Icon, VStack, getStyles, Text } from 'katcn';
 import { encode } from 'base64-url';
-import { useEffect, useRef, useState } from 'react';
+import { jsx } from 'katcn/jsx-runtime';
+import { jsxDEV } from 'katcn/jsx-dev-runtime';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 
 const exampleCode = `
 import { VStack, Text, Icon, getStyles } from 'katcn';
@@ -43,16 +44,11 @@ interface EditorProps {
   userId?: string;
 }
 
-export function Editor({ serverUrl, userId: _userId, dtsLibs }: EditorProps) {
+export const Editor = memo(function Editor({
+  userId: _userId,
+  ...props
+}: EditorProps) {
   const [userId, setUserId] = useState<string | undefined>(_userId);
-  const [count, setCount] = useState(0);
-  const wsRef = useRef<WebSocket | null>(null);
-  const refs = useRef<CodeEditorRefs>({
-    monaco: undefined,
-    editor: undefined,
-    tsworker: undefined,
-  });
-
   useEffect(() => {
     if (!_userId) {
       setId().then((val) => {
@@ -62,52 +58,101 @@ export function Editor({ serverUrl, userId: _userId, dtsLibs }: EditorProps) {
     }
   }, [_userId]);
 
+  if (!userId) {
+    return <h1>loading...</h1>;
+  }
+
+  return <EditorInner {...props} userId={userId} />;
+});
+
+function Preview({ css, js }: { css: string; js: string }) {
+  console.log({
+    css,
+    js,
+    jsx,
+  });
+
+  if (!!css && !!js) {
+    const fnString = new Function(`
+      function renderComp({ jsx, jsxDEV, VStack, Text, Icon, getStyles }) {
+        ${js}
+        return Example;
+      }
+      return renderComp;
+    `)();
+
+    const Comp = fnString({ jsx, jsxDEV, VStack, Text, Icon, getStyles });
+    // Comp.displayName = 'PreviewComponent';
+    console.log(Comp);
+    return (
+      <div>
+        <style>{css}</style>
+        <Comp />
+      </div>
+    );
+  }
+}
+
+export const EditorInner = memo(function EditorInner({
+  serverUrl,
+  userId,
+  dtsLibs,
+}: Required<EditorProps>) {
+  const [data, setData] = useState<{ hash: string; js: string; css: string }>({
+    hash: '',
+    js: '',
+    css: '',
+  });
+  const [code, setCode] = useState<string>(exampleCode);
+  const hashRef = useRef<string>('');
+  const wsRef = useRef<WebSocket | null>(null);
+  const refs = useRef<CodeEditorRefs>({
+    monaco: undefined,
+    editor: undefined,
+    tsworker: undefined,
+  });
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const wsUrl = serverUrl.replace('http', 'ws').replace('https', 'ws');
-    if (userId) {
-      const websocket = new WebSocket(`${wsUrl}/ws/${userId}`);
-      wsRef.current = websocket;
-      websocket.onopen = () => {
-        console.log('WebSocket Connected');
-      };
+    const websocket = new WebSocket(`${wsUrl}/ws/${userId}`);
+    wsRef.current = websocket;
+    // window.socket = websocket;
+    websocket.onopen = () => {
+      console.log('NextJS WebSocket Connected');
+    };
 
-      websocket.onopen = () => {
-        // websocket.send(JSON.stringify({ count }));
-      };
+    websocket.onmessage = async (ev) => {
+      console.log('NextJS WebSocket message');
+      const data = JSON.parse(ev.data);
+      setData(data);
+    };
 
-      // websocket.onmessage = (ev) => {
-      //   console.log(ev.data);
-      //   if (ev.data.type === 'update') {
-      //     refs.current?.editor?.setValue(ev.data.code);
-      //   }
-      // };
+    websocket.onclose = () => {
+      console.log('Nextjs WebSocket Disconnected');
+      websocket.close();
+    };
 
-      // websocket.onclose = () => {
-      //   console.log('WebSocket Disconnected');
-      // };
+    // websocket.onerror = (error) => {
+    //   console.log(`WebSocket Error: ${error}`);
+    // };
 
-      // websocket.onerror = (error) => {
-      //   console.log(`WebSocket Error: ${error}`);
-      // };
-
-      return () => {
-        websocket.close();
-      };
-    }
+    return () => {
+      websocket.close();
+    };
   }, []);
 
-  const onMount: OnMount = async ({ editor, monaco, tsworker }) => {
+  const onMount: OnMount = useCallback(async ({ editor, monaco, tsworker }) => {
     refs.current.editor = editor;
     refs.current.monaco = monaco;
     refs.current.tsworker = tsworker;
-  };
+  }, []);
 
-  const onChange: OnChange = async (value, changeEvent) => {
-    const code = value ?? '';
+  const onChange: OnChange = useCallback(async (value) => {
+    const _code = value ?? '';
     const monaco = refs.current?.monaco;
     const editor = monaco?.editor;
-
+    setCode(_code);
     if (editor) {
       const markers = editor
         ?.getModelMarkers({})
@@ -118,18 +163,12 @@ export function Editor({ serverUrl, userId: _userId, dtsLibs }: EditorProps) {
         );
 
       if (markers?.length <= 1) {
-        const encoded = encode(code);
-        console.log('send data to server');
-        wsRef.current?.send(
-          JSON.stringify({ type: 'client-update', userId, code: encoded }),
-        );
+        const encoded = encode(_code);
+        hashRef.current = encoded;
+        wsRef.current?.send(encoded);
       }
     }
-  };
-
-  if (!userId || !serverUrl) {
-    return <h1>loading...</h1>;
-  }
+  }, []);
 
   return (
     <HStack width="full">
@@ -139,20 +178,7 @@ export function Editor({ serverUrl, userId: _userId, dtsLibs }: EditorProps) {
         onMount={onMount}
         onChange={onChange}
       />
-      <Pressable
-        backgroundColor="accent"
-        onClick={() => setCount((prev) => prev + 1)}
-      >
-        <Text variant="label1" color="on-color">
-          {count}
-        </Text>
-      </Pressable>
-      <iframe
-        title="Preview"
-        src={`${serverUrl}/preview/${userId}`}
-        width="half"
-        height="100vh"
-      />
+      <Preview css={data.css} js={data.js} />
     </HStack>
   );
-}
+});

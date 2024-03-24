@@ -10,15 +10,17 @@ export interface TransformSourceFileOptions {
   sourceFile: SourceFile;
   outFile?: string;
   removeImports?: boolean;
+  includePreflightCss?: boolean;
 }
 
 export type TransformedData = { css: string; js: string };
 
-export async function transformSourceFile({
+export function transformSourceFile({
   config = defaultTokensConfig,
   sourceFile,
   outFile,
   removeImports,
+  includePreflightCss,
 }: TransformSourceFileOptions) {
   const registry = new CssRegistry();
   const filePath = sourceFile.getFilePath();
@@ -32,14 +34,15 @@ export async function transformSourceFile({
   const fileHasCss = classNamesToKeep.size > 0 || varsToKeep.size > 0;
 
   if (fileHasCss) {
-    const cssContent = await transformCss({
+    const cssContent = transformCss({
       config: config,
       classNamesToKeep: registry.allClassNamesToKeep,
       varsToKeep: registry.allVarsToKeep,
+      includePreflight: includePreflightCss,
     });
 
     if (outFile) {
-      await Bun.write(outFile, cssContent);
+      Bun.write(outFile, cssContent);
     }
 
     return { css: cssContent, js: jsContent };

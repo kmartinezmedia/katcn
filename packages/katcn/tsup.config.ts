@@ -16,8 +16,8 @@ export default defineConfig(({ watch }) => {
       // clean: !watch,
       tsconfig: './tsconfig.build.json',
       entry: {
-        index: 'src/index.ts',
-        tokens: 'src/tokens/index.ts',
+        components: 'src/components.tsx',
+        tokens: 'src/tokens.ts',
         'jsx-runtime': 'src/jsx-runtime.ts',
         'jsx-dev-runtime': 'src/jsx-dev-runtime.ts',
         getStyles: 'src/getStyles.ts',

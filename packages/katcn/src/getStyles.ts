@@ -536,7 +536,7 @@ export const getStyles = ({
   }
 
   if (direction) {
-    classNames.push(`direction-${direction}`);
+    classNames.push(`flexDirection-${direction}`);
   }
 
   if (grow !== undefined) {
@@ -620,6 +620,7 @@ export function extractStyleProps(
     case 'HStack': {
       const { gap } = props as ComponentPropsMap['HStack'];
       defaults.display = 'flex';
+      defaults.direction = 'horizontal';
       defaults.horizontalGap = gap;
       // @ts-expect-error this is fine
       props.gap = undefined;
@@ -663,6 +664,7 @@ export function extractStyleProps(
     case 'VStack': {
       const { gap } = props as ComponentPropsMap['VStack'];
       defaults.display = 'flex';
+      defaults.direction = 'vertical';
       defaults.verticalGap = gap;
       // @ts-expect-error this is fine
       props.gap = undefined;

@@ -139,11 +139,7 @@ export function transformTsx(
   sourceFile: SourceFile,
   opts?: { removeImports?: boolean },
 ) {
-  const project = sourceFile.getProject();
   const content = sourceFile.getFullText();
-  const filePath = sourceFile.getFilePath();
-
-  sourceFile.applyTextChanges;
 
   const classNamesToKeep = new Set<string>();
   const varsToKeep = new Set<string>();
@@ -155,21 +151,15 @@ export function transformTsx(
     varsToKeep.add(variable[0]);
   }
 
-  const sourceFile2 = project.createSourceFile(
-    `transformTsx/${filePath}`,
-    jsContent,
-    {
-      overwrite: true,
-    },
-  );
+  sourceFile.replaceWithText(jsContent);
 
-  const callExpressions = sourceFile2.getDescendantsOfKind(
+  const callExpressions = sourceFile.getDescendantsOfKind(
     SyntaxKind.CallExpression,
   );
   for (const callExpression of callExpressions) {
     if (isJsxCallExpression(callExpression)) {
       getPropsForExpression({
-        sourceFile: sourceFile2,
+        sourceFile,
         callExpression,
         classNamesToKeep,
       });
@@ -177,7 +167,7 @@ export function transformTsx(
         .getChildrenOfKind(SyntaxKind.CallExpression)
         .filter(isJsxCallExpression)) {
         getPropsForExpression({
-          sourceFile: sourceFile2,
+          sourceFile,
           callExpression: childCallExpression,
           classNamesToKeep,
         });
@@ -185,7 +175,7 @@ export function transformTsx(
     }
     if (isGetStylesExpression(callExpression)) {
       getPropsForExpression({
-        sourceFile: sourceFile2,
+        sourceFile,
         callExpression,
         classNamesToKeep,
       });
@@ -202,7 +192,7 @@ export function transformTsx(
   }
 
   if (opts?.removeImports) {
-    for (const importDecl of sourceFile2.getImportDeclarations()) {
+    for (const importDecl of sourceFile.getImportDeclarations()) {
       importDecl.remove();
     }
   }
@@ -210,6 +200,6 @@ export function transformTsx(
   return {
     classNamesToKeep: finalClassNamesToKeep,
     varsToKeep,
-    jsContent: sourceFile2.getFullText(),
+    jsContent: sourceFile.getFullText(),
   };
 }

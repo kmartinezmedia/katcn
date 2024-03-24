@@ -72,14 +72,14 @@ const HStack = forwardRef<HTMLDivElement, HStackProps>(function HStack(
   { gap, ...props },
   ref,
 ) {
-  return <Box ref={ref} display="flex" direction="horizontal" {...props} />;
+  return <Box ref={ref} {...props} />;
 });
 
 const VStack = forwardRef<HTMLDivElement, VStackProps>(function VStack(
   { gap, ...props },
   ref,
 ) {
-  return <Box ref={ref} display="flex" direction="vertical" {...props} />;
+  return <Box ref={ref} {...props} />;
 });
 
 const Icon = forwardRef<HTMLSpanElement, IconProps>(function Icon(

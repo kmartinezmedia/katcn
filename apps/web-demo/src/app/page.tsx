@@ -8,18 +8,16 @@ const serverUrl = process.env.SERVER_URL!;
 
 export default async function Home() {
   const userId = await getId();
-  let dtsLibs = [];
   try {
-    const dtsLibsResp = await fetch(`${serverUrl}/dtsLibs`, {
-      method: 'GET',
-      // cache: 'no-store',
-    });
-    dtsLibs = await dtsLibsResp.json();
+    const [dtsLibs] = await Promise.all([
+      fetch(`${serverUrl}/dist/dtsLibs.json`, {
+        method: 'GET',
+      }).then((res) => res.json()),
+    ]);
+    console.log('SERVER_URL', serverUrl);
+
+    return <Editor serverUrl={serverUrl} userId={userId} dtsLibs={dtsLibs} />;
   } catch (e) {
     console.error(e);
   }
-
-  console.log('SERVER_URL', serverUrl);
-
-  return <Editor serverUrl={serverUrl} userId={userId} dtsLibs={dtsLibs} />;
 }

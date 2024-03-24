@@ -8,16 +8,20 @@
     "clean": "cli tools clean",
     "build": "NODE_ENV=production bun run ./scripts/build.ts",
     "predev": "bun run build",
-    "dev": "NODE_ENV=production bun run --hot src/index.tsx",
+    "dev": "bun run --hot src/index.tsx",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
     "test": "bun test",
     "typecheck": "cli tools typecheck"
   },
   "imports": {
-    "#dtsLibs": {
-      "types": "./src/dtsLibs.d.ts",
-      "default": "./dist/dtsLibs.json"
+    "#dist/*.json": {
+      "types": "./src/dist.d.ts",
+      "default": "./dist/*.json"
+    },
+    "#dist/*.txt": {
+      "types": "./src/dist.d.ts",
+      "default": "./dist/*.txt"
     }
   },
   "dependencies": {

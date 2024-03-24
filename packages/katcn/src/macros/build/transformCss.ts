@@ -4,7 +4,6 @@ import {
   composeVisitors,
   transform,
 } from 'lightningcss';
-import prettier from 'prettier';
 import type { UniversalTokensConfig } from '../../types';
 import { createBase } from '../css/createBase';
 import { createPreflight } from '../css/createPreflight';
@@ -16,6 +15,7 @@ interface TransformCssOptions {
   config?: UniversalTokensConfig;
   classNamesToKeep?: Set<string>;
   varsToKeep?: Set<string>;
+  includePreflight?: boolean;
   scaleMode?: {
     xSmall?: boolean;
     small?: boolean;
@@ -33,14 +33,15 @@ interface TransformCssOptions {
 
 const decoder = new TextDecoder();
 
-export async function transformCss({
+export function transformCss({
   config,
   classNamesToKeep = new Set<string>(),
   varsToKeep = new Set<string>(),
   scaleMode,
   colorMode,
+  includePreflight = true,
 }: TransformCssOptions) {
-  const preflight = createPreflight();
+  const preflight = includePreflight ? createPreflight() : '';
   const base = createBase(config);
   const utilities = createUtilities();
   const darkTheme = colorMode ? createTheme({ colorMode: 'dark', config }) : '';
@@ -67,7 +68,6 @@ export async function transformCss({
   const cssContent = cssTemplate`
     @layer base {
       ${preflight}
-
       :where(html) {
         ${base}
       }
@@ -183,9 +183,6 @@ export async function transformCss({
   });
 
   const finalCss = decoder.decode(transformedCss.code);
-  const formattedCss = await prettier.format(finalCss, {
-    parser: 'css',
-  });
 
-  return formattedCss;
+  return finalCss;
 }

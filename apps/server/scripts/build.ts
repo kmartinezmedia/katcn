@@ -48,7 +48,7 @@ function cleanSourceFile(sourceFile: SourceFile) {
 }
 
 async function getDtsLibs() {
-  const dtsLibs: typeof import('#dtsLibs').dtsLibs = [];
+  const dtsLibs: typeof import('#dist/dtsLibs.json').dtsLibs = [];
 
   const katPackageJson = await Bun.file(`${katcnDir}/package.json`).text();
   const reactTypesResp = await fetch(
@@ -106,7 +106,7 @@ export async function init() {
   });
 
   outputCode = cleanSourceFile(sourceFile);
-  await Bun.write(`${serverDir}/dist/init.js`, outputCode);
+  await Bun.write(`${serverDir}/dist/init.txt`, outputCode);
 }
 
 // copy icon font to dist

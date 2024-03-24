@@ -1,4 +1,3 @@
-import { watch } from 'node:fs';
 import path from 'node:path';
 import {
   createBase,
@@ -7,8 +6,9 @@ import {
   createUtilities,
   cssTemplate,
 } from 'katcn/macros';
+import { defaultTokensConfig } from 'katcn/tokens';
 import prettier from 'prettier';
-import { defaultTokensConfig } from '#tokens';
+import { createWatcher } from './_createWatcher';
 
 const outDir = `${Bun.env.PWD}/dist`;
 
@@ -66,27 +66,11 @@ async function writeCss() {
   Bun.write(outFile, formattedContent);
 }
 
-function createWatcher(dir: string) {
-  return watch(dir, { recursive: true }, async (_event, filename) => {
-    console.info(`katcn update: ${filename}`, import.meta.file);
-    writeCss();
-  });
-}
-
 if (Bun.argv.includes('--watch')) {
-  const srcEntry = path.resolve(import.meta.dirname, '../src');
-  const scriptsEntry = path.resolve(import.meta.dirname, '../scripts');
-  const srcWatcher = createWatcher(srcEntry);
-  const scriptsWatcher = createWatcher(scriptsEntry);
-
-  process.on('SIGINT', () => {
-    // close watcher when Ctrl-C is pressed
-    console.info('Closing watcher...', import.meta.file);
-    srcWatcher.close();
-    scriptsWatcher.close();
-
-    process.exit(0);
-  });
+  const srcEntry = `${Bun.env.PWD}/src`;
+  const scriptsEntry = `${Bun.env.PWD}/scripts`;
+  createWatcher(srcEntry, writeCss);
+  createWatcher(scriptsEntry, writeCss);
 }
 
 await writeCss();
