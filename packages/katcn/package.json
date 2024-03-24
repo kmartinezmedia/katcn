@@ -41,12 +41,13 @@
   },
   "scripts": {
     "build": "NODE_ENV=production bun run ./scripts/build.ts",
+    "build:css": "bun run ./scripts/buildCss.ts",
     "build:icons": "cli icons build --formats woff2,ttf --input ./src/icons/svg --outputFonts ./src/icons/fonts --outputTypes ./src/icons/types.ts",
     "clean": "cli tools clean",
     "dev": "bun run build && concurrently bun:dev:*",
     "dev:css": "bun run build:css --watch",
     "dev:icons": "bun run build:icons --watch",
-    "dev:src": "tsup --watch",
+    "dev:src": "bun run build --watch",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
     "test": "bun test",
@@ -65,7 +66,6 @@
     "react-dom": "^18.2.0",
     "tailwind-merge": "^2.2.1",
     "tsconfig": "workspace:*",
-    "tsup": "^8.0.2",
     "webfont": "^11.2.26"
   },
   "imports": {

@@ -50,7 +50,7 @@ export async function transformProject({
     registry.allClassNamesToKeep.size > 0 || registry.allVarsToKeep.size > 0;
 
   if (fileHasCss) {
-    const cssContent = await transformCss({
+    const cssContent = transformCss({
       config: config,
       classNamesToKeep: registry.allClassNamesToKeep,
       varsToKeep: registry.allVarsToKeep,
