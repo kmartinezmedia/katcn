@@ -7,14 +7,15 @@ import {
   type DtsLibs,
   type OnMount,
 } from 'docgen';
-import { HStack, Icon, VStack, getStyles, Text } from 'katcn';
+import { HStack } from 'katcn';
 import { encode } from 'base64-url';
-import { jsx } from 'katcn/jsx-runtime';
-import { jsxDEV } from 'katcn/jsx-dev-runtime';
+import { Socket } from './socket';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { Preview } from './preview';
 
 const exampleCode = `
-import { VStack, Text, Icon, getStyles } from 'katcn';
+import { VStack, Text, Icon } from 'katcn';
+import { getStyles } from 'katcn/getStyles';
 
 function Example() {
   const customStyles = getStyles({
@@ -46,13 +47,19 @@ interface EditorProps {
 
 export const Editor = memo(function Editor({
   userId: _userId,
-  ...props
+  serverUrl,
+  dtsLibs,
 }: EditorProps) {
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [data, setData] = useState<{ css: string; js: string }>({
+    css: '',
+    js: '',
+  });
   const [userId, setUserId] = useState<string | undefined>(_userId);
+
   useEffect(() => {
     if (!_userId) {
       setId().then((val) => {
-        console.log('set userID', val);
         setUserId(val);
       });
     }
@@ -62,85 +69,53 @@ export const Editor = memo(function Editor({
     return <h1>loading...</h1>;
   }
 
-  return <EditorInner {...props} userId={userId} />;
+  const socketUrl = `${serverUrl
+    .replace('http', 'ws')
+    .replace('https', 'ws')}/ws/${userId}`;
+
+  return (
+    <HStack width="full">
+      <Socket
+        key={`${serverUrl}-${userId}`}
+        url={socketUrl}
+        onConnect={setSocket}
+        onMessage={setData}
+      />
+      {socket && <EditorInner socket={socket} dtsLibs={dtsLibs} />}
+      {!!data.css && !!data.js && <Preview css={data.css} js={data.js} />}
+    </HStack>
+  );
 });
 
-function Preview({ css, js }: { css: string; js: string }) {
-  console.log({
-    css,
-    js,
-    jsx,
-  });
-
-  if (!!css && !!js) {
-    const fnString = new Function(`
-      function renderComp({ jsx, jsxDEV, VStack, Text, Icon, getStyles }) {
-        ${js}
-        return Example;
-      }
-      return renderComp;
-    `)();
-
-    const Comp = fnString({ jsx, jsxDEV, VStack, Text, Icon, getStyles });
-    // Comp.displayName = 'PreviewComponent';
-    console.log(Comp);
-    return (
-      <div>
-        <style>{css}</style>
-        <Comp />
-      </div>
-    );
-  }
-}
-
 export const EditorInner = memo(function EditorInner({
-  serverUrl,
-  userId,
+  socket,
   dtsLibs,
-}: Required<EditorProps>) {
-  const [data, setData] = useState<{ hash: string; js: string; css: string }>({
-    hash: '',
-    js: '',
-    css: '',
-  });
+}: { dtsLibs: DtsLibs; socket: WebSocket }) {
   const [code, setCode] = useState<string>(exampleCode);
   const hashRef = useRef<string>('');
-  const wsRef = useRef<WebSocket | null>(null);
   const refs = useRef<CodeEditorRefs>({
     monaco: undefined,
     editor: undefined,
     tsworker: undefined,
   });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    const wsUrl = serverUrl.replace('http', 'ws').replace('https', 'ws');
-    const websocket = new WebSocket(`${wsUrl}/ws/${userId}`);
-    wsRef.current = websocket;
-    // window.socket = websocket;
-    websocket.onopen = () => {
-      console.log('NextJS WebSocket Connected');
-    };
+    if (refs.current.monaco) {
+      const markers = refs.current.monaco?.editor
+        ?.getModelMarkers({})
+        .filter(
+          (marker) =>
+            marker.message !==
+            "'Example' is declared but its value is never read.",
+        );
 
-    websocket.onmessage = async (ev) => {
-      console.log('NextJS WebSocket message');
-      const data = JSON.parse(ev.data);
-      setData(data);
-    };
-
-    websocket.onclose = () => {
-      console.log('Nextjs WebSocket Disconnected');
-      websocket.close();
-    };
-
-    // websocket.onerror = (error) => {
-    //   console.log(`WebSocket Error: ${error}`);
-    // };
-
-    return () => {
-      websocket.close();
-    };
-  }, []);
+      if (markers?.length <= 1) {
+        const encoded = encode(code);
+        hashRef.current = encoded;
+        socket.send(encoded);
+      }
+    }
+  }, [code, socket]);
 
   const onMount: OnMount = useCallback(async ({ editor, monaco, tsworker }) => {
     refs.current.editor = editor;
@@ -150,35 +125,15 @@ export const EditorInner = memo(function EditorInner({
 
   const onChange: OnChange = useCallback(async (value) => {
     const _code = value ?? '';
-    const monaco = refs.current?.monaco;
-    const editor = monaco?.editor;
     setCode(_code);
-    if (editor) {
-      const markers = editor
-        ?.getModelMarkers({})
-        .filter(
-          (marker) =>
-            marker.message !==
-            "'Example' is declared but its value is never read.",
-        );
-
-      if (markers?.length <= 1) {
-        const encoded = encode(_code);
-        hashRef.current = encoded;
-        wsRef.current?.send(encoded);
-      }
-    }
   }, []);
 
   return (
-    <HStack width="full">
-      <CodeEditor
-        userCode={exampleCode}
-        dtsLibs={dtsLibs}
-        onMount={onMount}
-        onChange={onChange}
-      />
-      <Preview css={data.css} js={data.js} />
-    </HStack>
+    <CodeEditor
+      userCode={exampleCode}
+      dtsLibs={dtsLibs}
+      onMount={onMount}
+      onChange={onChange}
+    />
   );
 });

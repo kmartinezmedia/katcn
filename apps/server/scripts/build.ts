@@ -1,7 +1,6 @@
 /// <reference types="bun-types" />
 import path from 'node:path';
 import { Project, type SourceFile } from 'ts-morph';
-import { transpiler } from 'katcn/transpiler';
 
 const serverDir = path.resolve(__dirname, '../');
 const katcnDir = path.resolve(__dirname, '../../../packages/katcn');

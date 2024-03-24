@@ -1,9 +1,11 @@
 import { decode } from 'base64-url';
 import { transformSourceFile } from 'katcn/macros';
 import { createTsMorphProject } from 'katcn/macros';
+import { SourceFile } from 'ts-morph';
 
 const defaultExample = `
-import { VStack, Text, Icon, getStyles } from 'katcn';
+import { VStack, Text, Icon } from 'katcn';
+import { getStyles } from 'katcn/getStyles';
 
 function Example() {
   const customStyles = getStyles({
@@ -27,40 +29,39 @@ function Example() {
 
 class Database {
   project = createTsMorphProject({ skipAddingFilesFromTsConfig: true });
-  defaultJs = this.project.createSourceFile('default.tsx', defaultExample, {
-    overwrite: true,
-  });
-  defaultCss = this.project.createSourceFile('default.css', '', {
-    overwrite: true,
-  });
-  defaultCode = transformSourceFile({
-    sourceFile: this.defaultJs,
-    removeImports: true,
-  });
+  defaultCode: { js: string; css: string };
 
-  get(id: string) {
-    const js = this.project.getSourceFile(`${id}.tsx`);
-    const css = this.project.getSourceFile(`${id}.css`);
-    return {
-      js: js ? js.getText() : this.defaultCode.js,
-      css: css ? css.getText() : this.defaultCode.css,
-    };
+  constructor() {
+    const sourceFile = this.createSourceFile('default', defaultExample);
+    this.defaultCode = this.process(sourceFile);
   }
 
-  set(id: string, _code: string) {
-    const codeAsString = decode(_code);
-    const sourceFile = this.project.createSourceFile(
-      `${id}.tsx`,
-      codeAsString,
-      { overwrite: true },
-    );
-    const code = transformSourceFile({
+  createSourceFile(id: string, code: string) {
+    return this.project.createSourceFile(`${id}.tsx`, code, {
+      overwrite: true,
+    });
+  }
+
+  process(sourceFile: SourceFile) {
+    return transformSourceFile({
       sourceFile: sourceFile,
       removeImports: true,
       includePreflightCss: false,
     });
-    console.log(code);
-    return { js: code.js, css: code.css };
+  }
+
+  get(id: string | 'default') {
+    if (id === 'default') {
+      return this.defaultCode;
+    }
+    const sourceFile = this.project.getSourceFile(`${id}.tsx`);
+    return this.process(sourceFile);
+  }
+
+  set(id: string, _code: string) {
+    const codeAsString = decode(_code);
+    const sourceFile = this.createSourceFile(id, codeAsString);
+    return this.process(sourceFile);
   }
 }
 

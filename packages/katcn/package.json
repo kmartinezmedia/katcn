@@ -36,10 +36,6 @@
       "types": "./dist/tokens.d.ts",
       "default": "./dist/tokens.js"
     },
-    "./transpiler": {
-      "types": "./src/helpers/transpiler.ts",
-      "default": "./src/helpers/transpiler.ts"
-    },
     "./tsconfig.json": "./tsconfig.json",
     "./package.json": "./package.json"
   },

@@ -1,5 +1,4 @@
 import { Hono } from 'hono';
-import { html, raw } from 'hono/html';
 import { serveStatic, createBunWebSocket } from 'hono/bun';
 import { logger } from 'hono/logger';
 import database from './database';
@@ -31,19 +30,16 @@ app.get(
         if (ev.type === 'message') {
           console.log('Server WebSocket Message');
           const code = database.set(id, ev.data as string);
-          console.log(code);
           ws.send(JSON.stringify(code));
         }
       },
       onOpen(_event, ws) {
         console.log('Server WebSocket Connected');
-        // userCode.connections.add(ws);
-        // intervalId = setInterval(() => {
-        //   ws.send(new Date().toString());
-        // }, 200);
+        const code = database.get('default');
+        ws.send(JSON.stringify(code));
       },
       onClose() {
-        // clearInterval(intervalId);
+        console.log('Server WebSocket Closed');
       },
     };
   }),

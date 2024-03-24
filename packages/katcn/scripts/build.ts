@@ -15,34 +15,40 @@ async function build() {
     trimUnusedImports: true,
   });
 
-  const entryFiles = {
+  const transpileFiles = {
     components: 'src/components.tsx',
-    tokens: 'src/tokens.ts',
-    fixtures: 'src/fixtures.ts',
     'jsx-runtime': 'src/jsx-runtime.ts',
     'jsx-dev-runtime': 'src/jsx-dev-runtime.ts',
-    getStyles: 'src/getStyles.ts',
   };
+
+  const buildFiles = [
+    'src/helpers/index.ts',
+    'src/tokens.ts',
+    'src/fixtures.ts',
+    'src/getStyles.ts',
+  ];
 
   await Bun.write(
     `${outdir}/components.js`,
-    transpiler.transformSync(await Bun.file(entryFiles.components).text()),
+    transpiler.transformSync(await Bun.file(transpileFiles.components).text()),
   );
 
   await Bun.write(
     `${outdir}/jsx-runtime.js`,
-    transpiler.transformSync(await Bun.file(entryFiles['jsx-runtime']).text()),
+    transpiler.transformSync(
+      await Bun.file(transpileFiles['jsx-runtime']).text(),
+    ),
   );
 
   await Bun.write(
     `${outdir}/jsx-dev-runtime.js`,
     transpiler.transformSync(
-      await Bun.file(entryFiles['jsx-dev-runtime']).text(),
+      await Bun.file(transpileFiles['jsx-dev-runtime']).text(),
     ),
   );
 
   await Bun.build({
-    entrypoints: [entryFiles.tokens, entryFiles.fixtures, entryFiles.getStyles],
+    entrypoints: buildFiles,
     outdir,
     external: ['react', 'react-dom', 'clsx', 'tailwind-merge'],
   });
