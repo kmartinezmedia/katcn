@@ -1,5 +1,5 @@
 [phases.setup]
-# uses bun 1.0.30
+# uses bun 1.0.33
 # https://github.com/kane50613/nixpkgs/blob/master/pkgs/development/web/bun/default.nix and find commit for version you want
 nixpkgsArchive = '1f15b451272c8bd4dc890fd7a722b6055ab7408b'
 
