@@ -9,10 +9,14 @@
     "clean": {
       "cache": false
     },
+    "predev": {
+      "outputs": ["dist/**", "build/**", ".next/**", "!.next/cache/**"],
+      "dependsOn": ["^build"]
+    },
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build", "predev"]
     },
     "start": {
       "cache": false,
