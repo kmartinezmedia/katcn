@@ -18,10 +18,6 @@
     "#dist/*.json": {
       "types": "./src/dist.d.ts",
       "default": "./dist/*.json"
-    },
-    "#dist/*.txt": {
-      "types": "./src/dist.d.ts",
-      "default": "./dist/*.txt"
     }
   },
   "dependencies": {
