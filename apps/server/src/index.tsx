@@ -28,18 +28,18 @@ app.get(
     return {
       async onMessage(ev, ws) {
         if (ev.type === 'message') {
-          console.log('Server WebSocket Message');
+          console.log(`WebSocket message: ${id}`);
           const code = database.set(id, ev.data as string);
           ws.send(JSON.stringify(code));
         }
       },
       onOpen(_event, ws) {
-        console.log('Server WebSocket Connected');
+        console.log(`WebSocket connected: ${id}`);
         const code = database.get('default');
         ws.send(JSON.stringify(code));
       },
       onClose() {
-        console.log('Server WebSocket Closed');
+        console.log(`WebSocket closed: ${id}`);
       },
     };
   }),

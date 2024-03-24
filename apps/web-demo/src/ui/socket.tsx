@@ -14,21 +14,12 @@ export const Socket = memo(function Socket({
   useEffect(() => {
     const websocket = new WebSocket(url);
     onConnect?.(websocket);
-    // window.socket = websocket;
-    websocket.onopen = (ev) => {
-      console.log('NextJS WebSocket Connected');
-      console.log(ev);
-    };
-
     websocket.onmessage = async (ev) => {
-      console.log('NextJS WebSocket message');
       const data = JSON.parse(ev.data);
-      console.log('data', data);
       onMessage?.(data);
     };
 
     websocket.onclose = () => {
-      console.log('Nextjs WebSocket Disconnected');
       websocket.close();
     };
 
