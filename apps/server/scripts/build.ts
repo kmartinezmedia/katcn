@@ -1,4 +1,3 @@
-/// <reference types="bun-types" />
 import path from 'node:path';
 
 const serverDir = path.resolve(__dirname, '../');
@@ -6,7 +5,7 @@ const katcnDir = path.resolve(__dirname, '../../../packages/katcn');
 const katcnDistDir = path.resolve(katcnDir, 'dist');
 
 async function getDtsLibs() {
-  const dtsLibs: typeof import('#dist/dtsLibs.json').dtsLibs = [];
+  const dtsLibs: typeof import('#dist/dtsLibs.json').default = [];
 
   const katPackageJson = await Bun.file(`${katcnDir}/package.json`).text();
   const reactTypesResp = await fetch(
@@ -23,7 +22,7 @@ async function getDtsLibs() {
     filePath: 'file:///node_modules/katcn/package.json',
   });
 
-  const katDtsFiles = new Bun.Glob('*.d.ts').scanSync({
+  const katDtsFiles = new Bun.Glob('**/*.d.ts').scanSync({
     cwd: katcnDistDir,
     absolute: true,
   });

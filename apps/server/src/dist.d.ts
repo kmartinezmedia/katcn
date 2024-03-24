@@ -1,3 +1,3 @@
 declare module '#dist/dtsLibs.json' {
-  export default {}
+  export default []
 }
