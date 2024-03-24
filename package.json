@@ -22,6 +22,6 @@
     "turbo": "^1.12.4",
     "typescript": "^5.4.2"
   },
-  "packageManager": "bun@1.0.31",
+  "packageManager": "bun@1.0.35",
   "workspaces": ["packages/*", "apps/*"]
 }
