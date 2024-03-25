@@ -20,9 +20,6 @@
       "path": "../../packages/katcn"
     },
     {
-      "path": "../../packages/docgen"
-    },
-    {
       "path": "../../packages/tsconfig"
     }
   ]

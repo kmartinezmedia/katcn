@@ -3,9 +3,8 @@
 import { Editor } from '@monaco-editor/react';
 import type * as monacoType from 'monaco-editor';
 import { VStack } from 'katcn';
-import { useEffect, useRef, useState } from 'react';
-import { encode } from 'base64-url';
-import { PrettierFormatProvider } from '../utils/prettier';
+import { useEffect, useRef } from 'react';
+import { PrettierFormatProvider } from '@/lib/prettier';
 
 export type MonacoInstance = typeof monacoType;
 export type EditorInstance = monacoType.editor.IStandaloneCodeEditor;
