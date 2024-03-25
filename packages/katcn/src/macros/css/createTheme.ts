@@ -48,7 +48,7 @@ export function createTheme({
           (value) => `${value}px`,
         ),
         'font-weight': mapValues(
-          config.scaleMode[scaleMode].textTransform,
+          config.scaleMode[scaleMode].fontWeight,
           (value) => value,
         ),
         'line-height': mapValues(

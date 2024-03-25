@@ -17,7 +17,7 @@ export default function Layout({ socket, children }: PlaygroundParams) {
         <VStack width="half">
           <Editor />
         </VStack>
-        <VStack width="half">
+        <VStack width="half" height="100vh" overflow="scroll">
           <Tabs />
           {children}
         </VStack>
