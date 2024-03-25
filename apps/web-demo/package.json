@@ -22,6 +22,7 @@
     "typecheck": "cli tools typecheck"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.6.0",
     "base64-url": "^2.3.3",
     "katcn": "workspace:*",
     "monaco-editor": "^0.47.0",
