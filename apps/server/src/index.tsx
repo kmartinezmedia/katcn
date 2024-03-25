@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { serveStatic, createBunWebSocket } from 'hono/bun';
+import { createBunWebSocket, serveStatic } from 'hono/bun';
 import { logger } from 'hono/logger';
 import database from './database';
 

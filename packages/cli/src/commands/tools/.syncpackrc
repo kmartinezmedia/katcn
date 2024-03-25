@@ -2,6 +2,7 @@
   "dependencyTypes": ["prod", "dev", "peer"],
   "filter": ".",
   "indent": "  ",
+  "lintVersions": true,
   "workspace": true,
   "semverGroups": [],
   "semverRange": "",

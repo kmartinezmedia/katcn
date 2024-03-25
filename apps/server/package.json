@@ -1,24 +1,18 @@
 {
   "name": "server",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "module": "src/index.ts",
   "scripts": {
-    "clean": "cli tools clean",
     "build": "NODE_ENV=production bun run ./scripts/build.ts",
-    "predev": "bun run build",
+    "clean": "cli tools clean",
     "dev": "bun run --hot src/index.tsx",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
+    "predev": "bun run build",
     "test": "bun test",
     "typecheck": "cli tools typecheck"
-  },
-  "imports": {
-    "#dist/*.json": {
-      "types": "./src/dist.d.ts",
-      "default": "./dist/*.json"
-    }
   },
   "dependencies": {
     "base64-url": "^2.3.3",
@@ -28,5 +22,11 @@
   },
   "devDependencies": {
     "@types/base64-url": "^2.2.2"
+  },
+  "imports": {
+    "#dist/*.json": {
+      "types": "./src/dist.d.ts",
+      "default": "./dist/*.json"
+    }
   }
 }

@@ -1,6 +1,12 @@
 {
-  "include": ["src/**/*.ts", "src/**/*.tsx", "scripts/**/*.ts"],
-  "types": ["bun-types"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "scripts/**/*.ts"
+  ],
+  "types": [
+    "bun-types"
+  ],
   "compilerOptions": {
     "composite": false,
     "incremental": true,

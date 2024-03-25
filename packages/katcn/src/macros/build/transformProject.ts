@@ -1,13 +1,13 @@
 import type { Project, SourceFile } from 'ts-morph';
 import { defaultTokensConfig } from '../../tokens';
 import type { UniversalTokensConfig } from '../../types';
+import { CssRegistry } from './cssRegistry';
+import { transformCss } from './transformCss';
+import { transformTsx } from './transformTsx';
 import {
   type OnSourceFileChange,
   transformWatchers,
 } from './transformWatchers';
-import { transformCss } from './transformCss';
-import { transformTsx } from './transformTsx';
-import { CssRegistry } from './cssRegistry';
 
 interface TransformOptions {
   config?: UniversalTokensConfig;

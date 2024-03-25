@@ -2,6 +2,7 @@
   "$schema": "https://biomejs.dev/schemas/1.4.1/schema.json",
   "files": {
     "ignore": [
+      ".katcn",
       ".next",
       ".expo",
       ".turbo",
@@ -20,6 +21,11 @@
   "javascript": {
     "formatter": {
       "quoteStyle": "single"
+    }
+  },
+  "json": {
+    "formatter": {
+      "lineWidth": 20
     }
   },
   "linter": {

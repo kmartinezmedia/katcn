@@ -1,15 +1,15 @@
 import { forwardRef } from 'react';
+import { createSlot } from './helpers';
 import type {
   UniversalAvatarProps,
+  UniversalBoxProps,
+  UniversalIconProps,
   UniversalImageProps,
   UniversalPressableProps,
-  UniversalBoxProps,
-  UniversalTextProps,
-  UniversalTextInputProps,
-  UniversalIconProps,
   UniversalStackProps,
+  UniversalTextInputProps,
+  UniversalTextProps,
 } from './types';
-import { createSlot } from './helpers';
 
 type HtmlButtonProps = Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
