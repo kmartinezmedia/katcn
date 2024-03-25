@@ -1,5 +1,3 @@
-'use server';
-
 import { VStack, HStack, Pressable, Text } from 'katcn';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
