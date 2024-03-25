@@ -5,30 +5,12 @@ import {
   transform,
 } from 'lightningcss';
 import type { UniversalTokensConfig } from '../../types';
-import { createBase } from '../css/createBase';
-import { createPreflight } from '../css/createPreflight';
-import { createTheme } from '../css/createTheme';
-import { createUtilities } from '../css/createUtilities';
-import { cssTemplate } from './cssTemplate';
+import { type KatcnStyleSheetOpts, KatcnStyleSheet } from '../css/stylesheet';
 
-interface TransformCssOptions {
+interface TransformCssOptions extends KatcnStyleSheetOpts {
   config?: UniversalTokensConfig;
   classNamesToKeep?: Set<string>;
   varsToKeep?: Set<string>;
-  includePreflight?: boolean;
-  scaleMode?: {
-    xSmall?: boolean;
-    small?: boolean;
-    medium?: boolean;
-    large?: boolean;
-    xLarge?: boolean;
-    xxLarge?: boolean;
-    xxxLarge?: boolean;
-  };
-  colorMode?: {
-    light?: boolean;
-    dark?: boolean;
-  };
 }
 
 const decoder = new TextDecoder();
@@ -37,70 +19,10 @@ export function transformCss({
   config,
   classNamesToKeep = new Set<string>(),
   varsToKeep = new Set<string>(),
-  scaleMode,
-  colorMode,
   includePreflight = true,
 }: TransformCssOptions) {
-  const preflight = includePreflight ? createPreflight() : '';
-  const base = createBase(config);
-  const utilities = createUtilities();
-  const darkTheme = colorMode ? createTheme({ colorMode: 'dark', config }) : '';
-
-  const xSmall = scaleMode?.xSmall
-    ? createTheme({ scaleMode: 'xSmall', config })
-    : '';
-  const small = scaleMode?.small
-    ? createTheme({ scaleMode: 'small', config })
-    : '';
-  const medium = scaleMode?.medium
-    ? createTheme({ scaleMode: 'medium', config })
-    : '';
-  const xLarge = scaleMode?.xLarge
-    ? createTheme({ scaleMode: 'xLarge', config })
-    : '';
-  const xxLarge = scaleMode?.xxLarge
-    ? createTheme({ scaleMode: 'xxLarge', config })
-    : '';
-  const xxxLarge = scaleMode?.xxLarge
-    ? createTheme({ scaleMode: 'xxxLarge', config })
-    : '';
-
-  const cssContent = cssTemplate`
-    @layer base {
-      ${preflight}
-      :where(html) {
-        ${base}
-      }
-    }
-
-    @layer theme {
-      [data-theme='dark'] {
-        ${darkTheme}
-      }
-      [data-scale='xSmall'] {
-        ${xSmall}
-      }
-      [data-scale='small'] {
-        ${small}
-      }
-      [data-scale='medium'] {
-        ${medium}
-      }
-      [data-scale='xLarge'] {
-        ${xLarge}
-      }
-      [data-scale='xxLarge'] {
-        ${xxLarge}
-      }
-      [data-scale='xxxLarge'] {
-        ${xxxLarge}
-      }
-    }
-
-    @layer utilities {
-      ${utilities}
-    }
-`;
+  const stylesheet = new KatcnStyleSheet({ includePreflight, config });
+  const cssContent = stylesheet.css;
 
   const ruleVisitor = {
     Rule(rule) {

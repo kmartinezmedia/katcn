@@ -1,24 +1,13 @@
-export function flattenObj(
-  obj: object,
-  opts?: { prefix?: string; suffix?: string; separator?: string },
-): string {
-  let css = '';
-  const { prefix = '', suffix = '', separator = '' } = opts || {};
+export function flattenObj<T>(obj: T, keyName?: string) {
+  let result: Record<string, string> = {};
 
-  for (const propKey in obj) {
-    const propVal = obj[propKey as keyof typeof obj];
-    const isObject = Object.getPrototypeOf(propVal) === Object.prototype;
-
-    if (isObject) {
-      // recursively add object entries, making sure to key is appended to prefix
-      css += flattenObj(propVal as object, {
-        prefix: `${prefix}${propKey}-`,
-        separator,
-        suffix,
-      });
+  for (const key in obj) {
+    const newKey = keyName ? `${keyName}-${key}` : key;
+    if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+      result = { ...result, ...flattenObj(obj[key], newKey) };
     } else {
-      css += `${prefix}${propKey}${separator} ${propVal}${suffix}\n`;
+      result[newKey] = obj[key] as string;
     }
   }
-  return css;
+  return result;
 }

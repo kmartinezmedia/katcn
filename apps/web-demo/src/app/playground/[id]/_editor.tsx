@@ -1,5 +1,5 @@
 'use client';
-import { setId } from '@/actions/id';
+
 import {
   CodeEditor,
   type CodeEditorRefs,
@@ -7,11 +7,17 @@ import {
   type DtsLibs,
   type OnMount,
 } from 'docgen';
-import { HStack } from 'katcn';
 import { encode } from 'base64-url';
-import { Socket } from './socket';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { Preview } from './preview';
+import {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { PlaygroundSocketContext } from './_provider';
+import dtsLibs from 'server/dist/dtsLibs.json';
 
 const exampleCode = `
 import { VStack, Text, Icon } from 'katcn';
@@ -39,58 +45,8 @@ function Example() {
   .trimStart()
   .trimEnd();
 
-interface EditorProps {
-  dtsLibs: DtsLibs;
-  serverUrl: string;
-  userId?: string;
-}
-
-export const Editor = memo(function Editor({
-  userId: _userId,
-  serverUrl,
-  dtsLibs,
-}: EditorProps) {
-  const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [data, setData] = useState<{ css: string; js: string }>({
-    css: '',
-    js: '',
-  });
-  const [userId, setUserId] = useState<string | undefined>(_userId);
-
-  useEffect(() => {
-    if (!_userId) {
-      setId().then((val) => {
-        setUserId(val);
-      });
-    }
-  }, [_userId]);
-
-  if (!userId) {
-    return <h1>loading...</h1>;
-  }
-
-  const socketUrl = `${serverUrl
-    .replace('http', 'ws')
-    .replace('https', 'ws')}/ws/${userId}`;
-
-  return (
-    <HStack width="full">
-      <Socket
-        key={`${serverUrl}-${userId}`}
-        url={socketUrl}
-        onConnect={setSocket}
-        onMessage={setData}
-      />
-      {socket && <EditorInner socket={socket} dtsLibs={dtsLibs} />}
-      {!!data.css && !!data.js && <Preview css={data.css} js={data.js} />}
-    </HStack>
-  );
-});
-
-export const EditorInner = memo(function EditorInner({
-  socket,
-  dtsLibs,
-}: { dtsLibs: DtsLibs; socket: WebSocket }) {
+export default memo(function Editor() {
+  const socket = useContext(PlaygroundSocketContext);
   const [code, setCode] = useState<string>(exampleCode);
   const hashRef = useRef<string>('');
   const refs = useRef<CodeEditorRefs>({
@@ -112,7 +68,7 @@ export const EditorInner = memo(function EditorInner({
       if (markers?.length <= 1) {
         const encoded = encode(code);
         hashRef.current = encoded;
-        socket.send(encoded);
+        socket?.send(encoded);
       }
     }
   }, [code, socket]);

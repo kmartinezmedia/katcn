@@ -65,7 +65,7 @@ export function CodeEditor({
   }, []);
 
   return (
-    <VStack height="100vh" width="half">
+    <VStack height="100vh" width="full">
       <Editor
         defaultLanguage="typescript"
         language="typescript"

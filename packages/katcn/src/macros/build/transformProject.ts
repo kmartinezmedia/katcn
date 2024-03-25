@@ -15,7 +15,7 @@ interface TransformOptions {
   outFile?: string;
   watch?: boolean;
 }
-async function processFile({
+function processFile({
   sourceFile,
   registry,
 }: { sourceFile: SourceFile; registry: CssRegistry }) {
@@ -26,29 +26,17 @@ async function processFile({
   return transformedTsx;
 }
 
-export async function transformProject({
-  config = defaultTokensConfig,
-  project,
+async function transform({
+  config,
+  registry,
   outFile,
-  watch: shouldWatch = false,
-}: TransformOptions) {
-  const registry = new CssRegistry();
-  const sourceFiles = project.getSourceFiles();
-
-  const onChange: OnSourceFileChange = (sFile) =>
-    processFile({ sourceFile: sFile, registry });
-
-  if (shouldWatch) {
-    transformWatchers({ project, onChange });
-  }
-
-  for await (const sourceFile of sourceFiles) {
-    await processFile({ sourceFile, registry });
-  }
-
+}: {
+  registry: CssRegistry;
+  config: UniversalTokensConfig;
+  outFile?: string;
+}) {
   const fileHasCss =
     registry.allClassNamesToKeep.size > 0 || registry.allVarsToKeep.size > 0;
-
   if (fileHasCss) {
     const cssContent = transformCss({
       config: config,
@@ -60,4 +48,29 @@ export async function transformProject({
       await Bun.write(outFile, cssContent);
     }
   }
+}
+
+export async function transformProject({
+  config = defaultTokensConfig,
+  project,
+  outFile,
+  watch: shouldWatch = false,
+}: TransformOptions) {
+  const registry = new CssRegistry();
+  const sourceFiles = project.getSourceFiles();
+
+  const onChange: OnSourceFileChange = async (sFile) => {
+    processFile({ sourceFile: sFile, registry });
+    await transform({ config, registry, outFile });
+  };
+
+  if (shouldWatch) {
+    transformWatchers({ project, onChange });
+  }
+
+  for (const sourceFile of sourceFiles) {
+    processFile({ sourceFile, registry });
+  }
+
+  await transform({ config, registry, outFile });
 }

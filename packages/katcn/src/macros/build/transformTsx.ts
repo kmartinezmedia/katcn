@@ -48,10 +48,11 @@ function getPropsForExpression({
   const props = callExpression.getFirstChildByKind(
     SyntaxKind.ObjectLiteralExpression,
   );
+  const propsObject = {} as Record<string, unknown>;
+  let extractedProps = {} as ReturnType<typeof extractStyleProps>;
 
   if (props) {
     const properties = props.getProperties();
-    const propsObject = {} as Record<string, unknown>;
     for (const property of properties) {
       if (property.isKind(SyntaxKind.PropertyAssignment)) {
         const name = property.getName();
@@ -59,6 +60,28 @@ function getPropsForExpression({
         if (name !== 'children' && value) {
           if (value.isKind(SyntaxKind.StringLiteral)) {
             propsObject[name] = value.getLiteralValue();
+          }
+          if (value.isKind(SyntaxKind.ConditionalExpression)) {
+            const valueWhenTrue = value
+              .getWhenTrue()
+              .asKind(SyntaxKind.StringLiteral);
+
+            const valueWhenFalse = value
+              .getWhenFalse()
+              .asKind(SyntaxKind.StringLiteral);
+
+            if (valueWhenTrue) {
+              const stringWhenTrue = valueWhenTrue.getLiteralValue();
+              const classNameWhenTrue = getStyles({ [name]: stringWhenTrue });
+              classNamesToKeep.add(classNameWhenTrue);
+            }
+            if (valueWhenFalse) {
+              const stringWhenFalse = valueWhenFalse.getLiteralValue();
+              const classNameWhenFalse = getStyles({ [name]: stringWhenFalse });
+              classNamesToKeep.add(classNameWhenFalse);
+            }
+
+            // TODO: handle if conditional is not resolved
           }
         }
       }
@@ -73,46 +96,44 @@ function getPropsForExpression({
         }
       }
     }
+  }
 
-    let extractedProps = {} as ReturnType<typeof extractStyleProps>;
-
-    if (fnName === 'getStyles') {
-      // TODO: Find where getStyles is applied and use that component name?
-      extractedProps.className = getStyles(propsObject);
+  if (fnName === 'getStyles') {
+    // TODO: Find where getStyles is applied and use that component name?
+    extractedProps.className = getStyles(propsObject);
+  } else {
+    // get import for the call expression's first argument is a component aka not a string
+    const firstArg = callExpression.getArguments()[0];
+    const firstArgText = firstArg.getText();
+    if (firstArg.isKind(SyntaxKind.StringLiteral)) {
+      // this is a native html element i.e. 'body', 'div', etc
     } else {
-      // get import for the call expression's first argument is a component aka not a string
-      const firstArg = callExpression.getArguments()[0];
-      const firstArgText = firstArg.getText();
-      if (firstArg.isKind(SyntaxKind.StringLiteral)) {
-        // this is a native html element i.e. 'body', 'div', etc
-      } else {
-        // this is a component
-        const symbol = firstArg.getSymbol();
-        const declarations = symbol?.getDeclarations();
-        if (declarations) {
-          for (const declaration of declarations) {
-            const importDeclaration = declaration.getFirstAncestorByKind(
-              SyntaxKind.ImportDeclaration,
-            );
-            /**
-             * Only extract props from allowed packages.
-             * This is to avoid any performance issues by unnecessarily extracting props from all packages
-             */
-            if (importDeclaration) {
-              const importPath = importDeclaration.getModuleSpecifierValue();
-              // if katcn then go straight to extracting props
-              if (importPath.startsWith('katcn')) {
-                extractedProps = extractStyleProps(propsObject, firstArgText);
-              }
+      // this is a component
+      const symbol = firstArg.getSymbol();
+      const declarations = symbol?.getDeclarations();
+      if (declarations) {
+        for (const declaration of declarations) {
+          const importDeclaration = declaration.getFirstAncestorByKind(
+            SyntaxKind.ImportDeclaration,
+          );
+          /**
+           * Only extract props from allowed packages.
+           * This is to avoid any performance issues by unnecessarily extracting props from all packages
+           */
+          if (importDeclaration) {
+            const importPath = importDeclaration.getModuleSpecifierValue();
+            // if katcn then go straight to extracting props
+            if (importPath.startsWith('katcn')) {
+              extractedProps = extractStyleProps(propsObject, firstArgText);
             }
           }
         }
       }
     }
+  }
 
-    if (extractedProps?.className) {
-      classNamesToKeep.add(extractedProps.className);
-    }
+  if (extractedProps?.className) {
+    classNamesToKeep.add(extractedProps.className);
   }
 }
 

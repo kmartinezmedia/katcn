@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Box,
   HStack,
@@ -12,8 +14,14 @@ import {
 import { getStyles } from 'katcn/getStyles';
 import { jsx } from 'katcn/jsx-runtime';
 import { jsxDEV } from 'katcn/jsx-dev-runtime';
+import { useContext } from 'react';
+import { PlaygroundDataContext } from '../_provider';
 
-export function Preview({ css, js }: { css: string; js: string }) {
+export default function Page() {
+  const { css, js } = useContext(PlaygroundDataContext);
+  if (!css || !js) {
+    return null;
+  }
   const fnString = new Function(`
       function renderComp({ jsx, jsxDEV, getStyles, Box, HStack, VStack, Icon, Image, Pressable, Text, TextInput, Avatar }) {
         ${js}

@@ -385,22 +385,19 @@ export function createUtilities() {
   };
 
   const width = fromEntries(
-    fixtures.width.map((alias) => [
-      cssEscape(`${alias}`),
-      `{ width: ${widthLookup[alias]} }`,
-    ]),
+    fixtures.width.map((alias) => [alias, `{ width: ${widthLookup[alias]} }`]),
   );
 
   const maxWidth = fromEntries(
     fixtures.width.map((alias) => [
-      cssEscape(`${alias}`),
+      alias,
       `{ max-inline-size: ${widthLookup[alias]} }`,
     ]),
   );
 
   const minWidth = fromEntries(
     fixtures.width.map((alias) => [
-      cssEscape(`${alias}`),
+      alias,
       `{ min-inline-size: ${widthLookup[alias]} }`,
     ]),
   );
@@ -408,112 +405,124 @@ export function createUtilities() {
   const spacing = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ padding: var(--katcn-spacing-${alias}); }`,
+      `{ padding: var(--katcn-${cssEscape(`spacing-${alias}`)}); }`,
     ]),
   );
 
   const spacingTop = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ padding-top: var(--katcn-spacing-${alias}); }`,
+      `{ padding-top: var(--katcn-${cssEscape(`spacing-${alias}`)}); }`,
     ]),
   );
 
   const spacingStart = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ padding-inline-start: var(--katcn-spacing-${alias}); }`,
+      `{ padding-inline-start: var(--katcn-${cssEscape(
+        `spacing-${alias}`,
+      )}); }`,
     ]),
   );
 
   const spacingEnd = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ padding-inline-end: var(--katcn-spacing-${alias}); }`,
+      `{ padding-inline-end: var(--katcn-${cssEscape(`spacing-${alias}`)}); }`,
     ]),
   );
 
   const spacingBottom = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ padding-bottom: var(--katcn-spacing-${alias}); }`,
+      `{ padding-bottom: var(--katcn-${cssEscape(`spacing-${alias}`)}); }`,
     ]),
   );
 
-  const spacingHorizontal = fromEntries(
+  const spacingX = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ padding-left: var(--katcn-spacing-${alias}); padding-right: var(--katcn-spacing-${alias}); }`,
+      `{ padding-left: var(${cssEscape(
+        `--katcn-spacing-${alias}`,
+      )}); padding-right: var(--katcn-${cssEscape(`spacing-${alias}`)}); }`,
     ]),
   );
 
-  const spacingVertical = fromEntries(
+  const spacingY = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ padding-top: var(--katcn-spacing-${alias}); padding-bottom: var(--katcn-spacing-${alias}); }`,
+      `{ padding-top: var(${cssEscape(
+        `--katcn-spacing-${alias}`,
+      )}); padding-bottom: var(--katcn-${cssEscape(`spacing-${alias}`)}); }`,
     ]),
   );
 
   const offset = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ margin: -var(--katcn-offset-${alias}); }`,
+      `{ margin: -var(--katcn-${cssEscape(`spacing-${alias}`)}); }`,
     ]),
   );
 
   const offsetTop = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ margin-top: -var(--katcn-spacing-${alias}); }`,
+      `{ margin-top: -var(--katcn-${cssEscape(`spacing-${alias}`)}); }`,
     ]),
   );
 
   const offsetStart = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ margin-inline-start: -var(--katcn-spacing-${alias}); }`,
+      `{ margin-inline-start: -var(--katcn-${cssEscape(
+        `spacing-${alias}`,
+      )}); }`,
     ]),
   );
 
   const offsetEnd = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ margin-inline-end: -var(--katcn-spacing-${alias}); }`,
+      `{ margin-inline-end: -var(--katcn-${cssEscape(`spacing-${alias}`)}); }`,
     ]),
   );
 
   const offsetBottom = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ margin-bottom: -var(--katcn-spacing-${alias}); }`,
+      `{ margin-bottom: -var(--katcn-${cssEscape(`spacing-${alias}`)}); }`,
     ]),
   );
 
-  const offsetHorizontal = fromEntries(
+  const offsetX = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ margin-left: -var(--katcn-spacing-${alias}); margin-right: -var(--katcn-spacing-${alias}); }`,
+      `{ margin-left: -${cssEscape(
+        `var(--katcn-spacing-${alias})`,
+      )}; margin-right: -var(--katcn-${cssEscape(`spacing-${alias}`)}); }`,
     ]),
   );
 
-  const offsetVertical = fromEntries(
+  const offsetY = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ margin-top: -var(--katcn-spacing-${alias}); margin-bottom: -var(--katcn-spacing-${alias}); }`,
+      `{ margin-top: -var(--katcn-${cssEscape(
+        `spacing-${alias}`,
+      )}); margin-bottom: -var(--katcn-${cssEscape(`spacing-${alias}`)}); }`,
     ]),
   );
 
-  const horizontalGap = fromEntries(
+  const gapX = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ column-gap: -var(--katcn-spacing-${alias}); }`,
+      `{ column-gap: var(--katcn-${cssEscape(`spacing-${alias}`)}); }`,
     ]),
   );
 
-  const verticalGap = fromEntries(
+  const gapY = fromEntries(
     fixtures.spacingAlias.map((alias) => [
       alias,
-      `{ row-gap: -var(--katcn-spacing-${alias}); }`,
+      `{ row-gap: var(--katcn-${cssEscape(`spacing-${alias}`)}); }`,
     ]),
   );
 
@@ -548,6 +557,34 @@ export function createUtilities() {
     ]),
   );
 
+  const borderTopRadius = fromEntries(
+    fixtures.borderRadius.map((alias) => [
+      `${alias}`,
+      `{ border-top-left-radius: var(--katcn-radii-${alias}); border-top-right-radius: var(--katcn-radii-${alias}); }`,
+    ]),
+  );
+
+  const borderBottomRadius = fromEntries(
+    fixtures.borderRadius.map((alias) => [
+      `${alias}`,
+      `{ border-bottom-left-radius: var(--katcn-radii-${alias}); border-bottom-right-radius: var(--katcn-radii-${alias}); }`,
+    ]),
+  );
+
+  const borderStartRadius = fromEntries(
+    fixtures.borderRadius.map((alias) => [
+      `${alias}`,
+      `{ border-start-start-radius: var(--katcn-radii-${alias}); border-end-start-radius: var(--katcn-radii-${alias}); }`,
+    ]),
+  );
+
+  const borderEndRadius = fromEntries(
+    fixtures.borderRadius.map((alias) => [
+      `${alias}`,
+      `{ border-start-end-radius: var(--katcn-radii-${alias}); border-end-end-radius: var(--katcn-radii-${alias}); }`,
+    ]),
+  );
+
   const borderTopStartRadius = fromEntries(
     fixtures.borderRadius.map((alias) => [
       `${alias}`,
@@ -558,7 +595,7 @@ export function createUtilities() {
   const borderTopEndRadius = fromEntries(
     fixtures.opacity.map((alias) => [
       `${alias}`,
-      `{ border-start-end-radius: var(--katcn-radii-${alias}); }`,
+      `{ border-end-end-radius: var(--katcn-radii-${alias}); }`,
     ]),
   );
 
@@ -644,7 +681,7 @@ export function createUtilities() {
   const avatarSize = fromEntries(
     fixtures.avatarSize.map((alias) => [
       `${alias}`,
-      `{ text-transform: var(--katcn-text-transform-${alias}); }`,
+      `{ width: var(--katcn-avatarSize-${alias}); height: var(--katcn-avatarSize-${alias}); }`,
     ]),
   );
 
@@ -687,17 +724,17 @@ export function createUtilities() {
     spacingEnd,
     spacingTop,
     spacingBottom,
-    spacingHorizontal,
-    spacingVertical,
+    spacingX,
+    spacingY,
     offset,
     offsetStart,
     offsetEnd,
     offsetTop,
     offsetBottom,
-    offsetHorizontal,
-    offsetVertical,
-    horizontalGap,
-    verticalGap,
+    offsetX,
+    offsetY,
+    gapX,
+    gapY,
     display,
     position,
     overflow,
@@ -705,6 +742,10 @@ export function createUtilities() {
     overflowY,
     opacity,
     borderRadius,
+    borderTopRadius,
+    borderBottomRadius,
+    borderStartRadius,
+    borderEndRadius,
     borderTopStartRadius,
     borderTopEndRadius,
     borderBottomStartRadius,
