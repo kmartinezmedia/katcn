@@ -392,40 +392,42 @@ const normalBorderWidths: BorderWidthConfig = {
   thick: 4,
 };
 
-const compactSpacing: SpacingConfig = {
-  '0': 0,
-  '1': 1,
-  '2': 2,
-  '3': 4,
-  '4': 8,
-  '5': 12,
-  '6': 16,
-  '7': 20,
-  '8': 24,
-  '9': 28,
-  '10': 32,
-  '11': 36,
-  '12': 40,
-  '13': 44,
-  '14': 48,
-};
-
-const normalSpacing: SpacingConfig = {
-  '0': 0,
-  '1': 1,
-  '2': 2,
-  '3': 4,
-  '4': 8,
-  '5': 12,
-  '6': 16,
-  '7': 24,
-  '8': 32,
-  '9': 40,
-  '10': 48,
-  '11': 56,
-  '12': 64,
-  '13': 72,
-  '14': 80,
+export const spacing: SpacingConfig = {
+  px: '1px',
+  '0': '0px',
+  '0.5': '0.125rem',
+  '1': '0.25rem',
+  '1.5': '0.375rem',
+  '2': '0.5rem',
+  '2.5': '0.625rem',
+  '3': '0.75rem',
+  '3.5': '0.875rem',
+  '4': '1rem',
+  '5': '1.25rem',
+  '6': '1.5rem',
+  '7': '1.75rem',
+  '8': '2rem',
+  '9': '2.25rem',
+  '10': '2.5rem',
+  '11': '2.75rem',
+  '12': '3rem',
+  '14': '3.5rem',
+  '16': '4rem',
+  '20': '5rem',
+  '24': '6rem',
+  '28': '7rem',
+  '32': '8rem',
+  '36': '9rem',
+  '40': '10rem',
+  '44': '11rem',
+  '48': '12rem',
+  '52': '13rem',
+  '56': '14rem',
+  '60': '15rem',
+  '64': '16rem',
+  '72': '18rem',
+  '80': '20rem',
+  '96': '24rem',
 };
 
 const lightElevation: ElevationConfig = {
@@ -587,7 +589,7 @@ const transitionTiming = {
   'in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
 };
 
-const zIndex: ZIndexConfig = {
+export const zIndex: ZIndexConfig = {
   auto: 'auto',
   '0': '0',
   '10': '10',
@@ -605,7 +607,6 @@ const compactTokens = {
   iconSizes: compactIconSizes,
   borderRadius: compactBorderRadius,
   borderWidth: compactBorderWidths,
-  spacing: compactSpacing,
 };
 
 const normalTokens = {
@@ -616,7 +617,6 @@ const normalTokens = {
   iconSizes: normalIconSizes,
   borderRadius: normalBorderRadius,
   borderWidth: normalBorderWidths,
-  spacing: normalSpacing,
 };
 
 export const defaultTokensConfig: UniversalTokensConfig = {
@@ -661,5 +661,4 @@ export const defaultTokensConfig: UniversalTokensConfig = {
     },
   },
   fontFamily: fontFamilyGlobal,
-  zIndex,
 };

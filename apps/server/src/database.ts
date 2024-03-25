@@ -1,7 +1,7 @@
 import { decode } from 'base64-url';
 import { transformSourceFile } from 'katcn/macros';
 import { createTsMorphProject } from 'katcn/macros';
-import { SourceFile } from 'ts-morph';
+import type { SourceFile } from 'ts-morph';
 
 const defaultExample = `
 import { VStack, Text, Icon } from 'katcn';
@@ -32,8 +32,8 @@ class Database {
   defaultCode: { js: string; css: string };
 
   constructor() {
-    const sourceFile = this.createSourceFile('default', defaultExample);
-    this.defaultCode = this.process(sourceFile);
+    const defaultSourceFile = this.createSourceFile('default', defaultExample);
+    this.defaultCode = this.process(defaultSourceFile);
   }
 
   createSourceFile(id: string, code: string) {

@@ -1,5 +1,5 @@
 import { mapValues } from '../../helpers';
-import { defaultTokensConfig } from '../../tokens';
+import { defaultTokensConfig, spacing, zIndex } from '../../tokens';
 import type { UniversalTokensConfig } from '../../types';
 import { createTheme } from './createTheme';
 
@@ -57,5 +57,7 @@ export function createBase(
       },
     },
     ...theme,
+    spacing,
+    zIndex,
   };
 }

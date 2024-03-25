@@ -122,21 +122,21 @@ export const getStyles = ({
   textAlign,
   textTransform,
   spacing,
-  spacingHorizontal,
-  spacingVertical,
+  spacingX,
+  spacingY,
   spacingTop,
   spacingBottom,
   spacingStart,
   spacingEnd,
   offset,
-  offsetVertical,
-  offsetHorizontal,
+  offsetX,
+  offsetY,
   offsetTop,
   offsetBottom,
   offsetStart,
   offsetEnd,
-  horizontalGap,
-  verticalGap,
+  gapX,
+  gapY,
   direction,
   grow,
   shrink,
@@ -154,20 +154,24 @@ export const getStyles = ({
   borderColorOnChecked,
   borderColorOnFocus,
   borderColorOnHover,
-  borderVerticalColor,
-  borderHorizontalColor,
+  borderXColor,
+  borderYColor,
   borderTopColor,
   borderBottomColor,
   borderStartColor,
   borderEndColor,
   borderRadius,
+  borderTopRadius,
+  borderBottomRadius,
+  borderStartRadius,
+  borderEndRadius,
   borderTopStartRadius,
   borderTopEndRadius,
   borderBottomStartRadius,
   borderBottomEndRadius,
   borderWidth,
-  borderVerticalWidth,
-  borderHorizontalWidth,
+  borderXWidth,
+  borderYWidth,
   borderStartWidth,
   borderEndWidth,
   borderTopWidth,
@@ -226,11 +230,11 @@ export const getStyles = ({
   if (spacing) {
     classNames.push(`spacing-${spacing}`);
   }
-  if (spacingHorizontal) {
-    classNames.push(`spacingHorizontal-${spacingHorizontal}`);
+  if (spacingX) {
+    classNames.push(`spacingX-${spacingX}`);
   }
-  if (spacingVertical) {
-    classNames.push(`spacingVertical-${spacingVertical}`);
+  if (spacingY) {
+    classNames.push(`spacingY-${spacingY}`);
   }
   if (spacingTop) {
     classNames.push(`spacingTop-${spacingTop}`);
@@ -247,11 +251,11 @@ export const getStyles = ({
   if (offset) {
     classNames.push(`offset-${offset}`);
   }
-  if (offsetVertical) {
-    classNames.push(`offsetVertical-${offsetVertical}`);
+  if (offsetY) {
+    classNames.push(`offsetY-${offsetY}`);
   }
-  if (offsetHorizontal) {
-    classNames.push(`offsetHorizontal-${offsetHorizontal}`);
+  if (offsetX) {
+    classNames.push(`offsetX-${offsetX}`);
   }
   if (offsetTop) {
     classNames.push(`offsetTop-${offsetTop}`);
@@ -265,11 +269,11 @@ export const getStyles = ({
   if (offsetEnd) {
     classNames.push(`offsetEnd-${offsetEnd}`);
   }
-  if (horizontalGap) {
-    classNames.push(`horizontalGap-${horizontalGap}`);
+  if (gapX) {
+    classNames.push(`gapX-${gapX}`);
   }
-  if (verticalGap) {
-    classNames.push(`verticalGap-${horizontalGap}`);
+  if (gapY) {
+    classNames.push(`gapY-${gapX}`);
   }
   if (backgroundColor) {
     classNames.push(`backgroundColor-${backgroundColor}`);
@@ -397,12 +401,12 @@ export const getStyles = ({
     classNames.push(`borderColor-${borderColor}`);
   }
 
-  if (borderVerticalColor) {
-    classNames.push(`borderVerticalColor-${borderVerticalColor}`);
+  if (borderYColor) {
+    classNames.push(`borderYColor-${borderYColor}`);
   }
 
-  if (borderHorizontalColor) {
-    classNames.push(`borderHorizontalColor-${borderHorizontalColor}`);
+  if (borderXColor) {
+    classNames.push(`borderXColor-${borderXColor}`);
   }
 
   if (borderTopColor) {
@@ -423,6 +427,21 @@ export const getStyles = ({
 
   if (borderRadius) {
     classNames.push(`borderRadius-${borderRadius}`);
+  }
+  if (borderTopRadius) {
+    classNames.push(`borderTopRadius-${borderTopRadius}`);
+  }
+
+  if (borderBottomRadius) {
+    classNames.push(`borderBottomRadius-${borderBottomRadius}`);
+  }
+
+  if (borderStartRadius) {
+    classNames.push(`borderStartRadius-${borderStartRadius}`);
+  }
+
+  if (borderEndRadius) {
+    classNames.push(`borderEndRadius-${borderEndRadius}`);
   }
 
   if (borderTopStartRadius) {
@@ -445,12 +464,12 @@ export const getStyles = ({
     classNames.push(`borderWidth-${borderWidth}`);
   }
 
-  if (borderVerticalWidth) {
-    classNames.push(`borderVerticalWidth-${borderVerticalWidth}`);
+  if (borderYWidth) {
+    classNames.push(`borderYWidth-${borderYWidth}`);
   }
 
-  if (borderHorizontalWidth) {
-    classNames.push(`borderHorizontalWidth-${borderHorizontalWidth}`);
+  if (borderXWidth) {
+    classNames.push(`borderXWidth-${borderXWidth}`);
   }
 
   if (borderStartWidth) {
@@ -621,7 +640,7 @@ export function extractStyleProps(
       const { gap } = props as ComponentPropsMap['HStack'];
       defaults.display = 'flex';
       defaults.direction = 'horizontal';
-      defaults.horizontalGap = gap;
+      defaults.gapX = gap;
       // @ts-expect-error this is fine
       props.gap = undefined;
       break;
@@ -652,8 +671,8 @@ export function extractStyleProps(
       defaults.fontWeight = variant;
       defaults.lineHeight = variant;
       defaults.placeholderColor = 'tertiary';
-      defaults.spacingVertical = '5';
-      defaults.spacingHorizontal = '6';
+      defaults.spacingY = '3';
+      defaults.spacingX = '4';
       defaults.textTransform = variant;
       defaults.width = 'full';
       // @ts-expect-error this is fine
@@ -665,7 +684,7 @@ export function extractStyleProps(
       const { gap } = props as ComponentPropsMap['VStack'];
       defaults.display = 'flex';
       defaults.direction = 'vertical';
-      defaults.verticalGap = gap;
+      defaults.gapY = gap;
       // @ts-expect-error this is fine
       props.gap = undefined;
       break;
@@ -687,21 +706,21 @@ export function extractStyleProps(
     textTransform = defaults?.textTransform,
     textAlign = defaults?.textAlign,
     spacing = defaults?.spacing,
-    spacingHorizontal = defaults?.spacingHorizontal,
-    spacingVertical = defaults?.spacingVertical,
+    spacingX = defaults?.spacingX,
+    spacingY = defaults?.spacingY,
     spacingTop = defaults?.spacingTop,
     spacingBottom = defaults?.spacingBottom,
     spacingStart = defaults?.spacingStart,
     spacingEnd = defaults?.spacingEnd,
     offset = defaults?.offset,
-    offsetVertical = defaults?.offsetVertical,
-    offsetHorizontal = defaults?.offsetHorizontal,
+    offsetY = defaults?.offsetY,
+    offsetX = defaults?.offsetX,
     offsetTop = defaults?.offsetTop,
     offsetBottom = defaults?.offsetBottom,
     offsetStart = defaults?.offsetStart,
     offsetEnd = defaults?.offsetEnd,
-    horizontalGap = defaults?.horizontalGap,
-    verticalGap = defaults?.verticalGap,
+    gapX = defaults?.gapX,
+    gapY = defaults?.gapY,
     direction = defaults?.direction,
     grow = defaults?.grow,
     shrink = defaults?.shrink,
@@ -719,20 +738,24 @@ export function extractStyleProps(
     borderColorOnChecked = defaults?.borderColorOnChecked,
     borderColorOnFocus = defaults?.borderColorOnFocus,
     borderColorOnHover = defaults?.borderColorOnHover,
-    borderVerticalColor = defaults?.borderVerticalColor,
-    borderHorizontalColor = defaults?.borderHorizontalColor,
+    borderYColor = defaults?.borderYColor,
+    borderXColor = defaults?.borderXColor,
     borderTopColor = defaults?.borderTopColor,
     borderBottomColor = defaults?.borderBottomColor,
     borderStartColor = defaults?.borderStartColor,
     borderEndColor = defaults?.borderEndColor,
     borderRadius = defaults?.borderRadius,
+    borderTopRadius = defaults?.borderTopRadius,
+    borderBottomRadius = defaults?.borderBottomRadius,
+    borderStartRadius = defaults?.borderStartRadius,
+    borderEndRadius = defaults?.borderEndRadius,
     borderTopStartRadius = defaults?.borderTopStartRadius,
     borderTopEndRadius = defaults?.borderTopEndRadius,
     borderBottomStartRadius = defaults?.borderBottomStartRadius,
     borderBottomEndRadius = defaults?.borderBottomEndRadius,
     borderWidth = defaults?.borderWidth,
-    borderVerticalWidth = defaults?.borderVerticalWidth,
-    borderHorizontalWidth = defaults?.borderHorizontalWidth,
+    borderYWidth = defaults?.borderYWidth,
+    borderXWidth = defaults?.borderXWidth,
     borderStartWidth = defaults?.borderStartWidth,
     borderEndWidth = defaults?.borderEndWidth,
     borderTopWidth = defaults?.borderTopWidth,
@@ -768,21 +791,21 @@ export function extractStyleProps(
     textAlign,
     textTransform,
     spacing,
-    spacingHorizontal,
-    spacingVertical,
+    spacingX,
+    spacingY,
     spacingTop,
     spacingBottom,
     spacingStart,
     spacingEnd,
     offset,
-    offsetVertical,
-    offsetHorizontal,
+    offsetY,
+    offsetX,
     offsetTop,
     offsetBottom,
     offsetStart,
     offsetEnd,
-    horizontalGap,
-    verticalGap,
+    gapX,
+    gapY,
     direction,
     grow,
     shrink,
@@ -800,20 +823,24 @@ export function extractStyleProps(
     borderColorOnChecked,
     borderColorOnFocus,
     borderColorOnHover,
-    borderVerticalColor,
-    borderHorizontalColor,
+    borderYColor,
+    borderXColor,
     borderTopColor,
     borderBottomColor,
     borderStartColor,
     borderEndColor,
     borderRadius,
+    borderTopRadius,
+    borderBottomRadius,
+    borderStartRadius,
+    borderEndRadius,
     borderTopStartRadius,
     borderTopEndRadius,
     borderBottomStartRadius,
     borderBottomEndRadius,
     borderWidth,
-    borderVerticalWidth,
-    borderHorizontalWidth,
+    borderYWidth,
+    borderXWidth,
     borderStartWidth,
     borderEndWidth,
     borderTopWidth,

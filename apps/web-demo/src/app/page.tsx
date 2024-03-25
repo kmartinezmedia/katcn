@@ -1,16 +1,13 @@
 'use server';
 
-import { getId } from '../actions/id';
+import { getId } from '@/actions/id';
 import { Editor } from '@/ui/editor';
+import dtsLibs from 'server/dist/dtsLibs.json';
 
-// biome-ignore lint/style/noNonNullAssertion: <explanation>
-const serverUrl = process.env.SERVER_URL!;
+const socketUrl = process.env.SOCKET_URL;
 
 export default async function Home() {
   const userId = await getId();
-  const dtsLibs = await fetch(`${serverUrl}/dist/dtsLibs.json`, {
-    method: 'GET',
-  }).then((res) => res.json());
 
-  return <Editor serverUrl={serverUrl} userId={userId} dtsLibs={dtsLibs} />;
+  return <Editor socketUrl={socketUrl} userId={userId} dtsLibs={dtsLibs} />;
 }

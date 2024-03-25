@@ -19,6 +19,7 @@ export function createTransformWatcher({
   const filePath = sourceFile.getFilePath();
   return watch(filePath, (event) => {
     if (event === 'change') {
+      console.log('[katcn] File changed:', filePath);
       sourceFile?.refreshFromFileSystem().then((status) => {
         if (status === FileSystemRefreshResult.Updated) {
           onChange(sourceFile);

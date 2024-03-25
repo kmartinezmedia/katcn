@@ -41,13 +41,13 @@ function Example() {
 
 interface EditorProps {
   dtsLibs: DtsLibs;
-  serverUrl: string;
+  socketUrl: string;
   userId?: string;
 }
 
 export const Editor = memo(function Editor({
   userId: _userId,
-  serverUrl,
+  socketUrl,
   dtsLibs,
 }: EditorProps) {
   const [socket, setSocket] = useState<WebSocket | null>(null);
@@ -69,15 +69,10 @@ export const Editor = memo(function Editor({
     return <h1>loading...</h1>;
   }
 
-  const socketUrl = `${serverUrl
-    .replace('http', 'ws')
-    .replace('https', 'ws')}/ws/${userId}`;
-
   return (
     <HStack width="full">
       <Socket
-        key={`${serverUrl}-${userId}`}
-        url={socketUrl}
+        url={`${socketUrl}/${userId}`}
         onConnect={setSocket}
         onMessage={setData}
       />

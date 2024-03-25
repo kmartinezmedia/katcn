@@ -14,6 +14,14 @@ export type ImageStyleProps = {
 export interface BorderStyleProps {
   /** Add a border radius to all corners of the box. */
   borderRadius?: BorderRadius;
+  /** Add a border radius to both top corners of the box. */
+  borderTopRadius?: BorderRadius;
+  /** Add a border radius to both bottom corners of the box. */
+  borderBottomRadius?: BorderRadius;
+  /** Add a border radius to both start corners of the box. */
+  borderStartRadius?: BorderRadius;
+  /** Add a border radius to both end corners of the box. */
+  borderEndRadius?: BorderRadius;
   /** Add a border radius to top left corner of the box. */
   borderTopStartRadius?: BorderRadius;
   /** Add a border radius to top right corner of the box. */
@@ -25,9 +33,9 @@ export interface BorderStyleProps {
   /** Adds a custom border color from the palette */
   borderColor?: LineColor;
   /** Adds a custom border color vertically from the palette */
-  borderVerticalColor?: LineColor;
+  borderYColor?: LineColor;
   /** Adds a custom border color horizontally from the palette */
-  borderHorizontalColor?: LineColor;
+  borderXColor?: LineColor;
   /** Adds a custom start border color from the palette */
   borderStartColor?: LineColor;
   /** Adds a custom end border color from the palette */
@@ -47,9 +55,9 @@ export interface BorderStyleProps {
   /** Shorthand property to the width of an element's border. */
   borderWidth?: BorderWidth;
   /** Sets the width of the top and bottom border of an element. */
-  borderVerticalWidth?: BorderWidth;
+  borderYWidth?: BorderWidth;
   /** Sets the width of the start (left) and end (right) border of an element. */
-  borderHorizontalWidth?: BorderWidth;
+  borderXWidth?: BorderWidth;
   /** Sets the width of the start (left) border of an element. */
   borderStartWidth?: BorderWidth;
   /** Sets the width of the end (right) border of an element. */
@@ -79,9 +87,9 @@ export interface SpacingStyleProps {
   /** Apply inner spacing on all sides. */
   spacing?: SpacingAlias;
   /** Apply inner spacing on the leading and trailing sides. */
-  spacingHorizontal?: SpacingAlias;
+  spacingX?: SpacingAlias;
   /** Apply inner spacing on the top and bottom sides. */
-  spacingVertical?: SpacingAlias;
+  spacingY?: SpacingAlias;
   /** Apply inner spacing on the bottom side. */
   spacingBottom?: SpacingAlias;
   /** Apply inner spacing on the trailing side. */
@@ -93,9 +101,9 @@ export interface SpacingStyleProps {
   /** Apply negative outer spacing on all sides. */
   offset?: SpacingAlias;
   /** Apply negative outer spacing on the top and bottom sides. */
-  offsetVertical?: SpacingAlias;
+  offsetY?: SpacingAlias;
   /** Apply negative outer spacing on the leading and trailing sides. */
-  offsetHorizontal?: SpacingAlias;
+  offsetX?: SpacingAlias;
   /** Apply negative outer spacing on the bottom side. */
   offsetBottom?: SpacingAlias;
   /** Apply negative outer spacing on the trailing side. */
@@ -105,9 +113,9 @@ export interface SpacingStyleProps {
   /** Apply negative outer spacing on the top side. */
   offsetTop?: SpacingAlias;
   /** Control the horizontal gutters between grid and flexbox items. If set to auto, will add an equal space between items. */
-  horizontalGap?: SpacingAlias;
+  gapX?: SpacingAlias;
   /** Control the vertical gutters between grid and flexbox items. If set to auto, will add an equal space between items. */
-  verticalGap?: SpacingAlias;
+  gapY?: SpacingAlias;
 }
 
 export interface FlexStyleProps {
@@ -311,7 +319,7 @@ export interface UniversalTextInputProps
 /*                                    COLOR                                   */
 /* -------------------------------------------------------------------------- */
 // https://uicolors.app/browse/tailwind-colors
-export type PaletteType = keyof PaletteConfig;
+export type PaletteType = 'core' | 'background' | 'foreground' | 'line';
 
 export type PaletteValue = { hue: Hue; step: HueStep; opacity?: string };
 
@@ -500,10 +508,15 @@ export type AvatarShape = 'circle' | 'square' | 'rounded';
 /* -------------------------------------------------------------------------- */
 
 export type SpacingAlias =
+  | 'px'
   | '0'
+  | '0.5'
   | '1'
+  | '1.5'
   | '2'
+  | '2.5'
   | '3'
+  | '3.5'
   | '4'
   | '5'
   | '6'
@@ -513,9 +526,24 @@ export type SpacingAlias =
   | '10'
   | '11'
   | '12'
-  | '13'
-  | '14';
-export type SpacingConfig = Record<SpacingAlias, number>;
+  | '14'
+  | '16'
+  | '20'
+  | '24'
+  | '28'
+  | '32'
+  | '36'
+  | '40'
+  | '44'
+  | '48'
+  | '52'
+  | '56'
+  | '60'
+  | '64'
+  | '72'
+  | '80'
+  | '96';
+export type SpacingConfig = Record<SpacingAlias, string>;
 
 export type ZIndex = 'auto' | '0' | '10' | '20' | '30' | '40' | '50';
 export type ZIndexConfig = Record<ZIndex, string>;
@@ -572,18 +600,12 @@ export type ColorsConfig = {
 };
 
 export type SpectrumConfig = Record<Hue, number>;
-
-export type PaletteConfig = {
-  core: CorePalette;
-  background: BackgroundPalette;
-  foreground: ForegroundPalette;
-  line: LinePalette;
-};
+export type PaletteTypeConfig = Record<string, PaletteValue>;
+export type PaletteConfig = Record<PaletteType, PaletteTypeConfig>;
 
 export type ScaleConfig = {
   avatarSizes: AvatarSizeConfig;
   iconSizes: IconSizeConfig;
-  spacing: SpacingConfig;
   borderRadius: BorderRadiusConfig;
   borderWidth: BorderWidthConfig;
   fontFamily: FontFamilyConfig;
@@ -607,7 +629,6 @@ export type UniversalTokensConfig = {
   colorMode: ColorModeConfig;
   scaleMode: ScaleModeConfig;
   fontFamily: FontFamilyGlobalConfig;
-  zIndex: ZIndexConfig;
 };
 
 /* -------------------------------------------------------------------------- */
