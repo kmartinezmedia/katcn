@@ -1,6 +1,12 @@
 {
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["marcos/**/*.ts", "helpers/**/*.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "marcos/**/*.ts",
+    "helpers/**/*.ts"
+  ],
   "compilerOptions": {
     "outDir": "dist",
     "baseUrl": "src",

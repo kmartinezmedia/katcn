@@ -4,6 +4,11 @@ export default {
   name: 'lint',
   description: '🧹 Lint',
   run: async () => {
-    await $`biome ci .`;
+    const { exitCode } = await $`biome ci . --error-on-warnings`;
+    if (exitCode === 1) {
+      console.error(`Lint failed in ${Bun.env.PWD}`);
+      // console.log(text);
+      process.exit(1);
+    }
   },
 };

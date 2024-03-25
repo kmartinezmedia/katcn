@@ -1,19 +1,19 @@
 'use client';
 
 import {
+  Avatar,
   Box,
   HStack,
-  VStack,
   Icon,
   Image,
   Pressable,
   Text,
   TextInput,
-  Avatar,
+  VStack,
 } from 'katcn';
 import { getStyles } from 'katcn/getStyles';
-import { jsx } from 'katcn/jsx-runtime';
 import { jsxDEV } from 'katcn/jsx-dev-runtime';
+import { jsx } from 'katcn/jsx-runtime';
 import { useContext } from 'react';
 import { PlaygroundDataContext } from '../_provider';
 

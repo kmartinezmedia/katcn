@@ -1,4 +1,4 @@
-import { type FSWatcher, watch, existsSync } from 'node:fs';
+import { type FSWatcher, existsSync, watch } from 'node:fs';
 import {
   FileSystemRefreshResult,
   type Project,

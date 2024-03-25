@@ -5,7 +5,7 @@ import {
   transform,
 } from 'lightningcss';
 import type { UniversalTokensConfig } from '../../types';
-import { type KatcnStyleSheetOpts, KatcnStyleSheet } from '../css/stylesheet';
+import { KatcnStyleSheet, type KatcnStyleSheetOpts } from '../css/stylesheet';
 
 interface TransformCssOptions extends KatcnStyleSheetOpts {
   config?: UniversalTokensConfig;

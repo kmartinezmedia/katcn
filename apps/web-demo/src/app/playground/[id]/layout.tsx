@@ -1,8 +1,8 @@
 'use client';
 
-import { VStack, HStack } from 'katcn';
-import { PlaygroundProvider } from './_provider';
+import { HStack, VStack } from 'katcn';
 import Editor from './_editor';
+import { PlaygroundProvider } from './_provider';
 import Tabs from './_tabs';
 
 interface PlaygroundParams extends React.PropsWithChildren {

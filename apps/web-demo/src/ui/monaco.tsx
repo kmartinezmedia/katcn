@@ -1,10 +1,10 @@
 'use client';
 
-import { Editor } from '@monaco-editor/react';
-import type * as monacoType from 'monaco-editor';
-import { VStack } from 'katcn';
-import { useEffect, useRef } from 'react';
 import { PrettierFormatProvider } from '@/lib/prettier';
+import { Editor } from '@monaco-editor/react';
+import { VStack } from 'katcn';
+import type * as monacoType from 'monaco-editor';
+import { useEffect, useRef } from 'react';
 
 export type MonacoInstance = typeof monacoType;
 export type EditorInstance = monacoType.editor.IStandaloneCodeEditor;

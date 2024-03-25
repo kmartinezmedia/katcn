@@ -1,11 +1,11 @@
 import { cssEscape, entries, flattenObj } from '../../helpers';
-import type { ColorMode, ScaleMode, UniversalTokensConfig } from '../../types';
 import { defaultTokensConfig } from '../../tokens';
+import type { ColorMode, ScaleMode, UniversalTokensConfig } from '../../types';
 import { CSS_VAR_PREFIX } from './consts';
+import { createBase } from './createBase';
 import { createPreflight } from './createPreflight';
 import { createTheme } from './createTheme';
 import { createUtilities } from './createUtilities';
-import { createBase } from './createBase';
 
 type StyleMap = Record<string, string | Record<string, string>>;
 export interface KatcnStyleSheetOpts {

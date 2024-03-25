@@ -3,8 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
+  "files": [
+    "package.json",
+    "tsconfig.json",
+    "cli",
+    "src",
+    "dist"
+  ],
   "bin": "./cli/bin",
-  "files": ["package.json", "tsconfig.json", "cli", "src", "dist"],
   "exports": {
     ".": {
       "types": "./dist/components.js",

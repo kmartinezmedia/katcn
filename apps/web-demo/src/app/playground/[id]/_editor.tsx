@@ -15,8 +15,8 @@ import {
   useRef,
   useState,
 } from 'react';
-import { PlaygroundSocketContext } from './_provider';
 import dtsLibs from 'server/dist/dtsLibs.json';
+import { PlaygroundSocketContext } from './_provider';
 
 const exampleCode = `
 import { VStack, Text, Icon } from 'katcn';
