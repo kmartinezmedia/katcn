@@ -21,6 +21,8 @@ app.use(
   }),
 );
 
+app.get('/', (c) => c.text('katcn API'));
+
 app.get(
   '/ws/:id',
   upgradeWebSocket((c) => {

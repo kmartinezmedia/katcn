@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 
-export const siteUrl = 'https://my-website.com';
-export const siteName = 'My Website';
+export const siteUrl = 'https://katcn.dev';
+export const siteName = 'katcn';
 export const siteDescription =
-  'lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-const twitterHandle = '@TODO';
+  'Design System with utility-driven styling props ';
+const twitterHandle = 'katmartinez08';
 
 export const metadata = {
   metadataBase: new URL(siteUrl),

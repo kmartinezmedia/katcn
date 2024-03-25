@@ -21,7 +21,7 @@ const transpiler = new Transpiler({
   },
   autoImportJSX: false,
   macro: {
-    katcn: {
+    'katcn/getStyles': {
       getStyles: 'katcn/getStyles',
     },
   },
@@ -221,6 +221,6 @@ export function transformTsx(
   return {
     classNamesToKeep: finalClassNamesToKeep,
     varsToKeep,
-    jsContent: sourceFile.getFullText(),
+    jsContent: sourceFile.getFullText(), // ensures the sourceFile is updated
   };
 }
