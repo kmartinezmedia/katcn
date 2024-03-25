@@ -6,13 +6,7 @@
       "path": "packages/cli"
     },
     {
-      "path": "packages/cloud-functions"
-    },
-    {
       "path": "packages/katcn"
-    },
-    {
-      "path": "packages/docgen"
     },
     {
       "path": "packages/tsconfig"

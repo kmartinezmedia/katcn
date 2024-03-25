@@ -4,9 +4,8 @@ import {
   CodeEditor,
   type CodeEditorRefs,
   type OnChange,
-  type DtsLibs,
   type OnMount,
-} from 'docgen';
+} from '@/ui/monaco';
 import { encode } from 'base64-url';
 import {
   memo,

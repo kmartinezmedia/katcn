@@ -1,7 +1,0 @@
-{
-  "extends": "tsconfig/bun.json",
-  "include": ["src"],
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true
-  }
-}
