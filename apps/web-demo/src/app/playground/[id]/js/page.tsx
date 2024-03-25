@@ -1,3 +1,12 @@
+'use client';
+import { useContext } from 'react';
+import { PlaygroundDataContext } from '../_provider';
+
 export default function Page() {
-  return <h1>js page</h1>;
+  const data = useContext(PlaygroundDataContext);
+  return (
+    <pre>
+      <code>{data.js}</code>
+    </pre>
+  );
 }
