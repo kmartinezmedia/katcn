@@ -1,7 +1,7 @@
+import type { PlaygroundPageProps } from '@/types';
+import { Editor } from '@/ui/editor';
 import { HStack, VStack } from 'katcn';
 import Tabs from './_tabs';
-import { Editor } from '@/ui/editor';
-import type { PlaygroundPageProps } from '@/types';
 
 interface PlaygroundParams
   extends PlaygroundPageProps,

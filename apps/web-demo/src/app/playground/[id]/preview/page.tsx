@@ -1,6 +1,7 @@
 'use server';
 
 import type { PlaygroundData, PlaygroundPageProps } from '@/types';
+import { kv } from '@vercel/kv';
 import {
   Avatar,
   Box,
@@ -15,7 +16,6 @@ import {
 import { getStyles } from 'katcn/getStyles';
 import { jsxDEV } from 'katcn/jsx-dev-runtime';
 import { jsx } from 'katcn/jsx-runtime';
-import { kv } from '@vercel/kv';
 
 export default async function Page({
   params,

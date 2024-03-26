@@ -6,11 +6,11 @@ import {
   type OnChange,
   type OnMount,
 } from '@/ui/monaco';
+import { kv } from '@vercel/kv';
 import { encode } from 'base64-url';
+import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import dtsLibs from 'server/dist/dtsLibs.json';
-import { kv } from '@vercel/kv';
-import { usePathname, useRouter } from 'next/navigation';
 
 const exampleCode = `
 import { VStack, Text, Icon } from 'katcn';

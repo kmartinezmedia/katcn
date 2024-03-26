@@ -1,6 +1,6 @@
 'use server';
 
-import { codeToHtml, type BuiltinLanguage } from 'shiki';
+import { type BuiltinLanguage, codeToHtml } from 'shiki';
 
 export default async function shiki({
   code,
