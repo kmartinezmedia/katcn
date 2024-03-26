@@ -1,5 +1,6 @@
-'use client';
+'use server';
 
+import type { PlaygroundData, PlaygroundPageProps } from '@/types';
 import {
   Avatar,
   Box,
@@ -14,17 +15,23 @@ import {
 import { getStyles } from 'katcn/getStyles';
 import { jsxDEV } from 'katcn/jsx-dev-runtime';
 import { jsx } from 'katcn/jsx-runtime';
-import { useContext } from 'react';
-import { PlaygroundDataContext } from '../_provider';
+import { kv } from '@vercel/kv';
 
-export default function Page() {
-  const { css, js } = useContext(PlaygroundDataContext);
-  if (!css || !js) {
+export default async function Page({
+  params,
+  searchParams,
+}: PlaygroundPageProps) {
+  const data = await kv.get<PlaygroundData>(
+    `${params.id}/${searchParams.hash}`,
+  );
+
+  if (!data) {
     return null;
   }
+
   const fnString = new Function(`
       function renderComp({ jsx, jsxDEV, getStyles, Box, HStack, VStack, Icon, Image, Pressable, Text, TextInput, Avatar }) {
-        ${js}
+        ${data.js}
         return Example;
       }
       return renderComp;
@@ -46,7 +53,7 @@ export default function Page() {
   });
   return (
     <div>
-      <style>{css}</style>
+      <style>{data.css}</style>
       <Comp />
     </div>
   );

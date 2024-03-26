@@ -1,27 +1,24 @@
-'use client';
-
 import { HStack, VStack } from 'katcn';
-import Editor from './_editor';
-import { PlaygroundProvider } from './_provider';
 import Tabs from './_tabs';
+import { Editor } from '@/ui/editor';
+import type { PlaygroundPageProps } from '@/types';
 
-interface PlaygroundParams extends React.PropsWithChildren {
-  socket: React.ReactNode;
-}
+interface PlaygroundParams
+  extends PlaygroundPageProps,
+    React.PropsWithChildren {}
 
-export default function Layout({ socket, children }: PlaygroundParams) {
+export default function Layout({ params, children }: PlaygroundParams) {
   return (
-    <PlaygroundProvider>
-      {socket}
+    <>
       <HStack width="full">
         <VStack width="half">
-          <Editor />
+          <Editor socketUrl={process.env.SOCKET_URL} params={params} />
         </VStack>
         <VStack width="half" height="100vh" overflow="scroll">
           <Tabs />
           {children}
         </VStack>
       </HStack>
-    </PlaygroundProvider>
+    </>
   );
 }

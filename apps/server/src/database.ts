@@ -52,16 +52,28 @@ class Database {
 
   get(id: string | 'default') {
     if (id === 'default') {
-      return this.defaultCode;
+      return {
+        ...this.defaultCode,
+        hash: 'default',
+      };
     }
+
     const sourceFile = this.project.getSourceFile(`${id}.tsx`);
-    return this.process(sourceFile);
+    const data = this.process(sourceFile);
+    return {
+      ...data,
+      hash: 'latest',
+    };
   }
 
-  set(id: string, _code: string) {
-    const codeAsString = decode(_code);
+  set(id: string, hash: string) {
+    const codeAsString = decode(hash);
     const sourceFile = this.createSourceFile(id, codeAsString);
-    return this.process(sourceFile);
+    const data = this.process(sourceFile);
+    return {
+      ...data,
+      hash,
+    };
   }
 }
 

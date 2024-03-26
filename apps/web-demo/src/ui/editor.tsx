@@ -7,16 +7,10 @@ import {
   type OnMount,
 } from '@/ui/monaco';
 import { encode } from 'base64-url';
-import {
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import dtsLibs from 'server/dist/dtsLibs.json';
-import { PlaygroundSocketContext } from './_provider';
+import { kv } from '@vercel/kv';
+import { usePathname, useRouter } from 'next/navigation';
 
 const exampleCode = `
 import { VStack, Text, Icon } from 'katcn';
@@ -44,15 +38,51 @@ function Example() {
   .trimStart()
   .trimEnd();
 
-export default memo(function Editor() {
-  const socket = useContext(PlaygroundSocketContext);
+interface EditorProps {
+  params: { id: string };
+  socketUrl: string;
+}
+
+interface EditorRefs extends CodeEditorRefs {
+  socket: WebSocket | undefined;
+}
+
+export function Editor({ socketUrl, params }: EditorProps) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [code, setCode] = useState<string>(exampleCode);
+  const { id } = params;
   const hashRef = useRef<string>('');
-  const refs = useRef<CodeEditorRefs>({
+  const refs = useRef<EditorRefs>({
     monaco: undefined,
     editor: undefined,
     tsworker: undefined,
+    socket: undefined,
   });
+
+  useEffect(() => {
+    const websocket = new WebSocket(`${socketUrl}/${id}`);
+    refs.current.socket = websocket;
+    websocket.onmessage = async (ev) => {
+      const { hash, ...data } = JSON.parse(ev.data);
+      await kv.set(`${id}/${hash}`, data);
+      router.push(`${pathname}?hash=${hash}`);
+    };
+
+    websocket.onclose = () => {
+      websocket.close();
+    };
+
+    websocket.onerror = (error) => {
+      throw error;
+    };
+
+    return () => {
+      if (websocket.readyState === 1) {
+        websocket.close();
+      }
+    };
+  }, [id, socketUrl, router.push, pathname]);
 
   useEffect(() => {
     if (refs.current.monaco) {
@@ -67,10 +97,10 @@ export default memo(function Editor() {
       if (markers?.length <= 1) {
         const encoded = encode(code);
         hashRef.current = encoded;
-        socket?.send(encoded);
+        refs.current?.socket?.send(encoded);
       }
     }
-  }, [code, socket]);
+  }, [code]);
 
   const onMount: OnMount = useCallback(async ({ editor, monaco, tsworker }) => {
     refs.current.editor = editor;
@@ -91,4 +121,4 @@ export default memo(function Editor() {
       onChange={onChange}
     />
   );
-});
+}

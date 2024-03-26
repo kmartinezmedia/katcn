@@ -8,7 +8,7 @@ export default function NewUser() {
   const router = useRouter();
   useEffect(() => {
     setId().then((val) => {
-      router.push(`/playground/${val}/preview`);
+      router.push(`/playground/${val}/preview?hash=latest`);
     });
   }, [router.push]);
 
