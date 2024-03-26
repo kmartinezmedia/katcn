@@ -323,8 +323,8 @@ export function createUtilities() {
       alias,
       `{ flex-wrap: ${
         {
-          allow: '1',
-          prevent: '0',
+          allow: 'wrap',
+          prevent: 'nowrap',
           reverse: 'wrap-reverse',
         }[alias]
       } }`,

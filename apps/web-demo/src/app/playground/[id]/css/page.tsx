@@ -1,7 +1,7 @@
 'use client';
 import formatCode from '@/actions/format';
+import { PlaygroundDataContext } from '@/lib/context';
 import { useContext, useEffect, useState } from 'react';
-import { PlaygroundDataContext } from '../_provider';
 
 export default function Page() {
   const data = useContext(PlaygroundDataContext);

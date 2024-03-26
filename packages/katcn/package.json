@@ -22,6 +22,10 @@
       "types": "./src/macros/index.ts",
       "default": "./src/macros/index.ts"
     },
+    "./macros/*": {
+      "types": "./src/macros/*.ts",
+      "default": "./src/macros/*.ts"
+    },
     "./fixtures": {
       "types": "./dist/fixtures.d.ts",
       "default": "./dist/fixtures.js"
@@ -42,6 +46,7 @@
       "types": "./dist/tokens.d.ts",
       "default": "./dist/tokens.js"
     },
+    "./types": "./dist/types.d.ts",
     "./tsconfig.json": "./tsconfig.json",
     "./package.json": "./package.json"
   },

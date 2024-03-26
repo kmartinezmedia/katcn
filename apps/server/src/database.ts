@@ -43,11 +43,12 @@ class Database {
   }
 
   process(sourceFile: SourceFile) {
-    return transformSourceFile({
+    const data = transformSourceFile({
       sourceFile: sourceFile,
       removeImports: true,
       includePreflightCss: false,
     });
+    return data;
   }
 
   get(id: string | 'default') {

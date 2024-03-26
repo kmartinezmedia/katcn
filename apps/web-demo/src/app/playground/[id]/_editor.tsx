@@ -1,5 +1,6 @@
 'use client';
 
+import { PlaygroundSocketContext } from '@/lib/context';
 import {
   CodeEditor,
   type CodeEditorRefs,
@@ -16,7 +17,6 @@ import {
   useState,
 } from 'react';
 import dtsLibs from 'server/dist/dtsLibs.json';
-import { PlaygroundSocketContext } from './_provider';
 
 const exampleCode = `
 import { VStack, Text, Icon } from 'katcn';

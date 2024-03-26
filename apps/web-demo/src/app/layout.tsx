@@ -1,6 +1,7 @@
+import '#katcn/styles.css';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
-import '#katcn/styles.css';
+import { Providers } from '@/lib/context';
 
 const iconFont = localFont({
   src: '../../../../packages/katcn/src/icons/fonts/icons.woff2',
@@ -21,7 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${iconFont.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Providers socketUrl={process.env.SOCKET_URL}>{children}</Providers>
+      </body>
     </html>
   );
 }

@@ -1,3 +1,6 @@
+import { getColorRamps } from './macros/color/getColorRamps' with {
+  type: 'macro',
+};
 import { typesToConstants } from './macros/tsmorph/typesToConstants' with {
   type: 'macro',
 };
@@ -21,6 +24,7 @@ import type {
   FontWeightDescriptive,
   ForegroundPaletteAlias,
   Height,
+  Hue,
   IconSize,
   JustifyContent,
   LineHeight,
@@ -43,6 +47,8 @@ import type {
 } from './types';
 
 export default {
+  hues: typesToConstants<Hue>('Hue'),
+  colorRamps: getColorRamps(),
   palette: {
     background: typesToConstants<BackgroundPaletteAlias>(
       'BackgroundPaletteAlias',

@@ -1,4 +1,7 @@
-import { createContext, useEffect, useState } from 'react';
+'use client';
+
+import { createContext, useState } from 'react';
+import Socket from './socket';
 
 type DataContext = { css: string; js: string; socket: WebSocket | null };
 type SocketContext = WebSocket | null;
@@ -20,7 +23,11 @@ export const SetPlaygroundSocketContext =
 export const SetPlaygroundDataContext =
   createContext<SetState<DataContext>>(noop);
 
-export function PlaygroundProvider({ children }: React.PropsWithChildren) {
+interface ProvidersProps extends React.PropsWithChildren {
+  socketUrl: string;
+}
+
+export function Providers({ socketUrl, children }: ProvidersProps) {
   const [data, setData] = useState<DataContext>(defaultDataContext);
   const [socket, setSocket] = useState<WebSocket | null>(defaultSocketContext);
 
@@ -29,6 +36,7 @@ export function PlaygroundProvider({ children }: React.PropsWithChildren) {
       <SetPlaygroundDataContext.Provider value={setData}>
         <PlaygroundSocketContext.Provider value={socket}>
           <SetPlaygroundSocketContext.Provider value={setSocket}>
+            <Socket url={socketUrl} />
             {children}
           </SetPlaygroundSocketContext.Provider>
         </PlaygroundSocketContext.Provider>

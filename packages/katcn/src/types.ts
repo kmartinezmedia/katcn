@@ -326,19 +326,26 @@ export type PaletteValue = { hue: Hue; step: HueStep; opacity?: string };
 export type Palette = { [key in PaletteType]: keyof PaletteConfig[key] };
 
 export type Hue =
-  | 'red'
+  | 'magenta'
   | 'pink'
-  | 'purple'
-  | 'violet'
-  | 'indigo'
-  | 'blue'
-  | 'cyan'
-  | 'teal'
-  | 'green'
-  | 'lime'
-  | 'yellow'
+  | 'rose'
+  | 'red'
+  | 'sunset'
   | 'orange'
-  | 'gray';
+  | 'nude'
+  | 'brown'
+  | 'yellow'
+  | 'citron'
+  | 'lime'
+  | 'green'
+  | 'mint'
+  | 'teal'
+  | 'cyan'
+  | 'blue'
+  | 'indigo'
+  | 'purple'
+  | 'gray'
+  | 'carbon';
 
 export type HueStep =
   | 0
