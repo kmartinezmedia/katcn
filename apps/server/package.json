@@ -18,6 +18,8 @@
     "base64-url": "^2.3.3",
     "hono": "^4.0.10",
     "katcn": "workspace:*",
+    "prettier": "^3.2.5",
+    "shiki": "^1.2.0",
     "ts-morph": "^22.0.0"
   },
   "devDependencies": {

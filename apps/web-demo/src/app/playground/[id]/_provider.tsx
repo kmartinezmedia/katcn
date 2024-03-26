@@ -1,14 +1,15 @@
 import { createContext, useEffect, useState } from 'react';
 
-type DataContext = { css: string; js: string; socket: WebSocket | null };
+type DataContext = { css: string; js: string; formattedCss: string };
 type SocketContext = WebSocket | null;
 type SetState<T> = React.Dispatch<React.SetStateAction<T>>;
 
 const defaultDataContext = {
   css: '',
   js: '',
-  socket: null as WebSocket | null,
+  formattedCss: '',
 };
+
 const defaultSocketContext = null;
 const noop = () => {};
 

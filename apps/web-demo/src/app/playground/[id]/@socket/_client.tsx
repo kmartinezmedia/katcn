@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { memo, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import {
   SetPlaygroundDataContext,
   SetPlaygroundSocketContext,
@@ -21,6 +21,7 @@ export default function Socket({ url }: SocketProps) {
     setSocket(websocket);
     websocket.onmessage = async (ev) => {
       const data = JSON.parse(ev.data);
+      console.log('data', data);
       setData(data);
     };
 

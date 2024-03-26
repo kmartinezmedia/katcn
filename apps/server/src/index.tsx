@@ -28,17 +28,20 @@ app.get(
   upgradeWebSocket((c) => {
     const id = c.req.param('id') ?? 'default';
     return {
-      async onMessage(ev, ws) {
+      onMessage(ev, ws) {
         if (ev.type === 'message') {
           console.log(`WebSocket message: ${id}`);
-          const code = database.set(id, ev.data as string);
-          ws.send(JSON.stringify(code));
+          database.set(id, ev.data as string).then((data) => {
+            ws.send(JSON.stringify(data));
+          });
         }
       },
       onOpen(_event, ws) {
         console.log(`WebSocket connected: ${id}`);
-        const code = database.get('default');
-        ws.send(JSON.stringify(code));
+        database.get('default').then((data) => {
+          console.log('sending onOpen data');
+          ws.send(JSON.stringify(data));
+        });
       },
       onClose() {
         console.log(`WebSocket closed: ${id}`);
