@@ -1,6 +1,6 @@
 'use server';
 
-import { Text, HStack, VStack, Box } from 'katcn';
+import { Box, HStack, Text, VStack } from 'katcn';
 import fixtures from 'katcn/fixtures';
 import { getColorRamps } from 'katcn/macros/color/getColorRamps';
 import type { Hue } from 'katcn/types';

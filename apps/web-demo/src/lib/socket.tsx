@@ -1,11 +1,11 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import { useContext, useEffect } from 'react';
 import {
   SetPlaygroundDataContext,
   SetPlaygroundSocketContext,
 } from '@/lib/context';
+import { useParams } from 'next/navigation';
+import { useContext, useEffect } from 'react';
 
 interface SocketProps {
   url: string;

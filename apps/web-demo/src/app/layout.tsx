@@ -1,7 +1,7 @@
-import '#katcn/styles.css';
+import { Providers } from '@/lib/context';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
-import { Providers } from '@/lib/context';
+import '#katcn/styles.css';
 
 const iconFont = localFont({
   src: '../../../../packages/katcn/src/icons/fonts/icons.woff2',
