@@ -24,6 +24,9 @@ const transpiler = new Transpiler({
     'katcn/getStyles': {
       getStyles: 'katcn/getStyles',
     },
+    'katcn/macros/color/getColorRamps': {
+      getColorRamps: 'katcn/macros/color/getColorRamps',
+    },
   },
 });
 

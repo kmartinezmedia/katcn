@@ -566,7 +566,7 @@ export const getStyles = ({
     classNames.push(`shrink-${shrink}`);
   }
   if (wrap) {
-    classNames.push(`wrap=${wrap}`);
+    classNames.push(`wrap-${wrap}`);
   }
 
   if (justifyContent) {

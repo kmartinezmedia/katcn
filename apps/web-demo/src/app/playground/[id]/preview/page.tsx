@@ -1,5 +1,6 @@
 'use client';
 
+import { PlaygroundDataContext } from '@/lib/context';
 import {
   Avatar,
   Box,
@@ -15,7 +16,6 @@ import { getStyles } from 'katcn/getStyles';
 import { jsxDEV } from 'katcn/jsx-dev-runtime';
 import { jsx } from 'katcn/jsx-runtime';
 import { useContext } from 'react';
-import { PlaygroundDataContext } from '../_provider';
 
 export default function Page() {
   const { css, js } = useContext(PlaygroundDataContext);

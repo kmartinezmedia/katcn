@@ -1,3 +1,4 @@
+import { Providers } from '@/lib/context';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 import '#katcn/styles.css';
@@ -21,7 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${iconFont.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Providers socketUrl={process.env.SOCKET_URL}>{children}</Providers>
+      </body>
     </html>
   );
 }
