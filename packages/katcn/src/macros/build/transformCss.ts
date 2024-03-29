@@ -59,13 +59,21 @@ export function transformCss({
     },
   } satisfies Visitor<CustomAtRules>;
 
-  const declarationVisitor1 = {
+  const declarationVisitor = {
     Declaration(decl) {
       if (decl.property === 'custom') {
         const declarationName = decl.value.name;
         const declarationValue = decl.value.value;
         if (varsToKeep.has(declarationName)) {
           for (const val of declarationValue) {
+            if (val.type === 'function' && val.value.name === 'oklch') {
+              for (const varInOklch of val.value.arguments) {
+                if (varInOklch.type === 'var') {
+                  const varName = varInOklch.value.name.ident;
+                  varsToKeep.add(varName);
+                }
+              }
+            }
             if (val.type === 'var') {
               const parentVarName = val.value.name.ident;
               varsToKeep.add(parentVarName);
@@ -94,14 +102,14 @@ export function transformCss({
     filename: 'style.css',
     code: cssBuffer,
     minify: true,
-    visitor: declarationVisitor1,
+    visitor: declarationVisitor,
   });
 
   const transformedCss = transform({
     filename: 'style.css',
     code: cssBuffer,
     minify: true,
-    visitor: composeVisitors([ruleVisitor, declarationVisitor1]),
+    visitor: composeVisitors([ruleVisitor, declarationVisitor]),
   });
 
   const finalCss = decoder.decode(transformedCss.code);
