@@ -52,7 +52,6 @@ export async function transformProject({
 
   for (const sourceFile of sourceFiles) {
     transformSourceFile({ sourceFile, config, stylesheet });
-    console.log(stylesheet.css);
   }
 
   if (outFile) {

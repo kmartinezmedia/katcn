@@ -3,7 +3,7 @@ import { defaultTokensConfig, spacing, zIndex } from '../../tokens';
 import type { UniversalTokensConfig } from '../../types';
 import { createTheme } from './createTheme';
 
-export function createBase(
+export function createDefaultTheme(
   config: UniversalTokensConfig = defaultTokensConfig,
 ) {
   const theme = createTheme({

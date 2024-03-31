@@ -8,14 +8,7 @@ import {
   type OnMount,
 } from '@/ui/monaco';
 import { encode } from 'base64-url';
-import {
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { memo, useCallback, useContext, useRef, useState } from 'react';
 import dtsLibs from 'server/dist/dtsLibs.json';
 
 const exampleCode = `
@@ -54,34 +47,38 @@ export default memo(function Editor() {
     tsworker: undefined,
   });
 
-  useEffect(() => {
-    if (refs.current.monaco) {
-      const markers = refs.current.monaco?.editor
-        ?.getModelMarkers({})
-        .filter(
-          (marker) =>
-            marker.message !==
-            "'Example' is declared but its value is never read.",
-        );
-
-      if (markers?.length <= 1) {
-        const encoded = encode(code);
-        hashRef.current = encoded;
-        socket?.send(encoded);
-      }
-    }
-  }, [code, socket]);
-
   const onMount: OnMount = useCallback(async ({ editor, monaco, tsworker }) => {
     refs.current.editor = editor;
     refs.current.monaco = monaco;
     refs.current.tsworker = tsworker;
   }, []);
 
-  const onChange: OnChange = useCallback(async (value) => {
-    const _code = value ?? '';
-    setCode(_code);
-  }, []);
+  const onChange: OnChange = useCallback(
+    async (value) => {
+      if (refs.current.monaco) {
+        const stringToUri = refs.current.monaco.Uri.parse;
+        const markers = refs.current.monaco?.editor
+          ?.getModelMarkers({
+            owner: 'typescript',
+            resource: stringToUri('user.tsx'),
+          })
+          .filter(
+            (marker) =>
+              marker.message !==
+              "'Example' is declared but its value is never read.",
+          );
+
+        if (markers?.length < 1) {
+          console.log('errors', markers);
+          if (value === undefined) return;
+          const encoded = encode(value);
+          hashRef.current = encoded;
+          socket?.send(encoded);
+        }
+      }
+    },
+    [socket?.send],
+  );
 
   return (
     <CodeEditor

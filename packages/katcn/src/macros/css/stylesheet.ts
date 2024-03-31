@@ -2,7 +2,7 @@ import { cssEscape, entries, flattenObj } from '../../helpers';
 import { defaultTokensConfig } from '../../tokens';
 import type { ColorMode, ScaleMode, UniversalTokensConfig } from '../../types';
 import { CSS_VAR_PREFIX } from './consts';
-import { createBase } from './createBase';
+import { createDefaultTheme } from './createDefaultTheme';
 import { createPreflight } from './createPreflight';
 import { createTheme } from './createTheme';
 import { createUtilities } from './createUtilities';
@@ -58,6 +58,7 @@ export class KatcnStyleSheet {
   public varsToKeep = new Set<string>();
 
   public base = new Set<string>();
+  public defaultTheme = new Set<string>();
   public utilities = new Set<string>();
 
   public theme = {
@@ -75,6 +76,7 @@ export class KatcnStyleSheet {
       xxxLarge: new Set<string>(),
     },
   };
+  private addDefaultThemeVars = this.addVarsToLayer(this.defaultTheme);
   private addBaseVars = this.addVarsToLayer(this.base);
   private addUtilClasses = this.addClassesToLayer(this.utilities);
 
@@ -87,7 +89,7 @@ export class KatcnStyleSheet {
       this.base.add(createPreflight());
     }
 
-    this.addBaseVars(flattenObj(createBase(this.config)));
+    this.addDefaultThemeVars(flattenObj(createDefaultTheme(this.config)));
 
     switch (this.opts.scaleMode) {
       case 'all':
@@ -216,12 +218,13 @@ export class KatcnStyleSheet {
   get cssTemplate() {
     return `
       @layer base {
-        :where(html) {
-          ${processLayer(this.base)}
-        }
+        ${processLayer(this.base)}
       }
 
       @layer theme {
+        :where(html) {
+          ${processLayer(this.defaultTheme)}
+        }
         ${
           this.hasColorMode('dark')
             ? `[data-theme='dark'] {

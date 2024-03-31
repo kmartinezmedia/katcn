@@ -1,10 +1,29 @@
 import fixtures from '../../fixtures';
-import { fromEntries } from '../../helpers';
+import { flattenObj, fromEntries, mapValues } from '../../helpers';
 import { cssEscape } from '../../helpers/cssEscape';
 import type { Height, Width } from '../../types';
 
+function createColors(prop: string) {
+  return flattenObj(
+    fromEntries(
+      fixtures.hues.map((hue) => {
+        const hueObj = fromEntries(
+          fixtures.hueSteps.map((step) => {
+            return [
+              step,
+              `{ ${prop}: var(--katcn-color-${hue}-${step}); }`,
+            ] as const;
+          }),
+        );
+        return [hue, hueObj];
+      }),
+    ),
+  );
+}
+
 export function createUtilities() {
   const backgroundColor = {
+    ...createColors('background-color'),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,

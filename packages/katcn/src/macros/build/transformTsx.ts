@@ -68,10 +68,6 @@ function getPropsForExpression({
           propsObject[name] = value.getLiteralValue();
         }
 
-        if (value.isKind(SyntaxKind.TemplateExpression)) {
-          // figure out if can infer className from types
-        }
-
         if (value.isKind(SyntaxKind.NumericLiteral)) {
           propsObject[name] = value.getLiteralValue();
         }
@@ -203,6 +199,44 @@ export function transformTsx(
   const foundVars = jsContent.matchAll(varRegex);
   for (const variable of foundVars) {
     varsToKeep.add(variable[0]);
+  }
+
+  /**
+   * Infer classnames from dynamic props based on types
+   */
+  const jsxSelfClosingElements = sourceFile.getDescendantsOfKind(
+    SyntaxKind.JsxSelfClosingElement,
+  );
+  const jsxOpeningElements = sourceFile.getDescendantsOfKind(
+    SyntaxKind.JsxOpeningElement,
+  );
+  for (const jsxSelfClosingElement of [
+    ...jsxSelfClosingElements,
+    ...jsxOpeningElements,
+  ]) {
+    if (jsxSelfClosingElement.getAttributes().length === 0) continue;
+    const props = jsxSelfClosingElement.getAttributes();
+    for (const prop of props) {
+      if (prop.isKind(SyntaxKind.JsxSpreadAttribute)) continue;
+      if (prop.isKind(SyntaxKind.JsxAttribute)) {
+        const propName = prop.getNameNode().getText();
+        const propValue = prop.getInitializer();
+        if (propValue?.isKind(SyntaxKind.JsxExpression)) {
+          const expression = propValue.getExpression();
+          const identifierType = expression?.getType();
+          if (identifierType?.isUnion()) {
+            const unionTypes = identifierType.getUnionTypes();
+            for (const unionType of unionTypes) {
+              const dynamicValue = unionType.getText().replaceAll('"', '');
+              const dynamicClassname = getStyles({
+                [propName]: dynamicValue,
+              });
+              classNamesToKeep.add(dynamicClassname);
+            }
+          }
+        }
+      }
+    }
   }
 
   sourceFile.replaceWithText(jsContent);

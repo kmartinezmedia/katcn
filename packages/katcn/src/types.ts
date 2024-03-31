@@ -370,6 +370,8 @@ export type HueStep =
   | 14
   | 15;
 
+export type Color = `${Hue}-${HueStep}`;
+
 export type CorePaletteAlias =
   | 'accent'
   | 'alert'
@@ -398,16 +400,19 @@ export type AlwaysPaletteAlias = 'white' | 'black' | 'transparent';
 /* ----------------------------- SEMANTIC COLORS ---------------------------- */
 
 export type ForegroundColor =
+  | Color
   | CorePaletteAlias
   | ForegroundPaletteAlias
   | AlwaysPaletteAlias;
 
 export type LineColor =
+  | Color
   | CorePaletteAlias
   | LinePaletteAlias
   | AlwaysPaletteAlias;
 
 export type BackgroundColor =
+  | Color
   | CorePaletteAlias
   | BackgroundPaletteAlias
   | AlwaysPaletteAlias;

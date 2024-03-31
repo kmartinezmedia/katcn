@@ -2,10 +2,7 @@
 
 import { Box, HStack, Text, VStack } from 'katcn';
 import fixtures from 'katcn/fixtures';
-import { getColorRamps } from 'katcn/macros/color/getColorRamps';
 import type { Hue } from 'katcn/types';
-
-const colorRamps = getColorRamps();
 
 function Slider() {
   return (
@@ -29,7 +26,6 @@ function Slider() {
 }
 
 function Ramp({ hue }: { hue: Hue }) {
-  const values = colorRamps[hue];
   return (
     <VStack>
       <Slider />
@@ -41,16 +37,16 @@ function Ramp({ hue }: { hue: Hue }) {
         {hue}
       </Text>
       <VStack borderRadius="xl" overflow="hidden">
-        {values.map((value, index) => (
+        {fixtures.hueSteps.map((step, index) => (
           <HStack
-            key={value}
+            key={step}
             spacingY="3"
             spacingX="6"
             justifyContent="between"
             alignItems="center"
+            backgroundColor={`${hue}-${step}`}
             style={{
               width: 221,
-              background: `var(${value})`,
             }}
           >
             <Text variant="label1" color={index >= 8 ? 'on-color' : 'primary'}>

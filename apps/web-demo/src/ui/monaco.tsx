@@ -34,8 +34,6 @@ export interface CodeEditorRefs {
   tsworker?: TypescriptWorker;
 }
 
-const USER_CODE_PATH = 'file:///user.tsx';
-
 export function CodeEditor({
   userCode,
   dtsLibs = [],
@@ -74,7 +72,7 @@ export function CodeEditor({
         width="50%"
         defaultValue={userCode}
         value={userCode}
-        defaultPath={USER_CODE_PATH}
+        defaultPath="user.tsx"
         options={{
           minimap: { enabled: false },
           fontSize: 14,
