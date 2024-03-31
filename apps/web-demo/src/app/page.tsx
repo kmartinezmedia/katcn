@@ -7,10 +7,32 @@ import type { Hue } from 'katcn/types';
 
 const colorRamps = getColorRamps();
 
+function Slider() {
+  return (
+    <Box spacing="8">
+      <VStack position="relative" justifyContent="center">
+        <Box
+          position="absolute"
+          width="full"
+          backgroundColor="secondary"
+          borderRadius="full"
+        />
+        <Box
+          position="absolute"
+          width="full"
+          backgroundColor="accent"
+          borderRadius="full"
+        />
+      </VStack>
+    </Box>
+  );
+}
+
 function Ramp({ hue }: { hue: Hue }) {
   const values = colorRamps[hue];
   return (
     <VStack>
+      <Slider />
       <Text
         variant="title3"
         spacingY="6"

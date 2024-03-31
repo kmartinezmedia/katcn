@@ -59,42 +59,65 @@ function getPropsForExpression({
     for (const property of properties) {
       if (property.isKind(SyntaxKind.PropertyAssignment)) {
         const name = property.getName();
+        if (name === 'children') continue;
+
         const value = property.getInitializer();
-        if (name !== 'children' && value) {
-          if (value.isKind(SyntaxKind.StringLiteral)) {
-            propsObject[name] = value.getLiteralValue();
-          }
-          if (value.isKind(SyntaxKind.ConditionalExpression)) {
-            const valueWhenTrue = value
-              .getWhenTrue()
-              .asKind(SyntaxKind.StringLiteral);
+        if (!value) continue;
 
-            const valueWhenFalse = value
-              .getWhenFalse()
-              .asKind(SyntaxKind.StringLiteral);
-
-            if (valueWhenTrue) {
-              const stringWhenTrue = valueWhenTrue.getLiteralValue();
-              const classNameWhenTrue = getStyles({ [name]: stringWhenTrue });
-              classNamesToKeep.add(classNameWhenTrue);
-            }
-            if (valueWhenFalse) {
-              const stringWhenFalse = valueWhenFalse.getLiteralValue();
-              const classNameWhenFalse = getStyles({ [name]: stringWhenFalse });
-              classNamesToKeep.add(classNameWhenFalse);
-            }
-
-            // TODO: handle if conditional is not resolved
-          }
+        if (value.isKind(SyntaxKind.StringLiteral)) {
+          propsObject[name] = value.getLiteralValue();
         }
-      }
-      if (property.isKind(SyntaxKind.ShorthandPropertyAssignment)) {
-        const name = property.getName();
-        const valueDeclaration = sourceFile.getVariableDeclaration(name);
-        const value = valueDeclaration?.getInitializer();
-        if (name !== 'children' && value) {
-          if (value.isKind(SyntaxKind.StringLiteral)) {
-            propsObject[name] = value.getLiteralValue();
+
+        if (value.isKind(SyntaxKind.TemplateExpression)) {
+          // figure out if can infer className from types
+        }
+
+        if (value.isKind(SyntaxKind.NumericLiteral)) {
+          propsObject[name] = value.getLiteralValue();
+        }
+
+        if (value.isKind(SyntaxKind.TrueKeyword)) {
+          propsObject[name] = true;
+        }
+
+        if (value.isKind(SyntaxKind.FalseKeyword)) {
+          propsObject[name] = false;
+        }
+
+        if (value.isKind(SyntaxKind.ConditionalExpression)) {
+          const valueWhenTrue = value
+            .getWhenTrue()
+            .asKind(SyntaxKind.StringLiteral);
+
+          if (valueWhenTrue) {
+            const stringWhenTrue = valueWhenTrue.getLiteralValue();
+            const classNameWhenTrue = getStyles({ [name]: stringWhenTrue });
+            classNamesToKeep.add(classNameWhenTrue);
+          }
+
+          const valueWhenFalse = value
+            .getWhenFalse()
+            .asKind(SyntaxKind.StringLiteral);
+
+          if (valueWhenFalse) {
+            const stringWhenFalse = valueWhenFalse.getLiteralValue();
+            const classNameWhenFalse = getStyles({
+              [name]: stringWhenFalse,
+            });
+            classNamesToKeep.add(classNameWhenFalse);
+          }
+          // TODO: handle if conditional is not resolved
+        }
+
+        if (property.isKind(SyntaxKind.ShorthandPropertyAssignment)) {
+          const name = property.getName();
+          const valueDeclaration = sourceFile.getVariableDeclaration(name);
+          const valueDeclarationInitializer =
+            valueDeclaration?.getInitializer();
+          if (name !== 'children' && valueDeclarationInitializer) {
+            if (valueDeclarationInitializer.isKind(SyntaxKind.StringLiteral)) {
+              propsObject[name] = valueDeclarationInitializer.getLiteralValue();
+            }
           }
         }
       }
@@ -105,11 +128,18 @@ function getPropsForExpression({
     // TODO: Find where getStyles is applied and use that component name?
     extractedProps.className = getStyles(propsObject);
   } else {
-    // get import for the call expression's first argument is a component aka not a string
+    /** Process component props, which are not in style props */
+    /**
+     * Process first arg of expression to see if we can process props
+     * @example
+     * jsx('div', { className: 'text-red-500' }) // not a component
+     * jsx(Text, { variant: 'body1' }) // component
+     */
     const firstArg = callExpression.getArguments()[0];
     const firstArgText = firstArg.getText();
     if (firstArg.isKind(SyntaxKind.StringLiteral)) {
       // this is a native html element i.e. 'body', 'div', etc
+      // TODO: extract className prop
     } else {
       // this is a component
       const symbol = firstArg.getSymbol();
@@ -208,10 +238,17 @@ export function transformTsx(
 
   // ensure classNames are split by spaces and unique
   const finalClassNamesToKeep = new Set<string>();
+  const classNamesToAdd = new Set<string>();
+
   for (const className of classNamesToKeep) {
     const splitClassNames = className.trimStart().trimEnd().split(' ');
     for (const splitClassName of splitClassNames) {
-      finalClassNamesToKeep.add(splitClassName);
+      // Arbitrary className i.e. height-[200px]
+      if (splitClassName.includes('-[')) {
+        classNamesToAdd.add(splitClassName);
+      } else {
+        finalClassNamesToKeep.add(splitClassName);
+      }
     }
   }
 
@@ -223,6 +260,7 @@ export function transformTsx(
 
   return {
     classNamesToKeep: finalClassNamesToKeep,
+    classNamesToAdd,
     varsToKeep,
     jsContent: sourceFile.getFullText(), // ensures the sourceFile is updated
   };

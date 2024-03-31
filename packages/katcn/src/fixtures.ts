@@ -40,6 +40,7 @@ import type {
   PlaceSelf,
   Position,
   SpacingAlias,
+  StyleProp,
   TextAlign,
   TextTransform,
   TextVariant,
@@ -96,4 +97,5 @@ export default {
   textAlign: typesToConstants<TextAlign>('TextAlign'),
   iconSize: typesToConstants<IconSize>('IconSize'),
   avatarSize: typesToConstants<AvatarSize>('AvatarSize'),
+  styleProp: typesToConstants<StyleProp>('StyleProp'),
 };

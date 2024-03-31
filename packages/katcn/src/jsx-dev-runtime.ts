@@ -18,7 +18,7 @@ export function jsxDEV(
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   self: any,
 ) {
-  const componentName = typeof type === 'string' ? type : type.displayName;
+  const componentName = typeof type === 'string' ? type : type?.displayName;
   const finalProps = extractStyleProps(props, componentName);
   return jsxDevOriginal(type, finalProps, maybeKey, source, self);
 }

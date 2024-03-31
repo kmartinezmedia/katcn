@@ -36,7 +36,6 @@ describe('transformTsx', () => {
     `;
     const sourceFile = createSourceFile(testCode);
     const data = transformTsx(sourceFile);
-    console.log(data);
     expect(data).toBeDefined();
   });
   it('Should handle ConditionalExpression', () => {

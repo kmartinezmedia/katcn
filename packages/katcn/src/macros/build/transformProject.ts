@@ -1,53 +1,21 @@
-import type { Project, SourceFile } from 'ts-morph';
+import type { Project } from 'ts-morph';
 import { defaultTokensConfig } from '../../tokens';
 import type { UniversalTokensConfig } from '../../types';
-import { CssRegistry } from './cssRegistry';
-import { transformCss } from './transformCss';
-import { transformTsx } from './transformTsx';
 import {
   type OnSourceFileChange,
   transformWatchers,
 } from './transformWatchers';
+import { transformSourceFile } from './transformSourceFile';
+import { type KatcnStyleSheetOpts, KatcnStyleSheet } from '../css/stylesheet';
 
 interface TransformOptions {
   config?: UniversalTokensConfig;
   project: Project;
   outFile?: string;
   watch?: boolean;
-}
-function processFile({
-  sourceFile,
-  registry,
-}: { sourceFile: SourceFile; registry: CssRegistry }) {
-  const filePath = sourceFile.getFilePath();
-  const transformedTsx = transformTsx(sourceFile);
-  const { classNamesToKeep, varsToKeep, jsContent } = transformedTsx;
-  registry.updateRegistry({ filePath, classNamesToKeep, varsToKeep });
-  return transformedTsx;
-}
-
-async function transform({
-  config,
-  registry,
-  outFile,
-}: {
-  registry: CssRegistry;
-  config: UniversalTokensConfig;
-  outFile?: string;
-}) {
-  const fileHasCss =
-    registry.allClassNamesToKeep.size > 0 || registry.allVarsToKeep.size > 0;
-  if (fileHasCss) {
-    const cssContent = transformCss({
-      config: config,
-      classNamesToKeep: registry.allClassNamesToKeep,
-      varsToKeep: registry.allVarsToKeep,
-    });
-
-    if (outFile) {
-      await Bun.write(outFile, cssContent);
-    }
-  }
+  disablePreflight?: boolean;
+  scaleMode?: KatcnStyleSheetOpts['scaleMode'];
+  colorMode?: KatcnStyleSheetOpts['colorMode'];
 }
 
 export async function transformProject({
@@ -55,13 +23,27 @@ export async function transformProject({
   project,
   outFile,
   watch: shouldWatch = false,
+  disablePreflight = false,
+  scaleMode = 'all',
+  colorMode = 'all',
 }: TransformOptions) {
-  const registry = new CssRegistry();
-  const sourceFiles = project.getSourceFiles();
+  const sourceFiles = project.getSourceFiles('**/*.tsx');
+  const stylesheet = new KatcnStyleSheet({
+    config,
+    disablePreflight,
+    scaleMode,
+    colorMode,
+  });
 
   const onChange: OnSourceFileChange = async (sFile) => {
-    processFile({ sourceFile: sFile, registry });
-    await transform({ config, registry, outFile });
+    transformSourceFile({
+      stylesheet,
+      sourceFile: sFile,
+      config,
+    });
+    if (outFile) {
+      await Bun.write(outFile, stylesheet.css);
+    }
   };
 
   if (shouldWatch) {
@@ -69,8 +51,13 @@ export async function transformProject({
   }
 
   for (const sourceFile of sourceFiles) {
-    processFile({ sourceFile, registry });
+    transformSourceFile({ sourceFile, config, stylesheet });
+    console.log(stylesheet.css);
   }
 
-  await transform({ config, registry, outFile });
+  if (outFile) {
+    await Bun.write(outFile, stylesheet.css);
+  }
+
+  return stylesheet.css;
 }

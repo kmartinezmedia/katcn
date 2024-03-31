@@ -198,7 +198,7 @@ export interface BackgroundStyleProps {
   /** Utility for controlling an element's background color on hover. */
   backgroundColorOnHover?: BackgroundColor;
   /** Determines box shadow styles. Parent should have overflow set to visible to ensure styles are not clipped. */
-  // elevation?: Elevation;
+  elevation?: Elevation;
 }
 
 export type CustomSizingStyleProps = {
@@ -206,18 +206,23 @@ export type CustomSizingStyleProps = {
   avatarSize?: AvatarSize;
 };
 
-export type StyleProps = Partial<
-  BackgroundStyleProps &
-    BorderStyleProps &
-    LayoutStyleProps &
-    FlexStyleProps &
-    SpacingStyleProps &
-    TextStyleProps &
-    OpacityStyleProps &
-    SizingStyleProps &
-    ImageStyleProps &
-    CustomSizingStyleProps
->;
+export interface StyleProps
+  extends Partial<
+    BackgroundStyleProps &
+      BorderStyleProps &
+      LayoutStyleProps &
+      FlexStyleProps &
+      SpacingStyleProps &
+      TextStyleProps &
+      OpacityStyleProps &
+      SizingStyleProps &
+      ImageStyleProps &
+      CustomSizingStyleProps
+  > {
+  className?: string;
+}
+
+export type StyleProp = keyof StyleProps;
 
 /* -------------------------------------------------------------------------- */
 /*                          UNIVERSAL COMPONENT PROPS                         */

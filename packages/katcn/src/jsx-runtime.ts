@@ -23,7 +23,7 @@ export function jsx(
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   key: any,
 ) {
-  const componentName = typeof type === 'string' ? type : type.displayName;
+  const componentName = typeof type === 'string' ? type : type?.displayName;
   const finalProps = extractStyleProps(props, componentName);
   return jsxOriginal(type, finalProps, key);
 }
@@ -36,7 +36,7 @@ export function jsxs(
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   key: any,
 ) {
-  const componentName = typeof type === 'string' ? type : type.displayName;
+  const componentName = typeof type === 'string' ? type : type?.displayName;
   const finalProps = extractStyleProps(props, componentName);
   return jsxsOriginal(type, finalProps, key);
 }
