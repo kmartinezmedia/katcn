@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'bun:test';
-import { createTsMorphProject } from '../tsmorph/createTsMorphProject';
-import { transformSourceFile } from './transformSourceFile';
-import { Project, ts } from 'ts-morph';
 import path from 'node:path';
+import { Project, ts } from 'ts-morph';
+import { createTsMorphProject } from '../tsmorph/createTsMorphProject';
 import { transformProject } from './transformProject';
+import { transformSourceFile } from './transformSourceFile';
 
 const webDemoTsConfig = path.resolve(
   import.meta.dirname,
