@@ -3,7 +3,7 @@ import { flattenObj, fromEntries, mapValues } from '../../helpers';
 import { cssEscape } from '../../helpers/cssEscape';
 import type { Height, Width } from '../../types';
 
-function createColors(prop: string) {
+function createColors(prop: string | string[]) {
   return flattenObj(
     fromEntries(
       fixtures.hues.map((hue) => {
@@ -11,7 +11,11 @@ function createColors(prop: string) {
           fixtures.hueSteps.map((step) => {
             return [
               step,
-              `{ ${prop}: var(--katcn-color-${hue}-${step}); }`,
+              typeof prop === 'string'
+                ? `{ ${prop}: var(--katcn-color-${hue}-${step}); }`
+                : `{ ${prop
+                    .map((p) => `${p}: var(--katcn-color-${hue}-${step});`)
+                    .join(' ')} }`,
             ] as const;
           }),
         );
@@ -39,6 +43,7 @@ export function createUtilities() {
   };
 
   const color = {
+    ...createColors('color'),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -54,6 +59,7 @@ export function createUtilities() {
   };
 
   const borderColor = {
+    ...createColors('border-color'),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -69,6 +75,7 @@ export function createUtilities() {
   };
 
   const borderTopColor = {
+    ...createColors('border-top-color'),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -84,6 +91,7 @@ export function createUtilities() {
   };
 
   const borderBottomColor = {
+    ...createColors('border-bottom-color'),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -99,6 +107,7 @@ export function createUtilities() {
   };
 
   const borderStartColor = {
+    ...createColors('border-inline-start-color'),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -114,6 +123,7 @@ export function createUtilities() {
   };
 
   const borderEndColor = {
+    ...createColors('border-inline-end-color'),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -129,6 +139,7 @@ export function createUtilities() {
   };
 
   const borderHorizontalColor = {
+    ...createColors(['border-left-color', 'border-right-color']),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -144,6 +155,7 @@ export function createUtilities() {
   };
 
   const borderVerticalColor = {
+    ...createColors(['border-top-color', 'border-bottom-color']),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,

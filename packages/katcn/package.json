@@ -66,12 +66,10 @@
   },
   "dependencies": {
     "lightningcss": "^1.24.0",
-    "lodash": "^4.17.21",
     "prettier": "^3.2.5",
     "ts-morph": "^22.0.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.0",
     "cli": "workspace:*",
     "clsx": "^2.1.0",
     "concurrently": "^8.2.2",
