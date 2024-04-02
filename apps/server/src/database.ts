@@ -1,6 +1,7 @@
 import { decode } from 'base64-url';
-import { transformSourceFile } from 'katcn/macros';
+import { KatcnStyleSheet, transformTsx } from 'katcn/macros';
 import { createTsMorphProject } from 'katcn/macros';
+import { defaultTokensConfig } from 'katcn/tokens';
 import type { SourceFile } from 'ts-morph';
 
 const defaultExample = `
@@ -43,12 +44,17 @@ class Database {
   }
 
   process(sourceFile: SourceFile) {
-    const data = transformSourceFile({
-      sourceFile: sourceFile,
-      removeImports: true,
+    const stylesheet = new KatcnStyleSheet({
+      config: defaultTokensConfig,
       disablePreflight: true,
     });
-    return data;
+
+    const data = transformTsx({
+      sourceFile,
+      removeImports: true,
+      stylesheet,
+    });
+    return { js: data.js, css: data.stylesheet.css };
   }
 
   get(id: string | 'default') {

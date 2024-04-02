@@ -640,7 +640,9 @@ export function extractStyleProps(
       const { gap } = props as ComponentPropsMap['HStack'];
       defaults.display = 'flex';
       defaults.direction = 'horizontal';
-      defaults.gapX = gap;
+      if (gap) {
+        defaults.gapX = gap;
+      }
       // @ts-expect-error this is fine
       props.gap = undefined;
       break;
@@ -684,7 +686,9 @@ export function extractStyleProps(
       const { gap } = props as ComponentPropsMap['VStack'];
       defaults.display = 'flex';
       defaults.direction = 'vertical';
-      defaults.gapY = gap;
+      if (gap) {
+        defaults.gapY = gap;
+      }
       // @ts-expect-error this is fine
       props.gap = undefined;
       break;

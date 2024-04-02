@@ -8,6 +8,7 @@ import {
   type ts,
 } from 'ts-morph';
 import { extractStyleProps, getStyles } from '../../getStyles';
+import { KatcnStyleSheet } from '../css/stylesheet';
 
 const varRegex = /--katcn-[^:,\s")]+/g;
 
@@ -39,15 +40,18 @@ function getCallExpressionName(
 interface GetPropsForExpressionOptions {
   sourceFile: SourceFile;
   callExpression: CallExpression<ts.CallExpression>;
-  classNamesToKeep?: Set<string>;
+  safelist: Set<string>;
 }
 
 function getPropsForExpression({
   sourceFile,
   callExpression,
-  classNamesToKeep = new Set<string>(),
+  safelist,
 }: GetPropsForExpressionOptions) {
   const fnName = getCallExpressionName(callExpression);
+  const parentFn = callExpression.getFirstAncestorByKind(
+    SyntaxKind.FunctionExpression,
+  );
   const props = callExpression.getFirstChildByKind(
     SyntaxKind.ObjectLiteralExpression,
   );
@@ -88,7 +92,7 @@ function getPropsForExpression({
           if (valueWhenTrue) {
             const stringWhenTrue = valueWhenTrue.getLiteralValue();
             const classNameWhenTrue = getStyles({ [name]: stringWhenTrue });
-            classNamesToKeep.add(classNameWhenTrue);
+            safelist.add(classNameWhenTrue);
           }
 
           const valueWhenFalse = value
@@ -100,20 +104,58 @@ function getPropsForExpression({
             const classNameWhenFalse = getStyles({
               [name]: stringWhenFalse,
             });
-            classNamesToKeep.add(classNameWhenFalse);
+            safelist.add(classNameWhenFalse);
           }
           // TODO: handle if conditional is not resolved
         }
+      }
 
-        if (property.isKind(SyntaxKind.ShorthandPropertyAssignment)) {
-          const name = property.getName();
-          const valueDeclaration = sourceFile.getVariableDeclaration(name);
-          const valueDeclarationInitializer =
-            valueDeclaration?.getInitializer();
-          if (name !== 'children' && valueDeclarationInitializer) {
-            if (valueDeclarationInitializer.isKind(SyntaxKind.StringLiteral)) {
-              propsObject[name] = valueDeclarationInitializer.getLiteralValue();
-            }
+      /**
+       * Handle shorthand properties
+       * @example
+       *
+        import { Box } from 'katcn';
+
+        function Example1() {
+          return <Box backgroundColor="accent" />;
+        }
+
+        function Example2() {
+          const backgroundColor="accent";
+          return <Box backgroundColor={backgroundColor} />;
+        }
+
+        const backgroundColor="accent";
+        function Example3() {
+          return <Box backgroundColor={backgroundColor} />;
+        }
+       */
+      if (property.isKind(SyntaxKind.ShorthandPropertyAssignment)) {
+        const name = property.getName();
+        if (name === 'children') continue;
+        const valueDeclaration =
+          sourceFile.getVariableDeclaration(name) ??
+          // the var might be scoped to the parent function aka component
+          parentFn?.getVariableDeclaration(name);
+
+        if (valueDeclaration) {
+          const valueDeclarationInitializer = valueDeclaration.getInitializer();
+          if (!valueDeclarationInitializer) continue;
+
+          if (valueDeclarationInitializer.isKind(SyntaxKind.StringLiteral)) {
+            propsObject[name] = valueDeclarationInitializer.getLiteralValue();
+          }
+
+          if (valueDeclarationInitializer.isKind(SyntaxKind.NumericLiteral)) {
+            propsObject[name] = valueDeclarationInitializer.getLiteralValue();
+          }
+
+          if (valueDeclarationInitializer.isKind(SyntaxKind.TrueKeyword)) {
+            propsObject[name] = true;
+          }
+
+          if (valueDeclarationInitializer.isKind(SyntaxKind.FalseKeyword)) {
+            propsObject[name] = false;
           }
         }
       }
@@ -162,7 +204,13 @@ function getPropsForExpression({
   }
 
   if (extractedProps?.className) {
-    classNamesToKeep.add(extractedProps.className);
+    const splitClassNames = extractedProps.className
+      .trimStart()
+      .trimEnd()
+      .split(' ');
+    for (const splitClassName of splitClassNames) {
+      safelist.add(splitClassName);
+    }
   }
 }
 
@@ -185,20 +233,30 @@ function isGetStylesExpression(
   return fnCalled === 'getStyles';
 }
 
-export function transformTsx(
-  sourceFile: SourceFile,
-  opts?: { removeImports?: boolean },
-) {
+export function transformTsx({
+  stylesheet = new KatcnStyleSheet(),
+  sourceFile,
+  removeImports,
+}: {
+  sourceFile: SourceFile;
+  stylesheet?: KatcnStyleSheet;
+  removeImports?: boolean;
+}) {
   const content = sourceFile.getFullText();
+  const filePath = sourceFile.getFilePath();
+  let safelist = stylesheet.safelist.get(filePath);
+  const varsRegistry = stylesheet.varsSafelist;
 
-  const classNamesToKeep = new Set<string>();
-  const varsToKeep = new Set<string>();
+  if (!safelist) {
+    safelist = new Set<string>();
+    stylesheet.safelist.set(filePath, safelist);
+  }
 
   const jsContent = transpiler.transformSync(content);
 
   const foundVars = jsContent.matchAll(varRegex);
   for (const variable of foundVars) {
-    varsToKeep.add(variable[0]);
+    varsRegistry.add(variable[0]);
   }
 
   /**
@@ -231,7 +289,7 @@ export function transformTsx(
               const dynamicClassname = getStyles({
                 [propName]: dynamicValue,
               });
-              classNamesToKeep.add(dynamicClassname);
+              safelist.add(dynamicClassname);
             }
           }
         }
@@ -249,7 +307,7 @@ export function transformTsx(
       getPropsForExpression({
         sourceFile,
         callExpression,
-        classNamesToKeep,
+        safelist,
       });
       for (const childCallExpression of callExpression
         .getChildrenOfKind(SyntaxKind.CallExpression)
@@ -257,7 +315,7 @@ export function transformTsx(
         getPropsForExpression({
           sourceFile,
           callExpression: childCallExpression,
-          classNamesToKeep,
+          safelist,
         });
       }
     }
@@ -265,37 +323,19 @@ export function transformTsx(
       getPropsForExpression({
         sourceFile,
         callExpression,
-        classNamesToKeep,
+        safelist,
       });
     }
   }
 
-  // ensure classNames are split by spaces and unique
-  const finalClassNamesToKeep = new Set<string>();
-  const classNamesToAdd = new Set<string>();
-
-  for (const className of classNamesToKeep) {
-    const splitClassNames = className.trimStart().trimEnd().split(' ');
-    for (const splitClassName of splitClassNames) {
-      // Arbitrary className i.e. height-[200px]
-      if (splitClassName.includes('-[')) {
-        classNamesToAdd.add(splitClassName);
-      } else {
-        finalClassNamesToKeep.add(splitClassName);
-      }
-    }
-  }
-
-  if (opts?.removeImports) {
+  if (removeImports) {
     for (const importDecl of sourceFile.getImportDeclarations()) {
       importDecl.remove();
     }
   }
 
   return {
-    classNamesToKeep: finalClassNamesToKeep,
-    classNamesToAdd,
-    varsToKeep,
-    jsContent: sourceFile.getFullText(), // ensures the sourceFile is updated
+    stylesheet,
+    js: sourceFile.getFullText(), // ensures the sourceFile is updated
   };
 }

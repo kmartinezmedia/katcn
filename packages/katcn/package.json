@@ -34,6 +34,10 @@
       "types": "./dist/getStyles.d.ts",
       "default": "./dist/getStyles.js"
     },
+    "./helpers": {
+      "types": "./dist/helpers/index.d.ts",
+      "default": "./dist/helpers/index.js"
+    },
     "./jsx-runtime": {
       "types": "./dist/jsx-runtime.d.ts",
       "default": "./dist/jsx-runtime.js"

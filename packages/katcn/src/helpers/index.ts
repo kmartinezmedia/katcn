@@ -5,3 +5,5 @@ export { mapKeys } from './mapKeys';
 export { mapValues } from './mapValues';
 export { createSlot } from './createSlot';
 export { cssEscape } from './cssEscape';
+export { clamp } from './clamp';
+export { interpolate } from './interpolate';

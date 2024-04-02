@@ -1,108 +1,104 @@
 'use client';
 
-import { Box, HStack, Text, VStack } from 'katcn';
+import { Box, Text, VStack } from 'katcn';
 
 import {
   animate,
   motion,
+  useDragControls,
   useMotionTemplate,
   useMotionValue,
   useTransform,
 } from 'framer-motion';
-import { useRef, useState } from 'react';
-
-const handleSize = 40;
+import { type PointerEventHandler, useRef } from 'react';
+import { interpolate } from 'katcn/helpers';
 
 interface SliderProps {
   min: number;
   max: number;
   step?: number;
   initialValue: number;
+  formatValue?: (val: number) => string;
 }
 
 export function Slider({
-  min = 0,
-  max = 100,
+  min,
+  max,
   step = 1,
-  initialValue = 30,
+  initialValue,
+  formatValue = (val: number) => `${val}`,
 }: SliderProps) {
-  const [value, setValue] = useState(initialValue);
-  const [dragging, setDragging] = useState(false);
-  const handleX = useMotionValue(0);
+  const handleSize = 40;
+  const sliderSize = 300;
+  const sliderHeight = 8;
+  const progress = useMotionValue(initialValue);
 
   const refs = {
     handle: useRef<HTMLDivElement | null>(null),
     constraints: useRef<HTMLDivElement | null>(null),
     progressBar: useRef<HTMLDivElement | null>(null),
   };
-  const handleDrag = () => {
-    const { handle, constraints, progressBar } = refs;
-    if (!handle.current || !constraints.current || !progressBar.current) {
-      return;
-    }
-    const handleBounds = handle.current.getBoundingClientRect();
-    const middleOfHandle = handleBounds.x + handleBounds.width / 2;
-    const progressBarBounds = progressBar.current.getBoundingClientRect();
-    const newProgress =
-      (middleOfHandle - progressBarBounds.x) / progressBarBounds.width;
 
-    setValue(newProgress * (max - min));
+  const dragControls = useDragControls();
+
+  const snapToCursor: PointerEventHandler<HTMLDivElement> = (event) => {
+    dragControls.start(event, { snapToCursor: true });
+  };
+
+  const onDrag: React.ComponentProps<typeof motion.div>['onDrag'] = (event) => {
+    // dragControls.start(event, { snapToCursor: true });
+    // const relativeOffset = progress.set(event.clientX);
   };
 
   return (
-    <Box spacing="8">
+    <VStack>
       <VStack
         data-test="slider"
         position="relative"
         justifyContent="center"
-        width="3/12"
+        borderRadius="full"
+        backgroundColor="secondary"
+        width={sliderSize}
+        height={sliderHeight}
       >
-        <Box
-          data-test="slider-background"
-          position="absolute"
-          width="full"
-          height="3"
-          backgroundColor="secondary"
-          borderRadius="full"
-        />
         <Box
           ref={refs.progressBar}
           data-test="slider-progress"
           position="absolute"
-          width="2"
+          width="full"
+          height="full"
+          borderRadius="full"
+          backgroundColor="accent"
+          style={{ pointerEvents: 'none' }}
+        >
+          <motion.div style={{ x: progress }} />
+        </Box>
+        <Box
+          ref={refs.handle}
+          data-test="slider-handle"
+          position="relative"
+          zIndex="10"
           backgroundColor="accent"
           borderRadius="full"
-        />
-        <div ref={refs.constraints}>
-          <Box
-            ref={refs.handle}
-            data-test="slider-handle"
-            position="relative"
-            zIndex="10"
-            backgroundColor="accent"
-          >
-            <motion.div
-              drag="x"
-              dragMomentum={false}
-              dragConstraints={refs.constraints}
-              dragElastic={0}
-              onDrag={handleDrag}
-              onDragStart={() => setDragging(true)}
-              onDragEnd={() => setDragging(false)}
-              onPointerDown={() => setDragging(true)}
-              onPointerUp={() => setDragging(false)}
-              animate={{
-                scale: dragging ? 2 : 1,
-              }}
-              style={{
-                width: handleSize,
-                height: handleSize,
-                x: handleX,
-              }}
-            />
-          </Box>
-        </div>
+          width={handleSize}
+          height={handleSize}
+          asChild
+        >
+          <motion.div
+            drag="x"
+            dragMomentum={false}
+            dragControls={dragControls}
+            // onDrag={onDrag}
+            dragConstraints={{ left: 0, right: sliderSize }}
+            dragElastic={0}
+            whileHover={{ scale: 1.4 }}
+            whileDrag={{ scale: 1.4 }}
+          />
+        </Box>
       </VStack>
-    </Box>
+      {/* <Text variant="body1" asChild>
+        {formatValue(value)}
+      </Text> */}
+    </VStack>
   );
 }
