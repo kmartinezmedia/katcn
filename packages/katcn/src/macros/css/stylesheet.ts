@@ -2,8 +2,8 @@ import { cssEscape, entries, flattenObj } from '../../helpers';
 import { defaultTokensConfig } from '../../tokens';
 import type { ColorMode, UniversalTokensConfig } from '../../types';
 import { CSS_VAR_PREFIX } from './consts';
-import { createTheme } from './createTheme';
 import { createPreflight } from './createPreflight';
+import { createTheme } from './createTheme';
 import { createUtilities } from './createUtilities';
 
 import {

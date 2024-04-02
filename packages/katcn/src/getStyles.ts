@@ -489,7 +489,6 @@ export const getStyles = ({
   }
 
   if (height) {
-    console.log(typeof height);
     const classNameToAdd =
       typeof height === 'number' ? `height-[${height}px]` : `height-${height}`;
     classNames.push(classNameToAdd);

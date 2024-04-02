@@ -5,15 +5,15 @@ import type {
   FontFamilyGlobalConfig,
   FontWeightDescriptive,
   FontWeightNumeric,
+  HuesChromaConfig,
+  HuesConfig,
+  HuesLightnessConfig,
   IconSizeConfig,
   PaletteConfig,
   SpacingConfig,
-  HuesConfig,
+  TypographyConfig,
   UniversalTokensConfig,
   ZIndexConfig,
-  HuesChromaConfig,
-  HuesLightnessConfig,
-  TypographyConfig,
 } from './types';
 
 const hues: HuesConfig = {
