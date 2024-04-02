@@ -8,11 +8,9 @@ const outDir = `${Bun.env.PWD}/dist`;
 async function writeCss() {
   const stylesheet = new KatcnStyleSheet({
     config: defaultTokensConfig,
-    includePreflight: true,
-    colorMode: 'all',
-    scaleMode: 'all',
+    disablePreflight: false,
   });
-  const cssContent = stylesheet.css;
+  const cssContent = stylesheet.cssTemplate;
   const outFile = `${outDir}/index.css`;
   const formattedContent = await prettier.format(cssContent, {
     parser: 'css',

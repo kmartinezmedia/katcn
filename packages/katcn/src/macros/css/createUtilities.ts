@@ -1,10 +1,33 @@
 import fixtures from '../../fixtures';
-import { fromEntries } from '../../helpers';
+import { flattenObj, fromEntries, mapValues } from '../../helpers';
 import { cssEscape } from '../../helpers/cssEscape';
 import type { Height, Width } from '../../types';
 
+function createColors(prop: string | string[]) {
+  return flattenObj(
+    fromEntries(
+      fixtures.hues.map((hue) => {
+        const hueObj = fromEntries(
+          fixtures.hueSteps.map((step) => {
+            return [
+              step,
+              typeof prop === 'string'
+                ? `{ ${prop}: var(--katcn-color-${hue}-${step}); }`
+                : `{ ${prop
+                    .map((p) => `${p}: var(--katcn-color-${hue}-${step});`)
+                    .join(' ')} }`,
+            ] as const;
+          }),
+        );
+        return [hue, hueObj];
+      }),
+    ),
+  );
+}
+
 export function createUtilities() {
   const backgroundColor = {
+    ...createColors('background-color'),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -20,6 +43,7 @@ export function createUtilities() {
   };
 
   const color = {
+    ...createColors('color'),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -35,6 +59,7 @@ export function createUtilities() {
   };
 
   const borderColor = {
+    ...createColors('border-color'),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -50,6 +75,7 @@ export function createUtilities() {
   };
 
   const borderTopColor = {
+    ...createColors('border-top-color'),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -65,6 +91,7 @@ export function createUtilities() {
   };
 
   const borderBottomColor = {
+    ...createColors('border-bottom-color'),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -80,6 +107,7 @@ export function createUtilities() {
   };
 
   const borderStartColor = {
+    ...createColors('border-inline-start-color'),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -95,6 +123,7 @@ export function createUtilities() {
   };
 
   const borderEndColor = {
+    ...createColors('border-inline-end-color'),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -110,6 +139,7 @@ export function createUtilities() {
   };
 
   const borderHorizontalColor = {
+    ...createColors(['border-left-color', 'border-right-color']),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -125,6 +155,7 @@ export function createUtilities() {
   };
 
   const borderVerticalColor = {
+    ...createColors(['border-top-color', 'border-bottom-color']),
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
@@ -339,6 +370,12 @@ export function createUtilities() {
     'max-content': 'max-content',
     'fit-content': 'fit-content',
     unset: 'unset',
+    ...fromEntries(
+      fixtures.spacingAlias.map((alias) => [
+        alias,
+        `var(--katcn-${cssEscape(`spacing-${alias}`)});`,
+      ]),
+    ),
   };
 
   const height = fromEntries(
@@ -363,6 +400,71 @@ export function createUtilities() {
   );
 
   const widthLookup: { [key in Width]: string } = {
+    '1/2': '50%',
+    '2/2': '100%',
+    '1/3': '33.33%',
+    '2/3': '66.67%',
+    '3/3': '100%',
+    '1/4': '25%',
+    '2/4': '50%',
+    '3/4': '75%',
+    '4/4': '100%',
+    '1/5': '20%',
+    '2/5': '40%',
+    '3/5': '60%',
+    '4/5': '80%',
+    '5/5': '100%',
+    '1/6': '16.67%',
+    '2/6': '33.33%',
+    '3/6': '50%',
+    '4/6': '66.67%',
+    '5/6': '83.33%',
+    '6/6': '100%',
+    '1/7': '14.29%',
+    '2/7': '28.57%',
+    '3/7': '42.86%',
+    '4/7': '57.14%',
+    '5/7': '71.43%',
+    '6/7': '85.71%',
+    '7/7': '100%',
+    '1/8': '12.5%',
+    '2/8': '25%',
+    '3/8': '37.5%',
+    '4/8': '50%',
+    '5/8': '62.5%',
+    '6/8': '75%',
+    '7/8': '87.5%',
+    '8/8': '100%',
+    '1/9': '11.11%',
+    '2/9': '22.22%',
+    '3/9': '33.33%',
+    '4/9': '44.44%',
+    '5/9': '55.56%',
+    '6/9': '66.67%',
+    '7/9': '77.78%',
+    '8/9': '88.89%',
+    '9/9': '100%',
+    '1/10': '10%',
+    '2/10': '20%',
+    '3/10': '30%',
+    '4/10': '40%',
+    '5/10': '50%',
+    '6/10': '60%',
+    '7/10': '70%',
+    '8/10': '80%',
+    '9/10': '90%',
+    '10/10': '100%',
+    '1/11': '9.09%',
+    '2/11': '18.18%',
+    '3/11': '27.27%',
+    '4/11': '36.36%',
+    '5/11': '45.45%',
+    '6/11': '54.55%',
+    '7/11': '63.64%',
+    '8/11': '72.73%',
+    '9/11': '81.82%',
+    '10/11': '90.91%',
+    '11/11': '100%',
     '1/12': '8.3%',
     '2/12': '16.7%',
     '3/12': '25%',
@@ -382,6 +484,12 @@ export function createUtilities() {
     half: '50%',
     full: '100%',
     unset: 'unset',
+    ...fromEntries(
+      fixtures.spacingAlias.map((alias) => [
+        alias,
+        `var(--katcn-${cssEscape(`spacing-${alias}`)});`,
+      ]),
+    ),
   };
 
   const width = fromEntries(

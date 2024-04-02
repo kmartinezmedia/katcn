@@ -1,14 +1,11 @@
 'use server';
 
+import { Slider } from '@/ui/slider';
 import { Box, HStack, Text, VStack } from 'katcn';
 import fixtures from 'katcn/fixtures';
-import { getColorRamps } from 'katcn/macros/color/getColorRamps';
 import type { Hue } from 'katcn/types';
 
-const colorRamps = getColorRamps();
-
 function Ramp({ hue }: { hue: Hue }) {
-  const values = colorRamps[hue];
   return (
     <VStack>
       <Text
@@ -19,16 +16,16 @@ function Ramp({ hue }: { hue: Hue }) {
         {hue}
       </Text>
       <VStack borderRadius="xl" overflow="hidden">
-        {values.map((value, index) => (
+        {fixtures.hueSteps.map((step, index) => (
           <HStack
-            key={value}
+            key={step}
             spacingY="3"
             spacingX="6"
             justifyContent="between"
             alignItems="center"
+            backgroundColor={`${hue}-${step}`}
             style={{
               width: 221,
-              background: `var(${value})`,
             }}
           >
             <Text variant="label1" color={index >= 8 ? 'on-color' : 'primary'}>
@@ -44,12 +41,26 @@ function Ramp({ hue }: { hue: Hue }) {
   );
 }
 
+// function Sliders() {
+//   return (
+//     <VStack gap="6">
+//       {fixtures.hueSteps.map((step) => (
+//         <Ramp key={hue} hue={hue} />
+//       ))}
+//     </VStack>
+//   );
+
+// }
+
 export default async function Home() {
   return (
-    <Box direction="horizontal" wrap="allow" gapX="8" gapY="8" spacing="8">
-      {fixtures.hues.map((hue) => (
-        <Ramp key={hue} hue={hue} />
-      ))}
-    </Box>
+    <VStack>
+      {/* <Slider /> */}
+      <Box direction="horizontal" wrap="allow" gapX="8" gapY="8" spacing="8">
+        {fixtures.hues.map((hue) => (
+          <Ramp key={hue} hue={hue} />
+        ))}
+      </Box>
+    </VStack>
   );
 }

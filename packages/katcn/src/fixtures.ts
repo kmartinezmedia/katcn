@@ -1,6 +1,3 @@
-import { getColorRamps } from './macros/color/getColorRamps' with {
-  type: 'macro',
-};
 import { typesToConstants } from './macros/tsmorph/typesToConstants' with {
   type: 'macro',
 };
@@ -25,6 +22,7 @@ import type {
   ForegroundPaletteAlias,
   Height,
   Hue,
+  HueStep,
   IconSize,
   JustifyContent,
   LineHeight,
@@ -40,6 +38,7 @@ import type {
   PlaceSelf,
   Position,
   SpacingAlias,
+  StyleProp,
   TextAlign,
   TextTransform,
   TextVariant,
@@ -48,7 +47,14 @@ import type {
 
 export default {
   hues: typesToConstants<Hue>('Hue'),
-  colorRamps: getColorRamps(),
+  hueSteps: typesToConstants<HueStep>('HueStep'),
+  get colors() {
+    return this.hues.flatMap((hue) => {
+      return this.hueSteps.map((step) => {
+        return `${hue}-${step}` as const;
+      });
+    });
+  },
   palette: {
     background: typesToConstants<BackgroundPaletteAlias>(
       'BackgroundPaletteAlias',
@@ -96,4 +102,5 @@ export default {
   textAlign: typesToConstants<TextAlign>('TextAlign'),
   iconSize: typesToConstants<IconSize>('IconSize'),
   avatarSize: typesToConstants<AvatarSize>('AvatarSize'),
+  styleProp: typesToConstants<StyleProp>('StyleProp'),
 };

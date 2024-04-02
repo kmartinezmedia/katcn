@@ -46,7 +46,7 @@ class Database {
     const data = transformSourceFile({
       sourceFile: sourceFile,
       removeImports: true,
-      includePreflightCss: false,
+      disablePreflight: true,
     });
     return data;
   }

@@ -197,8 +197,6 @@ export interface BackgroundStyleProps {
   backgroundColorOnChecked?: BackgroundColor;
   /** Utility for controlling an element's background color on hover. */
   backgroundColorOnHover?: BackgroundColor;
-  /** Determines box shadow styles. Parent should have overflow set to visible to ensure styles are not clipped. */
-  // elevation?: Elevation;
 }
 
 export type CustomSizingStyleProps = {
@@ -206,18 +204,23 @@ export type CustomSizingStyleProps = {
   avatarSize?: AvatarSize;
 };
 
-export type StyleProps = Partial<
-  BackgroundStyleProps &
-    BorderStyleProps &
-    LayoutStyleProps &
-    FlexStyleProps &
-    SpacingStyleProps &
-    TextStyleProps &
-    OpacityStyleProps &
-    SizingStyleProps &
-    ImageStyleProps &
-    CustomSizingStyleProps
->;
+export interface StyleProps
+  extends Partial<
+    BackgroundStyleProps &
+      BorderStyleProps &
+      LayoutStyleProps &
+      FlexStyleProps &
+      SpacingStyleProps &
+      TextStyleProps &
+      OpacityStyleProps &
+      SizingStyleProps &
+      ImageStyleProps &
+      CustomSizingStyleProps
+  > {
+  className?: string;
+}
+
+export type StyleProp = keyof StyleProps;
 
 /* -------------------------------------------------------------------------- */
 /*                          UNIVERSAL COMPONENT PROPS                         */
@@ -320,9 +323,7 @@ export interface UniversalTextInputProps
 /* -------------------------------------------------------------------------- */
 // https://uicolors.app/browse/tailwind-colors
 export type PaletteType = 'core' | 'background' | 'foreground' | 'line';
-
 export type PaletteValue = { hue: Hue; step: HueStep; opacity?: string };
-
 export type Palette = { [key in PaletteType]: keyof PaletteConfig[key] };
 
 export type Hue =
@@ -365,6 +366,8 @@ export type HueStep =
   | 14
   | 15;
 
+export type Color = `${Hue}-${HueStep}`;
+
 export type CorePaletteAlias =
   | 'accent'
   | 'alert'
@@ -375,9 +378,6 @@ export type CorePalette = Record<CorePaletteAlias, PaletteValue>;
 
 export type BackgroundPaletteAlias = 'primary' | 'secondary';
 export type BackgroundPalette = Record<BackgroundPaletteAlias, PaletteValue>;
-
-export type ElevationPaletteAlias = '1' | '2' | '3';
-export type ElevationPalette = Record<ElevationPaletteAlias, PaletteValue>;
 export type ForegroundPaletteAlias =
   | 'primary'
   | 'secondary'
@@ -393,16 +393,19 @@ export type AlwaysPaletteAlias = 'white' | 'black' | 'transparent';
 /* ----------------------------- SEMANTIC COLORS ---------------------------- */
 
 export type ForegroundColor =
+  | Color
   | CorePaletteAlias
   | ForegroundPaletteAlias
   | AlwaysPaletteAlias;
 
 export type LineColor =
+  | Color
   | CorePaletteAlias
   | LinePaletteAlias
   | AlwaysPaletteAlias;
 
 export type BackgroundColor =
+  | Color
   | CorePaletteAlias
   | BackgroundPaletteAlias
   | AlwaysPaletteAlias;
@@ -449,7 +452,6 @@ export type FontWeightNumeric =
   | '700'
   | '800'
   | '900';
-
 export type FontWeightDescriptive =
   | 'thin'
   | 'extralight'
@@ -474,18 +476,6 @@ export type LetterSpacing =
   | 'wider'
   | 'widest';
 export type LineClampAlias = '1' | '2' | '3' | '4' | '5' | '6';
-
-export type TextTransformConfig = Record<TextVariant, TextTransformDescriptive>;
-export type FontSizeConfig = Record<TextVariant, number>;
-export type FontFamilyConfig = Record<TextVariant, FontFamilyGlobalAlias>;
-export type FontWeightConfig = Record<TextVariant, FontWeightDescriptive>;
-export type LineHeightConfig = Record<TextVariant, number>;
-export type ConfigurableTextProperty =
-  | 'fontFamily'
-  | 'fontSize'
-  | 'fontWeight'
-  | 'lineHeight'
-  | 'textTransform';
 
 export type FontSize = TextVariant;
 export type FontWeight = TextVariant | FontWeightDescriptive;
@@ -562,9 +552,6 @@ export type ZIndexConfig = Record<ZIndex, string>;
 export type BorderRadius = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 export type BorderRadiusConfig = Record<BorderRadius, number>;
 
-export type Elevation = ElevationPaletteAlias;
-export type ElevationConfig = Record<Elevation, BoxShadowConfig>;
-
 export type BorderWidth = 'none' | 'thin' | 'medium' | 'thick';
 export type BorderWidthConfig = Record<BorderWidth, number>;
 
@@ -596,99 +583,48 @@ export type Opacity =
 /* -------------------------------------------------------------------------- */
 /*                                   CONFIG                                   */
 /* -------------------------------------------------------------------------- */
-export type ColorModeConfig = {
-  light: ColorsConfig;
-  dark: ColorsConfig;
-};
-
-export type ColorsConfig = {
-  palette: PaletteConfig;
-  spectrum: SpectrumConfig;
-};
-
-export type SpectrumConfig = Record<Hue, number>;
+export type HuesConfig = Record<Hue, number>;
+export type HuesLightnessConfig = Record<HueStep, `${number}%`>;
+export type HuesChromaConfig = Record<HueStep, number>;
 export type PaletteTypeConfig = Record<string, PaletteValue>;
 export type PaletteConfig = Record<PaletteType, PaletteTypeConfig>;
+export type TypographyConfig = Record<
+  TextVariant,
+  {
+    fontSize: number;
+    /** @default regular */
+    fontWeight?: FontWeightDescriptive;
+    /** @default sans */
+    fontFamily?: FontFamilyGlobalAlias;
+    lineHeight: number;
+    /** @default none applied */
+    textTransform?: TextTransformDescriptive;
+  }
+>;
 
-export type ScaleConfig = {
+export type UniversalTokensConfig = {
+  palette: PaletteConfig;
+  hues: HuesConfig;
+  huesLightness: HuesLightnessConfig;
+  huesChroma: Record<HueStep, number>;
+  fontFamily: FontFamilyGlobalConfig;
   avatarSizes: AvatarSizeConfig;
   iconSizes: IconSizeConfig;
   borderRadius: BorderRadiusConfig;
   borderWidth: BorderWidthConfig;
-  fontFamily: FontFamilyConfig;
-  fontSize: FontSizeConfig;
-  fontWeight: FontWeightConfig;
-  lineHeight: LineHeightConfig;
-  textTransform: TextTransformConfig;
-};
-
-export type ScaleModeConfig = {
-  xSmall: ScaleConfig;
-  small: ScaleConfig;
-  medium: ScaleConfig;
-  large: ScaleConfig;
-  xLarge: ScaleConfig;
-  xxLarge: ScaleConfig;
-  xxxLarge: ScaleConfig;
-};
-
-export type UniversalTokensConfig = {
-  colorMode: ColorModeConfig;
-  scaleMode: ScaleModeConfig;
-  fontFamily: FontFamilyGlobalConfig;
+  typography: TypographyConfig;
+  spacing: SpacingConfig;
+  zIndex: ZIndexConfig;
 };
 
 /* -------------------------------------------------------------------------- */
 /*                                    MODES                                   */
 /* -------------------------------------------------------------------------- */
-export type PlatformMode = 'web' | 'ios' | 'android';
-
-export type ColorMode = keyof ColorModeConfig;
+export type ColorMode = 'light' | 'dark';
 export type ColorModeForApp = ColorMode | 'system';
-
-export type ScaleMode = keyof ScaleModeConfig;
-export type ScaleModeForApp = ScaleMode | 'system';
-
+export type PlatformMode = 'web' | 'ios' | 'android';
 export type HighContrastMode = boolean;
 export type RegionMode = '🇺🇸 US' | '🇩🇪 DE' | '🇫🇷 FR' | '🇨🇳 CN';
-
-export interface Modes {
-  colorMode: ColorMode;
-  scaleMode: ScaleMode;
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                   MOTION                                   */
-/* -------------------------------------------------------------------------- */
-export type Animation =
-  | 'none'
-  | 'spin'
-  | 'ping'
-  | 'pulse'
-  | 'bounce'
-  | 'accordion-down'
-  | 'accordion-up';
-export type TransitionDelay =
-  | '0'
-  | '75'
-  | '100'
-  | '150'
-  | '200'
-  | '300'
-  | '500'
-  | '700'
-  | '1000';
-export type TransitionDuration =
-  | '0'
-  | '75'
-  | '100'
-  | '150'
-  | '200'
-  | '300'
-  | '500'
-  | '700'
-  | '1000';
-export type TransitionTiming = 'linear' | 'in' | 'out' | 'in-out';
 
 /* -------------------------------------------------------------------------- */
 /*                                    FLEX                                    */
@@ -747,16 +683,28 @@ export type Height =
   | '100vh'
   | `${'min' | 'max' | 'fit'}-content`
   | 'unset'
+  | SpacingAlias
   | number;
 export type MaxHeight = Height;
 export type MinHeight = Height;
 export type Width =
+  | `${1 | 2}/2`
+  | `${1 | 2 | 3}/3`
+  | `${1 | 2 | 3 | 4}/4`
+  | `${1 | 2 | 3 | 4 | 5}/5`
+  | `${1 | 2 | 3 | 4 | 5 | 6}/6`
+  | `${1 | 2 | 3 | 4 | 5 | 6 | 7}/7`
+  | `${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8}/8`
+  | `${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}/9`
+  | `${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}/10`
+  | `${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11}/11`
   | `${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12}/12`
   | `${'min' | 'max' | 'fit'}-content`
   | 'unset'
   | '100vw'
   | 'half'
   | 'full'
+  | SpacingAlias
   | number;
 export type MinWidth = Width;
 export type MaxWidth = Width;

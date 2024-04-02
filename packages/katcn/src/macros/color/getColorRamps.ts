@@ -2,22 +2,22 @@ import type { Hue } from '../../types';
 
 export function createColorRamp(hue: Hue) {
   return [
-    `--katcn-color-${hue}-0`,
-    `--katcn-color-${hue}-1`,
-    `--katcn-color-${hue}-2`,
-    `--katcn-color-${hue}-3`,
-    `--katcn-color-${hue}-4`,
-    `--katcn-color-${hue}-5`,
-    `--katcn-color-${hue}-6`,
-    `--katcn-color-${hue}-7`,
-    `--katcn-color-${hue}-8`,
-    `--katcn-color-${hue}-9`,
-    `--katcn-color-${hue}-10`,
-    `--katcn-color-${hue}-11`,
-    `--katcn-color-${hue}-12`,
-    `--katcn-color-${hue}-13`,
-    `--katcn-color-${hue}-14`,
-    `--katcn-color-${hue}-15`,
+    `${hue}-0`,
+    `${hue}-1`,
+    `${hue}-2`,
+    `${hue}-3`,
+    `${hue}-4`,
+    `${hue}-5`,
+    `${hue}-6`,
+    `${hue}-7`,
+    `${hue}-8`,
+    `${hue}-9`,
+    `${hue}-10`,
+    `${hue}-11`,
+    `${hue}-12`,
+    `${hue}-13`,
+    `${hue}-14`,
+    `${hue}-15`,
   ];
 }
 
