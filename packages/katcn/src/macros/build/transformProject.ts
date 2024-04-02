@@ -1,7 +1,7 @@
 import type { Project } from 'ts-morph';
 import { defaultTokensConfig } from '../../tokens';
 import type { UniversalTokensConfig } from '../../types';
-import { KatcnStyleSheet, type KatcnStyleSheetOpts } from '../css/stylesheet';
+import { KatcnStyleSheet } from '../css/stylesheet';
 import { transformSourceFile } from './transformSourceFile';
 import {
   type OnSourceFileChange,
@@ -14,8 +14,6 @@ interface TransformOptions {
   outFile?: string;
   watch?: boolean;
   disablePreflight?: boolean;
-  scaleMode?: KatcnStyleSheetOpts['scaleMode'];
-  colorMode?: KatcnStyleSheetOpts['colorMode'];
 }
 
 export async function transformProject({
@@ -24,15 +22,11 @@ export async function transformProject({
   outFile,
   watch: shouldWatch = false,
   disablePreflight = false,
-  scaleMode = 'all',
-  colorMode = 'all',
 }: TransformOptions) {
   const sourceFiles = project.getSourceFiles('**/*.tsx');
   const stylesheet = new KatcnStyleSheet({
     config,
     disablePreflight,
-    scaleMode,
-    colorMode,
   });
 
   const onChange: OnSourceFileChange = async (sFile) => {

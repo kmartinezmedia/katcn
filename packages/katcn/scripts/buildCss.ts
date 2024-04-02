@@ -8,8 +8,6 @@ const outDir = `${Bun.env.PWD}/dist`;
 async function writeCss() {
   const stylesheet = new KatcnStyleSheet({
     config: defaultTokensConfig,
-    colorMode: 'all',
-    scaleMode: 'all',
     disablePreflight: false,
   });
   const cssContent = stylesheet.cssTemplate;

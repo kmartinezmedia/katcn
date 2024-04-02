@@ -20,7 +20,6 @@ describe('transformTsx', () => {
           borderWidth: 'thick',
           borderColor: 'warning',
           backgroundColor: 'accent-wash',
-          elevation: '1',
         });
 
         return (
@@ -48,7 +47,6 @@ describe('transformTsx', () => {
         borderWidth: 'thick',
         borderColor: 'warning',
         backgroundColor: 'accent-wash',
-        elevation: '1',
       });
 
       return (

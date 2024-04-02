@@ -1,10 +1,9 @@
 import { cssEscape, entries, flattenObj } from '../../helpers';
 import { defaultTokensConfig } from '../../tokens';
-import type { ColorMode, ScaleMode, UniversalTokensConfig } from '../../types';
+import type { ColorMode, UniversalTokensConfig } from '../../types';
 import { CSS_VAR_PREFIX } from './consts';
-import { createDefaultTheme } from './createDefaultTheme';
-import { createPreflight } from './createPreflight';
 import { createTheme } from './createTheme';
+import { createPreflight } from './createPreflight';
 import { createUtilities } from './createUtilities';
 
 import {
@@ -22,8 +21,6 @@ type StyleMap = Record<string, string | Record<string, string>>;
 export interface KatcnStyleSheetOpts {
   disablePreflight: boolean;
   config: UniversalTokensConfig;
-  scaleMode?: ScaleMode[] | 'all';
-  colorMode?: ColorMode[] | 'all';
 }
 
 function processLayer(layer: Set<string>) {
@@ -58,26 +55,10 @@ export class KatcnStyleSheet {
   public varsToKeep = new Set<string>();
 
   public base = new Set<string>();
-  public defaultTheme = new Set<string>();
+  public theme = new Set<string>();
   public utilities = new Set<string>();
 
-  public theme = {
-    colorMode: {
-      light: this.base,
-      dark: new Set<string>(),
-    },
-    scaleMode: {
-      xSmall: new Set<string>(),
-      small: new Set<string>(),
-      medium: new Set<string>(),
-      large: this.base,
-      xLarge: new Set<string>(),
-      xxLarge: new Set<string>(),
-      xxxLarge: new Set<string>(),
-    },
-  };
-  private addDefaultThemeVars = this.addVarsToLayer(this.defaultTheme);
-  private addBaseVars = this.addVarsToLayer(this.base);
+  private addThemeVars = this.addVarsToLayer(this.theme);
   private addUtilClasses = this.addClassesToLayer(this.utilities);
 
   constructor(public opts: KatcnStyleSheetOpts) {
@@ -89,34 +70,7 @@ export class KatcnStyleSheet {
       this.base.add(createPreflight());
     }
 
-    this.addDefaultThemeVars(flattenObj(createDefaultTheme(this.config)));
-
-    switch (this.opts.scaleMode) {
-      case 'all':
-        this.addScaleMode('xSmall');
-        this.addScaleMode('small');
-        this.addScaleMode('medium');
-        this.addScaleMode('xLarge');
-        this.addScaleMode('xxLarge');
-        this.addScaleMode('xxxLarge');
-        break;
-      default:
-        for (const scaleMode of this.opts.scaleMode ?? []) {
-          this.addScaleMode(scaleMode);
-        }
-    }
-
-    switch (this.opts.colorMode) {
-      case 'all':
-        this.addColorMode('dark');
-        break;
-      default: {
-        for (const colorMode of this.opts.colorMode ?? []) {
-          this.addColorMode(colorMode);
-        }
-      }
-    }
-
+    this.addThemeVars(flattenObj(createTheme(this.config)));
     this.addUtilClasses(this.utilClasses);
   }
 
@@ -195,26 +149,6 @@ export class KatcnStyleSheet {
     };
   }
 
-  hasColorMode(mode: ColorMode) {
-    return this.opts.colorMode === 'all' || this.opts.colorMode?.includes(mode);
-  }
-
-  hasScaleMode(mode: ScaleMode) {
-    return this.opts.scaleMode === 'all' || this.opts.scaleMode?.includes(mode);
-  }
-
-  addColorMode(colorMode: ColorMode) {
-    const addThemeVars = this.addVarsToLayer(this.theme.colorMode[colorMode]);
-    const theme = flattenObj(createTheme({ colorMode, config: this.config }));
-    addThemeVars(theme);
-  }
-
-  addScaleMode(scaleMode: ScaleMode) {
-    const addThemeVars = this.addVarsToLayer(this.theme.scaleMode[scaleMode]);
-    const theme = flattenObj(createTheme({ scaleMode, config: this.config }));
-    addThemeVars(theme);
-  }
-
   get cssTemplate() {
     return `
       @layer base {
@@ -223,56 +157,7 @@ export class KatcnStyleSheet {
 
       @layer theme {
         :where(html) {
-          ${processLayer(this.defaultTheme)}
-        }
-        ${
-          this.hasColorMode('dark')
-            ? `[data-theme='dark'] {
-            ${processLayer(this.theme.colorMode.dark)}
-          }`
-            : ''
-        }
-        ${
-          this.hasScaleMode('xSmall')
-            ? `[data-scale='xSmall'] { ${processLayer(
-                this.theme.scaleMode.xSmall,
-              )} }`
-            : ''
-        }
-        ${
-          this.hasScaleMode('small')
-            ? `[data-scale='small'] { ${processLayer(
-                this.theme.scaleMode.small,
-              )} }`
-            : ''
-        }
-        ${
-          this.hasScaleMode('medium')
-            ? `[data-scale='medium'] { ${processLayer(
-                this.theme.scaleMode.medium,
-              )} }`
-            : ''
-        }
-        ${
-          this.hasScaleMode('xLarge')
-            ? `[data-scale='xLarge'] { ${processLayer(
-                this.theme.scaleMode.xLarge,
-              )} }`
-            : ''
-        }
-        ${
-          this.hasScaleMode('xxLarge')
-            ? `[data-scale='xxLarge'] { ${processLayer(
-                this.theme.scaleMode.xxLarge,
-              )} }`
-            : ''
-        }
-        ${
-          this.hasScaleMode('xxxLarge')
-            ? `[data-scale='xxxLarge'] { ${processLayer(
-                this.theme.scaleMode.xxxLarge,
-              )} }`
-            : ''
+          ${processLayer(this.theme)}
         }
       }
 

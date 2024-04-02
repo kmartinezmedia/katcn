@@ -370,6 +370,12 @@ export function createUtilities() {
     'max-content': 'max-content',
     'fit-content': 'fit-content',
     unset: 'unset',
+    ...fromEntries(
+      fixtures.spacingAlias.map((alias) => [
+        alias,
+        `var(--katcn-${cssEscape(`spacing-${alias}`)});`,
+      ]),
+    ),
   };
 
   const height = fromEntries(
@@ -413,6 +419,12 @@ export function createUtilities() {
     half: '50%',
     full: '100%',
     unset: 'unset',
+    ...fromEntries(
+      fixtures.spacingAlias.map((alias) => [
+        alias,
+        `var(--katcn-${cssEscape(`spacing-${alias}`)});`,
+      ]),
+    ),
   };
 
   const width = fromEntries(
