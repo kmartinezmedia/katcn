@@ -38,6 +38,24 @@ describe('transformTsx', () => {
     const data = transformTsx(sourceFile);
     expect(data).toBeDefined();
   });
+
+  it.only('Should handle arbitrary values', () => {
+    const testCode = `
+    import { VStack } from 'katcn';
+
+    function Example() {
+      return (
+        <VStack backgroundColor="alert" height={120} width={120} />
+      )
+    }
+  `;
+    const sourceFile = createSourceFile(testCode);
+    const data = transformTsx(sourceFile);
+    const { classNamesToAdd } = data;
+    expect(classNamesToAdd).toContain('height-[120px]');
+    expect(classNamesToAdd).toContain('width-[120px]');
+  });
+
   it('Should handle ConditionalExpression', () => {
     const testCode = `
     import { VStack, Text, Icon, getStyles } from 'katcn';

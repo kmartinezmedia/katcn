@@ -62,16 +62,9 @@ export class KatcnStyleSheet {
   private addUtilClasses = this.addClassesToLayer(this.utilities);
 
   constructor(public opts: KatcnStyleSheetOpts) {
-    if (opts.config) {
-      this.config = opts.config;
+    if (this.opts.config) {
+      this.config = this.opts.config;
     }
-
-    if (!opts?.disablePreflight) {
-      this.base.add(createPreflight());
-    }
-
-    this.addThemeVars(flattenObj(createTheme(this.config)));
-    this.addUtilClasses(this.utilClasses);
   }
 
   get allClassNamesToKeep() {
@@ -242,6 +235,15 @@ export class KatcnStyleSheet {
   }
 
   get css() {
+    /**
+     * TODO: make base, theme, and utilities getters which return their css output for their layer
+     */
+    if (!this.opts?.disablePreflight) {
+      this.base.add(createPreflight());
+    }
+    this.addThemeVars(flattenObj(createTheme(this.config)));
+    this.addUtilClasses(this.utilClasses);
+
     /** Lightning css to purge final stylesheet */
     // use safelist to keep classes only the used classnames
     transform({

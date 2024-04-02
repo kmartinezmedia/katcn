@@ -47,7 +47,6 @@ class Database {
       sourceFile: sourceFile,
       removeImports: true,
       disablePreflight: true,
-      disableTreeshake: true,
     });
     return data;
   }
