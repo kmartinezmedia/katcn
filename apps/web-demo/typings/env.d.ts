@@ -1,7 +1,7 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      SOCKET_URL: string;
+      NEXT_SOCKET_URL: string;
     }
   }
 }
