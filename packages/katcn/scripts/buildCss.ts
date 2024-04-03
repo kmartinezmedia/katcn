@@ -1,6 +1,6 @@
 import { KatcnStyleSheet } from 'katcn/macros';
-import { defaultTokensConfig } from '../src/tokens';
 import prettier from 'prettier';
+import { defaultTokensConfig } from '../src/tokens';
 import { createWatcher } from './_createWatcher';
 
 const outDir = `${Bun.env.PWD}/dist`;

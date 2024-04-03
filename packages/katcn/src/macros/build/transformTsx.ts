@@ -1,12 +1,12 @@
 import {
+  type Expression,
   type JsxAttribute,
   type JsxOpeningElement,
   type JsxSelfClosingElement,
+  type Node,
   type SourceFile,
   SyntaxKind,
-  type Node,
   type VariableDeclaration,
-  type Expression,
   type ts,
 } from 'ts-morph';
 import { extractStyleProps, getStyles } from '../../getStyles';

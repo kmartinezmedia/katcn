@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, HStack, VStack, Text } from 'katcn';
+import { Box, HStack, Text, VStack } from 'katcn';
 
 import {
   motion,
@@ -8,8 +8,8 @@ import {
   useMotionValue,
   useTransform,
 } from 'framer-motion';
-import { useRef, useState } from 'react';
 import { interpolate } from 'katcn/helpers';
+import { useRef, useState } from 'react';
 
 interface SliderProps {
   min: number;

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { KatcnStyleSheet } from './stylesheet';
 import { defaultTokensConfig } from '../../tokens';
+import { KatcnStyleSheet } from './stylesheet';
 
 describe('KatcnStyleSheet', () => {
   it('should include preflight', () => {

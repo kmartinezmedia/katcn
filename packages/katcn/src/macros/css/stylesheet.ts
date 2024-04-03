@@ -11,8 +11,8 @@ import {
   composeVisitors,
   transform,
 } from 'lightningcss';
-import { getClassnameDeclarations } from './utils';
 import { defaultTokensConfig } from '../../tokens';
+import { getClassnameDeclarations } from './utils';
 
 const decoder = new TextDecoder();
 
