@@ -1,16 +1,14 @@
 'use client';
 
-import { Box, Text, VStack } from 'katcn';
+import { Box, HStack, VStack, Text } from 'katcn';
 
 import {
-  animate,
   motion,
   useDragControls,
-  useMotionTemplate,
   useMotionValue,
   useTransform,
 } from 'framer-motion';
-import { type PointerEventHandler, useRef } from 'react';
+import { useRef, useState } from 'react';
 import { interpolate } from 'katcn/helpers';
 
 interface SliderProps {
@@ -19,6 +17,7 @@ interface SliderProps {
   step?: number;
   initialValue: number;
   formatValue?: (val: number) => string;
+  startLabel?: string;
 }
 
 export function Slider({
@@ -26,79 +25,123 @@ export function Slider({
   max,
   step = 1,
   initialValue,
+  startLabel,
   formatValue = (val: number) => `${val}`,
 }: SliderProps) {
-  const handleSize = 40;
+  const knobSize = 20;
+  const halfHandleSize = 10;
   const sliderSize = 300;
   const sliderHeight = 8;
+  const knobActiveScale = 1.3;
   const progress = useMotionValue(initialValue);
+  const [value, setValue] = useState<number>(initialValue);
+  const [dragging, setDragging] = useState(false);
 
   const refs = {
     handle: useRef<HTMLDivElement | null>(null),
-    constraints: useRef<HTMLDivElement | null>(null),
+    container: useRef<HTMLDivElement | null>(null),
     progressBar: useRef<HTMLDivElement | null>(null),
   };
 
   const dragControls = useDragControls();
 
-  const snapToCursor: PointerEventHandler<HTMLDivElement> = (event) => {
-    dragControls.start(event, { snapToCursor: true });
+  const onDrag: React.ComponentProps<typeof motion.div>['onDrag'] = (
+    event,
+    info,
+  ) => {
+    const containerX = refs.container.current?.getBoundingClientRect().x ?? 0;
+    const progressValue = info.point.x - containerX - halfHandleSize;
+    progress.set(progressValue);
+    setValue(interpolate(progressValue, [0, sliderSize], [min, max]));
   };
 
-  const onDrag: React.ComponentProps<typeof motion.div>['onDrag'] = (event) => {
-    // dragControls.start(event, { snapToCursor: true });
-    // const relativeOffset = progress.set(event.clientX);
-  };
+  const left = useTransform(
+    progress,
+    // Map x from these values:
+    [0, sliderSize],
+    // Into these values:
+    [-sliderSize, 0],
+    { clamp: true },
+  );
 
   return (
     <VStack>
-      <VStack
-        data-test="slider"
-        position="relative"
-        justifyContent="center"
-        borderRadius="full"
-        backgroundColor="secondary"
-        width={sliderSize}
-        height={sliderHeight}
-      >
-        <Box
-          ref={refs.progressBar}
-          data-test="slider-progress"
-          position="absolute"
-          width="full"
-          height="full"
-          borderRadius="full"
-          backgroundColor="accent"
-          style={{ pointerEvents: 'none' }}
-        >
-          <motion.div style={{ x: progress }} />
-        </Box>
-        <Box
-          ref={refs.handle}
-          data-test="slider-handle"
+      <HStack alignItems="center" gap="6">
+        {startLabel && (
+          <Text variant="body1" width={20}>
+            {startLabel}
+          </Text>
+        )}
+        <VStack
+          data-test="slider"
           position="relative"
-          zIndex="10"
-          backgroundColor="accent"
+          justifyContent="center"
           borderRadius="full"
-          width={handleSize}
-          height={handleSize}
-          asChild
+          backgroundColor="secondary"
+          width={sliderSize}
+          height={sliderHeight}
+          ref={refs.container}
         >
-          <motion.div
-            drag="x"
-            dragMomentum={false}
-            dragControls={dragControls}
-            // onDrag={onDrag}
-            dragConstraints={{ left: 0, right: sliderSize }}
-            dragElastic={0}
-            whileHover={{ scale: 1.4 }}
-            whileDrag={{ scale: 1.4 }}
-          />
-        </Box>
-      </VStack>
-      {/* <Text variant="body1" asChild>
-        {formatValue(value)}
-      </Text> */}
+          <Box
+            height="full"
+            borderRadius="full"
+            overflow="hidden"
+            position="relative"
+          >
+            <Box
+              ref={refs.progressBar}
+              data-test="slider-progress"
+              position="absolute"
+              width="full"
+              height="full"
+              borderRadius="full"
+              backgroundColor="cyan-3"
+              style={{ pointerEvents: 'none' }}
+              asChild
+            >
+              <motion.div style={{ left }} />
+            </Box>
+          </Box>
+          <HStack
+            ref={refs.handle}
+            data-test="slider-handle"
+            position="absolute"
+            zIndex="10"
+            backgroundColor="cyan-5"
+            borderRadius="full"
+            width={knobSize}
+            height={knobSize}
+            asChild
+          >
+            <motion.div
+              drag="x"
+              dragMomentum={false}
+              dragControls={dragControls}
+              onDrag={onDrag}
+              dragElastic={0}
+              dragConstraints={{ left: 0, right: sliderSize - knobSize }}
+              onDragStart={() => setDragging(true)}
+              onDragEnd={() => setDragging(false)}
+              onPointerDown={() => setDragging(true)}
+              onPointerUp={() => setDragging(false)}
+              onHoverStart={() => setDragging(true)}
+              onHoverEnd={() => setDragging(false)}
+              animate={{
+                scale: dragging ? knobActiveScale : 1,
+              }}
+            />
+          </HStack>
+        </VStack>
+        <Text
+          variant="body1"
+          color="primary"
+          textAlign="start"
+          width={40}
+          overflow="hidden"
+        >
+          {formatValue(value)}
+        </Text>
+      </HStack>
     </VStack>
   );
 }

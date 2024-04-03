@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { createTsMorphProject } from '../tsmorph/createTsMorphProject';
 import { transformTsx } from './transformTsx';
+import { KatcnStyleSheet } from '../css/stylesheet';
 
 function createSourceFile(code: string) {
   const project = createTsMorphProject({
@@ -35,7 +36,10 @@ describe('transformTsx', () => {
       }
     `;
     const sourceFile = createSourceFile(testCode);
-    const data = transformTsx({ sourceFile });
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
     expect(data).toBeDefined();
   });
 
@@ -50,7 +54,10 @@ describe('transformTsx', () => {
     }
   `;
     const sourceFile = createSourceFile(testCode);
-    const data = transformTsx({ sourceFile });
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
     const classnames = data.stylesheet.classnames;
     expect(classnames).toContain('height-[120px]');
     expect(classnames).toContain('width-[120px]');
@@ -80,8 +87,14 @@ describe('transformTsx', () => {
     }
   `;
     const sourceFile = createSourceFile(testCode);
-    const data = transformTsx({ sourceFile });
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
     const classnames = data.stylesheet.classnames;
+    expect(classnames).toContain('borderWidth-thick');
+    expect(classnames).toContain('borderColor-warning');
+    expect(classnames).toContain('backgroundColor-accent-wash');
     expect(classnames).toContain('backgroundColor-accent');
     expect(classnames).toContain('backgroundColor-brand');
   });
@@ -139,7 +152,10 @@ describe('transformTsx', () => {
     testCode = testCode.replace('PLACEHOLDER', '`${hue}-${step}` as const');
 
     const sourceFile = createSourceFile(testCode);
-    const data = transformTsx({ sourceFile });
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
     const classnames = data.stylesheet.classnames;
     expect(classnames).toContain('backgroundColor-magenta-0');
   });
@@ -196,7 +212,10 @@ describe('transformTsx', () => {
     testCode = testCode.replace('PLACEHOLDER', '`${hue}-${step}` as const');
 
     const sourceFile = createSourceFile(testCode);
-    const data = transformTsx({ sourceFile });
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
     const classnames = data.stylesheet.classnames;
     expect(classnames).toContain('backgroundColor-magenta-0');
   });
@@ -209,7 +228,10 @@ describe('transformTsx', () => {
       }
     `;
     const sourceFile = createSourceFile(code);
-    const data = transformTsx({ sourceFile });
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
     expect(data.stylesheet.classnames.has('backgroundColor-accent')).toBeTrue();
   });
 
@@ -223,7 +245,11 @@ describe('transformTsx', () => {
       }
     `;
     const sourceFile = createSourceFile(code);
-    const data = transformTsx({ sourceFile });
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
+
     expect(data.stylesheet.classnames.has('backgroundColor-accent')).toBeTrue();
   });
 
@@ -236,22 +262,34 @@ describe('transformTsx', () => {
       }
     `;
     const sourceFile = createSourceFile(code);
-    const data = transformTsx({ sourceFile });
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
     expect(data.stylesheet.classnames.has('width-[100px]')).toBeTrue();
     expect(data.stylesheet.classnames.has('height-[200px]')).toBeTrue();
   });
 
   it('Should handle numeric dimensions as separate const', () => {
     const code = `
-      import { Box } from 'katcn';
+      import { Box, VStack } from 'katcn';
 
       function Example() {
         const height = 200;
-        return <Box width={100} height={height} />;
+        return (
+          <VStack>
+            <VStack>
+              <Box width={100} height={height} />
+            </VStack>
+          </VStack>
+        )
       }
     `;
     const sourceFile = createSourceFile(code);
-    const data = transformTsx({ sourceFile });
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
     expect(data.stylesheet.classnames.has('width-[100px]')).toBeTrue();
     expect(data.stylesheet.classnames.has('height-[200px]')).toBeTrue();
   });

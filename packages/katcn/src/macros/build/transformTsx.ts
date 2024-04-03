@@ -1,332 +1,365 @@
-/// <reference types="bun-types" />
-
-import { Transpiler } from 'bun';
 import {
-  type CallExpression,
+  type JsxAttribute,
+  type JsxOpeningElement,
+  type JsxSelfClosingElement,
   type SourceFile,
   SyntaxKind,
+  type Node,
+  type VariableDeclaration,
+  type Expression,
   type ts,
 } from 'ts-morph';
 import { extractStyleProps, getStyles } from '../../getStyles';
-import { KatcnStyleSheet } from '../css/stylesheet';
+import type { KatcnStyleSheet } from '../css/stylesheet';
 
 const varRegex = /--katcn-[^:,\s")]+/g;
 
-const transpiler = new Transpiler({
-  loader: 'tsx',
-  tsconfig: {
-    compilerOptions: {
-      jsx: 'react-jsx',
-      jsxImportSource: 'katcn',
-    },
-  },
-  autoImportJSX: false,
-  macro: {
-    'katcn/getStyles': {
-      getStyles: 'katcn/getStyles',
-    },
-    'katcn/macros/color/getColorRamps': {
-      getColorRamps: 'katcn/macros/color/getColorRamps',
-    },
-  },
-});
-
-function getCallExpressionName(
-  callExpression: CallExpression<ts.CallExpression>,
-) {
-  return callExpression.getFirstChildByKind(SyntaxKind.Identifier)?.getText();
-}
-
 interface GetPropsForExpressionOptions {
   sourceFile: SourceFile;
-  callExpression: CallExpression<ts.CallExpression>;
-  safelist: Set<string>;
+  jsxElement: JsxOpeningElement | JsxSelfClosingElement;
 }
 
-function getPropsForExpression({
-  sourceFile,
-  callExpression,
-  safelist,
-}: GetPropsForExpressionOptions) {
-  const fnName = getCallExpressionName(callExpression);
-  const parentFn = callExpression.getFirstAncestorByKind(
-    SyntaxKind.FunctionExpression,
-  );
-  const props = callExpression.getFirstChildByKind(
+function findVariableDeclaration(
+  variableName: string,
+  startNode: Node,
+): VariableDeclaration | undefined {
+  // Search within the current scope
+  let currentScope: Node | undefined = startNode;
+
+  while (currentScope) {
+    // Get all variable declarations in the current scope
+    const varDeclarations = currentScope.getDescendantsOfKind(
+      SyntaxKind.VariableDeclaration,
+    );
+
+    // Find a variable declaration that matches the variable name
+    const declaration = varDeclarations.find(
+      (decl) => decl.getName() === variableName,
+    );
+
+    if (declaration) {
+      return declaration; // Return the matching declaration
+    }
+
+    // Move up to the parent scope
+    currentScope = currentScope.getParent();
+  }
+
+  // If we reach here, no matching declaration was found in any of the parent scopes
+  return undefined;
+}
+
+function processExpression(
+  name: string,
+  expression: Expression<ts.Expression>,
+): Record<string, unknown> | undefined {
+  if (expression.isKind(SyntaxKind.StringLiteral)) {
+    return {
+      [name]: expression.getLiteralValue(),
+    };
+  }
+
+  if (expression.isKind(SyntaxKind.NumericLiteral)) {
+    const props = {
+      [name]: expression.getLiteralValue(),
+    };
+    return props;
+  }
+
+  if (expression.isKind(SyntaxKind.TrueKeyword)) {
+    return {
+      [name]: true,
+    };
+  }
+
+  if (expression.isKind(SyntaxKind.FalseKeyword)) {
+    return {
+      [name]: false,
+    };
+  }
+
+  if (expression.isKind(SyntaxKind.ConditionalExpression)) {
+    const expressionWhenTrue = expression
+      .getWhenTrue()
+      .asKind(SyntaxKind.StringLiteral);
+
+    if (expressionWhenTrue) {
+      const stringWhenTrue = expressionWhenTrue.getLiteralValue();
+      return { [name]: stringWhenTrue };
+    }
+
+    const expressionWhenFalse = expression
+      .getWhenFalse()
+      .asKind(SyntaxKind.StringLiteral);
+
+    if (expressionWhenFalse) {
+      const stringWhenFalse = expressionWhenFalse.getLiteralValue();
+      return {
+        [name]: stringWhenFalse,
+      };
+    }
+    // TODO: handle if conditional is not resolved
+  }
+}
+
+function processGetStyles(expression: Expression<ts.Expression>) {
+  // this is getStyles fn or something similar
+  const propsObjectLiteralExpression = expression.getFirstDescendantByKind(
     SyntaxKind.ObjectLiteralExpression,
   );
-  const propsObject = {} as Record<string, unknown>;
-  let extractedProps = {} as ReturnType<typeof extractStyleProps>;
-
-  if (props) {
-    const properties = props.getProperties();
-    for (const property of properties) {
-      if (property.isKind(SyntaxKind.PropertyAssignment)) {
-        const name = property.getName();
-        if (name === 'children') continue;
-
-        const value = property.getInitializer();
-        if (!value) continue;
-
-        if (value.isKind(SyntaxKind.StringLiteral)) {
-          propsObject[name] = value.getLiteralValue();
-        }
-
-        if (value.isKind(SyntaxKind.NumericLiteral)) {
-          propsObject[name] = value.getLiteralValue();
-        }
-
-        if (value.isKind(SyntaxKind.TrueKeyword)) {
-          propsObject[name] = true;
-        }
-
-        if (value.isKind(SyntaxKind.FalseKeyword)) {
-          propsObject[name] = false;
-        }
-
-        if (value.isKind(SyntaxKind.ConditionalExpression)) {
-          const valueWhenTrue = value
-            .getWhenTrue()
-            .asKind(SyntaxKind.StringLiteral);
-
-          if (valueWhenTrue) {
-            const stringWhenTrue = valueWhenTrue.getLiteralValue();
-            const classNameWhenTrue = getStyles({ [name]: stringWhenTrue });
-            safelist.add(classNameWhenTrue);
-          }
-
-          const valueWhenFalse = value
-            .getWhenFalse()
-            .asKind(SyntaxKind.StringLiteral);
-
-          if (valueWhenFalse) {
-            const stringWhenFalse = valueWhenFalse.getLiteralValue();
-            const classNameWhenFalse = getStyles({
-              [name]: stringWhenFalse,
-            });
-            safelist.add(classNameWhenFalse);
-          }
-          // TODO: handle if conditional is not resolved
-        }
-      }
-
-      /**
-       * Handle shorthand properties
-       * @example
-       *
-        import { Box } from 'katcn';
-
-        function Example1() {
-          return <Box backgroundColor="accent" />;
-        }
-
-        function Example2() {
-          const backgroundColor="accent";
-          return <Box backgroundColor={backgroundColor} />;
-        }
-
-        const backgroundColor="accent";
-        function Example3() {
-          return <Box backgroundColor={backgroundColor} />;
-        }
-       */
-      if (property.isKind(SyntaxKind.ShorthandPropertyAssignment)) {
-        const name = property.getName();
-        if (name === 'children') continue;
-        const valueDeclaration =
-          sourceFile.getVariableDeclaration(name) ??
-          // the var might be scoped to the parent function aka component
-          parentFn?.getVariableDeclaration(name);
-
-        if (valueDeclaration) {
-          const valueDeclarationInitializer = valueDeclaration.getInitializer();
-          if (!valueDeclarationInitializer) continue;
-
-          if (valueDeclarationInitializer.isKind(SyntaxKind.StringLiteral)) {
-            propsObject[name] = valueDeclarationInitializer.getLiteralValue();
-          }
-
-          if (valueDeclarationInitializer.isKind(SyntaxKind.NumericLiteral)) {
-            propsObject[name] = valueDeclarationInitializer.getLiteralValue();
-          }
-
-          if (valueDeclarationInitializer.isKind(SyntaxKind.TrueKeyword)) {
-            propsObject[name] = true;
-          }
-
-          if (valueDeclarationInitializer.isKind(SyntaxKind.FalseKeyword)) {
-            propsObject[name] = false;
-          }
-        }
+  const properties = propsObjectLiteralExpression?.getProperties();
+  if (!properties) return;
+  const props: Record<string, unknown> = {};
+  for (const prop of properties) {
+    if (prop.isKind(SyntaxKind.PropertyAssignment)) {
+      const propName = prop.getNameNode().getText();
+      const propValue = prop.getInitializer();
+      if (propValue?.isKind(SyntaxKind.StringLiteral)) {
+        props[propName] = propValue.getLiteralValue();
       }
     }
   }
 
-  if (fnName === 'getStyles') {
-    // TODO: Find where getStyles is applied and use that component name?
-    extractedProps.className = getStyles(propsObject);
-  } else {
-    /** Process component props, which are not in style props */
-    /**
-     * Process first arg of expression to see if we can process props
-     * @example
-     * jsx('div', { className: 'text-red-500' }) // not a component
-     * jsx(Text, { variant: 'body1' }) // component
-     */
-    const firstArg = callExpression.getArguments()[0];
-    const firstArgText = firstArg.getText();
-    if (firstArg.isKind(SyntaxKind.StringLiteral)) {
-      // this is a native html element i.e. 'body', 'div', etc
-      // TODO: extract className prop
-    } else {
-      // this is a component
-      const symbol = firstArg.getSymbol();
-      const declarations = symbol?.getDeclarations();
-      if (declarations) {
-        for (const declaration of declarations) {
-          const importDeclaration = declaration.getFirstAncestorByKind(
-            SyntaxKind.ImportDeclaration,
-          );
-          /**
-           * Only extract props from allowed packages.
-           * This is to avoid any performance issues by unnecessarily extracting props from all packages
-           */
-          if (importDeclaration) {
-            const importPath = importDeclaration.getModuleSpecifierValue();
-            // if katcn then go straight to extracting props
-            if (importPath.startsWith('katcn')) {
-              extractedProps = extractStyleProps(propsObject, firstArgText);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  if (extractedProps?.className) {
-    const splitClassNames = extractedProps.className
-      .trimStart()
-      .trimEnd()
-      .split(' ');
-    for (const splitClassName of splitClassNames) {
-      safelist.add(splitClassName);
-    }
-  }
+  return props;
 }
 
-const jsxFnNames = ['jsxDEV', 'jsx', 'jsxs', '_jsxDEV', '_jsx', '_jsxs'];
-
-function isJsxCallExpression(
-  callExpression: CallExpression<ts.CallExpression>,
-) {
-  const fnCalled = getCallExpressionName(callExpression);
-  return fnCalled && jsxFnNames.includes(fnCalled);
-}
-
-function isGetStylesExpression(
-  callExpression: CallExpression<ts.CallExpression>,
-) {
-  const fnCalled = callExpression
+function processCallExpression(expression: Expression<ts.Expression>) {
+  const fnCalled = expression
     .getFirstChildByKind(SyntaxKind.Identifier)
     ?.getText();
 
-  return fnCalled === 'getStyles';
+  if (fnCalled === 'getStyles') {
+    return processGetStyles(expression);
+  }
+}
+
+function processJsxAttributeInitializer(
+  name: string,
+  sourceFile: SourceFile,
+  initializer: ReturnType<JsxAttribute['getInitializer']>,
+): Record<string, unknown> | undefined {
+  if (!initializer) return;
+  /**
+    import { Box } from 'katcn';
+
+    function Example1() {
+      return <Box backgroundColor="accent" />;
+    }
+
+    */
+
+  if (initializer.isKind(SyntaxKind.StringLiteral)) {
+    return {
+      [name]: initializer.getLiteralValue(),
+    };
+  }
+
+  /**
+    import { Box } from 'katcn';
+
+    function Example2() {
+      const backgroundColor="accent";
+      return <Box backgroundColor={backgroundColor} />;
+    }
+
+    const backgroundColor="accent";
+    function Example3() {
+      return <Box backgroundColor={backgroundColor} />;
+    }
+    */
+
+  if (initializer.isKind(SyntaxKind.JsxExpression)) {
+    const expression = initializer.getExpression();
+    if (!expression) return;
+
+    if (expression.isKind(SyntaxKind.Identifier)) {
+      const identifierName = expression.getText();
+
+      const variableDeclarationForExpression = findVariableDeclaration(
+        identifierName,
+        sourceFile,
+      );
+
+      const variableDeclarationForExpressionInitializer =
+        variableDeclarationForExpression?.getInitializer();
+
+      const isCallExpression =
+        variableDeclarationForExpressionInitializer?.isKind(
+          SyntaxKind.CallExpression,
+        );
+
+      if (variableDeclarationForExpressionInitializer) {
+        if (isCallExpression) {
+          return processCallExpression(
+            variableDeclarationForExpressionInitializer,
+          );
+        }
+
+        return processExpression(
+          name,
+          variableDeclarationForExpressionInitializer,
+        );
+      }
+    }
+
+    // Dynamic props
+    const identifierType = expression?.getType();
+    if (identifierType?.isUnion()) {
+      const unionTypes = identifierType.getUnionTypes();
+      const classnames: string[] = [];
+      for (const unionType of unionTypes) {
+        const dynamicValue = unionType.getText().replaceAll('"', '');
+        const props = { [name]: dynamicValue };
+        const classname = getStyles(props);
+        classnames.push(classname);
+      }
+      return { className: classnames.join(' ') };
+    }
+
+    return processExpression(name, expression);
+  }
+}
+
+function processJsxElement({
+  sourceFile,
+  jsxElement,
+}: GetPropsForExpressionOptions) {
+  const allProps: Set<Record<string, unknown>> = new Set();
+
+  const componentName = jsxElement.getTagNameNode().getText();
+  const isCustomComponent = componentName[0] === componentName[0].toUpperCase();
+
+  if (!isCustomComponent) {
+    const classnameProp = jsxElement.getAttribute('className');
+    if (classnameProp) {
+      if (classnameProp.isKind(SyntaxKind.JsxSpreadAttribute)) return;
+      if (!classnameProp.isKind(SyntaxKind.JsxAttribute)) return;
+      const classNameInitializer = classnameProp.getInitializer();
+      const props = processJsxAttributeInitializer(
+        'className',
+        sourceFile,
+        classNameInitializer,
+      );
+      if (props) {
+        allProps.add(props);
+      }
+    }
+  }
+
+  if (isCustomComponent) {
+    const attributes = jsxElement.getAttributes();
+    for (const attribute of attributes) {
+      // TODO: handle spread attributes
+      if (attribute.isKind(SyntaxKind.JsxSpreadAttribute)) continue;
+      const name = attribute.getNameNode().getText();
+      const isChildrenProp = name === 'children';
+
+      if (isChildrenProp) continue;
+      const initializer = attribute?.getInitializer();
+      const props = processJsxAttributeInitializer(
+        name,
+        sourceFile,
+        initializer,
+      );
+
+      if (props) {
+        allProps.add(props);
+      }
+    }
+  }
+  return allProps;
+}
+
+function isKatcnComponent(jsxElement: Node): boolean {
+  const identifier = jsxElement.getFirstChildByKind(SyntaxKind.Identifier);
+  const symbol = identifier?.getSymbol();
+  const declarations = symbol?.getDeclarations();
+  if (declarations) {
+    for (const declaration of declarations) {
+      const importDeclaration = declaration.getFirstAncestorByKind(
+        SyntaxKind.ImportDeclaration,
+      );
+      /**
+       * Only extract props from allowed packages.
+       * This is to avoid any performance issues by unnecessarily extracting props from all packages
+       */
+      if (importDeclaration) {
+        const importPath = importDeclaration.getModuleSpecifierValue();
+        // if katcn then go straight to extracting props
+        if (importPath.startsWith('katcn')) {
+          return true;
+        }
+      }
+    }
+  }
+
+  // If the component wasn't imported, it might be a global or declared in the file
+  return false;
 }
 
 export function transformTsx({
-  stylesheet = new KatcnStyleSheet(),
+  stylesheet,
   sourceFile,
   removeImports,
 }: {
   sourceFile: SourceFile;
-  stylesheet?: KatcnStyleSheet;
+  stylesheet: KatcnStyleSheet;
   removeImports?: boolean;
 }) {
   const content = sourceFile.getFullText();
   const filePath = sourceFile.getFilePath();
-  let safelist = stylesheet.safelist.get(filePath);
+  const safelist = stylesheet.safelist.get(filePath) ?? new Set<string>();
   const varsRegistry = stylesheet.varsSafelist;
-
-  if (!safelist) {
-    safelist = new Set<string>();
-    stylesheet.safelist.set(filePath, safelist);
-  }
-
-  const jsContent = transpiler.transformSync(content);
-
-  const foundVars = jsContent.matchAll(varRegex);
+  const foundVars = content.matchAll(varRegex);
   for (const variable of foundVars) {
     varsRegistry.add(variable[0]);
   }
 
-  /**
-   * Infer classnames from dynamic props based on types
-   */
-  const jsxSelfClosingElements = sourceFile.getDescendantsOfKind(
-    SyntaxKind.JsxSelfClosingElement,
-  );
-  const jsxOpeningElements = sourceFile.getDescendantsOfKind(
+  const openingElements = sourceFile.getDescendantsOfKind(
     SyntaxKind.JsxOpeningElement,
   );
-  for (const jsxSelfClosingElement of [
-    ...jsxSelfClosingElements,
-    ...jsxOpeningElements,
-  ]) {
-    if (jsxSelfClosingElement.getAttributes().length === 0) continue;
-    const props = jsxSelfClosingElement.getAttributes();
-    for (const prop of props) {
-      if (prop.isKind(SyntaxKind.JsxSpreadAttribute)) continue;
-      if (prop.isKind(SyntaxKind.JsxAttribute)) {
-        const propName = prop.getNameNode().getText();
-        const propValue = prop.getInitializer();
-        if (propValue?.isKind(SyntaxKind.JsxExpression)) {
-          const expression = propValue.getExpression();
-          const identifierType = expression?.getType();
-          if (identifierType?.isUnion()) {
-            const unionTypes = identifierType.getUnionTypes();
-            for (const unionType of unionTypes) {
-              const dynamicValue = unionType.getText().replaceAll('"', '');
-              const dynamicClassname = getStyles({
-                [propName]: dynamicValue,
-              });
-              safelist.add(dynamicClassname);
+  const selfClosingElements = sourceFile.getDescendantsOfKind(
+    SyntaxKind.JsxSelfClosingElement,
+  );
+
+  for (const jsxElement of [...openingElements, ...selfClosingElements]) {
+    // determine if component is from package
+    const componentName = jsxElement.getTagNameNode().getText();
+    const isValidComponent = isKatcnComponent(jsxElement);
+    if (isValidComponent) {
+      const finalProps: Record<string, unknown> = {};
+      const propsSet = processJsxElement({
+        sourceFile,
+        jsxElement,
+      });
+      if (propsSet) {
+        for (const propObject of propsSet) {
+          for (const prop in propObject) {
+            const propValue = propObject[prop];
+            if (prop === 'className') {
+              finalProps[prop] = `${
+                finalProps?.className ?? ''
+              } ${propValue}`.trimStart();
+            } else {
+              finalProps[prop] = propValue;
             }
           }
         }
       }
-    }
-  }
 
-  sourceFile.replaceWithText(jsContent);
-
-  const callExpressions = sourceFile.getDescendantsOfKind(
-    SyntaxKind.CallExpression,
-  );
-  for (const callExpression of callExpressions) {
-    if (isJsxCallExpression(callExpression)) {
-      getPropsForExpression({
-        sourceFile,
-        callExpression,
-        safelist,
-      });
-      for (const childCallExpression of callExpression
-        .getChildrenOfKind(SyntaxKind.CallExpression)
-        .filter(isJsxCallExpression)) {
-        getPropsForExpression({
-          sourceFile,
-          callExpression: childCallExpression,
-          safelist,
+      const { className } = extractStyleProps(finalProps, componentName);
+      if (className) {
+        safelist.add(className);
+      } else {
+        console.log('No className for element', {
+          element: jsxElement.getText(),
+          props: finalProps,
         });
       }
     }
-    if (isGetStylesExpression(callExpression)) {
-      getPropsForExpression({
-        sourceFile,
-        callExpression,
-        safelist,
-      });
-    }
   }
+
+  stylesheet.safelist.set(filePath, safelist);
 
   if (removeImports) {
     for (const importDecl of sourceFile.getImportDeclarations()) {

@@ -1,5 +1,5 @@
 import { KatcnStyleSheet } from 'katcn/macros';
-import { defaultTokensConfig } from 'katcn/tokens';
+import { defaultTokensConfig } from '../src/tokens';
 import prettier from 'prettier';
 import { createWatcher } from './_createWatcher';
 
@@ -15,7 +15,6 @@ async function writeCss() {
   const formattedContent = await prettier.format(cssContent, {
     parser: 'css',
   });
-  // console.log(formattedContent);
   Bun.write(outFile, formattedContent);
 }
 

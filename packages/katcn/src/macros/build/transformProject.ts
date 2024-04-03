@@ -23,14 +23,16 @@ export async function transformProject({
   watch: shouldWatch = false,
   disablePreflight = false,
 }: TransformOptions) {
-  const sourceFiles = project.getSourceFiles('**/*.tsx');
+  const sourceFiles = project.getSourceFiles();
   const stylesheet = new KatcnStyleSheet({
     config,
     disablePreflight,
   });
 
   const onChange: OnSourceFileChange = async (sFile) => {
-    transformTsx({
+    const filePath = sFile.getFilePath();
+    console.log('Parsing', filePath);
+    const data = transformTsx({
       sourceFile: sFile,
       stylesheet,
     });
@@ -44,7 +46,9 @@ export async function transformProject({
   }
 
   for (const sourceFile of sourceFiles) {
-    transformTsx({
+    const filePath = sourceFile.getFilePath();
+    console.log('Parsing', filePath);
+    const data = transformTsx({
       sourceFile: sourceFile,
       stylesheet,
     });

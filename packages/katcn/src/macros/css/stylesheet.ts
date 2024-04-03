@@ -77,7 +77,7 @@ export class KatcnStyleSheet {
   }
 
   get utilities() {
-    const utilities = getClassnameDeclarations(this.classnames);
+    const utilities = getClassnameDeclarations(this.classnames, this.config);
     if (utilities.length > 0) {
       const content = utilities.join('\n');
       return `@layer utilities { ${content} }`;

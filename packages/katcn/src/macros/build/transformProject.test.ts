@@ -1,4 +1,4 @@
-import { describe, it } from 'bun:test';
+import { describe, it, expect } from 'bun:test';
 import path from 'node:path';
 import { Project, ts } from 'ts-morph';
 import { transformProject } from './transformProject';
@@ -23,5 +23,6 @@ describe('transformProject', () => {
       project,
       watch: false,
     });
+    expect(css).toBeDefined();
   });
 });

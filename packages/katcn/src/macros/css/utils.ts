@@ -1,5 +1,7 @@
 import { cssEscape, entries, flattenObj } from '../../helpers/';
+import type { UniversalTokensConfig } from '../../types';
 import { createUtilities } from './createUtilities';
+import { propertyMap } from './propertyMap';
 
 export function convertArbitraryDefinition(
   input: string,
@@ -33,17 +35,28 @@ export function getArbitraryClassnames(classnames: Set<string>) {
   return filtered;
 }
 
-export function getClassnameDeclarations(classnames: Set<string>) {
+export function getClassnameDeclarations(
+  classnames: Set<string>,
+  config: UniversalTokensConfig,
+) {
   const declarations: string[] = [];
   const arbitraryClassnames = getArbitraryClassnames(classnames);
-  const utilsObj = flattenObj(createUtilities());
+  const utilsObj = flattenObj(createUtilities(config));
 
   for (const classname of arbitraryClassnames) {
     const value = convertArbitraryDefinition(classname);
     if (value) {
       let valueString = '';
       for (const [key, val] of entries(value)) {
-        valueString += `${key}: ${val};`;
+        if (key in propertyMap) {
+          const cssProp = propertyMap[key as keyof typeof propertyMap];
+          if (Array.isArray(cssProp)) {
+            // TODO: figure this out. Some props in lib are compound css props
+            // May want to use map where value is function and returns entire declaration string based on lib key + custom value
+          } else {
+            valueString += `${cssProp}: ${val};`;
+          }
+        }
       }
       utilsObj[classname] = `{ ${valueString} }`;
     }
