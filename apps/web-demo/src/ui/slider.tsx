@@ -247,16 +247,28 @@ export function LightnessAndChromaSliders() {
     <HStack>
       <VStack gap="6" spacing="6">
         <Text variant="title2">Lightness</Text>
-        {entries(defaultTokensConfig.huesLightness).map(([step, lightness]) => {
-          return (
-            <LightnessSlider key={step} initialValue={lightness} step={step} />
-          );
-        })}
+        {entries(defaultTokensConfig.huesLightness).map(
+          ([hueStep, lightness]) => {
+            return (
+              <LightnessSlider
+                key={hueStep}
+                initialValue={lightness}
+                hueStep={hueStep}
+              />
+            );
+          },
+        )}
       </VStack>
       <VStack gap="6" spacing="6">
         <Text variant="title2">Chroma</Text>
-        {entries(defaultTokensConfig.huesChroma).map(([step, chroma]) => {
-          return <ChromaSlider key={step} initialValue={chroma} step={step} />;
+        {entries(defaultTokensConfig.huesChroma).map(([hueStep, chroma]) => {
+          return (
+            <ChromaSlider
+              key={hueStep}
+              initialValue={chroma}
+              hueStep={hueStep}
+            />
+          );
         })}
       </VStack>
     </HStack>
