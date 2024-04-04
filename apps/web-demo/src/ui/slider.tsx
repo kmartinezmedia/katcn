@@ -17,7 +17,6 @@ import { useRef, useState } from 'react';
 interface SliderProps {
   min: number;
   max: number;
-  step?: number;
   initialValue: number;
   startLabel?: string;
   endLabel?: string;
@@ -27,7 +26,6 @@ interface SliderProps {
 export function Slider({
   min,
   max,
-  step = 1,
   initialValue,
   startLabel,
   endLabel,
@@ -187,17 +185,17 @@ function decimalToLightness(decimal: number): HueLightness {
 
 interface LightnessSliderProps {
   initialValue: HueLightness;
-  step: string;
+  hueStep: string;
 }
 
-function LightnessSlider({ initialValue, step }: LightnessSliderProps) {
+function LightnessSlider({ initialValue, hueStep }: LightnessSliderProps) {
   const [lightness, setLightness] = useState(initialValue);
 
   const handleChange = (value: number) => {
     const newLightnessPercent = decimalToLightness(value);
     setLightness(newLightnessPercent);
     document.documentElement.style.setProperty(
-      `--katcn-hue-lightness-${step}`,
+      `--katcn-hue-lightness-${hueStep}`,
       newLightnessPercent,
     );
   };
@@ -207,7 +205,7 @@ function LightnessSlider({ initialValue, step }: LightnessSliderProps) {
       min={0}
       max={1}
       initialValue={lightnessToDecimal(initialValue)}
-      startLabel={`${step}`}
+      startLabel={`${hueStep}`}
       endLabel={lightness}
       onChange={handleChange}
     />
@@ -216,10 +214,10 @@ function LightnessSlider({ initialValue, step }: LightnessSliderProps) {
 
 interface ChromaSliderProps {
   initialValue: HueChroma;
-  step: string;
+  hueStep: string;
 }
 
-function ChromaSlider({ initialValue, step }: ChromaSliderProps) {
+function ChromaSlider({ initialValue, hueStep }: ChromaSliderProps) {
   const [chroma, setChroma] = useState(initialValue);
 
   const handleChange = (value: number) => {
@@ -227,7 +225,7 @@ function ChromaSlider({ initialValue, step }: ChromaSliderProps) {
     const roundedNumber = Number.parseFloat(roundedString);
     setChroma(roundedNumber);
     document.documentElement.style.setProperty(
-      `--katcn-hue-chroma-${step}`,
+      `--katcn-hue-chroma-${hueStep}`,
       `${roundedNumber}`,
     );
   };
@@ -237,7 +235,7 @@ function ChromaSlider({ initialValue, step }: ChromaSliderProps) {
       min={0}
       max={0.37}
       initialValue={initialValue}
-      startLabel={`${step}`}
+      startLabel={`${hueStep}`}
       endLabel={`${chroma}`}
       onChange={handleChange}
     />
