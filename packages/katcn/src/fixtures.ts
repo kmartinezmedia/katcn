@@ -1,8 +1,9 @@
+import { iconNames } from './icons/data';
 import { typesToConstants } from './macros/tsmorph/typesToConstants' with {
   type: 'macro',
 };
-import { iconNames } from './icons/data';
 
+import type { IconName } from './icons/types';
 import type {
   AlignContent,
   AlignItems,
@@ -46,7 +47,6 @@ import type {
   TextVariant,
   Width,
 } from './types';
-import { IconName } from './icons/types';
 
 export default {
   hues: typesToConstants<Hue>('Hue'),
