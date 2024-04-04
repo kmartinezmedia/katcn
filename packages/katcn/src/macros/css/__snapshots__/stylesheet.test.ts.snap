@@ -1,0 +1,3 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KatcnStyleSheet should correctly purge css 1`] = `"@layer theme{:where(html){--katcn-hue-blue:261;--katcn-hue-lightness-9:49.0%;--katcn-hue-chroma-9:.19;--katcn-color-blue-9:oklch(var(--katcn-hue-lightness-9)var(--katcn-hue-chroma-9)var(--katcn-hue-blue));--katcn-palette-core-accent:var(--katcn-color-blue-9)}}@layer utilities{.backgroundColor-accent{background-color:var(--katcn-palette-core-accent)}.width-\[100px\]{width:100px}}"`;

@@ -70,17 +70,19 @@ const Box = forwardRef<HTMLDivElement, BoxProps>(function Box(
 });
 
 const HStack = forwardRef<HTMLDivElement, HStackProps>(function HStack(
-  { gap, ...props },
+  { asChild, ...props },
   ref,
 ) {
-  return <Box ref={ref} {...props} />;
+  const Comp = asChild ? BoxSlot : 'div';
+  return <Comp ref={ref} {...props} />;
 });
 
 const VStack = forwardRef<HTMLDivElement, VStackProps>(function VStack(
-  { gap, ...props },
+  { asChild, ...props },
   ref,
 ) {
-  return <Box ref={ref} {...props} />;
+  const Comp = asChild ? BoxSlot : 'div';
+  return <Comp ref={ref} {...props} />;
 });
 
 const Icon = forwardRef<HTMLSpanElement, IconProps>(function Icon(

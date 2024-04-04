@@ -200,16 +200,33 @@ curl -fsSL https://bun.sh/install | bash
 bun install
 ```
 
+<!-- ----------------------------------------------------------------------- -->
+<!--            TODO: Add CLI script for scaffolding out env vars            -->
+<!-- ----------------------------------------------------------------------- -->
+
 # Setup Web
 ```bash
-touch .env.local
+touch apps/web-demo/.env
 ```
 
 Update env vars required for web-demo live playground
 
 ```bash
-SOCKET_URL=ws://localhost:3001/ws
+NEXT_SOCKET_URL=ws://localhost:3001/ws
 ```
+
+# Setup Websocket Server
+
+```bash
+touch apps/server/.env
+```
+
+Update env vars for server
+
+```bash
+SERVER_PORT=3001
+```
+
 
 ## Run dev
 
@@ -237,6 +254,9 @@ EXPO_PROJECT_ID=GRAB FROM EXPO PROJECT
 - [ ] system
   - [ ] states
   - [ ] elevation
+- [ ] assets
+  - [x] icons
+  - [ ] illustrations
 - [ ] education
   - [x] live playground
     - [ ] offer editor setup as consumable package. like react-live
@@ -247,6 +267,7 @@ EXPO_PROJECT_ID=GRAB FROM EXPO PROJECT
 - [ ] codemods
   - [ ] tailwind codemod for migration
 - [ ] purger
+  - [ ] only include icons used
   - [ ] vars with same value should be consolidated to single var to reduce css size (i.e. font size for body1 and headline1)
 - [ ] configuration
   - [ ] createSystem function / type safety for components

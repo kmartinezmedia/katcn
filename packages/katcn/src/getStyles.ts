@@ -1,5 +1,3 @@
-import { clsx } from 'clsx';
-import { extendTailwindMerge } from 'tailwind-merge';
 import type {
   AvatarProps,
   BoxProps,
@@ -9,102 +7,7 @@ import type {
   TextProps,
   VStackProps,
 } from './components';
-import type {
-  BackgroundColor,
-  BorderRadius,
-  BorderWidth,
-  ForegroundColor,
-  LineColor,
-  StyleProps,
-  TextVariant,
-} from './types';
-
-const lineColors: LineColor[] = [
-  'accent',
-  'alert',
-  'brand',
-  'positive',
-  'warning',
-  'primary',
-  'secondary',
-  'white',
-  'black',
-  'transparent',
-];
-
-const borderWidths: BorderWidth[] = ['none', 'thin', 'medium', 'thick'];
-
-const borderRadii: BorderRadius[] = [
-  'none',
-  'xs',
-  'sm',
-  'md',
-  'lg',
-  'xl',
-  'full',
-];
-
-const foregroundColors: ForegroundColor[] = [
-  'accent',
-  'alert',
-  'brand',
-  'positive',
-  'warning',
-  'primary',
-  'secondary',
-  'tertiary',
-  'white',
-  'black',
-  'transparent',
-];
-
-const backgroundColors: BackgroundColor[] = [
-  'accent',
-  'alert',
-  'brand',
-  'positive',
-  'warning',
-  'primary',
-  'secondary',
-  'white',
-  'black',
-  'transparent',
-];
-
-const textVariants: TextVariant[] = [
-  'display1',
-  'title1',
-  'title2',
-  'title3',
-  'title4',
-  'headline1',
-  'body1',
-  'label1',
-  'label2',
-  'caption1',
-  'caption2',
-  'legal1',
-];
-
-const twMerge = extendTailwindMerge({
-  cacheSize: 0,
-  extend: {
-    theme: {
-      borderColor: lineColors,
-      borderWidth: borderWidths,
-      borderRadius: borderRadii,
-    },
-  },
-  override: {
-    classGroups: {
-      'text-color': [{ text: foregroundColors }],
-      'bg-color': [{ bg: backgroundColors }],
-      'font-family': [{ font: ['icons', ...textVariants] }],
-      leading: [{ leading: textVariants }],
-    },
-    conflictingClassGroups: {},
-  },
-});
+import type { StyleProps } from './types';
 
 export interface GetStylesParams extends StyleProps {
   className?: string;
@@ -193,305 +96,363 @@ export const getStyles = ({
   avatarSize,
   className,
 }: GetStylesParams) => {
-  const classNames = [];
+  const classNames = new Set<string>();
 
   if (color) {
-    classNames.push(`color-${color}`);
+    classNames.add(`color-${color}`);
   }
   if (colorChecked) {
-    classNames.push(`data-[state=checked]:color-${colorChecked}`);
+    classNames.add(`data-[state=checked]:color-${colorChecked}`);
   }
 
   if (display) {
-    classNames.push(`display-${display}`);
+    classNames.add(`display-${display}`);
   }
 
   if (placeholderColor) {
-    classNames.push(`placeholder:color-${placeholderColor}`);
+    classNames.add(`placeholder:color-${placeholderColor}`);
   }
   if (fontFamily) {
-    classNames.push(`fontFamily-${fontFamily}`);
+    classNames.add(`fontFamily-${fontFamily}`);
   }
   if (fontSize) {
-    classNames.push(`fontSize-${fontSize}`);
+    classNames.add(`fontSize-${fontSize}`);
   }
   if (fontWeight) {
-    classNames.push(`fontWeight-${fontWeight}`);
+    classNames.add(`fontWeight-${fontWeight}`);
   }
   if (lineHeight) {
-    classNames.push(`lineHeight-${lineHeight}`);
+    classNames.add(`lineHeight-${lineHeight}`);
   }
   if (textAlign) {
-    classNames.push(`textAlign-${textAlign}`);
+    classNames.add(`textAlign-${textAlign}`);
   }
   if (textTransform) {
-    classNames.push(`textTransform-${textTransform}`);
+    classNames.add(`textTransform-${textTransform}`);
   }
   if (spacing) {
-    classNames.push(`spacing-${spacing}`);
+    const classNameToAdd =
+      typeof spacing === 'number'
+        ? `spacing-[${spacing}px]`
+        : `spacing-${spacing}`;
+    classNames.add(classNameToAdd);
   }
   if (spacingX) {
-    classNames.push(`spacingX-${spacingX}`);
+    const classNameToAdd =
+      typeof spacingX === 'number'
+        ? `spacingX-[${spacingX}px]`
+        : `spacingX-${spacingX}`;
+    classNames.add(classNameToAdd);
   }
   if (spacingY) {
-    classNames.push(`spacingY-${spacingY}`);
+    const classNameToAdd =
+      typeof spacingY === 'number'
+        ? `spacingY-[${spacingY}px]`
+        : `spacingY-${spacingY}`;
+    classNames.add(classNameToAdd);
   }
   if (spacingTop) {
-    classNames.push(`spacingTop-${spacingTop}`);
+    const classNameToAdd =
+      typeof spacingTop === 'number'
+        ? `spacingTop-[${spacingTop}px]`
+        : `spacingTop-${spacingTop}`;
+    classNames.add(classNameToAdd);
   }
   if (spacingBottom) {
-    classNames.push(`spacingBottom-${spacingBottom}`);
+    const classNameToAdd =
+      typeof spacingBottom === 'number'
+        ? `spacingBottom-[${spacingBottom}px]`
+        : `spacingBottom-${spacingBottom}`;
+    classNames.add(classNameToAdd);
   }
   if (spacingStart) {
-    classNames.push(`spacingStart-${spacingStart}`);
+    const classNameToAdd =
+      typeof spacingStart === 'number'
+        ? `spacingStart-[${spacingStart}px]`
+        : `spacingStart-${spacingStart}`;
+    classNames.add(classNameToAdd);
   }
   if (spacingEnd) {
-    classNames.push(`spacingEnd-${spacingEnd}`);
+    const classNameToAdd =
+      typeof spacingEnd === 'number'
+        ? `spacingEnd-[${spacingEnd}px]`
+        : `spacingEnd-${spacingEnd}`;
+    classNames.add(classNameToAdd);
   }
   if (offset) {
-    classNames.push(`offset-${offset}`);
+    const classNameToAdd =
+      typeof offset === 'number' ? `offset-[${offset}px]` : `offset-${offset}`;
+    classNames.add(classNameToAdd);
   }
   if (offsetY) {
-    classNames.push(`offsetY-${offsetY}`);
+    const classNameToAdd =
+      typeof offsetY === 'number'
+        ? `offsetY-[${offsetY}px]`
+        : `offsetY-${offsetY}`;
+    classNames.add(classNameToAdd);
   }
   if (offsetX) {
-    classNames.push(`offsetX-${offsetX}`);
+    const classNameToAdd =
+      typeof offsetX === 'number'
+        ? `offsetX-[${offsetX}px]`
+        : `offsetX-${offsetX}`;
+    classNames.add(classNameToAdd);
   }
   if (offsetTop) {
-    classNames.push(`offsetTop-${offsetTop}`);
+    const classNameToAdd =
+      typeof offsetTop === 'number'
+        ? `offsetTop-[${offsetTop}px]`
+        : `offsetTop-${offsetTop}`;
+    classNames.add(classNameToAdd);
   }
   if (offsetBottom) {
-    classNames.push(`offsetBottom-${offsetBottom}`);
+    const classNameToAdd =
+      typeof offsetBottom === 'number'
+        ? `offsetBottom-[${offsetBottom}px]`
+        : `offsetBottom-${offsetBottom}`;
+    classNames.add(classNameToAdd);
   }
   if (offsetStart) {
-    classNames.push(`offsetStart-${offsetStart}`);
+    const classNameToAdd =
+      typeof offsetStart === 'number'
+        ? `offsetStart-[${offsetStart}px]`
+        : `offsetStart-${offsetStart}`;
+    classNames.add(classNameToAdd);
   }
   if (offsetEnd) {
-    classNames.push(`offsetEnd-${offsetEnd}`);
+    const classNameToAdd =
+      typeof offsetEnd === 'number'
+        ? `offsetEnd-[${offsetEnd}px]`
+        : `offsetEnd-${offsetEnd}`;
+    classNames.add(classNameToAdd);
   }
   if (gapX) {
-    classNames.push(`gapX-${gapX}`);
+    const classNameToAdd =
+      typeof gapX === 'number' ? `gapX-[${gapX}px]` : `gapX-${gapX}`;
+    classNames.add(classNameToAdd);
   }
   if (gapY) {
-    classNames.push(`gapY-${gapX}`);
+    const classNameToAdd =
+      typeof gapY === 'number' ? `gapY-[${gapY}px]` : `gapY-${gapY}`;
+    classNames.add(classNameToAdd);
   }
   if (backgroundColor) {
-    classNames.push(`backgroundColor-${backgroundColor}`);
+    classNames.add(`backgroundColor-${backgroundColor}`);
   }
   if (backgroundColorOnActive) {
-    classNames.push(`backgroundColorOnActive-${backgroundColorOnActive}`);
+    classNames.add(`backgroundColorOnActive-${backgroundColorOnActive}`);
   }
   if (backgroundColorOnFocus) {
-    classNames.push(`backgroundColorOnFocus-${backgroundColorOnFocus}`);
+    classNames.add(`backgroundColorOnFocus-${backgroundColorOnFocus}`);
   }
   if (backgroundColorOnHover) {
-    classNames.push(`backgroundColorOnHover-${backgroundColorOnHover}`);
+    classNames.add(`backgroundColorOnHover-${backgroundColorOnHover}`);
   }
 
   if (backgroundColorOnChecked) {
-    classNames.push(`backgroundColorOnChecked:bg-${backgroundColorOnChecked}`);
+    classNames.add(`backgroundColorOnChecked:bg-${backgroundColorOnChecked}`);
   }
 
   if (borderColorOnActive) {
     if (borderColor) {
-      classNames.push(`borderColorOnActive-${borderColorOnActive}`);
+      classNames.add(`borderColorOnActive-${borderColorOnActive}`);
     }
     if (borderTopColor) {
-      classNames.push(`borderColorOnActive-t-${borderColorOnActive}`);
+      classNames.add(`borderColorOnActive-t-${borderColorOnActive}`);
     }
     if (borderBottomColor) {
-      classNames.push(`borderColorOnActive-b-${borderColorOnActive}`);
+      classNames.add(`borderColorOnActive-b-${borderColorOnActive}`);
     }
     if (borderStartColor) {
-      classNames.push(`borderColorOnActive-s-${borderColorOnActive}`);
+      classNames.add(`borderColorOnActive-s-${borderColorOnActive}`);
     }
     if (borderEndColor) {
-      classNames.push(`borderColorOnActive-e-${borderColorOnActive}`);
+      classNames.add(`borderColorOnActive-e-${borderColorOnActive}`);
     }
   }
 
   if (borderColorOnChecked) {
     if (borderColor) {
-      classNames.push(`borderColorOnChecked-${borderColorOnChecked}`);
+      classNames.add(`borderColorOnChecked-${borderColorOnChecked}`);
     }
     if (borderTopColor) {
-      classNames.push(`borderColorOnChecked-t-${borderColorOnChecked}`);
+      classNames.add(`borderColorOnChecked-t-${borderColorOnChecked}`);
     }
     if (borderBottomColor) {
-      classNames.push(`borderColorOnChecked-b-${borderColorOnChecked}`);
+      classNames.add(`borderColorOnChecked-b-${borderColorOnChecked}`);
     }
     if (borderStartColor) {
-      classNames.push(`borderColorOnChecked-s-${borderColorOnChecked}`);
+      classNames.add(`borderColorOnChecked-s-${borderColorOnChecked}`);
     }
     if (borderEndColor) {
-      classNames.push(`borderColorOnChecked-e-${borderColorOnChecked}`);
+      classNames.add(`borderColorOnChecked-e-${borderColorOnChecked}`);
     }
   }
 
   if (borderColorOnFocus) {
     if (borderColor) {
-      classNames.push(`borderColorOnFocus-${borderColorOnFocus}`);
+      classNames.add(`borderColorOnFocus-${borderColorOnFocus}`);
     }
     if (borderTopColor) {
-      classNames.push(`borderColorOnFocus-t-${borderColorOnFocus}`);
+      classNames.add(`borderColorOnFocus-t-${borderColorOnFocus}`);
     }
     if (borderBottomColor) {
-      classNames.push(`borderColorOnFocus-b-${borderColorOnFocus}`);
+      classNames.add(`borderColorOnFocus-b-${borderColorOnFocus}`);
     }
     if (borderStartColor) {
-      classNames.push(`borderColorOnFocus-s-${borderColorOnFocus}`);
+      classNames.add(`borderColorOnFocus-s-${borderColorOnFocus}`);
     }
     if (borderEndColor) {
-      classNames.push(`borderColorOnFocus-e-${borderColorOnFocus}`);
+      classNames.add(`borderColorOnFocus-e-${borderColorOnFocus}`);
     }
   }
 
   if (borderColorOnHover) {
     if (borderColor) {
-      classNames.push(`borderColorOnHover-${borderColorOnHover}`);
+      classNames.add(`borderColorOnHover-${borderColorOnHover}`);
     }
     if (borderTopColor) {
-      classNames.push(`borderColorOnHover-t-${borderColorOnHover}`);
+      classNames.add(`borderColorOnHover-t-${borderColorOnHover}`);
     }
     if (borderBottomColor) {
-      classNames.push(`borderColorOnHover-b-${borderColorOnHover}`);
+      classNames.add(`borderColorOnHover-b-${borderColorOnHover}`);
     }
     if (borderStartColor) {
-      classNames.push(`borderColorOnHover-s-${borderColorOnHover}`);
+      classNames.add(`borderColorOnHover-s-${borderColorOnHover}`);
     }
     if (borderEndColor) {
-      classNames.push(`borderColorOnHover-e-${borderColorOnHover}`);
+      classNames.add(`borderColorOnHover-e-${borderColorOnHover}`);
     }
   }
 
   if (borderColorOnActive) {
     if (borderColor) {
-      classNames.push(`borderColorOnActive-${borderColorOnActive}`);
+      classNames.add(`borderColorOnActive-${borderColorOnActive}`);
     }
     if (borderTopColor) {
-      classNames.push(`borderColorOnActive-t-${borderColorOnActive}`);
+      classNames.add(`borderColorOnActive-t-${borderColorOnActive}`);
     }
     if (borderBottomColor) {
-      classNames.push(`borderColorOnActive-b-${borderColorOnActive}`);
+      classNames.add(`borderColorOnActive-b-${borderColorOnActive}`);
     }
     if (borderStartColor) {
-      classNames.push(`borderColorOnActive-s-${borderColorOnActive}`);
+      classNames.add(`borderColorOnActive-s-${borderColorOnActive}`);
     }
     if (borderEndColor) {
-      classNames.push(`borderColorOnActive-e-${borderColorOnActive}`);
+      classNames.add(`borderColorOnActive-e-${borderColorOnActive}`);
     }
   }
 
   if (borderColorOnFocus) {
     if (borderTopColor) {
-      classNames.push(`borderColorOnFocus-t-${borderColorOnFocus}`);
+      classNames.add(`borderColorOnFocus-t-${borderColorOnFocus}`);
     }
     if (borderBottomColor) {
-      classNames.push(`borderColorOnFocus-b-${borderColorOnFocus}`);
+      classNames.add(`borderColorOnFocus-b-${borderColorOnFocus}`);
     }
     if (borderStartColor) {
-      classNames.push(`borderColorOnFocus-s-${borderColorOnFocus}`);
+      classNames.add(`borderColorOnFocus-s-${borderColorOnFocus}`);
     }
     if (borderEndColor) {
-      classNames.push(`borderColorOnFocus-e-${borderColorOnFocus}`);
+      classNames.add(`borderColorOnFocus-e-${borderColorOnFocus}`);
     }
   }
 
   if (borderColor) {
-    classNames.push(`borderColor-${borderColor}`);
+    classNames.add(`borderColor-${borderColor}`);
   }
 
   if (borderYColor) {
-    classNames.push(`borderYColor-${borderYColor}`);
+    classNames.add(`borderYColor-${borderYColor}`);
   }
 
   if (borderXColor) {
-    classNames.push(`borderXColor-${borderXColor}`);
+    classNames.add(`borderXColor-${borderXColor}`);
   }
 
   if (borderTopColor) {
-    classNames.push(`borderTopColor-${borderTopColor}`);
+    classNames.add(`borderTopColor-${borderTopColor}`);
   }
 
   if (borderBottomColor) {
-    classNames.push(`borderBottomColor-${borderBottomColor}`);
+    classNames.add(`borderBottomColor-${borderBottomColor}`);
   }
 
   if (borderStartColor) {
-    classNames.push(`borderStartColor-${borderStartColor}`);
+    classNames.add(`borderStartColor-${borderStartColor}`);
   }
 
   if (borderEndColor) {
-    classNames.push(`borderEndColor-${borderEndColor}`);
+    classNames.add(`borderEndColor-${borderEndColor}`);
   }
 
   if (borderRadius) {
-    classNames.push(`borderRadius-${borderRadius}`);
+    classNames.add(`borderRadius-${borderRadius}`);
   }
   if (borderTopRadius) {
-    classNames.push(`borderTopRadius-${borderTopRadius}`);
+    classNames.add(`borderTopRadius-${borderTopRadius}`);
   }
 
   if (borderBottomRadius) {
-    classNames.push(`borderBottomRadius-${borderBottomRadius}`);
+    classNames.add(`borderBottomRadius-${borderBottomRadius}`);
   }
 
   if (borderStartRadius) {
-    classNames.push(`borderStartRadius-${borderStartRadius}`);
+    classNames.add(`borderStartRadius-${borderStartRadius}`);
   }
 
   if (borderEndRadius) {
-    classNames.push(`borderEndRadius-${borderEndRadius}`);
+    classNames.add(`borderEndRadius-${borderEndRadius}`);
   }
 
   if (borderTopStartRadius) {
-    classNames.push(`borderTopStartRadius-${borderTopStartRadius}`);
+    classNames.add(`borderTopStartRadius-${borderTopStartRadius}`);
   }
 
   if (borderTopEndRadius) {
-    classNames.push(`borderTopEndRadius-${borderTopEndRadius}`);
+    classNames.add(`borderTopEndRadius-${borderTopEndRadius}`);
   }
 
   if (borderBottomStartRadius) {
-    classNames.push(`borderBottomStartRadius-${borderBottomStartRadius}`);
+    classNames.add(`borderBottomStartRadius-${borderBottomStartRadius}`);
   }
 
   if (borderBottomEndRadius) {
-    classNames.push(`borderBottomEndRadius-${borderBottomEndRadius}`);
+    classNames.add(`borderBottomEndRadius-${borderBottomEndRadius}`);
   }
 
   if (borderWidth) {
-    classNames.push(`borderWidth-${borderWidth}`);
+    classNames.add(`borderWidth-${borderWidth}`);
   }
 
   if (borderYWidth) {
-    classNames.push(`borderYWidth-${borderYWidth}`);
+    classNames.add(`borderYWidth-${borderYWidth}`);
   }
 
   if (borderXWidth) {
-    classNames.push(`borderXWidth-${borderXWidth}`);
+    classNames.add(`borderXWidth-${borderXWidth}`);
   }
 
   if (borderStartWidth) {
-    classNames.push(`borderStartWidth-${borderStartWidth}`);
+    classNames.add(`borderStartWidth-${borderStartWidth}`);
   }
 
   if (borderEndWidth) {
-    classNames.push(`borderEndWidth-${borderEndWidth}`);
+    classNames.add(`borderEndWidth-${borderEndWidth}`);
   }
 
   if (borderTopWidth) {
-    classNames.push(`borderTopWidth-${borderTopWidth}`);
+    classNames.add(`borderTopWidth-${borderTopWidth}`);
   }
 
   if (borderBottomWidth) {
-    classNames.push(`borderBottomWidth-${borderBottomWidth}`);
+    classNames.add(`borderBottomWidth-${borderBottomWidth}`);
   }
 
   if (height) {
     const classNameToAdd =
       typeof height === 'number' ? `height-[${height}px]` : `height-${height}`;
-    classNames.push(classNameToAdd);
+    classNames.add(classNameToAdd);
   }
 
   if (minHeight) {
@@ -499,7 +460,7 @@ export const getStyles = ({
       typeof minHeight === 'number'
         ? `minHeight-[${minHeight}px]`
         : `minHeight-${minHeight}`;
-    classNames.push(classNameToAdd);
+    classNames.add(classNameToAdd);
   }
 
   if (maxHeight) {
@@ -507,12 +468,12 @@ export const getStyles = ({
       typeof maxHeight === 'number'
         ? `maxHeight-[${maxHeight}px]`
         : `maxHeight-${maxHeight}`;
-    classNames.push(classNameToAdd);
+    classNames.add(classNameToAdd);
   }
   if (width) {
     const classNameToAdd =
       typeof width === 'number' ? `width-[${width}px]` : `width-${width}`;
-    classNames.push(classNameToAdd);
+    classNames.add(classNameToAdd);
   }
 
   if (minWidth) {
@@ -520,7 +481,7 @@ export const getStyles = ({
       typeof minWidth === 'number'
         ? `minWidth-[${minWidth}px]`
         : `minWidth-${minWidth}`;
-    classNames.push(classNameToAdd);
+    classNames.add(classNameToAdd);
   }
 
   if (maxWidth) {
@@ -528,67 +489,71 @@ export const getStyles = ({
       typeof maxWidth === 'number'
         ? `maxWidth-[${maxWidth}px]`
         : `maxWidth-${maxWidth}`;
-    classNames.push(classNameToAdd);
+    classNames.add(classNameToAdd);
   }
 
   if (overflow) {
-    classNames.push(`overflow-${overflow}`);
+    classNames.add(`overflow-${overflow}`);
   }
 
   if (overflowX) {
-    classNames.push(`overflowX-${overflowX}`);
+    classNames.add(`overflowX-${overflowX}`);
   }
   if (overflowY) {
-    classNames.push(`overflowY-${overflowY}`);
+    classNames.add(`overflowY-${overflowY}`);
   }
   if (position) {
-    classNames.push(`position-${position}`);
+    classNames.add(`position-${position}`);
   }
   if (zIndex) {
-    classNames.push(`zIndex-${zIndex}`);
+    classNames.add(`zIndex-${zIndex}`);
   }
   if (opacity) {
-    classNames.push(`opacity-${opacity}`);
+    classNames.add(`opacity-${opacity}`);
   }
   if (contentFit) {
-    classNames.push(`contentFit-${contentFit}`);
+    classNames.add(`contentFit-${contentFit}`);
   }
 
   if (direction) {
-    classNames.push(`flexDirection-${direction}`);
+    classNames.add(`flexDirection-${direction}`);
   }
 
   if (grow !== undefined) {
-    classNames.push(`grow-${grow}`);
+    classNames.add(`grow-${grow}`);
   }
 
   if (shrink !== undefined) {
-    classNames.push(`shrink-${shrink}`);
+    classNames.add(`shrink-${shrink}`);
   }
   if (wrap) {
-    classNames.push(`wrap-${wrap}`);
+    classNames.add(`wrap-${wrap}`);
   }
 
   if (justifyContent) {
-    classNames.push(`justifyContent-${justifyContent}`);
+    classNames.add(`justifyContent-${justifyContent}`);
   }
 
   if (alignItems) {
-    classNames.push(`alignItems-${alignItems}`);
+    classNames.add(`alignItems-${alignItems}`);
   }
 
   if (alignContent) {
-    classNames.push(`alignContent-${alignContent}`);
+    classNames.add(`alignContent-${alignContent}`);
   }
 
   if (iconSize) {
-    classNames.push(`iconSize-${iconSize}`);
+    classNames.add(`iconSize-${iconSize}`);
   }
   if (avatarSize) {
-    classNames.push(`avatarSize-${avatarSize}`);
+    classNames.add(`avatarSize-${avatarSize}`);
   }
 
-  return twMerge(clsx(classNames, className));
+  if (className) {
+    classNames.add(className);
+  }
+
+  return Array.from(classNames).join(' ');
 };
 
 type StyleProp = keyof StyleProps | 'children' | 'asChild';
@@ -640,7 +605,9 @@ export function extractStyleProps(
       const { gap } = props as ComponentPropsMap['HStack'];
       defaults.display = 'flex';
       defaults.direction = 'horizontal';
-      defaults.gapX = gap;
+      if (gap) {
+        defaults.gapX = gap;
+      }
       // @ts-expect-error this is fine
       props.gap = undefined;
       break;
@@ -684,7 +651,9 @@ export function extractStyleProps(
       const { gap } = props as ComponentPropsMap['VStack'];
       defaults.display = 'flex';
       defaults.direction = 'vertical';
-      defaults.gapY = gap;
+      if (gap) {
+        defaults.gapY = gap;
+      }
       // @ts-expect-error this is fine
       props.gap = undefined;
       break;

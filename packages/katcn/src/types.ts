@@ -85,37 +85,37 @@ export interface LayoutStyleProps {
 
 export interface SpacingStyleProps {
   /** Apply inner spacing on all sides. */
-  spacing?: SpacingAlias;
+  spacing?: SpacingAlias | number;
   /** Apply inner spacing on the leading and trailing sides. */
-  spacingX?: SpacingAlias;
+  spacingX?: SpacingAlias | number;
   /** Apply inner spacing on the top and bottom sides. */
-  spacingY?: SpacingAlias;
+  spacingY?: SpacingAlias | number;
   /** Apply inner spacing on the bottom side. */
-  spacingBottom?: SpacingAlias;
+  spacingBottom?: SpacingAlias | number;
   /** Apply inner spacing on the trailing side. */
-  spacingEnd?: SpacingAlias;
+  spacingEnd?: SpacingAlias | number;
   /** Apply inner spacing on the leading side. */
-  spacingStart?: SpacingAlias;
+  spacingStart?: SpacingAlias | number;
   /** Apply inner spacing on the top side. */
-  spacingTop?: SpacingAlias;
+  spacingTop?: SpacingAlias | number;
   /** Apply negative outer spacing on all sides. */
-  offset?: SpacingAlias;
+  offset?: SpacingAlias | number;
   /** Apply negative outer spacing on the top and bottom sides. */
-  offsetY?: SpacingAlias;
+  offsetY?: SpacingAlias | number;
   /** Apply negative outer spacing on the leading and trailing sides. */
-  offsetX?: SpacingAlias;
+  offsetX?: SpacingAlias | number;
   /** Apply negative outer spacing on the bottom side. */
-  offsetBottom?: SpacingAlias;
+  offsetBottom?: SpacingAlias | number;
   /** Apply negative outer spacing on the trailing side. */
-  offsetEnd?: SpacingAlias;
+  offsetEnd?: SpacingAlias | number;
   /** Apply negative outer spacing on the leading side. */
-  offsetStart?: SpacingAlias;
+  offsetStart?: SpacingAlias | number;
   /** Apply negative outer spacing on the top side. */
-  offsetTop?: SpacingAlias;
+  offsetTop?: SpacingAlias | number;
   /** Control the horizontal gutters between grid and flexbox items. If set to auto, will add an equal space between items. */
-  gapX?: SpacingAlias;
+  gapX?: SpacingAlias | number;
   /** Control the vertical gutters between grid and flexbox items. If set to auto, will add an equal space between items. */
-  gapY?: SpacingAlias;
+  gapY?: SpacingAlias | number;
 }
 
 export interface FlexStyleProps {
@@ -488,10 +488,10 @@ export type TextAlign = 'center' | 'justify' | 'start' | 'end';
 /* -------------------------------------------------------------------------- */
 
 export type AvatarSize = 'sm' | 'md' | 'lg';
-export type AvatarSizeConfig = Record<AvatarSize, number>;
+export type AvatarSizeConfig = Record<AvatarSize, `${number}px`>;
 
 export type IconSize = 'sm' | 'md' | 'lg';
-export type IconSizeConfig = Record<IconSize, number>;
+export type IconSizeConfig = Record<IconSize, `${number}px`>;
 
 /* -------------------------------------------------------------------------- */
 /*                                    SHAPE                                   */
@@ -550,10 +550,10 @@ export type ZIndexConfig = Record<ZIndex, string>;
 /* -------------------------------------------------------------------------- */
 
 export type BorderRadius = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
-export type BorderRadiusConfig = Record<BorderRadius, number>;
+export type BorderRadiusConfig = Record<BorderRadius, `${number}px`>;
 
 export type BorderWidth = 'none' | 'thin' | 'medium' | 'thick';
-export type BorderWidthConfig = Record<BorderWidth, number>;
+export type BorderWidthConfig = Record<BorderWidth, `${number}px`>;
 
 export type BoxShadowConfig = {
   color: string;
@@ -591,12 +591,12 @@ export type PaletteConfig = Record<PaletteType, PaletteTypeConfig>;
 export type TypographyConfig = Record<
   TextVariant,
   {
-    fontSize: number;
+    fontSize: `${number}px`;
     /** @default regular */
     fontWeight?: FontWeightDescriptive;
     /** @default sans */
     fontFamily?: FontFamilyGlobalAlias;
-    lineHeight: number;
+    lineHeight: `${number}px`;
     /** @default none applied */
     textTransform?: TextTransformDescriptive;
   }

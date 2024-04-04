@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { KatcnStyleSheet } from '../css/stylesheet';
 import { createTsMorphProject } from '../tsmorph/createTsMorphProject';
 import { transformTsx } from './transformTsx';
 
@@ -35,7 +36,10 @@ describe('transformTsx', () => {
       }
     `;
     const sourceFile = createSourceFile(testCode);
-    const data = transformTsx(sourceFile);
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
     expect(data).toBeDefined();
   });
 
@@ -50,10 +54,13 @@ describe('transformTsx', () => {
     }
   `;
     const sourceFile = createSourceFile(testCode);
-    const data = transformTsx(sourceFile);
-    const { classNamesToAdd } = data;
-    expect(classNamesToAdd).toContain('height-[120px]');
-    expect(classNamesToAdd).toContain('width-[120px]');
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
+    const classnames = data.stylesheet.classnames;
+    expect(classnames).toContain('height-[120px]');
+    expect(classnames).toContain('width-[120px]');
   });
 
   it('Should handle ConditionalExpression', () => {
@@ -80,10 +87,16 @@ describe('transformTsx', () => {
     }
   `;
     const sourceFile = createSourceFile(testCode);
-    const data = transformTsx(sourceFile);
-    const { classNamesToKeep } = data;
-    expect(classNamesToKeep).toContain('backgroundColor-accent');
-    expect(classNamesToKeep).toContain('backgroundColor-brand');
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
+    const classnames = data.stylesheet.classnames;
+    expect(classnames).toContain('borderWidth-thick');
+    expect(classnames).toContain('borderColor-warning');
+    expect(classnames).toContain('backgroundColor-accent-wash');
+    expect(classnames).toContain('backgroundColor-accent');
+    expect(classnames).toContain('backgroundColor-brand');
   });
 
   it('Should handle template literals as separate const', () => {
@@ -139,9 +152,12 @@ describe('transformTsx', () => {
     testCode = testCode.replace('PLACEHOLDER', '`${hue}-${step}` as const');
 
     const sourceFile = createSourceFile(testCode);
-    const data = transformTsx(sourceFile);
-    const { classNamesToKeep } = data;
-    expect(classNamesToKeep).toContain('backgroundColor-magenta-0');
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
+    const classnames = data.stylesheet.classnames;
+    expect(classnames).toContain('backgroundColor-magenta-0');
   });
 
   it('Should handle template literals inline', () => {
@@ -196,8 +212,85 @@ describe('transformTsx', () => {
     testCode = testCode.replace('PLACEHOLDER', '`${hue}-${step}` as const');
 
     const sourceFile = createSourceFile(testCode);
-    const data = transformTsx(sourceFile);
-    const { classNamesToKeep } = data;
-    expect(classNamesToKeep).toContain('backgroundColor-magenta-0');
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
+    const classnames = data.stylesheet.classnames;
+    expect(classnames).toContain('backgroundColor-magenta-0');
+  });
+  it('Should handle vars', () => {
+    const code = `
+      import { Box } from 'katcn';
+
+      function Example() {
+        return <Box backgroundColor="accent" />;
+      }
+    `;
+    const sourceFile = createSourceFile(code);
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
+    expect(data.stylesheet.classnames.has('backgroundColor-accent')).toBeTrue();
+  });
+
+  it.only('Should handle vars as separate const', () => {
+    const code = `
+      import { Box } from 'katcn';
+
+      function Example() {
+        const backgroundColor="accent"
+        return <Box backgroundColor={backgroundColor} />;
+      }
+    `;
+    const sourceFile = createSourceFile(code);
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
+
+    expect(data.stylesheet.classnames.has('backgroundColor-accent')).toBeTrue();
+  });
+
+  it('Should handle numeric dimensions', () => {
+    const code = `
+      import { Box } from 'katcn';
+
+      function Example() {
+        return <Box width={100} height={200} />;
+      }
+    `;
+    const sourceFile = createSourceFile(code);
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
+    expect(data.stylesheet.classnames.has('width-[100px]')).toBeTrue();
+    expect(data.stylesheet.classnames.has('height-[200px]')).toBeTrue();
+  });
+
+  it('Should handle numeric dimensions as separate const', () => {
+    const code = `
+      import { Box, VStack } from 'katcn';
+
+      function Example() {
+        const height = 200;
+        return (
+          <VStack>
+            <VStack>
+              <Box width={100} height={height} />
+            </VStack>
+          </VStack>
+        )
+      }
+    `;
+    const sourceFile = createSourceFile(code);
+    const data = transformTsx({
+      sourceFile,
+      stylesheet: new KatcnStyleSheet(),
+    });
+    expect(data.stylesheet.classnames.has('width-[100px]')).toBeTrue();
+    expect(data.stylesheet.classnames.has('height-[200px]')).toBeTrue();
   });
 });

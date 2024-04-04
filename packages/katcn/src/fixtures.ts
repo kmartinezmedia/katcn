@@ -41,6 +41,7 @@ import type {
   StyleProp,
   TextAlign,
   TextTransform,
+  TextTransformDescriptive,
   TextVariant,
   Width,
 } from './types';
@@ -99,6 +100,9 @@ export default {
   ),
   lineHeight: typesToConstants<LineHeight>('LineHeight'),
   textTransform: typesToConstants<TextTransform>('TextTransform'),
+  textTransformDescriptive: typesToConstants<TextTransformDescriptive>(
+    'TextTransformDescriptive',
+  ),
   textAlign: typesToConstants<TextAlign>('TextAlign'),
   iconSize: typesToConstants<IconSize>('IconSize'),
   avatarSize: typesToConstants<AvatarSize>('AvatarSize'),

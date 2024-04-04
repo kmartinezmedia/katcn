@@ -2,7 +2,7 @@ import type { Project } from 'ts-morph';
 import { defaultTokensConfig } from '../../tokens';
 import type { UniversalTokensConfig } from '../../types';
 import { KatcnStyleSheet } from '../css/stylesheet';
-import { transformSourceFile } from './transformSourceFile';
+import { transformTsx } from './transformTsx';
 import {
   type OnSourceFileChange,
   transformWatchers,
@@ -23,17 +23,18 @@ export async function transformProject({
   watch: shouldWatch = false,
   disablePreflight = false,
 }: TransformOptions) {
-  const sourceFiles = project.getSourceFiles('**/*.tsx');
+  const sourceFiles = project.getSourceFiles();
   const stylesheet = new KatcnStyleSheet({
     config,
     disablePreflight,
   });
 
   const onChange: OnSourceFileChange = async (sFile) => {
-    transformSourceFile({
-      stylesheet,
+    const filePath = sFile.getFilePath();
+    console.log('Parsing', filePath);
+    const data = transformTsx({
       sourceFile: sFile,
-      config,
+      stylesheet,
     });
     if (outFile) {
       await Bun.write(outFile, stylesheet.css);
@@ -45,7 +46,12 @@ export async function transformProject({
   }
 
   for (const sourceFile of sourceFiles) {
-    transformSourceFile({ sourceFile, config, stylesheet });
+    const filePath = sourceFile.getFilePath();
+    console.log('Parsing', filePath);
+    const data = transformTsx({
+      sourceFile: sourceFile,
+      stylesheet,
+    });
   }
 
   if (outFile) {

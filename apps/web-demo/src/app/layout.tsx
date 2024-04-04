@@ -23,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${iconFont.variable}`}>
       <body>
-        <Providers socketUrl={process.env.SOCKET_URL}>{children}</Providers>
+        <Providers socketUrl={process.env.NEXT_SOCKET_URL}>
+          {children}
+        </Providers>
       </body>
     </html>
   );

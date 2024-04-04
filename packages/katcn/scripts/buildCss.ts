@@ -1,6 +1,6 @@
 import { KatcnStyleSheet } from 'katcn/macros';
-import { defaultTokensConfig } from 'katcn/tokens';
 import prettier from 'prettier';
+import { defaultTokensConfig } from '../src/tokens';
 import { createWatcher } from './_createWatcher';
 
 const outDir = `${Bun.env.PWD}/dist`;
@@ -15,7 +15,6 @@ async function writeCss() {
   const formattedContent = await prettier.format(cssContent, {
     parser: 'css',
   });
-  // console.log(formattedContent);
   Bun.write(outFile, formattedContent);
 }
 

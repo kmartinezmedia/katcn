@@ -119,103 +119,103 @@ const fontFamily: FontFamilyGlobalConfig = {
 const typography: TypographyConfig = {
   display1: {
     fontFamily: 'sans',
-    fontSize: 48,
-    lineHeight: 44,
+    fontSize: '48px',
+    lineHeight: '44px',
     fontWeight: 'black',
     textTransform: 'uppercase',
   },
   display2: {
     fontFamily: 'sans',
-    fontSize: 40,
-    lineHeight: 44,
+    fontSize: '40px',
+    lineHeight: '44px',
     fontWeight: 'extrabold',
   },
   display3: {
     fontFamily: 'sans',
-    fontSize: 36,
-    lineHeight: 44,
+    fontSize: '36px',
+    lineHeight: '44px',
     fontWeight: 'extrabold',
   },
   title1: {
     fontFamily: 'sans',
-    fontSize: 32,
-    lineHeight: 40,
+    fontSize: '32px',
+    lineHeight: '40px',
     fontWeight: 'bold',
   },
   title2: {
     fontFamily: 'sans',
-    fontSize: 28,
-    lineHeight: 36,
+    fontSize: '28px',
+    lineHeight: '36px',
     fontWeight: 'bold',
   },
   title3: {
     fontFamily: 'sans',
-    fontSize: 24,
-    lineHeight: 32,
+    fontSize: '24px',
+    lineHeight: '32px',
     fontWeight: 'bold',
   },
   title4: {
     fontFamily: 'sans',
-    fontSize: 20,
-    lineHeight: 24,
+    fontSize: '20px',
+    lineHeight: '24px',
     fontWeight: 'bold',
   },
   headline1: {
     fontFamily: 'sans',
-    fontSize: 16,
-    lineHeight: 20,
+    fontSize: '16px',
+    lineHeight: '20px',
     fontWeight: 'semibold',
   },
   body1: {
     fontFamily: 'sans',
-    fontSize: 16,
-    lineHeight: 20,
+    fontSize: '16px',
+    lineHeight: '20px',
   },
   label1: {
     fontFamily: 'sans',
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: '14px',
+    lineHeight: '20px',
     fontWeight: 'semibold',
   },
   label2: {
     fontFamily: 'sans',
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: '14px',
+    lineHeight: '20px',
   },
   caption1: {
     fontFamily: 'sans',
-    fontSize: 12,
-    lineHeight: 16,
+    fontSize: '12px',
+    lineHeight: '16px',
     fontWeight: 'semibold',
   },
   caption2: {
     fontFamily: 'sans',
-    fontSize: 12,
-    lineHeight: 16,
+    fontSize: '12px',
+    lineHeight: '16px',
   },
   legal1: {
     fontFamily: 'sans',
-    fontSize: 11,
-    lineHeight: 16,
+    fontSize: '11px',
+    lineHeight: '16px',
     fontWeight: 'semibold',
   },
 };
 
 const borderRadius: BorderRadiusConfig = {
-  none: 0,
-  xs: 2,
-  sm: 4,
-  md: 8,
-  lg: 16,
-  xl: 32,
-  full: 9999,
+  none: '0px',
+  xs: '2px',
+  sm: '4px',
+  md: '8px',
+  lg: '16px',
+  xl: '32px',
+  full: '9999px',
 };
 
 const borderWidth: BorderWidthConfig = {
-  none: 0,
-  thin: 1,
-  medium: 2,
-  thick: 4,
+  none: '0px',
+  thin: '1px',
+  medium: '2px',
+  thick: '4px',
 };
 
 const spacing: SpacingConfig = {
@@ -257,15 +257,15 @@ const spacing: SpacingConfig = {
 };
 
 const avatarSizes: AvatarSizeConfig = {
-  sm: 16,
-  md: 24,
-  lg: 32,
+  sm: '16px',
+  md: '24px',
+  lg: '32px',
 };
 
 const iconSizes: IconSizeConfig = {
-  sm: 16,
-  md: 24,
-  lg: 32,
+  sm: '16px',
+  md: '24px',
+  lg: '32px',
 };
 
 const zIndex: ZIndexConfig = {
