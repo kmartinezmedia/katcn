@@ -11,6 +11,8 @@ interface BuildProps extends Props {
     outputFonts?: string;
     /** Where to output the generated icon types */
     outputTypes?: string;
+    /** Where to output the generated icon names for documentation */
+    outputData?: string;
     /** The font name of the generated icon font. */
     fontName?: string;
     /** The format to generate. Use comma separated string for multiple formats
@@ -30,6 +32,7 @@ export default {
       input,
       outputFonts,
       outputTypes,
+      outputData,
       watch,
       fontName = 'icons',
       formats: formatsAsString = 'woff2,ttf',
@@ -81,13 +84,29 @@ export default {
         }
 
         if (hasOutputFont) {
-          const iconTypes = `export type IconName = ${generatedFont.glyphsData
-            ?.map((item) => `'${item.metadata?.name}'`)
-            .join(' | ')}`;
+          const glyphsData = generatedFont.glyphsData ?? [];
+          const iconNames = glyphsData.map(
+            (item) => `'${item.metadata?.name}'`,
+          );
+          if (iconNames.length > 0) {
+            if (outputTypes) {
+              const iconTypes = `export type IconName = ${iconNames.join(
+                ' | ',
+              )}`;
+              await Bun.write(`${Bun.env.PWD}/${outputTypes}`, iconTypes);
+              console.log(`[icons]: icon name types written to ${outputTypes}`);
+              await $`cli tools format ${outputTypes}`;
+            }
 
-          await Bun.write(`${Bun.env.PWD}/${outputTypes}`, iconTypes);
-          console.log(`[icons]: icon name types written to ${outputTypes}`);
-          await $`cli tools format ${outputTypes}`;
+            if (outputData) {
+              const iconData = `export const iconNames = [${iconNames?.join(
+                ',',
+              )}];`;
+              await Bun.write(`${Bun.env.PWD}/${outputData}`, iconData);
+              console.log(`[icons]: icon name data written to ${outputData}`);
+              await $`cli tools format ${outputData}`;
+            }
+          }
         }
       }
     }
