@@ -54,7 +54,7 @@ class Database {
       removeImports: true,
       stylesheet,
     });
-    return { js: data.js, css: data.stylesheet.css };
+    return { js: data.jsTransformed, css: data.stylesheet.css };
   }
 
   get(id: string | 'default') {
