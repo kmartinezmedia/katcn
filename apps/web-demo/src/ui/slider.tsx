@@ -8,9 +8,10 @@ import {
   useMotionValue,
   useTransform,
 } from 'framer-motion';
+import fixtures from 'katcn/fixtures';
 import { clamp, entries, interpolate } from 'katcn/helpers';
 import { defaultTokensConfig } from 'katcn/tokens';
-import type { HueChroma, HueLightness } from 'katcn/types';
+import type { Hue, HueChroma, HueLightness } from 'katcn/types';
 import { useRef, useState } from 'react';
 
 interface SliderProps {
@@ -34,7 +35,7 @@ export function Slider({
 }: SliderProps) {
   const knobSize = 20;
   const halfKnobSize = 10;
-  const sliderSize = 300;
+  const sliderSize = 170;
   const sliderHeight = 8;
   const knobActiveScale = 1.3;
 
@@ -86,7 +87,7 @@ export function Slider({
 
   return (
     <VStack>
-      <HStack alignItems="center" gap="5">
+      <HStack alignItems="center" gap="4">
         {startLabel && (
           <Text variant="body1" width={20}>
             {startLabel}
@@ -159,17 +160,18 @@ export function Slider({
             variant="body1"
             color="primary"
             textAlign="start"
-            width={40}
+            width={42}
             overflow="hidden"
           >
             {endLabel}
           </Text>
         )}
-        {initialValue !== value && (
-          <Pressable onClick={handleReset}>
-            <Icon name="arrow8" color="primary" size="sm" />
-          </Pressable>
-        )}
+        <Pressable
+          onClick={handleReset}
+          opacity={initialValue !== value ? '100' : '0'}
+        >
+          <Icon name="arrow8" color="primary" size="sm" />
+        </Pressable>
       </HStack>
     </VStack>
   );
@@ -242,7 +244,7 @@ function ChromaSlider({ initialValue, step }: ChromaSliderProps) {
   );
 }
 
-export function LightnessSliders() {
+export function LightnessAndChromaSliders() {
   return (
     <HStack>
       <VStack gap="6" spacing="6">
@@ -260,5 +262,82 @@ export function LightnessSliders() {
         })}
       </VStack>
     </HStack>
+  );
+}
+
+function HueSlider({
+  initialValue,
+  name,
+}: { initialValue: number; name: Hue }) {
+  const [hue, setHue] = useState(initialValue);
+
+  const handleChange = (value: number) => {
+    const roundedString = value.toFixed(1);
+    const roundedNumber = Number.parseFloat(roundedString);
+    setHue(roundedNumber);
+    document.documentElement.style.setProperty(
+      `--katcn-hue-${name}`,
+      `${roundedNumber}`,
+    );
+  };
+
+  return (
+    <VStack gap="6">
+      <Text
+        variant="title3"
+        style={{ fontWeight: 300, textTransform: 'capitalize' }}
+      >
+        {name}
+      </Text>
+
+      <Slider
+        min={0}
+        max={360}
+        initialValue={initialValue}
+        endLabel={`${hue}`}
+        onChange={handleChange}
+      />
+
+      <VStack borderRadius="xl" overflow="hidden" grow="prevent">
+        {fixtures.hueSteps.map((step, index) => (
+          <HStack
+            key={step}
+            spacingY="3"
+            spacingX="6"
+            justifyContent="between"
+            alignItems="center"
+            backgroundColor={`${name}-${step}`}
+          >
+            <Text variant="label1" color={index >= 8 ? 'on-color' : 'primary'}>
+              {index}
+            </Text>
+            <Text variant="label1" color={index >= 8 ? 'on-color' : 'primary'}>
+              a11y score
+            </Text>
+          </HStack>
+        ))}
+      </VStack>
+    </VStack>
+  );
+}
+
+export function HueSliders() {
+  return (
+    <Box
+      direction="horizontal"
+      wrap="allow"
+      gapX="8"
+      gapY="8"
+      spacing="8"
+      id="colors"
+    >
+      {fixtures.hues.map((name) => (
+        <HueSlider
+          key={name}
+          name={name}
+          initialValue={defaultTokensConfig.hues[name]}
+        />
+      ))}
+    </Box>
   );
 }

@@ -1,12 +1,9 @@
 'use server';
 
-import { LightnessSliders, Slider } from '@/ui/slider';
-import { Box, HStack, Icon, Text, VStack } from 'katcn';
+import { HueSliders, LightnessAndChromaSliders } from '@/ui/slider';
+import { HStack, Icon, Text, VStack } from 'katcn';
 import fixtures from 'katcn/fixtures';
-import { entries } from 'katcn/helpers';
-import { defaultTokensConfig } from 'katcn/tokens';
 import type { Hue } from 'katcn/types';
-import { useState } from 'react';
 
 function Ramp({ hue }: { hue: Hue }) {
   return (
@@ -57,21 +54,8 @@ function IconSheet() {
 export default async function Home() {
   return (
     <VStack>
-      <HStack>
-        <LightnessSliders />
-      </HStack>
-      <Box
-        direction="horizontal"
-        wrap="allow"
-        gapX="8"
-        gapY="8"
-        spacing="8"
-        id="colors"
-      >
-        {fixtures.hues.map((hue) => (
-          <Ramp key={hue} hue={hue} />
-        ))}
-      </Box>
+      <LightnessAndChromaSliders />
+      <HueSliders />
     </VStack>
   );
 }
