@@ -1,5 +1,6 @@
 /// <reference types="bun-types" />
 
+import path from 'node:path';
 import { Transpiler } from 'bun';
 import {
   type Expression,
@@ -380,10 +381,15 @@ export function transformTsx({
   stylesheet.safelist.set(filePath, safelist);
 
   const jsContent = transpiler.transformSync(content);
-  sourceFile.replaceWithText(jsContent);
+  const parsedPath = path.parse(filePath);
+  const transformedSourceFile = sourceFile
+    .getProject()
+    .createSourceFile(filePath.replace(parsedPath.ext, '.min.js'), jsContent, {
+      overwrite: true,
+    });
 
   if (removeImports) {
-    for (const importDecl of sourceFile.getImportDeclarations()) {
+    for (const importDecl of transformedSourceFile.getImportDeclarations()) {
       importDecl.remove();
     }
   }
@@ -391,5 +397,6 @@ export function transformTsx({
   return {
     stylesheet,
     js: sourceFile.getFullText(), // ensures the sourceFile is updated
+    jsTransformed: transformedSourceFile.getFullText(),
   };
 }
