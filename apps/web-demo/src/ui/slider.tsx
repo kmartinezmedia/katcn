@@ -9,9 +9,9 @@ import {
   useTransform,
 } from 'framer-motion';
 import { clamp, entries, interpolate } from 'katcn/helpers';
-import { useRef, useState } from 'react';
 import { defaultTokensConfig } from 'katcn/tokens';
 import type { HueChroma, HueLightness } from 'katcn/types';
+import { useRef, useState } from 'react';
 
 interface SliderProps {
   min: number;
