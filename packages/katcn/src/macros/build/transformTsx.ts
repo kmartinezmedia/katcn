@@ -1,5 +1,6 @@
 /// <reference types="bun-types" />
 
+import path from 'node:path';
 import { Transpiler } from 'bun';
 import {
   type Expression,
@@ -14,7 +15,6 @@ import {
 } from 'ts-morph';
 import { extractStyleProps, getStyles } from '../../getStyles';
 import type { KatcnStyleSheet } from '../css/stylesheet';
-import path from 'node:path';
 
 const varRegex = /--katcn-[^:,\s")]+/g;
 const transpiler = new Transpiler({
