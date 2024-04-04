@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, HStack, Text, VStack } from 'katcn';
+import { Box, HStack, Icon, Pressable, Text, VStack } from 'katcn';
 
 import {
   motion,
@@ -8,7 +8,7 @@ import {
   useMotionValue,
   useTransform,
 } from 'framer-motion';
-import { interpolate } from 'katcn/helpers';
+import { clamp, interpolate } from 'katcn/helpers';
 import { useRef, useState } from 'react';
 
 interface SliderProps {
@@ -29,11 +29,15 @@ export function Slider({
   formatValue = (val: number) => `${val}`,
 }: SliderProps) {
   const knobSize = 20;
-  const halfHandleSize = 10;
+  const halfKnobSize = 10;
   const sliderSize = 300;
   const sliderHeight = 8;
   const knobActiveScale = 1.3;
-  const progress = useMotionValue(initialValue);
+
+  const motionValue = useMotionValue(initialValue);
+  const knobMotion = useMotionValue(
+    interpolate(initialValue, [min, max], [0, sliderSize]),
+  );
   const [value, setValue] = useState<number>(initialValue);
   const [dragging, setDragging] = useState(false);
 
@@ -50,15 +54,25 @@ export function Slider({
     info,
   ) => {
     const containerX = refs.container.current?.getBoundingClientRect().x ?? 0;
-    const progressValue = info.point.x - containerX - halfHandleSize;
-    progress.set(progressValue);
-    setValue(interpolate(progressValue, [0, sliderSize], [min, max]));
+    const newValue = info.point.x - containerX - halfKnobSize;
+    const minValue = 0;
+    const maxValue = sliderSize - knobSize;
+    knobMotion.set(clamp(newValue, minValue, maxValue));
+    const valueInMinMax = interpolate(newValue, [0, sliderSize], [0, 1]);
+    motionValue.set(valueInMinMax);
+    setValue(valueInMinMax);
+  };
+
+  const handleReset = () => {
+    motionValue.set(initialValue);
+    knobMotion.set(interpolate(initialValue, [min, max], [0, sliderSize]));
+    setValue(initialValue);
   };
 
   const left = useTransform(
-    progress,
+    motionValue,
     // Map x from these values:
-    [0, sliderSize],
+    [min, max],
     // Into these values:
     [-sliderSize, 0],
     { clamp: true },
@@ -66,7 +80,7 @@ export function Slider({
 
   return (
     <VStack>
-      <HStack alignItems="center" gap="6">
+      <HStack alignItems="center" gap="5">
         {startLabel && (
           <Text variant="body1" width={20}>
             {startLabel}
@@ -126,6 +140,8 @@ export function Slider({
               onPointerUp={() => setDragging(false)}
               onHoverStart={() => setDragging(true)}
               onHoverEnd={() => setDragging(false)}
+              _dragX={knobMotion}
+              style={{ left: knobMotion }}
               animate={{
                 scale: dragging ? knobActiveScale : 1,
               }}
@@ -141,6 +157,11 @@ export function Slider({
         >
           {formatValue(value)}
         </Text>
+        {initialValue !== value && (
+          <Pressable onClick={handleReset}>
+            <Icon name="arrow8" color="primary" size="sm" />
+          </Pressable>
+        )}
       </HStack>
     </VStack>
   );
