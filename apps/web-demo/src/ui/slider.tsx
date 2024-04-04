@@ -8,7 +8,9 @@ import {
   useMotionValue,
   useTransform,
 } from 'framer-motion';
-import { clamp, interpolate } from 'katcn/helpers';
+import { clamp, entries, interpolate } from 'katcn/helpers';
+import { defaultTokensConfig } from 'katcn/tokens';
+import type { HueChroma, HueLightness } from 'katcn/types';
 import { useRef, useState } from 'react';
 
 interface SliderProps {
@@ -16,8 +18,9 @@ interface SliderProps {
   max: number;
   step?: number;
   initialValue: number;
-  formatValue?: (val: number) => string;
   startLabel?: string;
+  endLabel?: string;
+  onChange: (val: number) => void;
 }
 
 export function Slider({
@@ -26,7 +29,8 @@ export function Slider({
   step = 1,
   initialValue,
   startLabel,
-  formatValue = (val: number) => `${val}`,
+  endLabel,
+  onChange,
 }: SliderProps) {
   const knobSize = 20;
   const halfKnobSize = 10;
@@ -58,14 +62,16 @@ export function Slider({
     const minValue = 0;
     const maxValue = sliderSize - knobSize;
     knobMotion.set(clamp(newValue, minValue, maxValue));
-    const valueInMinMax = interpolate(newValue, [0, sliderSize], [0, 1]);
+    const valueInMinMax = interpolate(newValue, [0, sliderSize], [min, max]);
     motionValue.set(valueInMinMax);
+    onChange(valueInMinMax);
     setValue(valueInMinMax);
   };
 
   const handleReset = () => {
     motionValue.set(initialValue);
     knobMotion.set(interpolate(initialValue, [min, max], [0, sliderSize]));
+    onChange(initialValue);
     setValue(initialValue);
   };
 
@@ -148,15 +154,17 @@ export function Slider({
             />
           </HStack>
         </VStack>
-        <Text
-          variant="body1"
-          color="primary"
-          textAlign="start"
-          width={40}
-          overflow="hidden"
-        >
-          {formatValue(value)}
-        </Text>
+        {endLabel && (
+          <Text
+            variant="body1"
+            color="primary"
+            textAlign="start"
+            width={40}
+            overflow="hidden"
+          >
+            {endLabel}
+          </Text>
+        )}
         {initialValue !== value && (
           <Pressable onClick={handleReset}>
             <Icon name="arrow8" color="primary" size="sm" />
@@ -164,5 +172,93 @@ export function Slider({
         )}
       </HStack>
     </VStack>
+  );
+}
+
+function lightnessToDecimal(lightness: HueLightness) {
+  return Number.parseFloat(lightness) / 100;
+}
+
+function decimalToLightness(decimal: number): HueLightness {
+  return `${Math.round(decimal * 100)}%`;
+}
+
+interface LightnessSliderProps {
+  initialValue: HueLightness;
+  step: string;
+}
+
+function LightnessSlider({ initialValue, step }: LightnessSliderProps) {
+  const [lightness, setLightness] = useState(initialValue);
+
+  const handleChange = (value: number) => {
+    const newLightnessPercent = decimalToLightness(value);
+    setLightness(newLightnessPercent);
+    document.documentElement.style.setProperty(
+      `--katcn-hue-lightness-${step}`,
+      newLightnessPercent,
+    );
+  };
+
+  return (
+    <Slider
+      min={0}
+      max={1}
+      initialValue={lightnessToDecimal(initialValue)}
+      startLabel={`${step}`}
+      endLabel={lightness}
+      onChange={handleChange}
+    />
+  );
+}
+
+interface ChromaSliderProps {
+  initialValue: HueChroma;
+  step: string;
+}
+
+function ChromaSlider({ initialValue, step }: ChromaSliderProps) {
+  const [chroma, setChroma] = useState(initialValue);
+
+  const handleChange = (value: number) => {
+    const roundedString = value.toFixed(2);
+    const roundedNumber = Number.parseFloat(roundedString);
+    setChroma(roundedNumber);
+    document.documentElement.style.setProperty(
+      `--katcn-hue-chroma-${step}`,
+      `${roundedNumber}`,
+    );
+  };
+
+  return (
+    <Slider
+      min={0}
+      max={0.37}
+      initialValue={initialValue}
+      startLabel={`${step}`}
+      endLabel={`${chroma}`}
+      onChange={handleChange}
+    />
+  );
+}
+
+export function LightnessSliders() {
+  return (
+    <HStack>
+      <VStack gap="6" spacing="6">
+        <Text variant="title2">Lightness</Text>
+        {entries(defaultTokensConfig.huesLightness).map(([step, lightness]) => {
+          return (
+            <LightnessSlider key={step} initialValue={lightness} step={step} />
+          );
+        })}
+      </VStack>
+      <VStack gap="6" spacing="6">
+        <Text variant="title2">Chroma</Text>
+        {entries(defaultTokensConfig.huesChroma).map(([step, chroma]) => {
+          return <ChromaSlider key={step} initialValue={chroma} step={step} />;
+        })}
+      </VStack>
+    </HStack>
   );
 }

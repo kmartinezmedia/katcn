@@ -1,11 +1,12 @@
 'use server';
 
-import { Slider } from '@/ui/slider';
+import { LightnessSliders, Slider } from '@/ui/slider';
 import { Box, HStack, Icon, Text, VStack } from 'katcn';
 import fixtures from 'katcn/fixtures';
 import { entries } from 'katcn/helpers';
 import { defaultTokensConfig } from 'katcn/tokens';
 import type { Hue } from 'katcn/types';
+import { useState } from 'react';
 
 function Ramp({ hue }: { hue: Hue }) {
   return (
@@ -43,26 +44,6 @@ function Ramp({ hue }: { hue: Hue }) {
   );
 }
 
-function Sliders({ title }: { title: string }) {
-  return (
-    <VStack gap="6" spacing="6">
-      <Text variant="title2">{title}</Text>
-      {entries(defaultTokensConfig.huesLightness).map(([step, lightness]) => {
-        const lightnessAsNumber = Number.parseFloat(lightness);
-        return (
-          <Slider
-            key={step}
-            min={0}
-            max={1}
-            initialValue={lightnessAsNumber / 100}
-            startLabel={step}
-          />
-        );
-      })}
-    </VStack>
-  );
-}
-
 function IconSheet() {
   return (
     <HStack wrap="allow">
@@ -77,10 +58,16 @@ export default async function Home() {
   return (
     <VStack>
       <HStack>
-        <Sliders title="Lightness" />
-        <Sliders title="Chroma" />
+        <LightnessSliders />
       </HStack>
-      <Box direction="horizontal" wrap="allow" gapX="8" gapY="8" spacing="8">
+      <Box
+        direction="horizontal"
+        wrap="allow"
+        gapX="8"
+        gapY="8"
+        spacing="8"
+        id="colors"
+      >
         {fixtures.hues.map((hue) => (
           <Ramp key={hue} hue={hue} />
         ))}
