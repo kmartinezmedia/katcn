@@ -1,6 +1,7 @@
 import { typesToConstants } from './macros/tsmorph/typesToConstants' with {
   type: 'macro',
 };
+import { iconNames } from './icons/data';
 
 import type {
   AlignContent,
@@ -45,6 +46,7 @@ import type {
   TextVariant,
   Width,
 } from './types';
+import { IconName } from './icons/types';
 
 export default {
   hues: typesToConstants<Hue>('Hue'),
@@ -104,6 +106,7 @@ export default {
     'TextTransformDescriptive',
   ),
   textAlign: typesToConstants<TextAlign>('TextAlign'),
+  iconNames: iconNames as IconName[],
   iconSize: typesToConstants<IconSize>('IconSize'),
   avatarSize: typesToConstants<AvatarSize>('AvatarSize'),
   styleProp: typesToConstants<StyleProp>('StyleProp'),

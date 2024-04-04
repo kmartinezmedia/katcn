@@ -1,7 +1,7 @@
 'use server';
 
 import { Slider } from '@/ui/slider';
-import { Box, HStack, Text, VStack } from 'katcn';
+import { Box, HStack, Text, VStack, Icon } from 'katcn';
 import fixtures from 'katcn/fixtures';
 import { entries } from 'katcn/helpers';
 import { defaultTokensConfig } from 'katcn/tokens';
@@ -60,6 +60,16 @@ function Sliders({ title }: { title: string }) {
         );
       })}
     </VStack>
+  );
+}
+
+function IconSheet() {
+  return (
+    <HStack wrap="allow">
+      {fixtures.iconNames.map((icon) => (
+        <Icon key={icon} name={icon} size="md" color="primary" />
+      ))}
+    </HStack>
   );
 }
 

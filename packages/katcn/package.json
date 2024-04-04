@@ -57,7 +57,7 @@
   "scripts": {
     "build": "NODE_ENV=production bun run ./scripts/build.ts && bun run build:css && bun run build:icons",
     "build:css": "bun run ./scripts/buildCss.ts",
-    "build:icons": "cli icons build --formats woff2,ttf --input ./src/icons/svg --outputFonts ./src/icons/fonts --outputTypes ./src/icons/types.ts",
+    "build:icons": "cli icons build --formats woff2,ttf --input ./src/icons/svg --outputFonts ./src/icons/fonts --outputTypes ./src/icons/types.ts --outputData ./src/icons/data.ts",
     "clean": "cli tools clean",
     "dev": "bun run build && concurrently bun:dev:*",
     "dev:css": "bun run build:css --watch",
