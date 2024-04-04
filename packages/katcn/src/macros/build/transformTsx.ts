@@ -1,3 +1,6 @@
+/// <reference types="bun-types" />
+
+import { Transpiler } from 'bun';
 import {
   type Expression,
   type JsxAttribute,
@@ -13,6 +16,21 @@ import { extractStyleProps, getStyles } from '../../getStyles';
 import type { KatcnStyleSheet } from '../css/stylesheet';
 
 const varRegex = /--katcn-[^:,\s")]+/g;
+const transpiler = new Transpiler({
+  loader: 'tsx',
+  tsconfig: {
+    compilerOptions: {
+      jsx: 'react-jsx',
+      jsxImportSource: 'katcn',
+    },
+  },
+  autoImportJSX: false,
+  macro: {
+    'katcn/getStyles': {
+      getStyles: 'katcn/getStyles',
+    },
+  },
+});
 
 interface GetPropsForExpressionOptions {
   sourceFile: SourceFile;
@@ -360,6 +378,9 @@ export function transformTsx({
   }
 
   stylesheet.safelist.set(filePath, safelist);
+
+  const jsContent = transpiler.transformSync(content);
+  sourceFile.replaceWithText(jsContent);
 
   if (removeImports) {
     for (const importDecl of sourceFile.getImportDeclarations()) {
