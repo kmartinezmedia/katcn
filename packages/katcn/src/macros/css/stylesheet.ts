@@ -69,7 +69,7 @@ export class KatcnStyleSheet {
       const content = vars.join('\n');
       return `
         @layer theme {
-          :where(html) { ${content} }
+          :root { ${content} }
         }
       `;
     }

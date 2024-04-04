@@ -15,6 +15,6 @@ export function typesToConstants<TypeToReturn>(
       ?.getType()
       // @ts-expect-error compilerType.types is fine. https://ts-ast-viewer.com/
       .compilerType.types.map((item) => item.value)
-      .filter(Boolean)
+      .filter((item: unknown) => item !== undefined)
   );
 }

@@ -584,8 +584,10 @@ export type Opacity =
 /*                                   CONFIG                                   */
 /* -------------------------------------------------------------------------- */
 export type HuesConfig = Record<Hue, number>;
-export type HuesLightnessConfig = Record<HueStep, `${number}%`>;
-export type HuesChromaConfig = Record<HueStep, number>;
+export type HueLightness = `${number}%`;
+export type HuesLightnessConfig = Record<HueStep, HueLightness>;
+export type HueChroma = number;
+export type HuesChromaConfig = Record<HueStep, HueChroma>;
 export type PaletteTypeConfig = Record<string, PaletteValue>;
 export type PaletteConfig = Record<PaletteType, PaletteTypeConfig>;
 export type TypographyConfig = Record<
