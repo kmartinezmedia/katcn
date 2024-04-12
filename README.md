@@ -289,3 +289,12 @@ EXPO_PROJECT_ID=GRAB FROM EXPO PROJECT
   - [ ] create system from config
   - [ ] dev mode snippets
 - [ ] react native
+
+
+# Palette Generator
+- https://developer.chrome.com/blog/css-relative-color-syntax
+- https://developer.chrome.com/docs/css-ui/high-definition-css-color-guide#checking_for_gamut_and_color_space_support
+- https://nikhgupta.com/tools/palette-generator
+- https://alivault.github.io/color-palette-maker/
+- Distnace between hues (i.e. 30). palette size (how many colors 360/number of hues)
+- min and max chroma based on lightness and hue

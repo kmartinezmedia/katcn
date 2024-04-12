@@ -23,15 +23,22 @@
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
+    "@types/apca-w3": "^0.1.3",
+    "@types/culori": "^2.1.0",
+    "@types/wcag-contrast": "^3.0.3",
+    "apca-w3": "^0.1.9",
     "base64-url": "^2.3.3",
+    "culori": "^4.0.1",
     "framer-motion": "^11.0.23",
+    "jotai": "^2.7.2",
     "katcn": "workspace:*",
     "monaco-editor": "^0.47.0",
     "next": "14.1.4",
     "prettier": "^3.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "server": "workspace:*"
+    "server": "workspace:*",
+    "wcag-contrast": "^3.0.0"
   },
   "devDependencies": {
     "@types/base64-url": "^2.2.2",
