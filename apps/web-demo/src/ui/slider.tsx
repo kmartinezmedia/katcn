@@ -2,19 +2,19 @@
 
 import { Box, HStack, Icon, Pressable, Text, VStack } from 'katcn';
 
+import { getColorContrast } from '@/lib/contrast';
 import {
   motion,
   useDragControls,
   useMotionValue,
   useTransform,
 } from 'framer-motion';
+import { atom, useAtom } from 'jotai';
 import fixtures from 'katcn/fixtures';
 import { clamp, entries, interpolate, mapValues } from 'katcn/helpers';
 import { defaultTokensConfig } from 'katcn/tokens';
 import type { Hue, HueChroma, HueLightness, HueStep } from 'katcn/types';
-import { atom, useAtom } from 'jotai';
 import { useRef, useState } from 'react';
-import { getColorContrast } from '@/lib/contrast';
 
 const lightnessMap = mapValues(defaultTokensConfig.huesLightness, (value) => {
   return atom(value);

@@ -1,4 +1,4 @@
-import { clampChroma, converter, oklch, type Rgb } from 'culori';
+import { type Rgb, clampChroma, converter, oklch } from 'culori';
 
 import { APCAcontrast, displayP3toY, sRGBtoY } from 'apca-w3';
 import {

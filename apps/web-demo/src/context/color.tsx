@@ -1,19 +1,18 @@
 'use client';
 
 import fixtures from 'katcn/fixtures';
-import { entries } from 'katcn/helpers';
 import { defaultTokensConfig } from 'katcn/tokens';
 import type {
   Hue,
   HueChroma,
   HueLightness,
+  HueStep,
   HuesChromaConfig,
   HuesConfig,
   HuesLightnessConfig,
-  HueStep,
   UniversalTokensConfig,
 } from 'katcn/types';
-import { createContext, type SetStateAction, useState } from 'react';
+import { type SetStateAction, createContext, useState } from 'react';
 
 type SetState<T> = React.Dispatch<SetStateAction<T>>;
 
