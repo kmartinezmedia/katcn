@@ -2,22 +2,35 @@
 
 import { Box, HStack, Icon, Pressable, Text, VStack } from 'katcn';
 
+import { getColorContrast } from '@/lib/contrast';
 import {
   motion,
   useDragControls,
   useMotionValue,
   useTransform,
 } from 'framer-motion';
+import { atom, useAtom } from 'jotai';
 import fixtures from 'katcn/fixtures';
-import { clamp, entries, interpolate } from 'katcn/helpers';
+import { clamp, entries, interpolate, mapValues } from 'katcn/helpers';
 import { defaultTokensConfig } from 'katcn/tokens';
-import type { Hue, HueChroma, HueLightness } from 'katcn/types';
+import type { Hue, HueChroma, HueLightness, HueStep } from 'katcn/types';
 import { useRef, useState } from 'react';
+
+const lightnessMap = mapValues(defaultTokensConfig.huesLightness, (value) => {
+  return atom(value);
+});
+const chromasMap = mapValues(defaultTokensConfig.huesChroma, (value) => {
+  return atom(value);
+});
+const huesMap = mapValues(defaultTokensConfig.hues, (value) => {
+  return atom(value);
+});
 
 interface SliderProps {
   min: number;
   max: number;
   initialValue: number;
+  value: number;
   startLabel?: string;
   endLabel?: string;
   onChange: (val: number) => void;
@@ -27,6 +40,7 @@ export function Slider({
   min,
   max,
   initialValue,
+  value,
   startLabel,
   endLabel,
   onChange,
@@ -41,7 +55,6 @@ export function Slider({
   const knobMotion = useMotionValue(
     interpolate(initialValue, [min, max], [0, sliderSize]),
   );
-  const [value, setValue] = useState<number>(initialValue);
   const [dragging, setDragging] = useState(false);
 
   const refs = {
@@ -64,14 +77,12 @@ export function Slider({
     const valueInMinMax = interpolate(newValue, [0, sliderSize], [min, max]);
     motionValue.set(valueInMinMax);
     onChange(valueInMinMax);
-    setValue(valueInMinMax);
   };
 
   const handleReset = () => {
     motionValue.set(initialValue);
     knobMotion.set(interpolate(initialValue, [min, max], [0, sliderSize]));
     onChange(initialValue);
-    setValue(initialValue);
   };
 
   const left = useTransform(
@@ -185,18 +196,18 @@ function decimalToLightness(decimal: number): HueLightness {
 
 interface LightnessSliderProps {
   initialValue: HueLightness;
-  hueStep: string;
+  hueStep: HueStep;
 }
 
 function LightnessSlider({ initialValue, hueStep }: LightnessSliderProps) {
-  const [lightness, setLightness] = useState(initialValue);
+  const [lightness, setLightness] = useAtom(lightnessMap[hueStep]);
 
   const handleChange = (value: number) => {
-    const newLightnessPercent = decimalToLightness(value);
-    setLightness(newLightnessPercent);
+    const newValue = decimalToLightness(value);
+    setLightness(newValue);
     document.documentElement.style.setProperty(
       `--katcn-hue-lightness-${hueStep}`,
-      newLightnessPercent,
+      newValue,
     );
   };
 
@@ -205,8 +216,9 @@ function LightnessSlider({ initialValue, hueStep }: LightnessSliderProps) {
       min={0}
       max={1}
       initialValue={lightnessToDecimal(initialValue)}
+      value={lightnessToDecimal(lightness)}
       startLabel={`${hueStep}`}
-      endLabel={lightness}
+      endLabel={`${lightness}`}
       onChange={handleChange}
     />
   );
@@ -214,11 +226,11 @@ function LightnessSlider({ initialValue, hueStep }: LightnessSliderProps) {
 
 interface ChromaSliderProps {
   initialValue: HueChroma;
-  hueStep: string;
+  hueStep: HueStep;
 }
 
 function ChromaSlider({ initialValue, hueStep }: ChromaSliderProps) {
-  const [chroma, setChroma] = useState(initialValue);
+  const [chroma, setChroma] = useAtom(chromasMap[hueStep]);
 
   const handleChange = (value: number) => {
     const roundedString = value.toFixed(2);
@@ -235,6 +247,7 @@ function ChromaSlider({ initialValue, hueStep }: ChromaSliderProps) {
       min={0}
       max={0.37}
       initialValue={initialValue}
+      value={chroma}
       startLabel={`${hueStep}`}
       endLabel={`${chroma}`}
       onChange={handleChange}
@@ -279,7 +292,8 @@ function HueSlider({
   initialValue,
   name,
 }: { initialValue: number; name: Hue }) {
-  const [hue, setHue] = useState(initialValue);
+  const [a11yScore, setA11yScore] = useState<string>('');
+  const [hue, setHue] = useAtom(huesMap[name]);
 
   const handleChange = (value: number) => {
     const roundedString = value.toFixed(1);
@@ -306,26 +320,40 @@ function HueSlider({
         initialValue={initialValue}
         endLabel={`${hue}`}
         onChange={handleChange}
+        value={hue}
       />
 
       <VStack borderRadius="xl" overflow="hidden" grow="prevent">
-        {fixtures.hueSteps.map((step, index) => (
-          <HStack
-            key={step}
-            spacingY="3"
-            spacingX="6"
-            justifyContent="between"
-            alignItems="center"
-            backgroundColor={`${name}-${step}`}
-          >
-            <Text variant="label1" color={index >= 8 ? 'on-color' : 'primary'}>
-              {index}
-            </Text>
-            <Text variant="label1" color={index >= 8 ? 'on-color' : 'primary'}>
-              a11y score
-            </Text>
-          </HStack>
-        ))}
+        {fixtures.hueSteps.map((step, index) => {
+          const [lightness] = useAtom(lightnessMap[step]);
+          const [chroma] = useAtom(chromasMap[step]);
+          const background = `oklch(${lightness} ${chroma} ${hue})`;
+          const foreground = index >= 8 ? '#ffffff' : '#000000';
+          const wcag = getColorContrast({
+            foreground,
+            background,
+            contrastModel: 'wcag',
+            colorSpace: 'p3',
+          });
+
+          return (
+            <HStack
+              key={step}
+              spacingY="3"
+              spacingX="6"
+              justifyContent="between"
+              alignItems="center"
+              backgroundColor={`${name}-${step}`}
+            >
+              <Text variant="label1" style={{ color: foreground }}>
+                {index}
+              </Text>
+              <Text variant="label1" style={{ color: foreground }}>
+                {`${wcag.details} ${wcag.contrast}`}
+              </Text>
+            </HStack>
+          );
+        })}
       </VStack>
     </VStack>
   );

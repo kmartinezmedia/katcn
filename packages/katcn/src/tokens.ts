@@ -79,25 +79,25 @@ const huesChroma: HuesChromaConfig = {
 
 const palette: PaletteConfig = {
   core: {
-    brand: { hue: 'purple', step: 9 },
-    accent: { hue: 'blue', step: 9 },
-    alert: { hue: 'red', step: 9 },
-    positive: { hue: 'green', step: 9 },
-    warning: { hue: 'orange', step: 9 },
+    brand: { hue: 'purple', step: '9' },
+    accent: { hue: 'blue', step: '9' },
+    alert: { hue: 'red', step: '9' },
+    positive: { hue: 'green', step: '9' },
+    warning: { hue: 'orange', step: '9' },
   },
   background: {
-    primary: { hue: 'gray', step: 0 },
-    secondary: { hue: 'gray', step: 2 },
+    primary: { hue: 'gray', step: '0' },
+    secondary: { hue: 'gray', step: '2' },
   },
   foreground: {
-    primary: { hue: 'gray', step: 13 },
-    secondary: { hue: 'gray', step: 14 },
-    tertiary: { hue: 'gray', step: 9 },
-    'on-color': { hue: 'gray', step: 0 },
+    primary: { hue: 'gray', step: '13' },
+    secondary: { hue: 'gray', step: '14' },
+    tertiary: { hue: 'gray', step: '9' },
+    'on-color': { hue: 'gray', step: '0' },
   },
   line: {
-    primary: { hue: 'gray', step: 14 },
-    secondary: { hue: 'gray', step: 9 },
+    primary: { hue: 'gray', step: '14' },
+    secondary: { hue: 'gray', step: '9' },
   },
 };
 
