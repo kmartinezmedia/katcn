@@ -7,8 +7,8 @@ import type {
   TextProps,
   VStackProps,
 } from './components';
-import type { StyleProps } from './types';
 import fixtures from './fixtures';
+import type { StyleProps } from './types';
 
 export interface GetStylesParams extends StyleProps {
   className?: string;

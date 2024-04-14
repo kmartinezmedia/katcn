@@ -1,3 +1,4 @@
+import { type FSWatcher, existsSync, watch } from 'node:fs';
 import {
   FileSystemRefreshResult,
   type Project,
@@ -7,7 +8,6 @@ import { defaultTokensConfig } from '../../tokens';
 import type { UniversalTokensConfig } from '../../types';
 import { KatcnStyleSheet } from '../css/stylesheet';
 import { transformTsx } from './transformTsx';
-import { existsSync, type FSWatcher, watch } from 'node:fs';
 
 interface TransformOptions {
   config?: UniversalTokensConfig;
