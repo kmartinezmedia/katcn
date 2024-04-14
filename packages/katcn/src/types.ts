@@ -2,6 +2,12 @@ import type { PropsWithChildren } from 'react';
 import type { IconName } from './icons/types';
 
 /* -------------------------------------------------------------------------- */
+/*                                   HELPERS                                  */
+/* -------------------------------------------------------------------------- */
+/** https://www.totaltypescript.com/tips/create-autocomplete-helper-which-allows-for-arbitrary-values */
+type LooseAutocompleteString<T extends string> = T | Omit<string, T>;
+
+/* -------------------------------------------------------------------------- */
 /*                                 STYLE PROPS                                */
 /* -------------------------------------------------------------------------- */
 export type ImageStyleProps = {
@@ -147,17 +153,17 @@ export interface OpacityStyleProps {
 
 export interface SizingStyleProps {
   /** Sets the height of an element */
-  height?: Height;
+  height?: LooseAutocompleteString<Height> | number;
   /** Sets the height of an element */
-  minHeight?: MinHeight;
+  minHeight?: LooseAutocompleteString<MinHeight> | number;
   /** Sets the maximum height of an element */
-  maxHeight?: MaxHeight;
+  maxHeight?: LooseAutocompleteString<MaxHeight> | number;
   /** Sets the width of an element */
-  width?: Width;
+  width?: LooseAutocompleteString<Width> | number;
   /** Sets the minimum width of an element */
-  minWidth?: MinWidth;
+  minWidth?: LooseAutocompleteString<MinWidth> | number;
   /** Sets the maximum width of an element */
-  maxWidth?: MaxWidth;
+  maxWidth?: LooseAutocompleteString<MaxWidth> | number;
 }
 
 export interface StateStyleProps {
@@ -392,23 +398,17 @@ export type AlwaysPaletteAlias = 'white' | 'black' | 'transparent';
 
 /* ----------------------------- SEMANTIC COLORS ---------------------------- */
 
-export type ForegroundColor =
-  | Color
-  | CorePaletteAlias
-  | ForegroundPaletteAlias
-  | AlwaysPaletteAlias;
+export type ForegroundColor = LooseAutocompleteString<
+  CorePaletteAlias | ForegroundPaletteAlias | AlwaysPaletteAlias | Color
+>;
 
-export type LineColor =
-  | Color
-  | CorePaletteAlias
-  | LinePaletteAlias
-  | AlwaysPaletteAlias;
+export type LineColor = LooseAutocompleteString<
+  CorePaletteAlias | LinePaletteAlias | AlwaysPaletteAlias | Color
+>;
 
-export type BackgroundColor =
-  | Color
-  | CorePaletteAlias
-  | BackgroundPaletteAlias
-  | AlwaysPaletteAlias;
+export type BackgroundColor = LooseAutocompleteString<
+  CorePaletteAlias | BackgroundPaletteAlias | AlwaysPaletteAlias | Color
+>;
 
 /* -------------------------------------------------------------------------- */
 /*                                 TYPOGRAPHY                                 */
@@ -685,8 +685,7 @@ export type Height =
   | '100vh'
   | `${'min' | 'max' | 'fit'}-content`
   | 'unset'
-  | SpacingAlias
-  | number;
+  | SpacingAlias;
 export type MaxHeight = Height;
 export type MinHeight = Height;
 export type Width =
@@ -706,8 +705,7 @@ export type Width =
   | '100vw'
   | 'half'
   | 'full'
-  | SpacingAlias
-  | number;
+  | SpacingAlias;
 export type MinWidth = Width;
 export type MaxWidth = Width;
 

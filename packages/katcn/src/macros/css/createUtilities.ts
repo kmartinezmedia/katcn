@@ -1,6 +1,5 @@
 import fixtures from '../../fixtures';
-import { flattenObj, fromEntries, mapValues } from '../../helpers';
-import { cssEscape } from '../../helpers/cssEscape';
+import { flattenObj, fromEntries } from '../../helpers';
 import { fontWeightMap } from '../../tokens';
 import type { Height, UniversalTokensConfig, Width } from '../../types';
 

@@ -1,12 +1,13 @@
-import type { Project } from 'ts-morph';
+import { type FSWatcher, existsSync, watch } from 'node:fs';
+import {
+  FileSystemRefreshResult,
+  type Project,
+  type SourceFile,
+} from 'ts-morph';
 import { defaultTokensConfig } from '../../tokens';
 import type { UniversalTokensConfig } from '../../types';
 import { KatcnStyleSheet } from '../css/stylesheet';
 import { transformTsx } from './transformTsx';
-import {
-  type OnSourceFileChange,
-  transformWatchers,
-} from './transformWatchers';
 
 interface TransformOptions {
   config?: UniversalTokensConfig;
@@ -16,6 +17,8 @@ interface TransformOptions {
   disablePreflight?: boolean;
 }
 
+type OnSourceFileChange = (sourceFile: SourceFile) => void;
+
 export async function transformProject({
   config = defaultTokensConfig,
   project,
@@ -23,6 +26,7 @@ export async function transformProject({
   watch: shouldWatch = false,
   disablePreflight = false,
 }: TransformOptions) {
+  const watchers: FSWatcher[] = [];
   const sourceFiles = project.getSourceFiles();
   const stylesheet = new KatcnStyleSheet({
     config,
@@ -42,7 +46,30 @@ export async function transformProject({
   };
 
   if (shouldWatch) {
-    transformWatchers({ project, onChange });
+    for (const sourceFile of project.getSourceFiles()) {
+      const filePath = sourceFile.getFilePath();
+      if (filePath.endsWith('tsx') && existsSync(filePath)) {
+        const filePath = sourceFile.getFilePath();
+        const watchFn = watch(filePath, (event) => {
+          if (event === 'change') {
+            console.log('[katcn] File changed:', filePath);
+            sourceFile?.refreshFromFileSystem().then((status) => {
+              if (status === FileSystemRefreshResult.Updated) {
+                onChange(sourceFile);
+              }
+            });
+          }
+        });
+        watchers.push(watchFn);
+      }
+    }
+
+    process.on('SIGINT', () => {
+      // close watcher when Ctrl-C is pressed
+      console.log('[katcn] Closing watcher...');
+      watchers.map((watcher) => watcher.close());
+      process.exit(0);
+    });
   }
 
   for (const sourceFile of sourceFiles) {

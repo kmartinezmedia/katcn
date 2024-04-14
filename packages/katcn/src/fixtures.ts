@@ -68,6 +68,15 @@ export default {
       'ForegroundPaletteAlias',
     ),
   },
+  get allColorNames() {
+    return [
+      ...this.colors,
+      ...this.palette.background,
+      ...this.palette.core,
+      ...this.palette.line,
+      ...this.palette.foreground,
+    ];
+  },
   borderWidth: typesToConstants<BorderWidth>('BorderWidth'),
   flexDirection: typesToConstants<FlexDirection>('FlexDirection'),
   alignContent: typesToConstants<AlignContent>('AlignContent'),

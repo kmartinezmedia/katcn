@@ -7,7 +7,7 @@ export function convertArbitraryDefinition(
   input: string,
 ): { [key: string]: string } | null {
   // Regular expression to extract the key and value
-  const regex = /(\w+)-\[(\d+px)\]/;
+  const regex = /(\w+)-\[(.*?)\]/;
   const match = input.match(regex);
 
   if (match) {
