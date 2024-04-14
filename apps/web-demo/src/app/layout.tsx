@@ -5,12 +5,12 @@ import '#katcn/styles.css';
 
 const iconFont = localFont({
   src: '../../../../packages/katcn/src/icons/fonts/icons.woff2',
-  variable: '--katcn-font-icons',
+  variable: '--font-icons',
 });
 
 const inter = Inter({
   subsets: ['latin'],
-  variable: '--katcn-font-sans',
+  variable: '--font-sans',
 });
 
 export { metadata } from '@/lib/metadata';

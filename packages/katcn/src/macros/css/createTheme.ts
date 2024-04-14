@@ -13,7 +13,7 @@ function getPaletteVars(palette: PaletteConfig) {
   return mapValues(palette, (nestedConfig) => {
     return mapValues(nestedConfig, (value) => {
       const { hue, step, opacity = 1 } = value as PaletteValue;
-      return `var(--katcn-color-${hue}-${step})`;
+      return `var(--color-${hue}-${step})`;
     });
   });
 }
@@ -35,7 +35,7 @@ function getTypographyVars(typography: TypographyConfig) {
       lineHeight,
       textTransform = 'none',
     } = variantConfig;
-    varsConfig['font-family'][key] = `var(--katcn-font-${fontFamily})`;
+    varsConfig['font-family'][key] = `var(--font-${fontFamily})`;
     varsConfig['font-size'][key] = `${fontSize}px`;
     varsConfig['font-weight'][key] = fontWeight;
     varsConfig['line-height'][key] = `${lineHeight}px`;
@@ -66,22 +66,22 @@ export function createTheme({
     color: {
       ...mapValues(hues, (value, key) => {
         return {
-          '0': `oklch(var(--katcn-hue-lightness-0) var(--katcn-hue-chroma-0) var(--katcn-hue-${key}))`,
-          '1': `oklch(var(--katcn-hue-lightness-1) var(--katcn-hue-chroma-1) var(--katcn-hue-${key}))`,
-          '2': `oklch(var(--katcn-hue-lightness-2) var(--katcn-hue-chroma-2) var(--katcn-hue-${key}))`,
-          '3': `oklch(var(--katcn-hue-lightness-3) var(--katcn-hue-chroma-3) var(--katcn-hue-${key}))`,
-          '4': `oklch(var(--katcn-hue-lightness-4) var(--katcn-hue-chroma-4) var(--katcn-hue-${key}))`,
-          '5': `oklch(var(--katcn-hue-lightness-5) var(--katcn-hue-chroma-5) var(--katcn-hue-${key}))`,
-          '6': `oklch(var(--katcn-hue-lightness-6) var(--katcn-hue-chroma-6) var(--katcn-hue-${key}))`,
-          '7': `oklch(var(--katcn-hue-lightness-7) var(--katcn-hue-chroma-7) var(--katcn-hue-${key}))`,
-          '8': `oklch(var(--katcn-hue-lightness-8) var(--katcn-hue-chroma-8) var(--katcn-hue-${key}))`,
-          '9': `oklch(var(--katcn-hue-lightness-9) var(--katcn-hue-chroma-9) var(--katcn-hue-${key}))`,
-          '10': `oklch(var(--katcn-hue-lightness-10) var(--katcn-hue-chroma-10) var(--katcn-hue-${key}))`,
-          '11': `oklch(var(--katcn-hue-lightness-11) var(--katcn-hue-chroma-11) var(--katcn-hue-${key}))`,
-          '12': `oklch(var(--katcn-hue-lightness-12) var(--katcn-hue-chroma-12) var(--katcn-hue-${key}))`,
-          '13': `oklch(var(--katcn-hue-lightness-13) var(--katcn-hue-chroma-13) var(--katcn-hue-${key}))`,
-          '14': `oklch(var(--katcn-hue-lightness-14) var(--katcn-hue-chroma-14) var(--katcn-hue-${key}))`,
-          '15': `oklch(var(--katcn-hue-lightness-15) var(--katcn-hue-chroma-15) var(--katcn-hue-${key}))`,
+          '0': `oklch(var(--hue-lightness-0) var(--hue-chroma-0) var(--hue-${key}))`,
+          '1': `oklch(var(--hue-lightness-1) var(--hue-chroma-1) var(--hue-${key}))`,
+          '2': `oklch(var(--hue-lightness-2) var(--hue-chroma-2) var(--hue-${key}))`,
+          '3': `oklch(var(--hue-lightness-3) var(--hue-chroma-3) var(--hue-${key}))`,
+          '4': `oklch(var(--hue-lightness-4) var(--hue-chroma-4) var(--hue-${key}))`,
+          '5': `oklch(var(--hue-lightness-5) var(--hue-chroma-5) var(--hue-${key}))`,
+          '6': `oklch(var(--hue-lightness-6) var(--hue-chroma-6) var(--hue-${key}))`,
+          '7': `oklch(var(--hue-lightness-7) var(--hue-chroma-7) var(--hue-${key}))`,
+          '8': `oklch(var(--hue-lightness-8) var(--hue-chroma-8) var(--hue-${key}))`,
+          '9': `oklch(var(--hue-lightness-9) var(--hue-chroma-9) var(--hue-${key}))`,
+          '10': `oklch(var(--hue-lightness-10) var(--hue-chroma-10) var(--hue-${key}))`,
+          '11': `oklch(var(--hue-lightness-11) var(--hue-chroma-11) var(--hue-${key}))`,
+          '12': `oklch(var(--hue-lightness-12) var(--hue-chroma-12) var(--hue-${key}))`,
+          '13': `oklch(var(--hue-lightness-13) var(--hue-chroma-13) var(--hue-${key}))`,
+          '14': `oklch(var(--hue-lightness-14) var(--hue-chroma-14) var(--hue-${key}))`,
+          '15': `oklch(var(--hue-lightness-15) var(--hue-chroma-15) var(--hue-${key}))`,
         };
       }),
       gray: {

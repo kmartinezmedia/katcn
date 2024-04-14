@@ -62,17 +62,17 @@ Should output the following (excluding CSS reset for brevity):
 ```css styles.css
 layer theme {
   :where(html) {
-    --katcn-hue-blue: 261;
-    --katcn-hue-lightness-9: 49%;
-    --katcn-hue-chroma-9: 0.19;
-    --katcn-color-blue-9: oklch(var(--katcn-hue-lightness-9) var(--katcn-hue-chroma-9) var(--katcn-hue-blue));
-    --katcn-palette-core-accent: var(--katcn-color-blue-9);
+    --hue-blue: 261;
+    --hue-lightness-9: 49%;
+    --hue-chroma-9: 0.19;
+    --color-blue-9: oklch(var(--hue-lightness-9) var(--hue-chroma-9) var(--hue-blue));
+    --palette-core-accent: var(--color-blue-9);
   }
 }
 
 @layer utilities {
   .backgroundColor-accent {
-    background-color: var(--katcn-palette-core-accent);
+    background-color: var(--palette-core-accent);
   }
   .display-flex {
     display: flex;
@@ -102,21 +102,21 @@ function Example({active}: {active: boolean}) {
 ```css
 @layer theme {
   :where(html) {
-    --katcn-hue-blue: 261;
-    --katcn-hue-lightness-9: 49%;
-    --katcn-hue-chroma-9: 0.19;
-    --katcn-color-blue-9: oklch(var(--katcn-hue-lightness-9) var(--katcn-hue-chroma-9) var(--katcn-hue-blue));
-    --katcn-color-gray-2: lab(86.0704% -2.10407 -6.31995);
-    --katcn-palette-core-accent: var(--katcn-color-blue-9);
-    --katcn-palette-background-secondary: var(--katcn-color-gray-2);
+    --hue-blue: 261;
+    --hue-lightness-9: 49%;
+    --hue-chroma-9: 0.19;
+    --color-blue-9: oklch(var(--hue-lightness-9) var(--hue-chroma-9) var(--hue-blue));
+    --color-gray-2: lab(86.0704% -2.10407 -6.31995);
+    --palette-core-accent: var(--color-blue-9);
+    --palette-background-secondary: var(--color-gray-2);
   }
 }
 @layer utilities {
   .backgroundColor-accent {
-    background-color: var(--katcn-palette-core-accent);
+    background-color: var(--palette-core-accent);
   }
   .backgroundColor-secondary {
-    background-color: var(--katcn-palette-background-secondary);
+    background-color: var(--palette-background-secondary);
   }
   .flexDirection-vertical {
     flex-direction: column;
@@ -146,16 +146,16 @@ function Example({column}: {column: 1 | 2 | 3}) {
 ```css
 @layer theme {
   :where(html) {
-    --katcn-hue-blue: 261;
-    --katcn-hue-lightness-9: 49%;
-    --katcn-hue-chroma-9: 0.19;
-    --katcn-color-blue-9: oklch(var(--katcn-hue-lightness-9) var(--katcn-hue-chroma-9) var(--katcn-hue-blue));
-    --katcn-palette-core-accent: var(--katcn-color-blue-9);
+    --hue-blue: 261;
+    --hue-lightness-9: 49%;
+    --hue-chroma-9: 0.19;
+    --color-blue-9: oklch(var(--hue-lightness-9) var(--hue-chroma-9) var(--hue-blue));
+    --palette-core-accent: var(--color-blue-9);
   }
 }
 @layer utilities {
   .backgroundColor-accent {
-    background-color: var(--katcn-palette-core-accent);
+    background-color: var(--palette-core-accent);
   }
   .flexDirection-vertical {
     flex-direction: column;

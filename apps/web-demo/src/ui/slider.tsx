@@ -206,7 +206,7 @@ function LightnessSlider({ initialValue, hueStep }: LightnessSliderProps) {
     const newValue = decimalToLightness(value);
     setLightness(newValue);
     document.documentElement.style.setProperty(
-      `--katcn-hue-lightness-${hueStep}`,
+      `--hue-lightness-${hueStep}`,
       newValue,
     );
   };
@@ -237,7 +237,7 @@ function ChromaSlider({ initialValue, hueStep }: ChromaSliderProps) {
     const roundedNumber = Number.parseFloat(roundedString);
     setChroma(roundedNumber);
     document.documentElement.style.setProperty(
-      `--katcn-hue-chroma-${hueStep}`,
+      `--hue-chroma-${hueStep}`,
       `${roundedNumber}`,
     );
   };
@@ -300,7 +300,7 @@ function HueSlider({
     const roundedNumber = Number.parseFloat(roundedString);
     setHue(roundedNumber);
     document.documentElement.style.setProperty(
-      `--katcn-hue-${name}`,
+      `--hue-${name}`,
       `${roundedNumber}`,
     );
   };
