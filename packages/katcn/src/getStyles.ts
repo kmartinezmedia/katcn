@@ -8,7 +8,7 @@ import type {
   VStackProps,
 } from './components';
 import type { StyleProps } from './types';
-import fixtures from 'katcn/fixtures';
+import fixtures from './fixtures';
 
 export interface GetStylesParams extends StyleProps {
   className?: string;
