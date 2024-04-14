@@ -66,7 +66,7 @@ const Box = forwardRef<HTMLDivElement, BoxProps>(function Box(
   ref,
 ) {
   const Comp = asChild ? BoxSlot : 'div';
-  return <Comp ref={ref} {...props} />;
+  return <Comp ref={ref} {...(props as HtmlDivProps)} />;
 });
 
 const HStack = forwardRef<HTMLDivElement, HStackProps>(function HStack(
@@ -74,7 +74,7 @@ const HStack = forwardRef<HTMLDivElement, HStackProps>(function HStack(
   ref,
 ) {
   const Comp = asChild ? BoxSlot : 'div';
-  return <Comp ref={ref} {...props} />;
+  return <Comp ref={ref} {...(props as HtmlDivProps)} />;
 });
 
 const VStack = forwardRef<HTMLDivElement, VStackProps>(function VStack(
@@ -82,7 +82,7 @@ const VStack = forwardRef<HTMLDivElement, VStackProps>(function VStack(
   ref,
 ) {
   const Comp = asChild ? BoxSlot : 'div';
-  return <Comp ref={ref} {...props} />;
+  return <Comp ref={ref} {...(props as HtmlDivProps)} />;
 });
 
 const Icon = forwardRef<HTMLSpanElement, IconProps>(function Icon(
@@ -91,7 +91,7 @@ const Icon = forwardRef<HTMLSpanElement, IconProps>(function Icon(
 ) {
   const Comp = asChild ? IconSlot : 'span';
   return (
-    <Comp ref={ref} {...props}>
+    <Comp ref={ref} {...(props as HtmlSpanProps)}>
       {name}
     </Comp>
   );
@@ -100,14 +100,14 @@ const Icon = forwardRef<HTMLSpanElement, IconProps>(function Icon(
 const Image = forwardRef<HTMLImageElement, ImageProps>(
   function Image(props, ref) {
     // biome-ignore lint/a11y/useAltText: the alt attribute is already required in typescript
-    return <img ref={ref} {...props} />;
+    return <img ref={ref} {...(props as HtmlImgProps)} />;
   },
 );
 
 const Pressable = forwardRef<HTMLButtonElement, PressableProps>(
   function Pressable({ asChild, onPress, ...props }, ref) {
     const Comp = asChild ? PressableSlot : 'button';
-    return <Comp ref={ref} onClick={onPress} {...props} />;
+    return <Comp ref={ref} onClick={onPress} {...(props as HtmlButtonProps)} />;
   },
 );
 
@@ -116,12 +116,21 @@ const Text = forwardRef<typeof TextSlot, TextProps>(function Text(
   ref,
 ) {
   const Comp = asChild ? TextSlot : as;
-  return <Comp ref={ref as unknown as string} {...props} />;
+  return (
+    <Comp ref={ref as unknown as string} {...(props as HtmlParagraphProps)} />
+  );
 });
 
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   function TextInput(props, ref) {
-    return <input ref={ref} type="text" data-1p-ignore {...props} />;
+    return (
+      <input
+        ref={ref}
+        type="text"
+        data-1p-ignore
+        {...(props as HtmlTextInputProps)}
+      />
+    );
   },
 );
 

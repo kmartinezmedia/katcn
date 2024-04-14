@@ -8,6 +8,7 @@ import type {
   VStackProps,
 } from './components';
 import type { StyleProps } from './types';
+import fixtures from 'katcn/fixtures';
 
 export interface GetStylesParams extends StyleProps {
   className?: string;
@@ -99,8 +100,19 @@ export const getStyles = ({
   const classNames = new Set<string>();
 
   if (color) {
-    classNames.add(`color-${color}`);
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      color as any,
+    );
+    let classname = 'color';
+    if (isCustomColor) {
+      classname = `${classname}-[${color}]`;
+    } else {
+      classname = `${classname}-${color}`;
+    }
+    classNames.add(classname);
   }
+
   if (colorChecked) {
     classNames.add(`data-[state=checked]:color-${colorChecked}`);
   }
@@ -130,260 +142,634 @@ export const getStyles = ({
   if (textTransform) {
     classNames.add(`textTransform-${textTransform}`);
   }
+
   if (spacing) {
-    const classNameToAdd =
-      typeof spacing === 'number'
-        ? `spacing-[${spacing}px]`
-        : `spacing-${spacing}`;
-    classNames.add(classNameToAdd);
+    let classname = 'spacing';
+    typeof spacing === 'number'
+      ? `spacing-[${spacing}px]`
+      : `spacing-${spacing}`;
+
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const isCustomClassname = !fixtures.spacingAlias.includes(spacing as any);
+
+    if (isCustomClassname) {
+      classname = `spacing-[${spacing}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (spacingX) {
-    const classNameToAdd =
-      typeof spacingX === 'number'
-        ? `spacingX-[${spacingX}px]`
-        : `spacingX-${spacingX}`;
-    classNames.add(classNameToAdd);
+    let classname = 'spacingX';
+    typeof spacingX === 'number'
+      ? `spacingX-[${spacingX}px]`
+      : `spacingX-${spacingX}`;
+
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const isCustomClassname = !fixtures.spacingAlias.includes(spacingX as any);
+
+    if (isCustomClassname) {
+      classname = `spacingX-[${spacingX}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (spacingY) {
-    const classNameToAdd =
-      typeof spacingY === 'number'
-        ? `spacingY-[${spacingY}px]`
-        : `spacingY-${spacingY}`;
-    classNames.add(classNameToAdd);
+    let classname = 'spacingY';
+    typeof spacingY === 'number'
+      ? `spacingY-[${spacingY}px]`
+      : `spacingY-${spacingY}`;
+
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const isCustomClassname = !fixtures.spacingAlias.includes(spacingY as any);
+
+    if (isCustomClassname) {
+      classname = `spacingY-[${spacingY}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (spacingTop) {
-    const classNameToAdd =
-      typeof spacingTop === 'number'
-        ? `spacingTop-[${spacingTop}px]`
-        : `spacingTop-${spacingTop}`;
-    classNames.add(classNameToAdd);
+    let classname = 'spacingTop';
+    typeof height === 'number'
+      ? `spacingTop-[${spacingTop}px]`
+      : `spacingTop-${spacingTop}`;
+
+    const isCustomClassname = !fixtures.spacingAlias.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      spacingTop as any,
+    );
+
+    if (isCustomClassname) {
+      classname = `spacingTop-[${spacingTop}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (spacingBottom) {
-    const classNameToAdd =
-      typeof spacingBottom === 'number'
-        ? `spacingBottom-[${spacingBottom}px]`
-        : `spacingBottom-${spacingBottom}`;
-    classNames.add(classNameToAdd);
+    let classname = 'spacingBottom';
+    typeof height === 'number'
+      ? `heispacingBottom-[${spacingBottom}px]`
+      : `spacingBottom-${spacingBottom}`;
+
+    const isCustomClassname = !fixtures.spacingAlias.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      spacingBottom as any,
+    );
+
+    if (isCustomClassname) {
+      classname = `spacingBottom-[${spacingBottom}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (spacingStart) {
-    const classNameToAdd =
-      typeof spacingStart === 'number'
-        ? `spacingStart-[${spacingStart}px]`
-        : `spacingStart-${spacingStart}`;
-    classNames.add(classNameToAdd);
+    let classname = 'spacingStart';
+    typeof height === 'number'
+      ? `hespacingStart-[${spacingStart}px]`
+      : `spacingStart-${spacingStart}`;
+
+    const isCustomClassname = !fixtures.spacingAlias.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      spacingStart as any,
+    );
+
+    if (isCustomClassname) {
+      classname = `spacingStart-[${spacingStart}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (spacingEnd) {
-    const classNameToAdd =
-      typeof spacingEnd === 'number'
-        ? `spacingEnd-[${spacingEnd}px]`
-        : `spacingEnd-${spacingEnd}`;
-    classNames.add(classNameToAdd);
+    let classname = 'spacingEnd';
+    typeof height === 'number'
+      ? `spacingEnd-[${spacingEnd}px]`
+      : `spacingEnd-${spacingEnd}`;
+
+    const isCustomClassname = !fixtures.spacingAlias.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      spacingEnd as any,
+    );
+
+    if (isCustomClassname) {
+      classname = `spacingEnd-[${spacingEnd}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (offset) {
-    const classNameToAdd =
-      typeof offset === 'number' ? `offset-[${offset}px]` : `offset-${offset}`;
-    classNames.add(classNameToAdd);
+    let classname = 'offset';
+    typeof height === 'number' ? `offset-[${offset}px]` : `offset-${offset}`;
+
+    const isCustomClassname = !fixtures.spacingAlias.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      offset as any,
+    );
+
+    if (isCustomClassname) {
+      classname = `offset-[${offset}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (offsetY) {
-    const classNameToAdd =
-      typeof offsetY === 'number'
-        ? `offsetY-[${offsetY}px]`
-        : `offsetY-${offsetY}`;
-    classNames.add(classNameToAdd);
+    let classname = 'offsetY';
+    typeof height === 'number'
+      ? `offsetY-[${offsetY}px]`
+      : `offsetY-${offsetY}`;
+
+    const isCustomClassname = !fixtures.spacingAlias.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      offsetY as any,
+    );
+
+    if (isCustomClassname) {
+      classname = `offsetY-[${offsetY}]`;
+    }
+
+    classNames.add(classname);
   }
   if (offsetX) {
-    const classNameToAdd =
-      typeof offsetX === 'number'
-        ? `offsetX-[${offsetX}px]`
-        : `offsetX-${offsetX}`;
-    classNames.add(classNameToAdd);
+    let classname = 'offsetX';
+    typeof height === 'number'
+      ? `offsetX-[${offsetX}px]`
+      : `offsetX-${offsetX}`;
+
+    const isCustomClassname = !fixtures.spacingAlias.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      offsetX as any,
+    );
+
+    if (isCustomClassname) {
+      classname = `offsetX-[${offsetX}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (offsetTop) {
-    const classNameToAdd =
-      typeof offsetTop === 'number'
-        ? `offsetTop-[${offsetTop}px]`
-        : `offsetTop-${offsetTop}`;
-    classNames.add(classNameToAdd);
+    let classname = 'offsetTop';
+    typeof height === 'number'
+      ? `offsetTop-[${offsetTop}px]`
+      : `offsetTop-${offsetTop}`;
+
+    const isCustomClassname = !fixtures.spacingAlias.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      offsetTop as any,
+    );
+
+    if (isCustomClassname) {
+      classname = `offsetTop-[${offsetTop}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (offsetBottom) {
-    const classNameToAdd =
-      typeof offsetBottom === 'number'
-        ? `offsetBottom-[${offsetBottom}px]`
-        : `offsetBottom-${offsetBottom}`;
-    classNames.add(classNameToAdd);
+    let classname = 'offsetBottom';
+    typeof height === 'number'
+      ? `offsetBottom-[${offsetBottom}px]`
+      : `offsetBottom-${offsetBottom}`;
+
+    const isCustomClassname = !fixtures.spacingAlias.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      offsetBottom as any,
+    );
+
+    if (isCustomClassname) {
+      classname = `offsetBottom-[${offsetBottom}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (offsetStart) {
-    const classNameToAdd =
-      typeof offsetStart === 'number'
-        ? `offsetStart-[${offsetStart}px]`
-        : `offsetStart-${offsetStart}`;
-    classNames.add(classNameToAdd);
+    let classname = 'offsetStart';
+    typeof height === 'number'
+      ? `offsetStart-[${offsetStart}px]`
+      : `offsetStart-${offsetStart}`;
+
+    const isCustomClassname = !fixtures.spacingAlias.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      offsetStart as any,
+    );
+
+    if (isCustomClassname) {
+      classname = `offsetStart-[${offsetStart}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (offsetEnd) {
-    const classNameToAdd =
-      typeof offsetEnd === 'number'
-        ? `offsetEnd-[${offsetEnd}px]`
-        : `offsetEnd-${offsetEnd}`;
-    classNames.add(classNameToAdd);
+    let classname = 'offsetEnd';
+    typeof height === 'number'
+      ? `offsetEnd-[${offsetEnd}px]`
+      : `offsetEnd-${offsetEnd}`;
+
+    const isCustomClassname = !fixtures.spacingAlias.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      offsetEnd as any,
+    );
+
+    if (isCustomClassname) {
+      classname = `offsetEnd-[${offsetEnd}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (gapX) {
-    const classNameToAdd =
-      typeof gapX === 'number' ? `gapX-[${gapX}px]` : `gapX-${gapX}`;
-    classNames.add(classNameToAdd);
+    let classname = 'gapX';
+    typeof height === 'number' ? `gapX-[${gapX}px]` : `gapX-${gapX}`;
+
+    const isCustomClassname = !fixtures.spacingAlias.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      gapX as any,
+    );
+
+    if (isCustomClassname) {
+      classname = `gapX-[${gapX}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (gapY) {
-    const classNameToAdd =
-      typeof gapY === 'number' ? `gapY-[${gapY}px]` : `gapY-${gapY}`;
-    classNames.add(classNameToAdd);
+    let classname = 'gapY';
+    typeof height === 'number' ? `gapY-[${gapY}px]` : `gapY-${gapY}`;
+
+    const isCustomClassname = !fixtures.spacingAlias.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      gapY as any,
+    );
+
+    if (isCustomClassname) {
+      classname = `gapY-[${gapY}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (backgroundColor) {
-    classNames.add(`backgroundColor-${backgroundColor}`);
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      backgroundColor as any,
+    );
+    let classname = 'backgroundColor';
+    if (isCustomColor) {
+      classname = `${classname}-[${backgroundColor}]`;
+    } else {
+      classname = `${classname}-${backgroundColor}`;
+    }
+    classNames.add(classname);
   }
+
   if (backgroundColorOnActive) {
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      backgroundColorOnActive as any,
+    );
+    let classname = 'backgroundColorOnActive';
+    if (isCustomColor) {
+      classname = `${classname}-[${backgroundColorOnActive}]`;
+    } else {
+      classname = `${classname}-${backgroundColorOnActive}`;
+    }
     classNames.add(`backgroundColorOnActive-${backgroundColorOnActive}`);
   }
+
   if (backgroundColorOnFocus) {
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      backgroundColorOnFocus as any,
+    );
+    let classname = 'backgroundColorOnFocus';
+    if (isCustomColor) {
+      classname = `${classname}-[${backgroundColorOnFocus}]`;
+    } else {
+      classname = `${classname}-${backgroundColorOnFocus}`;
+    }
     classNames.add(`backgroundColorOnFocus-${backgroundColorOnFocus}`);
   }
+
   if (backgroundColorOnHover) {
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      backgroundColorOnHover as any,
+    );
+    let classname = 'backgroundColorOnHover';
+    if (isCustomColor) {
+      classname = `${classname}-[${backgroundColorOnHover}]`;
+    } else {
+      classname = `${classname}-${backgroundColorOnHover}`;
+    }
     classNames.add(`backgroundColorOnHover-${backgroundColorOnHover}`);
   }
 
   if (backgroundColorOnChecked) {
-    classNames.add(`backgroundColorOnChecked:bg-${backgroundColorOnChecked}`);
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      backgroundColorOnChecked as any,
+    );
+    let classname = 'backgroundColorOnChecked';
+    if (isCustomColor) {
+      classname = `${classname}-[${backgroundColorOnChecked}]`;
+    } else {
+      classname = `${classname}-${backgroundColorOnChecked}`;
+    }
+    classNames.add(`backgroundColorOnChecked-${backgroundColorOnChecked}`);
   }
 
   if (borderColorOnActive) {
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      borderColorOnActive as any,
+    );
+    let classname = '';
+
     if (borderColor) {
-      classNames.add(`borderColorOnActive-${borderColorOnActive}`);
+      classname = 'borderColorOnActive';
     }
     if (borderTopColor) {
-      classNames.add(`borderColorOnActive-t-${borderColorOnActive}`);
+      classname = 'borderColorOnActive-t';
     }
     if (borderBottomColor) {
-      classNames.add(`borderColorOnActive-b-${borderColorOnActive}`);
+      classname = 'borderColorOnActive-b';
     }
     if (borderStartColor) {
-      classNames.add(`borderColorOnActive-s-${borderColorOnActive}`);
+      classname = 'borderColorOnActive-s';
     }
     if (borderEndColor) {
-      classNames.add(`borderColorOnActive-e-${borderColorOnActive}`);
+      classname = 'borderColorOnActive-e';
     }
+
+    if (isCustomColor) {
+      classname = `${classname}-[${borderColorOnActive}]`;
+    } else {
+      classname = `${classname}-${borderColorOnActive}`;
+    }
+    classNames.add(classname);
   }
 
   if (borderColorOnChecked) {
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      borderColorOnChecked as any,
+    );
+    let classname = '';
+
     if (borderColor) {
-      classNames.add(`borderColorOnChecked-${borderColorOnChecked}`);
+      classname = 'borderColorOnChecked';
     }
     if (borderTopColor) {
-      classNames.add(`borderColorOnChecked-t-${borderColorOnChecked}`);
+      classname = 'borderColorOnChecked-t';
     }
     if (borderBottomColor) {
-      classNames.add(`borderColorOnChecked-b-${borderColorOnChecked}`);
+      classname = 'borderColorOnChecked-b';
     }
     if (borderStartColor) {
-      classNames.add(`borderColorOnChecked-s-${borderColorOnChecked}`);
+      classname = 'borderColorOnChecked-s';
     }
     if (borderEndColor) {
-      classNames.add(`borderColorOnChecked-e-${borderColorOnChecked}`);
+      classname = 'borderColorOnChecked-e';
     }
+
+    if (isCustomColor) {
+      classname = `${classname}-[${borderColorOnChecked}]`;
+    } else {
+      classname = `${classname}-${borderColorOnChecked}`;
+    }
+    classNames.add(classname);
   }
 
   if (borderColorOnFocus) {
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      borderColorOnFocus as any,
+    );
+    let classname = '';
+
     if (borderColor) {
-      classNames.add(`borderColorOnFocus-${borderColorOnFocus}`);
+      classname = 'borderColorOnFocus';
     }
     if (borderTopColor) {
-      classNames.add(`borderColorOnFocus-t-${borderColorOnFocus}`);
+      classname = 'borderColorOnFocus-t';
     }
     if (borderBottomColor) {
-      classNames.add(`borderColorOnFocus-b-${borderColorOnFocus}`);
+      classname = 'borderColorOnFocus-b';
     }
     if (borderStartColor) {
-      classNames.add(`borderColorOnFocus-s-${borderColorOnFocus}`);
+      classname = 'borderColorOnFocus-s';
     }
     if (borderEndColor) {
-      classNames.add(`borderColorOnFocus-e-${borderColorOnFocus}`);
+      classname = 'borderColorOnFocus-e';
     }
+
+    if (isCustomColor) {
+      classname = `${classname}-[${borderColorOnFocus}]`;
+    } else {
+      classname = `${classname}-${borderColorOnFocus}`;
+    }
+    classNames.add(classname);
   }
 
   if (borderColorOnHover) {
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      borderColorOnHover as any,
+    );
+    let classname = '';
+
     if (borderColor) {
-      classNames.add(`borderColorOnHover-${borderColorOnHover}`);
+      classname = 'borderColorOnHover';
     }
     if (borderTopColor) {
-      classNames.add(`borderColorOnHover-t-${borderColorOnHover}`);
+      classname = 'borderColorOnHover-t';
     }
     if (borderBottomColor) {
-      classNames.add(`borderColorOnHover-b-${borderColorOnHover}`);
+      classname = 'borderColorOnHover-b';
     }
     if (borderStartColor) {
-      classNames.add(`borderColorOnHover-s-${borderColorOnHover}`);
+      classname = 'borderColorOnHover-s';
     }
     if (borderEndColor) {
-      classNames.add(`borderColorOnHover-e-${borderColorOnHover}`);
+      classname = 'borderColorOnHover-e';
     }
+
+    if (isCustomColor) {
+      classname = `${classname}-[${borderColorOnHover}]`;
+    } else {
+      classname = `${classname}-${borderColorOnHover}`;
+    }
+    classNames.add(classname);
   }
 
   if (borderColorOnActive) {
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      borderColorOnActive as any,
+    );
+    let classname = '';
+
     if (borderColor) {
-      classNames.add(`borderColorOnActive-${borderColorOnActive}`);
+      classname = 'borderColorOnActive';
     }
     if (borderTopColor) {
-      classNames.add(`borderColorOnActive-t-${borderColorOnActive}`);
+      classname = 'borderColorOnActive-t';
     }
     if (borderBottomColor) {
-      classNames.add(`borderColorOnActive-b-${borderColorOnActive}`);
+      classname = 'borderColorOnActive-b';
     }
     if (borderStartColor) {
-      classNames.add(`borderColorOnActive-s-${borderColorOnActive}`);
+      classname = 'borderColorOnActive-s';
     }
     if (borderEndColor) {
-      classNames.add(`borderColorOnActive-e-${borderColorOnActive}`);
+      classname = 'borderColorOnActive-e';
     }
+
+    if (isCustomColor) {
+      classname = `${classname}-[${borderColorOnActive}]`;
+    } else {
+      classname = `${classname}-${borderColorOnActive}`;
+    }
+    classNames.add(classname);
   }
 
   if (borderColorOnFocus) {
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      borderColorOnFocus as any,
+    );
+    let classname = '';
+
+    if (borderColor) {
+      classname = 'borderColorOnFocus';
+    }
     if (borderTopColor) {
-      classNames.add(`borderColorOnFocus-t-${borderColorOnFocus}`);
+      classname = 'borderColorOnFocus-t';
     }
     if (borderBottomColor) {
-      classNames.add(`borderColorOnFocus-b-${borderColorOnFocus}`);
+      classname = 'borderColorOnFocus-b';
     }
     if (borderStartColor) {
-      classNames.add(`borderColorOnFocus-s-${borderColorOnFocus}`);
+      classname = 'borderColorOnFocus-s';
     }
     if (borderEndColor) {
-      classNames.add(`borderColorOnFocus-e-${borderColorOnFocus}`);
+      classname = 'borderColorOnFocus-e';
     }
+
+    if (isCustomColor) {
+      classname = `${classname}-[${borderColorOnFocus}]`;
+    } else {
+      classname = `${classname}-${borderColorOnFocus}`;
+    }
+    classNames.add(classname);
   }
 
   if (borderColor) {
-    classNames.add(`borderColor-${borderColor}`);
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      borderColor as any,
+    );
+    let classname = 'borderColor';
+    if (isCustomColor) {
+      classname = `${classname}-[${borderColor}]`;
+    } else {
+      classname = `${classname}-${borderColor}`;
+    }
+    classNames.add(classname);
   }
 
   if (borderYColor) {
-    classNames.add(`borderYColor-${borderYColor}`);
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      borderYColor as any,
+    );
+    let classname = 'borderYColor';
+    if (isCustomColor) {
+      classname = `${classname}-[${borderYColor}]`;
+    } else {
+      classname = `${classname}-${borderYColor}`;
+    }
+    classNames.add(classname);
   }
 
   if (borderXColor) {
-    classNames.add(`borderXColor-${borderXColor}`);
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      borderXColor as any,
+    );
+    let classname = 'borderXColor';
+    if (isCustomColor) {
+      classname = `${classname}-[${borderXColor}]`;
+    } else {
+      classname = `${classname}-${borderXColor}`;
+    }
+    classNames.add(classname);
   }
 
   if (borderTopColor) {
-    classNames.add(`borderTopColor-${borderTopColor}`);
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      borderTopColor as any,
+    );
+    let classname = 'borderTopColor';
+    if (isCustomColor) {
+      classname = `${classname}-[${borderTopColor}]`;
+    } else {
+      classname = `${classname}-${borderTopColor}`;
+    }
+    classNames.add(classname);
   }
 
   if (borderBottomColor) {
-    classNames.add(`borderBottomColor-${borderBottomColor}`);
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      borderBottomColor as any,
+    );
+    let classname = 'borderBottomColor';
+    if (isCustomColor) {
+      classname = `${classname}-[${borderBottomColor}]`;
+    } else {
+      classname = `${classname}-${borderBottomColor}`;
+    }
+    classNames.add(classname);
   }
 
   if (borderStartColor) {
-    classNames.add(`borderStartColor-${borderStartColor}`);
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      borderStartColor as any,
+    );
+    let classname = 'borderStartColor';
+    if (isCustomColor) {
+      classname = `${classname}-[${borderStartColor}]`;
+    } else {
+      classname = `${classname}-${borderStartColor}`;
+    }
+    classNames.add(classname);
   }
 
   if (borderEndColor) {
-    classNames.add(`borderEndColor-${borderEndColor}`);
+    const isCustomColor = !fixtures.allColorNames.includes(
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      borderEndColor as any,
+    );
+    let classname = 'borderEndColor';
+    if (isCustomColor) {
+      classname = `${classname}-[${borderEndColor}]`;
+    } else {
+      classname = `${classname}-${borderEndColor}`;
+    }
+    classNames.add(classname);
   }
 
   if (borderRadius) {
@@ -450,46 +836,95 @@ export const getStyles = ({
   }
 
   if (height) {
-    const classNameToAdd =
-      typeof height === 'number' ? `height-[${height}px]` : `height-${height}`;
-    classNames.add(classNameToAdd);
+    let classname = 'height';
+    typeof height === 'number' ? `height-[${height}px]` : `height-${height}`;
+
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const isCustomClassname = !fixtures.height.includes(height as any);
+
+    if (isCustomClassname) {
+      classname = `height-[${height}]`;
+    }
+
+    classNames.add(classname);
   }
 
   if (minHeight) {
-    const classNameToAdd =
-      typeof minHeight === 'number'
-        ? `minHeight-[${minHeight}px]`
-        : `minHeight-${minHeight}`;
-    classNames.add(classNameToAdd);
+    let classname = 'minHeight';
+    typeof minHeight === 'number'
+      ? `minHeight-[${minHeight}px]`
+      : `minHeight-${minHeight}`;
+
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const isCustomClassname = !fixtures.minHeight.includes(minHeight as any);
+
+    if (isCustomClassname) {
+      classname = `minHeight-[${minHeight}]`;
+    }
+
+    classNames.add(classname);
   }
 
   if (maxHeight) {
-    const classNameToAdd =
-      typeof maxHeight === 'number'
-        ? `maxHeight-[${maxHeight}px]`
-        : `maxHeight-${maxHeight}`;
-    classNames.add(classNameToAdd);
+    let classname = 'maxHeight';
+    typeof maxHeight === 'number'
+      ? `maxHeight-[${maxHeight}px]`
+      : `maxHeight-${maxHeight}`;
+
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const isCustomClassname = !fixtures.maxHeight.includes(maxHeight as any);
+
+    if (isCustomClassname) {
+      classname = `maxHeight-[${maxHeight}]`;
+    }
+
+    classNames.add(classname);
   }
+
   if (width) {
-    const classNameToAdd =
-      typeof width === 'number' ? `width-[${width}px]` : `width-${width}`;
-    classNames.add(classNameToAdd);
+    let classname = 'width';
+    typeof width === 'number' ? `width-[${width}px]` : `width-${width}`;
+
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const isCustomClassname = !fixtures.width.includes(width as any);
+
+    if (isCustomClassname) {
+      classname = `width-[${width}]`;
+    }
+
+    classNames.add(classname);
   }
 
   if (minWidth) {
-    const classNameToAdd =
-      typeof minWidth === 'number'
-        ? `minWidth-[${minWidth}px]`
-        : `minWidth-${minWidth}`;
-    classNames.add(classNameToAdd);
+    let classname = 'minWidth';
+    typeof minWidth === 'number'
+      ? `minWidth-[${minWidth}px]`
+      : `minWidth-${minWidth}`;
+
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const isCustomClassname = !fixtures.minWidth.includes(minWidth as any);
+
+    if (isCustomClassname) {
+      classname = `minWidth-[${minWidth}]`;
+    }
+
+    classNames.add(classname);
   }
 
   if (maxWidth) {
-    const classNameToAdd =
-      typeof maxWidth === 'number'
-        ? `maxWidth-[${maxWidth}px]`
-        : `maxWidth-${maxWidth}`;
-    classNames.add(classNameToAdd);
+    let classname = 'maxWidth';
+    typeof maxWidth === 'number'
+      ? `maxWidth-[${maxWidth}px]`
+      : `maxWidth-${maxWidth}`;
+
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const isCustomClassname = !fixtures.maxWidth.includes(maxWidth as any);
+
+    if (isCustomClassname) {
+      classname = `maxWidth-[${maxWidth}]`;
+    }
+
+    classNames.add(classname);
   }
 
   if (overflow) {
