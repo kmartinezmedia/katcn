@@ -49,7 +49,7 @@ katcn css --outFile ./styles.css
 ## CSS variables
 
 Should treeshake to include only the CSS variables used based on utility classnames present. For example,
-the following given the following snippet:
+given the following snippet:
 
 ```tsx
 import { VStack } from 'katcn';
