@@ -14,6 +14,41 @@ export interface GetStylesParams extends StyleProps {
   className?: string;
 }
 
+const isCustomSpacing = (value: unknown) =>
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  !fixtures.spacingAlias.includes(value as any);
+const isCustomColor = (value: unknown) =>
+  !fixtures.allColorNames.includes(
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    value as any,
+  );
+const isCustomHeight = (value: unknown) =>
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  !fixtures.height.includes(value as any);
+const isCustomWidth = (value: unknown) =>
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  !fixtures.width.includes(value as any);
+
+function addClassname(
+  prefix: string,
+  value: unknown,
+  classNames: Set<string>,
+  isCustomCheck: (val: unknown) => boolean,
+) {
+  let classname = value;
+
+  const isCustomClassname = isCustomCheck(value);
+
+  if (isCustomClassname) {
+    if (typeof value === 'number') {
+      classname = `[${value}px]`;
+    } else {
+      classname = `[${value}]`;
+    }
+  }
+  classNames.add(`${prefix}-${classname}`);
+}
+
 export const getStyles = ({
   color,
   colorChecked,
@@ -100,17 +135,7 @@ export const getStyles = ({
   const classNames = new Set<string>();
 
   if (color) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      color as any,
-    );
-    let classname = 'color';
-    if (isCustomColor) {
-      classname = `${classname}-[${color}]`;
-    } else {
-      classname = `${classname}-${color}`;
-    }
-    classNames.add(classname);
+    addClassname('color', color, classNames, isCustomColor);
   }
 
   if (colorChecked) {
@@ -144,348 +169,106 @@ export const getStyles = ({
   }
 
   if (spacing) {
-    let classname = 'spacing';
-    typeof spacing === 'number'
-      ? `spacing-[${spacing}px]`
-      : `spacing-${spacing}`;
-
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const isCustomClassname = !fixtures.spacingAlias.includes(spacing as any);
-
-    if (isCustomClassname) {
-      classname = `spacing-[${spacing}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('spacing', spacing, classNames, isCustomSpacing);
   }
 
   if (spacingX) {
-    let classname = 'spacingX';
-    typeof spacingX === 'number'
-      ? `spacingX-[${spacingX}px]`
-      : `spacingX-${spacingX}`;
-
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const isCustomClassname = !fixtures.spacingAlias.includes(spacingX as any);
-
-    if (isCustomClassname) {
-      classname = `spacingX-[${spacingX}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('spacingX', spacingX, classNames, isCustomSpacing);
   }
 
   if (spacingY) {
-    let classname = 'spacingY';
-    typeof spacingY === 'number'
-      ? `spacingY-[${spacingY}px]`
-      : `spacingY-${spacingY}`;
-
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const isCustomClassname = !fixtures.spacingAlias.includes(spacingY as any);
-
-    if (isCustomClassname) {
-      classname = `spacingY-[${spacingY}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('spacingY', spacingY, classNames, isCustomSpacing);
   }
 
   if (spacingTop) {
-    let classname = 'spacingTop';
-    typeof height === 'number'
-      ? `spacingTop-[${spacingTop}px]`
-      : `spacingTop-${spacingTop}`;
-
-    const isCustomClassname = !fixtures.spacingAlias.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      spacingTop as any,
-    );
-
-    if (isCustomClassname) {
-      classname = `spacingTop-[${spacingTop}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('spacingTop', spacingTop, classNames, isCustomSpacing);
   }
 
   if (spacingBottom) {
-    let classname = 'spacingBottom';
-    typeof height === 'number'
-      ? `heispacingBottom-[${spacingBottom}px]`
-      : `spacingBottom-${spacingBottom}`;
-
-    const isCustomClassname = !fixtures.spacingAlias.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      spacingBottom as any,
-    );
-
-    if (isCustomClassname) {
-      classname = `spacingBottom-[${spacingBottom}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('spacingBottom', spacingBottom, classNames, isCustomSpacing);
   }
 
   if (spacingStart) {
-    let classname = 'spacingStart';
-    typeof height === 'number'
-      ? `hespacingStart-[${spacingStart}px]`
-      : `spacingStart-${spacingStart}`;
-
-    const isCustomClassname = !fixtures.spacingAlias.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      spacingStart as any,
-    );
-
-    if (isCustomClassname) {
-      classname = `spacingStart-[${spacingStart}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('spacingStart', spacingStart, classNames, isCustomSpacing);
   }
 
   if (spacingEnd) {
-    let classname = 'spacingEnd';
-    typeof height === 'number'
-      ? `spacingEnd-[${spacingEnd}px]`
-      : `spacingEnd-${spacingEnd}`;
-
-    const isCustomClassname = !fixtures.spacingAlias.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      spacingEnd as any,
-    );
-
-    if (isCustomClassname) {
-      classname = `spacingEnd-[${spacingEnd}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('spacingEnd', spacingEnd, classNames, isCustomSpacing);
   }
 
   if (offset) {
-    let classname = 'offset';
-    typeof height === 'number' ? `offset-[${offset}px]` : `offset-${offset}`;
-
-    const isCustomClassname = !fixtures.spacingAlias.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      offset as any,
-    );
-
-    if (isCustomClassname) {
-      classname = `offset-[${offset}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('offset', offset, classNames, isCustomSpacing);
   }
 
   if (offsetY) {
-    let classname = 'offsetY';
-    typeof height === 'number'
-      ? `offsetY-[${offsetY}px]`
-      : `offsetY-${offsetY}`;
-
-    const isCustomClassname = !fixtures.spacingAlias.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      offsetY as any,
-    );
-
-    if (isCustomClassname) {
-      classname = `offsetY-[${offsetY}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('offsetY', offsetY, classNames, isCustomSpacing);
   }
   if (offsetX) {
-    let classname = 'offsetX';
-    typeof height === 'number'
-      ? `offsetX-[${offsetX}px]`
-      : `offsetX-${offsetX}`;
-
-    const isCustomClassname = !fixtures.spacingAlias.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      offsetX as any,
-    );
-
-    if (isCustomClassname) {
-      classname = `offsetX-[${offsetX}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('offsetX', offsetX, classNames, isCustomSpacing);
   }
 
   if (offsetTop) {
-    let classname = 'offsetTop';
-    typeof height === 'number'
-      ? `offsetTop-[${offsetTop}px]`
-      : `offsetTop-${offsetTop}`;
-
-    const isCustomClassname = !fixtures.spacingAlias.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      offsetTop as any,
-    );
-
-    if (isCustomClassname) {
-      classname = `offsetTop-[${offsetTop}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('offsetTop', offsetTop, classNames, isCustomSpacing);
   }
 
   if (offsetBottom) {
-    let classname = 'offsetBottom';
-    typeof height === 'number'
-      ? `offsetBottom-[${offsetBottom}px]`
-      : `offsetBottom-${offsetBottom}`;
-
-    const isCustomClassname = !fixtures.spacingAlias.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      offsetBottom as any,
-    );
-
-    if (isCustomClassname) {
-      classname = `offsetBottom-[${offsetBottom}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('offsetBottom', offsetBottom, classNames, isCustomSpacing);
   }
 
   if (offsetStart) {
-    let classname = 'offsetStart';
-    typeof height === 'number'
-      ? `offsetStart-[${offsetStart}px]`
-      : `offsetStart-${offsetStart}`;
-
-    const isCustomClassname = !fixtures.spacingAlias.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      offsetStart as any,
-    );
-
-    if (isCustomClassname) {
-      classname = `offsetStart-[${offsetStart}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('offsetStart', offsetStart, classNames, isCustomSpacing);
   }
 
   if (offsetEnd) {
-    let classname = 'offsetEnd';
-    typeof height === 'number'
-      ? `offsetEnd-[${offsetEnd}px]`
-      : `offsetEnd-${offsetEnd}`;
-
-    const isCustomClassname = !fixtures.spacingAlias.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      offsetEnd as any,
-    );
-
-    if (isCustomClassname) {
-      classname = `offsetEnd-[${offsetEnd}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('offsetEnd', offsetEnd, classNames, isCustomSpacing);
   }
 
   if (gapX) {
-    let classname = 'gapX';
-    typeof height === 'number' ? `gapX-[${gapX}px]` : `gapX-${gapX}`;
-
-    const isCustomClassname = !fixtures.spacingAlias.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      gapX as any,
-    );
-
-    if (isCustomClassname) {
-      classname = `gapX-[${gapX}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('gapX', gapX, classNames, isCustomSpacing);
   }
 
   if (gapY) {
-    let classname = 'gapY';
-    typeof height === 'number' ? `gapY-[${gapY}px]` : `gapY-${gapY}`;
-
-    const isCustomClassname = !fixtures.spacingAlias.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      gapY as any,
-    );
-
-    if (isCustomClassname) {
-      classname = `gapY-[${gapY}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('gapY', gapY, classNames, isCustomSpacing);
   }
 
   if (backgroundColor) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      backgroundColor as any,
-    );
-    let classname = 'backgroundColor';
-    if (isCustomColor) {
-      classname = `${classname}-[${backgroundColor}]`;
-    } else {
-      classname = `${classname}-${backgroundColor}`;
-    }
-    classNames.add(classname);
+    addClassname('backgroundColor', backgroundColor, classNames, isCustomColor);
   }
 
   if (backgroundColorOnActive) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      backgroundColorOnActive as any,
+    addClassname(
+      'backgroundColorOnActive',
+      backgroundColorOnActive,
+      classNames,
+      isCustomColor,
     );
-    let classname = 'backgroundColorOnActive';
-    if (isCustomColor) {
-      classname = `${classname}-[${backgroundColorOnActive}]`;
-    } else {
-      classname = `${classname}-${backgroundColorOnActive}`;
-    }
-    classNames.add(`backgroundColorOnActive-${backgroundColorOnActive}`);
   }
 
   if (backgroundColorOnFocus) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      backgroundColorOnFocus as any,
+    addClassname(
+      'backgroundColorOnFocus',
+      backgroundColorOnFocus,
+      classNames,
+      isCustomColor,
     );
-    let classname = 'backgroundColorOnFocus';
-    if (isCustomColor) {
-      classname = `${classname}-[${backgroundColorOnFocus}]`;
-    } else {
-      classname = `${classname}-${backgroundColorOnFocus}`;
-    }
-    classNames.add(`backgroundColorOnFocus-${backgroundColorOnFocus}`);
   }
 
   if (backgroundColorOnHover) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      backgroundColorOnHover as any,
+    addClassname(
+      'backgroundColorOnHover',
+      backgroundColorOnHover,
+      classNames,
+      isCustomColor,
     );
-    let classname = 'backgroundColorOnHover';
-    if (isCustomColor) {
-      classname = `${classname}-[${backgroundColorOnHover}]`;
-    } else {
-      classname = `${classname}-${backgroundColorOnHover}`;
-    }
-    classNames.add(`backgroundColorOnHover-${backgroundColorOnHover}`);
   }
 
   if (backgroundColorOnChecked) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      backgroundColorOnChecked as any,
+    addClassname(
+      'backgroundColorOnChecked',
+      backgroundColorOnChecked,
+      classNames,
+      isCustomColor,
     );
-    let classname = 'backgroundColorOnChecked';
-    if (isCustomColor) {
-      classname = `${classname}-[${backgroundColorOnChecked}]`;
-    } else {
-      classname = `${classname}-${backgroundColorOnChecked}`;
-    }
-    classNames.add(`backgroundColorOnChecked-${backgroundColorOnChecked}`);
   }
 
   if (borderColorOnActive) {
@@ -675,101 +458,41 @@ export const getStyles = ({
   }
 
   if (borderColor) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      borderColor as any,
-    );
-    let classname = 'borderColor';
-    if (isCustomColor) {
-      classname = `${classname}-[${borderColor}]`;
-    } else {
-      classname = `${classname}-${borderColor}`;
-    }
-    classNames.add(classname);
+    addClassname('borderColor', borderColor, classNames, isCustomColor);
   }
 
   if (borderYColor) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      borderYColor as any,
-    );
-    let classname = 'borderYColor';
-    if (isCustomColor) {
-      classname = `${classname}-[${borderYColor}]`;
-    } else {
-      classname = `${classname}-${borderYColor}`;
-    }
-    classNames.add(classname);
+    addClassname('borderYColor', borderYColor, classNames, isCustomColor);
   }
 
   if (borderXColor) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      borderXColor as any,
-    );
-    let classname = 'borderXColor';
-    if (isCustomColor) {
-      classname = `${classname}-[${borderXColor}]`;
-    } else {
-      classname = `${classname}-${borderXColor}`;
-    }
-    classNames.add(classname);
+    addClassname('borderXColor', borderXColor, classNames, isCustomColor);
   }
 
   if (borderTopColor) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      borderTopColor as any,
-    );
-    let classname = 'borderTopColor';
-    if (isCustomColor) {
-      classname = `${classname}-[${borderTopColor}]`;
-    } else {
-      classname = `${classname}-${borderTopColor}`;
-    }
-    classNames.add(classname);
+    addClassname('borderTopColor', borderTopColor, classNames, isCustomColor);
   }
 
   if (borderBottomColor) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      borderBottomColor as any,
+    addClassname(
+      'borderBottomColor',
+      borderBottomColor,
+      classNames,
+      isCustomColor,
     );
-    let classname = 'borderBottomColor';
-    if (isCustomColor) {
-      classname = `${classname}-[${borderBottomColor}]`;
-    } else {
-      classname = `${classname}-${borderBottomColor}`;
-    }
-    classNames.add(classname);
   }
 
   if (borderStartColor) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      borderStartColor as any,
+    addClassname(
+      'borderStartColor',
+      borderStartColor,
+      classNames,
+      isCustomColor,
     );
-    let classname = 'borderStartColor';
-    if (isCustomColor) {
-      classname = `${classname}-[${borderStartColor}]`;
-    } else {
-      classname = `${classname}-${borderStartColor}`;
-    }
-    classNames.add(classname);
   }
 
   if (borderEndColor) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      borderEndColor as any,
-    );
-    let classname = 'borderEndColor';
-    if (isCustomColor) {
-      classname = `${classname}-[${borderEndColor}]`;
-    } else {
-      classname = `${classname}-${borderEndColor}`;
-    }
-    classNames.add(classname);
+    addClassname('borderEndColor', borderEndColor, classNames, isCustomColor);
   }
 
   if (borderRadius) {
@@ -836,95 +559,27 @@ export const getStyles = ({
   }
 
   if (height) {
-    let classname = 'height';
-    typeof height === 'number' ? `height-[${height}px]` : `height-${height}`;
-
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const isCustomClassname = !fixtures.height.includes(height as any);
-
-    if (isCustomClassname) {
-      classname = `height-[${height}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('height', height, classNames, isCustomHeight);
   }
 
   if (minHeight) {
-    let classname = 'minHeight';
-    typeof minHeight === 'number'
-      ? `minHeight-[${minHeight}px]`
-      : `minHeight-${minHeight}`;
-
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const isCustomClassname = !fixtures.minHeight.includes(minHeight as any);
-
-    if (isCustomClassname) {
-      classname = `minHeight-[${minHeight}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('minHeight', minHeight, classNames, isCustomHeight);
   }
 
   if (maxHeight) {
-    let classname = 'maxHeight';
-    typeof maxHeight === 'number'
-      ? `maxHeight-[${maxHeight}px]`
-      : `maxHeight-${maxHeight}`;
-
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const isCustomClassname = !fixtures.maxHeight.includes(maxHeight as any);
-
-    if (isCustomClassname) {
-      classname = `maxHeight-[${maxHeight}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('maxHeight', maxHeight, classNames, isCustomHeight);
   }
 
   if (width) {
-    let classname = 'width';
-    typeof width === 'number' ? `width-[${width}px]` : `width-${width}`;
-
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const isCustomClassname = !fixtures.width.includes(width as any);
-
-    if (isCustomClassname) {
-      classname = `width-[${width}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('width', width, classNames, isCustomWidth);
   }
 
   if (minWidth) {
-    let classname = 'minWidth';
-    typeof minWidth === 'number'
-      ? `minWidth-[${minWidth}px]`
-      : `minWidth-${minWidth}`;
-
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const isCustomClassname = !fixtures.minWidth.includes(minWidth as any);
-
-    if (isCustomClassname) {
-      classname = `minWidth-[${minWidth}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('minWidth', minWidth, classNames, isCustomWidth);
   }
 
   if (maxWidth) {
-    let classname = 'maxWidth';
-    typeof maxWidth === 'number'
-      ? `maxWidth-[${maxWidth}px]`
-      : `maxWidth-${maxWidth}`;
-
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const isCustomClassname = !fixtures.maxWidth.includes(maxWidth as any);
-
-    if (isCustomClassname) {
-      classname = `maxWidth-[${maxWidth}]`;
-    }
-
-    classNames.add(classname);
+    addClassname('maxWidth', maxWidth, classNames, isCustomWidth);
   }
 
   if (overflow) {
