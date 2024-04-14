@@ -173,49 +173,49 @@ export function createUtilities(config: UniversalTokensConfig) {
   const borderWidth = fromEntries(
     fixtures.borderWidth.map((alias) => [
       alias,
-      `{ border-width: ${config.borderWidth[alias]}; }`,
+      `{ border-width: var(--border-width-${alias}); }`,
     ]),
   );
 
   const borderStartWidth = fromEntries(
     fixtures.borderWidth.map((alias) => [
       alias,
-      `{ border-inline-start-width: ${config.borderWidth[alias]}; }`,
+      `{ border-inline-start-width: var(--border-width-${alias}); }`,
     ]),
   );
 
   const borderEndWidth = fromEntries(
     fixtures.borderWidth.map((alias) => [
       alias,
-      `{ border-inline-end-width: ${config.borderWidth[alias]}; }`,
+      `{ border-inline-end-width: var(--border-width-${alias}); }`,
     ]),
   );
 
   const borderTopWidth = fromEntries(
     fixtures.borderWidth.map((alias) => [
       alias,
-      `{ border-top-width: ${config.borderWidth[alias]}; }`,
+      `{ border-top-width: var(--border-width-${alias}); }`,
     ]),
   );
 
   const borderBottomWidth = fromEntries(
     fixtures.borderWidth.map((alias) => [
       alias,
-      `{ border-bottom-width: ${config.borderWidth[alias]}; }`,
+      `{ border-bottom-width: var(--border-width-${alias}); }`,
     ]),
   );
 
   const borderHorizontalWidth = fromEntries(
     fixtures.borderWidth.map((alias) => [
       alias,
-      `{ border-left-width: ${config.borderWidth[alias]}; border-right-width: ${config.borderWidth[alias]};  }`,
+      `{ border-left-width: var(--border-width-${alias}); border-right-width: var(--border-width-${alias});  }`,
     ]),
   );
 
   const borderVerticalWidth = fromEntries(
     fixtures.borderWidth.map((alias) => [
       alias,
-      `{ border-top-width: ${config.borderWidth[alias]}; border-bottom-width: ${config.borderWidth[alias]};  }`,
+      `{ border-top-width: var(--border-width-${alias}); border-bottom-width: var(--border-width-${alias});  }`,
     ]),
   );
 
@@ -643,63 +643,63 @@ export function createUtilities(config: UniversalTokensConfig) {
   const borderRadius = fromEntries(
     fixtures.borderRadius.map((alias) => [
       `${alias}`,
-      `{ border-radius: ${config.borderRadius[alias]} }`,
+      `{ border-radius: var(--radius-${alias}) }`,
     ]),
   );
 
   const borderTopRadius = fromEntries(
     fixtures.borderRadius.map((alias) => [
       `${alias}`,
-      `{ border-top-left-radius: ${config.borderRadius[alias]}; border-top-right-radius: ${config.borderRadius[alias]} }`,
+      `{ border-top-left-radius: var(--radius-${alias}); border-top-right-radius: var(--radius-${alias}) }`,
     ]),
   );
 
   const borderBottomRadius = fromEntries(
     fixtures.borderRadius.map((alias) => [
       `${alias}`,
-      `{ border-bottom-left-radius: ${config.borderRadius[alias]}; border-bottom-right-radius: ${config.borderRadius[alias]} }`,
+      `{ border-bottom-left-radius: var(--radius-${alias}); border-bottom-right-radius: var(--radius-${alias}) }`,
     ]),
   );
 
   const borderStartRadius = fromEntries(
     fixtures.borderRadius.map((alias) => [
       `${alias}`,
-      `{ border-start-start-radius: ${config.borderRadius[alias]}; border-end-start-radius: ${config.borderRadius[alias]} }`,
+      `{ border-start-start-radius: var(--radius-${alias}); border-end-start-radius: var(--radius-${alias}) }`,
     ]),
   );
 
   const borderEndRadius = fromEntries(
     fixtures.borderRadius.map((alias) => [
       `${alias}`,
-      `{ border-start-end-radius: ${config.borderRadius[alias]}; border-end-end-radius: ${config.borderRadius[alias]} }`,
+      `{ border-start-end-radius: var(--radius-${alias}); border-end-end-radius: var(--radius-${alias}) }`,
     ]),
   );
 
   const borderTopStartRadius = fromEntries(
     fixtures.borderRadius.map((alias) => [
       `${alias}`,
-      `{ border-start-start-radius: ${config.borderRadius[alias]} }`,
+      `{ border-start-start-radius: var(--radius-${alias}) }`,
     ]),
   );
 
   const borderTopEndRadius = fromEntries(
     fixtures.borderRadius.map((alias) => [
       `${alias}`,
-      `{ border-end-end-radius: ${config.borderRadius[alias]} }`,
+      `{ border-end-end-radius: var(--radius-${alias}) }`,
     ]),
   );
 
   const borderBottomStartRadius = fromEntries(
     fixtures.borderRadius.map((alias) => [
       `${alias}`,
-      `{ border-end-start-radius: ${config.borderRadius[alias]} }`,
+      `{ border-end-start-radius: var(--radius-${alias}) }`,
     ]),
   );
 
   const borderBottomEndRadius = fromEntries(
     fixtures.borderRadius.map((alias) => [
       `${alias}`,
-      `{ border-end-end-radius: ${config.borderRadius[alias]} }`,
+      `{ border-end-end-radius: var(--radius-${alias}) }`,
     ]),
   );
 
@@ -721,7 +721,7 @@ export function createUtilities(config: UniversalTokensConfig) {
   const fontSize = fromEntries(
     fixtures.fontSize.map((alias) => [
       `${alias}`,
-      `{ font-size: ${config.typography[alias].fontSize} }`,
+      `{ font-size: var(--font-size-${alias}); }`,
     ]),
   );
 
@@ -729,15 +729,13 @@ export function createUtilities(config: UniversalTokensConfig) {
     ...fromEntries(
       fixtures.textVariant.map((alias) => [
         `${alias}`,
-        `{ font-weight: ${
-          config.typography[alias].fontWeight ?? fontWeightMap.regular
-        } }`,
+        `{ font-weight: var(--font-weight-${alias}, '${fontWeightMap.regular}'); }`,
       ]),
     ),
     ...fromEntries(
       fixtures.fontWeightDescriptive.map((alias) => [
         `${alias}`,
-        `{ font-weight: ${alias} }`,
+        `{ font-weight: ${fontWeightMap[alias]} }`,
       ]),
     ),
   };
@@ -745,7 +743,7 @@ export function createUtilities(config: UniversalTokensConfig) {
   const lineHeight = fromEntries(
     fixtures.lineHeight.map((alias) => [
       `${alias}`,
-      `{ line-height: ${config.typography[alias].lineHeight} }`,
+      `{ line-height: var(--line-height-${alias}) }`,
     ]),
   );
 
@@ -753,9 +751,7 @@ export function createUtilities(config: UniversalTokensConfig) {
     ...fromEntries(
       fixtures.textVariant.map((alias) => [
         `${alias}`,
-        `{ text-transform: ${
-          config.typography[alias].textTransform ?? 'none'
-        } }`,
+        `{ text-transform: var(--text-transform-${alias}, 'none'); }`,
       ]),
     ),
     ...fromEntries(
@@ -776,18 +772,33 @@ export function createUtilities(config: UniversalTokensConfig) {
   const iconSize = fromEntries(
     fixtures.iconSize.map((alias) => [
       `${alias}`,
-      `{ display: block; width: ${config.iconSizes[alias]}; height: ${config.iconSizes[alias]}; font-size: ${config.iconSizes[alias]}; line-height: ${config.iconSizes[alias]}; }`,
+      `{ display: block; width: var(--icon-size-${alias}); height: var(--icon-size-${alias}); font-size: var(--icon-size-${alias}); line-height: var(--icon-size-${alias}); }`,
     ]),
   );
 
   const avatarSize = fromEntries(
     fixtures.avatarSize.map((alias) => [
       `${alias}`,
-      `{ width: ${config.avatarSizes[alias]}; height: ${config.avatarSizes[alias]}; }`,
+      `{ width: var(--avatar-size-${alias}); height: var(--avatar-size-${alias}); }`,
+    ]),
+  );
+
+  const zIndex = fromEntries(
+    fixtures.zIndex.map((alias) => [
+      `${alias}`,
+      `{ z-index: var(--z-index-${alias}); }`,
+    ]),
+  );
+
+  const aspectRatio = fromEntries(
+    fixtures.aspectRatio.map((alias) => [
+      `${alias}`,
+      `{ aspect-ratio: var(--aspect-ratio-${alias}); }`,
     ]),
   );
 
   return {
+    aspectRatio,
     backgroundColor,
     color,
     borderColor,
@@ -860,5 +871,6 @@ export function createUtilities(config: UniversalTokensConfig) {
     textAlign,
     iconSize,
     avatarSize,
+    zIndex,
   };
 }

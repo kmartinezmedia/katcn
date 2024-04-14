@@ -124,7 +124,7 @@ export function createTheme({
     palette: getPaletteVars(palette),
     ...getTypographyVars(typography),
     'border-width': mapValues(borderWidth, (value) => `${value}px`),
-    radii: mapValues(borderRadius, (value) => `${value}px`),
+    'border-radius': mapValues(borderRadius, (value) => `${value}px`),
     'icon-size': mapValues(iconSizes, (value) => `${value}px`),
     'avatar-size': mapValues(avatarSizes, (value) => `${value}px`),
     spacing,

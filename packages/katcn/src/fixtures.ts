@@ -8,6 +8,7 @@ import type {
   AlignContent,
   AlignItems,
   AlignSelf,
+  AspectRatio,
   AvatarSize,
   BackgroundPaletteAlias,
   BorderRadius,
@@ -46,6 +47,7 @@ import type {
   TextTransformDescriptive,
   TextVariant,
   Width,
+  ZIndex,
 } from './types';
 
 export default {
@@ -77,6 +79,7 @@ export default {
       ...this.palette.foreground,
     ];
   },
+  aspectRatio: typesToConstants<AspectRatio>('AspectRatio'),
   borderWidth: typesToConstants<BorderWidth>('BorderWidth'),
   flexDirection: typesToConstants<FlexDirection>('FlexDirection'),
   alignContent: typesToConstants<AlignContent>('AlignContent'),
@@ -118,5 +121,6 @@ export default {
   iconNames: iconNames as IconName[],
   iconSize: typesToConstants<IconSize>('IconSize'),
   avatarSize: typesToConstants<AvatarSize>('AvatarSize'),
+  zIndex: typesToConstants<ZIndex>('ZIndex'),
   styleProp: typesToConstants<StyleProp>('StyleProp'),
 };

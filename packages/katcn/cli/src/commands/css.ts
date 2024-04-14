@@ -9,6 +9,8 @@ interface CssProps extends Props {
     outFile?: string;
     /** Glob of files to include when extracting CSS */
     include?: string;
+    /** ID of config to use */
+    id?: string;
   };
 }
 

@@ -605,10 +605,10 @@ export type TypographyConfig = Record<
 >;
 
 export type UniversalTokensConfig = {
-  palette: PaletteConfig;
   hues: HuesConfig;
   huesLightness: HuesLightnessConfig;
   huesChroma: Record<HueStep, number>;
+  palette: PaletteConfig;
   fontFamily: FontFamilyGlobalConfig;
   avatarSizes: AvatarSizeConfig;
   iconSizes: IconSizeConfig;
@@ -733,3 +733,10 @@ export type Display =
   | 'none';
 export type Overflow = 'auto' | 'hidden' | 'clip' | 'visible' | 'scroll';
 export type Position = 'static' | 'fixed' | 'absolute' | 'relative' | 'sticky';
+export type AspectRatio =
+  | 'square'
+  | 'landscape'
+  | 'portrait'
+  | 'widescreen'
+  | 'ultrawide'
+  | 'golden';

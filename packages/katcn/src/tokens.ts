@@ -208,7 +208,8 @@ const borderRadius: BorderRadiusConfig = {
   md: '8px',
   lg: '16px',
   xl: '32px',
-  full: '9999px',
+  // https://github.com/argyleink/open-props/blob/main/src/props.borders.css#L13C19-L13C22
+  full: '1e5px',
 };
 
 const borderWidth: BorderWidthConfig = {
@@ -288,9 +289,9 @@ export const defaultTokensConfig: UniversalTokensConfig = {
   spacing,
   avatarSizes,
   iconSizes,
-  zIndex,
   fontFamily,
   typography,
+  zIndex,
 };
 
 export const alwaysPalette = {
