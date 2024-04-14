@@ -28,6 +28,21 @@ const isCustomHeight = (value: unknown) =>
 const isCustomWidth = (value: unknown) =>
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   !fixtures.width.includes(value as any);
+const isCustomTextSize = (value: unknown) =>
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  !fixtures.fontSize.includes(value as any);
+const isCustomBorderRadius = (value: unknown) =>
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  !fixtures.borderRadius.includes(value as any);
+const isCustomBorderWidth = (value: unknown) =>
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  !fixtures.borderWidth.includes(value as any);
+const isCustomIconSize = (value: unknown) =>
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  !fixtures.iconSize.includes(value as any);
+const isCustomAvatarSize = (value: unknown) =>
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  !fixtures.avatarSize.includes(value as any);
 
 function addClassname(
   prefix: string,
@@ -152,14 +167,16 @@ export const getStyles = ({
   if (fontFamily) {
     classNames.add(`fontFamily-${fontFamily}`);
   }
+
   if (fontSize) {
-    classNames.add(`fontSize-${fontSize}`);
+    addClassname('fontSize', fontSize, classNames, isCustomTextSize);
   }
+
   if (fontWeight) {
     classNames.add(`fontWeight-${fontWeight}`);
   }
   if (lineHeight) {
-    classNames.add(`lineHeight-${lineHeight}`);
+    addClassname('lineHeight', lineHeight, classNames, isCustomTextSize);
   }
   if (textAlign) {
     classNames.add(`textAlign-${textAlign}`);
@@ -496,66 +513,131 @@ export const getStyles = ({
   }
 
   if (borderRadius) {
-    classNames.add(`borderRadius-${borderRadius}`);
+    addClassname(
+      'borderRadius',
+      borderRadius,
+      classNames,
+      isCustomBorderRadius,
+    );
   }
   if (borderTopRadius) {
-    classNames.add(`borderTopRadius-${borderTopRadius}`);
+    addClassname(
+      'borderTopRadius',
+      borderTopRadius,
+      classNames,
+      isCustomBorderRadius,
+    );
   }
 
   if (borderBottomRadius) {
-    classNames.add(`borderBottomRadius-${borderBottomRadius}`);
+    addClassname(
+      'borderBottomRadius',
+      borderBottomRadius,
+      classNames,
+      isCustomBorderRadius,
+    );
   }
 
   if (borderStartRadius) {
-    classNames.add(`borderStartRadius-${borderStartRadius}`);
+    addClassname(
+      'borderStartRadius',
+      borderStartRadius,
+      classNames,
+      isCustomBorderRadius,
+    );
   }
 
   if (borderEndRadius) {
-    classNames.add(`borderEndRadius-${borderEndRadius}`);
+    addClassname(
+      'borderEndRadius',
+      borderEndRadius,
+      classNames,
+      isCustomBorderRadius,
+    );
   }
 
   if (borderTopStartRadius) {
-    classNames.add(`borderTopStartRadius-${borderTopStartRadius}`);
+    addClassname(
+      'borderTopStartRadius',
+      borderTopStartRadius,
+      classNames,
+      isCustomBorderRadius,
+    );
   }
 
   if (borderTopEndRadius) {
-    classNames.add(`borderTopEndRadius-${borderTopEndRadius}`);
+    addClassname(
+      'borderTopEndRadius',
+      borderTopEndRadius,
+      classNames,
+      isCustomBorderRadius,
+    );
   }
 
   if (borderBottomStartRadius) {
-    classNames.add(`borderBottomStartRadius-${borderBottomStartRadius}`);
+    addClassname(
+      'borderBottomStartRadius',
+      borderBottomStartRadius,
+      classNames,
+      isCustomBorderRadius,
+    );
   }
 
   if (borderBottomEndRadius) {
-    classNames.add(`borderBottomEndRadius-${borderBottomEndRadius}`);
+    addClassname(
+      'borderBottomEndRadius',
+      borderBottomEndRadius,
+      classNames,
+      isCustomBorderRadius,
+    );
   }
 
   if (borderWidth) {
-    classNames.add(`borderWidth-${borderWidth}`);
+    addClassname('borderWidth', borderWidth, classNames, isCustomBorderWidth);
   }
 
   if (borderYWidth) {
-    classNames.add(`borderYWidth-${borderYWidth}`);
+    addClassname('borderYWidth', borderYWidth, classNames, isCustomBorderWidth);
   }
 
   if (borderXWidth) {
-    classNames.add(`borderXWidth-${borderXWidth}`);
+    addClassname('borderXWidth', borderXWidth, classNames, isCustomBorderWidth);
   }
 
   if (borderStartWidth) {
-    classNames.add(`borderStartWidth-${borderStartWidth}`);
+    addClassname(
+      'borderStartWidth',
+      borderStartWidth,
+      classNames,
+      isCustomBorderWidth,
+    );
   }
 
   if (borderEndWidth) {
-    classNames.add(`borderEndWidth-${borderEndWidth}`);
+    addClassname(
+      'borderEndWidth',
+      borderEndWidth,
+      classNames,
+      isCustomBorderWidth,
+    );
   }
 
   if (borderTopWidth) {
-    classNames.add(`borderTopWidth-${borderTopWidth}`);
+    addClassname(
+      'borderTopWidth',
+      borderTopWidth,
+      classNames,
+      isCustomBorderWidth,
+    );
   }
 
   if (borderBottomWidth) {
-    classNames.add(`borderBottomWidth-${borderBottomWidth}`);
+    addClassname(
+      'borderBottomWidth',
+      borderBottomWidth,
+      classNames,
+      isCustomBorderWidth,
+    );
   }
 
   if (height) {
@@ -633,10 +715,10 @@ export const getStyles = ({
   }
 
   if (iconSize) {
-    classNames.add(`iconSize-${iconSize}`);
+    addClassname('iconSize', iconSize, classNames, isCustomIconSize);
   }
   if (avatarSize) {
-    classNames.add(`avatarSize-${avatarSize}`);
+    addClassname('avatarSize', avatarSize, classNames, isCustomAvatarSize);
   }
 
   if (className) {
