@@ -16,7 +16,7 @@ import {
 import { extractStyleProps, getStyles } from '../../getStyles';
 import type { KatcnStyleSheet } from '../css/stylesheet';
 
-const varRegex = /--katcn-[^:,\s")]+/g;
+const varRegex = /--[^:,\s")]+/g;
 const transpiler = new Transpiler({
   loader: 'tsx',
   tsconfig: {

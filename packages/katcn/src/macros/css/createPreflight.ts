@@ -49,8 +49,8 @@ html,
     'Segoe UI Symbol',
     'Noto Color Emoji'
   ); /* 4 */
-  font-feature-settings: var(--katcn-font-sans-font-feature-settings, normal); /* 5 */
-  font-variation-settings: var(--katcn-font-sans-font-variation-settings, normal); /* 6 */
+  font-feature-settings: var(--font-sans-font-feature-settings, normal); /* 5 */
+  font-variation-settings: var(--font-sans-font-variation-settings, normal); /* 6 */
   -webkit-tap-highlight-color: transparent; /* 7 */
 }
 
@@ -129,7 +129,7 @@ kbd,
 samp,
 pre {
   font-family: var(
-    --katcn-font-mono,
+    --font-mono,
     ui-monospace,
     SFMono-Regular,
     Menlo,
@@ -139,8 +139,8 @@ pre {
     'Courier New',
     monospace
   ); /* 4 */
-  font-feature-settings: var(--katcn-font-mono-font-feature-settings, normal); /* 5 */
-  font-variation-settings: var(--katcn-font-mono-font-variation-settings, normal); /* 6 */
+  font-feature-settings: var(--font-mono-font-feature-settings, normal); /* 5 */
+  font-variation-settings: var(--font-mono-font-variation-settings, normal); /* 6 */
   font-size: 1em; /* 4 */
 }
 

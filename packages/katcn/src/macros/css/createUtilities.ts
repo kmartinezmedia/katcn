@@ -12,9 +12,9 @@ function createColors(prop: string | string[]) {
             return [
               step,
               typeof prop === 'string'
-                ? `{ ${prop}: var(--katcn-color-${hue}-${step}); }`
+                ? `{ ${prop}: var(--color-${hue}-${step}); }`
                 : `{ ${prop
-                    .map((p) => `${p}: var(--katcn-color-${hue}-${step});`)
+                    .map((p) => `${p}: var(--color-${hue}-${step});`)
                     .join(' ')} }`,
             ] as const;
           }),
@@ -31,13 +31,13 @@ export function createUtilities(config: UniversalTokensConfig) {
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
-        `{ background-color: var(--katcn-palette-core-${alias}); }`,
+        `{ background-color: var(--palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       fixtures.palette.background.map((alias) => [
         alias,
-        `{ background-color: var(--katcn-palette-background-${alias}); }`,
+        `{ background-color: var(--palette-background-${alias}); }`,
       ]),
     ),
   };
@@ -47,13 +47,13 @@ export function createUtilities(config: UniversalTokensConfig) {
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
-        `{ color: var(--katcn-palette-core-${alias}); }`,
+        `{ color: var(--palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       fixtures.palette.foreground.map((alias) => [
         alias,
-        `{ color: var(--katcn-palette-foreground-${alias}); }`,
+        `{ color: var(--palette-foreground-${alias}); }`,
       ]),
     ),
   };
@@ -63,13 +63,13 @@ export function createUtilities(config: UniversalTokensConfig) {
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
-        `{ border-color: var(--katcn-palette-core-${alias}); }`,
+        `{ border-color: var(--palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       fixtures.palette.line.map((alias) => [
         alias,
-        `{ border-color: var(--katcn-palette-line-${alias}); }`,
+        `{ border-color: var(--palette-line-${alias}); }`,
       ]),
     ),
   };
@@ -79,13 +79,13 @@ export function createUtilities(config: UniversalTokensConfig) {
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
-        `{ border-top-color: var(--katcn-palette-core-${alias}); }`,
+        `{ border-top-color: var(--palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       fixtures.palette.line.map((alias) => [
         alias,
-        `{ border-top-color: var(--katcn-palette-line-${alias}); }`,
+        `{ border-top-color: var(--palette-line-${alias}); }`,
       ]),
     ),
   };
@@ -95,13 +95,13 @@ export function createUtilities(config: UniversalTokensConfig) {
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
-        `{ border-bottom-color: var(--katcn-palette-core-${alias}); }`,
+        `{ border-bottom-color: var(--palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       fixtures.palette.line.map((alias) => [
         alias,
-        `{ border-bottom-color: var(--katcn-palette-line-${alias}); }`,
+        `{ border-bottom-color: var(--palette-line-${alias}); }`,
       ]),
     ),
   };
@@ -111,13 +111,13 @@ export function createUtilities(config: UniversalTokensConfig) {
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
-        `{ border-inline-start-color: var(--katcn-palette-core-${alias}); }`,
+        `{ border-inline-start-color: var(--palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       fixtures.palette.line.map((alias) => [
         alias,
-        `{ border-inline-start-color: var(--katcn-palette-line-${alias}); }`,
+        `{ border-inline-start-color: var(--palette-line-${alias}); }`,
       ]),
     ),
   };
@@ -127,13 +127,13 @@ export function createUtilities(config: UniversalTokensConfig) {
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
-        `{ border-inline-end-color: var(--katcn-palette-core-${alias}); }`,
+        `{ border-inline-end-color: var(--palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       fixtures.palette.line.map((alias) => [
         alias,
-        `{ border-inline-end-color: var(--katcn-palette-line-${alias}); }`,
+        `{ border-inline-end-color: var(--palette-line-${alias}); }`,
       ]),
     ),
   };
@@ -143,13 +143,13 @@ export function createUtilities(config: UniversalTokensConfig) {
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
-        `{ border-left-color: var(--katcn-palette-core-${alias}); border-right-color: var(--katcn-palette-core-${alias}); }`,
+        `{ border-left-color: var(--palette-core-${alias}); border-right-color: var(--palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       fixtures.palette.line.map((alias) => [
         alias,
-        `{ border-left-color: var(--katcn-palette-line-${alias}); border-right-color: var(--katcn-palette-line-${alias}); }`,
+        `{ border-left-color: var(--palette-line-${alias}); border-right-color: var(--palette-line-${alias}); }`,
       ]),
     ),
   };
@@ -159,13 +159,13 @@ export function createUtilities(config: UniversalTokensConfig) {
     ...fromEntries(
       fixtures.palette.core.map((alias) => [
         alias,
-        `{ border-top-color: var(--katcn-palette-core-${alias}); border-bottom-color: var(--katcn-palette-core-${alias}); }`,
+        `{ border-top-color: var(--palette-core-${alias}); border-bottom-color: var(--palette-core-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       fixtures.palette.line.map((alias) => [
         alias,
-        `{ border-top-color: var(--katcn-palette-line-${alias}); border-bottom-color: var(--katcn-palette-line-${alias}); }`,
+        `{ border-top-color: var(--palette-line-${alias}); border-bottom-color: var(--palette-line-${alias}); }`,
       ]),
     ),
   };
@@ -707,13 +707,13 @@ export function createUtilities(config: UniversalTokensConfig) {
     ...fromEntries(
       fixtures.FontFamilyGlobalAlias.map((alias) => [
         alias,
-        `{ font-family: var(--katcn-font-${alias}); }`,
+        `{ font-family: var(--font-${alias}); }`,
       ]),
     ),
     ...fromEntries(
       fixtures.textVariant.map((alias) => [
         alias,
-        `{ font-family: var(--katcn-font-family-${alias}); }`,
+        `{ font-family: var(--font-family-${alias}); }`,
       ]),
     ),
   };

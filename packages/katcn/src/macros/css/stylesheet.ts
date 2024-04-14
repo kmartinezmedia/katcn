@@ -1,6 +1,5 @@
 import { cssEscape, entries, flattenObj } from '../../helpers';
 import type { UniversalTokensConfig } from '../../types';
-import { CSS_VAR_PREFIX } from './consts';
 import { createPreflight } from './createPreflight';
 import { createTheme } from './createTheme';
 
@@ -63,7 +62,7 @@ export class KatcnStyleSheet {
     const flattenedObj = flattenObj(createTheme(this.config));
     for (const [property, value] of entries(flattenedObj)) {
       const escapedVar = cssEscape(property);
-      vars.push(`--${CSS_VAR_PREFIX}-${escapedVar}: ${value};`);
+      vars.push(`--${escapedVar}: ${value};`);
     }
     if (vars.length > 0) {
       const content = vars.join('\n');
