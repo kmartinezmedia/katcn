@@ -17,7 +17,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.6.4",
     "@types/node": "^20",
-    "@types/react": "~18.2.61",
+    "@types/react": "~18.3.0",
     "@types/react-dom": "^18",
     "turbo": "^1.13.2",
     "typescript": "^5.4.2"
