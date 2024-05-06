@@ -15,7 +15,7 @@
     "update-deps": "syncpack update --config ./cli/src/commands/tools/.syncpackrc"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.6.4",
+    "@biomejs/biome": "1.7.3",
     "@types/node": "^20",
     "@types/react": "~18.2.61",
     "@types/react-dom": "^18",
