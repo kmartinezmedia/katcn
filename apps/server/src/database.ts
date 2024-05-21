@@ -1,15 +1,15 @@
 /// <reference types="bun-types" />
 
 import { decode } from 'base64-url';
+import { Transpiler } from 'bun';
 import { createTsMorphProject } from 'katcn/cli/utils/createTsMorphProject';
 import { getSafelist } from 'katcn/cli/utils/getSafelist';
 import type { SafelistMap } from 'katcn/cli/utils/prettifySafelist';
-import tailwindcss, { type Config } from 'tailwindcss';
-import postcss from 'postcss';
 import { tailwindPlugin } from 'katcn/tailwindPlugin';
 import { defaultTokensConfig } from 'katcn/tokens';
+import postcss from 'postcss';
+import tailwindcss, { type Config } from 'tailwindcss';
 import type { SourceFile } from 'ts-morph';
-import { Transpiler } from 'bun';
 
 const transpiler = new Transpiler({
   loader: 'tsx',

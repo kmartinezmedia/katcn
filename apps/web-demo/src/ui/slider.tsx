@@ -10,7 +10,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import { atom, useAtom } from 'jotai';
-import { hues, hueSteps } from 'katcn/fixtures/colors';
+import { hueSteps, hues } from 'katcn/fixtures/colors';
 import { clamp, interpolate, mapValues } from 'katcn/helpers';
 import type { Hue, HueStep } from 'katcn/types';
 import { useEffect, useRef, useState } from 'react';

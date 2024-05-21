@@ -1,8 +1,8 @@
 'use client';
 
 import { HStack, Icon, Pressable, Text } from 'katcn';
-import Link from 'next/link';
 import { useTheme } from 'next-themes';
+import Link from 'next/link';
 
 export function Navbar() {
   const { setTheme, theme } = useTheme();
