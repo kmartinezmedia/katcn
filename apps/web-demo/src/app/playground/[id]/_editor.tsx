@@ -8,7 +8,7 @@ import {
   type OnMount,
 } from '@/ui/monaco';
 import { encode } from 'base64-url';
-import { memo, useContext, useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import dtsLibs from 'server/dist/dtsLibs.json';
 
 const exampleCode = `
@@ -37,9 +37,8 @@ function Example() {
   .trimStart()
   .trimEnd();
 
-export default memo(function Editor() {
+export default function Editor() {
   const socket = useContext(PlaygroundSocketContext);
-  const [code, setCode] = useState<string>(exampleCode);
   const hashRef = useRef<string>('');
   const refs = useRef<CodeEditorRefs>({
     monaco: undefined,
@@ -85,4 +84,4 @@ export default memo(function Editor() {
       onChange={onChange}
     />
   );
-});
+}
