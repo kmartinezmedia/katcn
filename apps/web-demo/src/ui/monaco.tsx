@@ -62,14 +62,14 @@ export function CodeEditor({
   }, []);
 
   return (
-    <VStack height="100vh" width="full">
+    <VStack height="screen" width="full">
       <Editor
         defaultLanguage="typescript"
         language="typescript"
         theme="vs-dark"
         className="overflow-hidden"
         height="100%"
-        width="50%"
+        width="1/2"
         defaultValue={userCode}
         value={userCode}
         defaultPath="user.tsx"
@@ -130,7 +130,7 @@ export function CodeEditor({
           /** TODO: see what's in default compiler options and add only what's necessary */
           monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
             ...monaco.languages.typescript.typescriptDefaults.getCompilerOptions(),
-            jsxImportSource: 'katcn',
+            jsxImportSource: 'react',
             allowNonTsExtensions: true,
             strict: true,
             target: monaco.languages.typescript.ScriptTarget.ESNext,

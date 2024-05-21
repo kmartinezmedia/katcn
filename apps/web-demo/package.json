@@ -8,50 +8,51 @@
     "./tsconfig.json": "./tsconfig.json"
   },
   "scripts": {
-    "build": "bun run css && next build",
+    "build": "bun run build:css && next build",
+    "build:css": "katcn css",
     "clean": "cli tools clean",
-    "css": "katcn css --outFile ./.katcn/styles.css",
     "dev": "concurrently bun:dev:*",
-    "dev:css": "bun run css --watch",
-    "dev:next": "bun --bun next dev",
-    "docgen": "cli docs build --input katcn",
+    "dev:css": "bun run build:css --watch",
+    "dev:next": "next dev",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
     "start": "next start",
-    "test": "bun test",
-    "typecheck": "cli tools typecheck"
+    "typecheck": "bun --bun tsc --noEmit"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
+    "@swc/wasm-web": "^1.5.2",
     "@types/apca-w3": "^0.1.3",
     "@types/culori": "^2.1.0",
     "@types/wcag-contrast": "^3.0.3",
     "apca-w3": "^0.1.9",
+    "autoprefixer": "^10.4.19",
     "base64-url": "^2.3.3",
     "culori": "^4.0.1",
     "framer-motion": "^11.0.23",
     "jotai": "^2.7.2",
+    "jsxlike": "^0.1.0",
     "katcn": "workspace:*",
+    "lodash": "^4.17.21",
     "monaco-editor": "^0.47.0",
-    "next": "14.2.1",
+    "next": "canary",
+    "next-themes": "^0.3.0",
+    "postcss": "^8.4.38",
     "prettier": "^3.2.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.0.0-rc-d3ce0d3ea9-20240520",
+    "react-dom": "^19.0.0-rc-d3ce0d3ea9-20240520",
     "server": "workspace:*",
+    "server-only": "^0.0.1",
+    "shiki": "^1.4.0",
+    "tailwindcss": "^3.4.3",
+    "ts-morph": "^22.0.0",
     "wcag-contrast": "^3.0.0"
   },
   "devDependencies": {
     "@types/base64-url": "^2.2.2",
-    "@types/react": "~18.2.61",
-    "@types/react-dom": "^18",
+    "@types/lodash": "^4.17.0",
+    "babel-plugin-react-compiler": "^0.0.0-experimental-592953e-20240517",
     "concurrently": "^8.2.2",
     "tsconfig": "workspace:*"
-  },
-  "imports": {
-    "#docgen/*": {
-      "types": ".docgen/*.ts",
-      "default": ".docgen/*.ts"
-    },
-    "#katcn/*.css": ".katcn/*.css"
   }
 }

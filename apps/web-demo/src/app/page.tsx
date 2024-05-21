@@ -1,14 +1,14 @@
 'use server';
 
-import { HueSliders, LightnessAndChromaSliders } from '@/ui/slider';
-import { HStack, Icon, VStack } from 'katcn';
-import fixtures from 'katcn/fixtures';
+import { HueSliders } from '@/ui/slider';
+import { HStack, Icon } from 'katcn';
+import { iconNames } from 'katcn/fixtures/icons';
 
 function IconSheet() {
   return (
-    <HStack wrap="allow">
-      {fixtures.iconNames.map((icon) => (
-        <Icon key={icon} name={icon} size="md" color="primary" />
+    <HStack flexWrap="wrap">
+      {iconNames.map((icon) => (
+        <Icon key={icon} name={icon} size="4" color="on-primary" />
       ))}
     </HStack>
   );
@@ -16,9 +16,8 @@ function IconSheet() {
 
 export default async function Home() {
   return (
-    <VStack>
-      <LightnessAndChromaSliders />
+    <>
       <HueSliders />
-    </VStack>
+    </>
   );
 }

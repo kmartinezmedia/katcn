@@ -54,7 +54,7 @@ given the following snippet:
 ```tsx
 import { VStack } from 'katcn';
 
-<VStack backgroundColor="accent" />
+<VStack bg="accent" />
 ```
 
 Should output the following (excluding CSS reset for brevity):
@@ -94,7 +94,7 @@ import { VStack } from 'katcn';
 function Example({active}: {active: boolean}) {
   const backgroundColor = active ? 'accent' : 'secondary';
   return (
-    <VStack backgroundColor={backgroundColor} style={{ width: 120, height: 120 }} />
+    <VStack bg={backgroundColor} style={{ width: 120, height: 120 }} />
   )
 }
 ```
@@ -138,7 +138,7 @@ import { VStack } from 'katcn';
 function Example({column}: {column: 1 | 2 | 3}) {
   const width = `${column}/3` as const;
   return (
-    <VStack backgroundColor="accent" width={width} style={{ height: 120 }} />
+    <VStack bg="accent" width={width} style={{ height: 120 }} />
   )
 }
 ```
@@ -184,7 +184,7 @@ import { VStack } from 'katcn';
 
 function Example() {
   return (
-    <VStack backgroundColor="accent" height={120} width={120} />
+    <VStack bg="accent" height={120} width={120} />
   )
 }
 ```

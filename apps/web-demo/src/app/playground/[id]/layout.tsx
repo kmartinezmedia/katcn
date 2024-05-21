@@ -7,10 +7,10 @@ import Tabs from './_tabs';
 export default function Layout({ children }: React.PropsWithChildren) {
   return (
     <HStack width="full">
-      <VStack width="half">
+      <VStack width="1/2">
         <Editor />
       </VStack>
-      <VStack width="half" height="100vh" overflow="scroll">
+      <VStack width="1/2" height="screen" overflow="scroll">
         <Tabs />
         {children}
       </VStack>

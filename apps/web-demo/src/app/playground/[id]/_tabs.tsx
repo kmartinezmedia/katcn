@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useParams, useSelectedLayoutSegment } from 'next/navigation';
 
 interface TabProps {
-  segment: string;
+  segment: 'css' | 'js' | 'preview';
   children: React.ReactNode;
 }
 
@@ -16,13 +16,13 @@ function Tab({ segment, children }: TabProps) {
 
   return (
     <Pressable
-      backgroundColor={active ? 'accent' : 'secondary'}
-      borderTopRadius="md"
+      bg={active ? 'accent' : 'secondary'}
+      roundedTop="md"
       spacing="2"
       asChild
     >
       <Link href={`/playground/${params.id}/${segment}`}>
-        <Text variant="body1" color={active ? 'on-color' : 'primary'}>
+        <Text variant="body" color={active ? 'on-accent' : 'on-secondary'}>
           {children}
         </Text>
       </Link>

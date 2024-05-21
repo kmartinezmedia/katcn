@@ -4,15 +4,13 @@
     "src/**/*.tsx"
   ],
   "exclude": [
-    "marcos/**/*.ts",
-    "helpers/**/*.ts"
+    "fixtures/marcos/*.ts"
   ],
   "compilerOptions": {
     "outDir": "dist",
     "baseUrl": "src",
     "rootDir": "src",
     "jsx": "react-jsx",
-    "jsxImportSource": "katcn",
     "moduleResolution": "Bundler",
     "moduleDetection": "force",
     "module": "ESNext",

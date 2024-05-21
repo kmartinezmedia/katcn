@@ -2,7 +2,6 @@
   "extends": "tsconfig/next-app.json",
   "compilerOptions": {
     "target": "ESNext",
-    "jsxImportSource": "katcn",
     "paths": {
       "@/*": [
         "./src/*"

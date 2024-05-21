@@ -1,16 +1,16 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.4.1/schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
     "ignore": [
       ".katcn",
       ".next",
       ".expo",
       ".turbo",
-      ".docgen",
       ".env*",
       "*.d.ts",
       "dist",
       "dts",
+      "firebase.json",
       "public",
       "node_modules"
     ]
