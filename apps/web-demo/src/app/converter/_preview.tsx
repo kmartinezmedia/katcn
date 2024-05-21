@@ -1,8 +1,8 @@
 'use client';
 
 import * as components from 'katcn';
-import * as React from 'react';
 import { getStyles } from 'katcn/getStyles';
+import * as React from 'react';
 
 const componentNames = Object.keys(components).join(', ');
 

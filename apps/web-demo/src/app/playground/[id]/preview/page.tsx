@@ -1,12 +1,12 @@
 'use client';
 
 import { PlaygroundDataContext } from '@/lib/context';
+import * as components from 'katcn';
 import { getStyles } from 'katcn/getStyles';
 import { useContext } from 'react';
+import * as React from 'react';
 import { jsxDEV } from 'react/jsx-dev-runtime';
 import { jsx, jsxs } from 'react/jsx-runtime';
-import * as React from 'react';
-import * as components from 'katcn';
 
 const componentNames = Object.keys(components).join(', ');
 
