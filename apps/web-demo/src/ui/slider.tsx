@@ -271,7 +271,6 @@ function HueShade({
         .getPropertyValue('background-color');
 
       const oklchMatch = oklchRegex.exec(oklchString);
-      console.log('oklchMatch', oklchMatch);
       if (oklchMatch) {
         const lightness = Number.parseFloat(oklchMatch[1]);
         const chroma = Number.parseFloat(oklchMatch[2]);
