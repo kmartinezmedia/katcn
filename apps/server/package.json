@@ -15,6 +15,7 @@
     "typecheck": "cli tools typecheck"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.19",
     "base64-url": "^2.3.3",
     "hono": "^4.0.10",
     "katcn": "workspace:*",
