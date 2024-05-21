@@ -39,7 +39,7 @@ export function Providers({ socketUrl, children }: ProvidersProps) {
       enableSystem={false}
       enableColorScheme={true}
       disableTransitionOnChange
-      storageKey="nowdesign"
+      storageKey="katcn"
       themes={['light', 'dark']}
       value={{ light: 'light', dark: 'dark' }}
     >
