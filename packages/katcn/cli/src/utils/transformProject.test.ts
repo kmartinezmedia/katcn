@@ -6,7 +6,7 @@ import { transformProject } from './transformProject';
 
 const productDir = path.resolve(
   import.meta.dirname,
-  '../../../../../apps/product',
+  '../../../../../apps/web-demo',
 );
 const webDemoTsConfig = `${productDir}/tsconfig.json`;
 
