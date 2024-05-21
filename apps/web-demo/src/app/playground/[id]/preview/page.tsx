@@ -1,29 +1,24 @@
 'use client';
 
 import { PlaygroundDataContext } from '@/lib/context';
-import {
-  Avatar,
-  Box,
-  HStack,
-  Icon,
-  Image,
-  Pressable,
-  Text,
-  TextInput,
-  VStack,
-} from 'katcn';
 import { getStyles } from 'katcn/getStyles';
 import { useContext } from 'react';
 import { jsxDEV } from 'react/jsx-dev-runtime';
-import { jsx } from 'react/jsx-runtime';
+import { jsx, jsxs } from 'react/jsx-runtime';
+import * as React from 'react';
+import * as components from 'katcn';
+
+const componentNames = Object.keys(components).join(', ');
 
 export default function Page() {
   const { css, js } = useContext(PlaygroundDataContext);
+
   if (!css || !js) {
     return null;
   }
+
   const fnString = new Function(`
-      function renderComp({ jsx, jsxDEV, getStyles, Box, HStack, VStack, Icon, Image, Pressable, Text, TextInput, Avatar }) {
+      function renderComp({ jsx, jsxDEV, jsxs, React, getStyles, ${componentNames} }) {
         ${js}
         return Example;
       }
@@ -33,17 +28,12 @@ export default function Page() {
   const Comp = fnString({
     jsx,
     jsxDEV,
+    jsxs,
+    React,
     getStyles,
-    Box,
-    HStack,
-    VStack,
-    Icon,
-    Image,
-    Pressable,
-    Text,
-    TextInput,
-    Avatar,
+    ...components,
   });
+
   return (
     <div>
       <style>{css}</style>
