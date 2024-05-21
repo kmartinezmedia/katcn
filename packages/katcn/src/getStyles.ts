@@ -1,1007 +1,342 @@
-import type {
-  AvatarProps,
-  BoxProps,
-  HStackProps,
-  IconProps,
-  TextInputProps,
-  TextProps,
-  VStackProps,
-} from './components';
-import fixtures from './fixtures';
-import type { StyleProps } from './types';
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import { modifierPropsAsTwMap } from './fixtures/modifiers';
 
-export interface GetStylesParams extends StyleProps {
+import type {
+  AllStyleProps,
+  ModifierProps,
+  StyleModifier,
+  StyleProps,
+} from './types';
+
+const remaps = {
+  grow: {
+    true: 'grow',
+    '0': 'grow-0',
+  },
+  shrink: {
+    true: 'shrink',
+    '0': 'shrink-0',
+  },
+  textOverflow: {
+    truncate: 'truncate',
+    ellipsis: 'text-ellipsis',
+    clip: 'text-clip',
+  },
+};
+
+export function createVariants<K extends Record<string, StyleProps>>(
+  variants: K,
+): K {
+  return variants;
+}
+
+const parse = (prefix: string, value: unknown) => {
+  if (value === '') {
+    return prefix;
+  }
+  return prefix === value ? value : `${prefix}-${value}`;
+};
+
+const classnames: {
+  [key in keyof AllStyleProps]-?: (val: Required<AllStyleProps>[key]) => string;
+} = {
+  /** Background props */
+  bg: (val) => parse('bg', val),
+  /** Effects props */
+  shadow: (val) => parse('shadow', val === true ? '' : val),
+  shadowColor: (val) => parse('shadow', val),
+  opacity: (val) => parse('opacity', val),
+  mixBlendMode: (val) => parse('mix-blend', val),
+  bgBlendMode: (val) => parse('bg-blend', val),
+  /** Border props */
+  borderColor: (val) => parse('border', val),
+  borderTopColor: (val) => parse('border-t', val),
+  borderLeftColor: (val) => parse('border-l', val),
+  borderStartColor: (val) => parse('border-s', val),
+  borderRightColor: (val) => parse('border-r', val),
+  borderEndColor: (val) => parse('border-e', val),
+  borderBottomColor: (val) => parse('border-b', val),
+  borderXColor: (val) => parse('border-x', val),
+  borderYColor: (val) => parse('border-y', val),
+  border: (val) => (val === true ? 'border' : ''),
+  borderTop: (val) => (val === true ? 'border-t' : ''),
+  borderLeft: (val) => (val === true ? 'border-l' : ''),
+  borderStart: (val) => (val === true ? 'border-s' : ''),
+  borderRight: (val) => (val === true ? 'border-r' : ''),
+  borderEnd: (val) => (val === true ? 'border-e' : ''),
+  borderBottom: (val) => (val === true ? 'border-b' : ''),
+  borderX: (val) => (val === true ? 'border-x' : ''),
+  borderY: (val) => (val === true ? 'border-y' : ''),
+  borderWidth: (val) => parse('border', val === true ? '' : val),
+  borderLeftWidth: (val) => parse('border-l', val === true ? '' : val),
+  borderStartWidth: (val) => parse('border-s', val === true ? '' : val),
+  borderRightWidth: (val) => parse('border-r', val === true ? '' : val),
+  borderEndWidth: (val) => parse('border-e', val === true ? '' : val),
+  borderTopWidth: (val) => parse('border-t', val === true ? '' : val),
+  borderBottomWidth: (val) => parse('border-b', val === true ? '' : val),
+  borderXWidth: (val) => parse('border-x', val === true ? '' : val),
+  borderYWidth: (val) => parse('border-y', val === true ? '' : val),
+  /** Divide props */
+  divideWidth: (val) => parse('divide', val),
+  divideColor: (val) => parse('divide', val),
+  divideStyle: (val) => parse('divide', val),
+  /** Outline props */
+  outlineWidth: (val) => parse('outline', val),
+  outlineColor: (val) => parse('outline', val),
+  outlineStyle: (val) => parse('outline', val === 'solid' ? '' : val),
+  outlineOffset: (val) => parse('outline-offset', val),
+  /** Ring props */
+  ringWidth: (val) => parse('ring', val),
+  ringColor: (val) => parse('ring', val),
+  ringOffsetWidth: (val) => parse('ring-offset', val),
+  ringOffsetColor: (val) => parse('ring-offset', val),
+  ringInset: (val) => (val === true ? 'ring-inset' : ''),
+  /** Flex props */
+  flex: (val) => parse('flex', val),
+  flexDirection: (val) => parse('flex', val),
+  alignContent: (val) => parse('content', val),
+  alignItems: (val) => parse('items', val),
+  alignSelf: (val) => parse('self', val),
+  justifyContent: (val) => parse('justify', val),
+  placeContent: (val) => parse('place-content', val),
+  placeItems: (val) => parse('place-items', val),
+  placeSelf: (val) => parse('place-self', val),
+  flexGrow: (val) => remaps.grow[`${val}`],
+  flexShrink: (val) => remaps.shrink[`${val}`],
+  flexWrap: (val) => parse('flex', val),
+  /** Height props */
+  height: (val) => parse('h', val),
+  maxHeight: (val) => parse('max-h', val),
+  minHeight: (val) => parse('min-h', val),
+  /** Width props */
+  width: (val) => parse('w', val),
+  maxWidth: (val) => parse('max-w', val),
+  minWidth: (val) => parse('min-w', val),
+  size: (val) => parse('size', val),
+  /** Spacing props */
+  spacing: (val) => parse('p', val),
+  spacingTop: (val) => parse('pt', val),
+  spacingBottom: (val) => parse('pb', val),
+  spacingStart: (val) => parse('ps', val),
+  spacingEnd: (val) => parse('pe', val),
+  spacingLeft: (val) => parse('pl', val),
+  spacingRight: (val) => parse('pr', val),
+  spacingX: (val) => parse('px', val),
+  spacingY: (val) => parse('py', val),
+  /** Offset props */
+  offset: (val) => parse('-m', val),
+  offsetTop: (val) => parse('-mt', val),
+  offsetBottom: (val) => parse('-mb', val),
+  offsetStart: (val) => parse('-ms', val),
+  offsetEnd: (val) => parse('-me', val),
+  offsetLeft: (val) => parse('-ml', val),
+  offsetRight: (val) => parse('-mr', val),
+  offsetX: (val) => parse('-mx', val),
+  offsetY: (val) => parse('-my', val),
+  /** Margin props */
+  margin: (val) => parse('m', val),
+  marginTop: (val) => parse('mt', val),
+  marginBottom: (val) => parse('mb', val),
+  marginStart: (val) => parse('ms', val),
+  marginEnd: (val) => parse('me', val),
+  marginLeft: (val) => parse('ml', val),
+  marginRight: (val) => parse('mr', val),
+  marginX: (val) => parse('mx', val),
+  marginY: (val) => parse('my', val),
+  /** Gap props */
+  gap: (val) => parse('gap', val),
+  gapX: (val) => parse('gap-x', val),
+  gapY: (val) => parse('gap-y', val),
+  spaceX: (val) => parse('space-x', val),
+  spaceY: (val) => parse('space-y', val),
+  /** Layout props */
+  aspectRatio: (val) => parse('aspect', val),
+  boxSizing: (val) => parse('box', val),
+  columns: (val) => parse('columns', val),
+  container: (val) => (val === true ? 'container' : ''),
+  display: (val) => val,
+  isolate: (val) => (val === true ? 'isolate' : ''),
+  overflow: (val) => parse('overflow', val),
+  overflowX: (val) => parse('overflow-x', val),
+  overflowY: (val) => parse('overflow-y', val),
+  overscrollBehavior: (val) => parse('overscroll', val),
+  position: (val) => val,
+  inset: (val) => parse('inset', val),
+  insetX: (val) => parse('inset-x', val),
+  insetY: (val) => parse('inset-y', val),
+  top: (val) => parse('top', val),
+  bottom: (val) => parse('bottom', val),
+  left: (val) => parse('start', val),
+  right: (val) => parse('end', val),
+  visibility: (val) => val,
+  zIndex: (val) => parse('z', val),
+  /** Transform props */
+  scale: (val) => parse('scale', val),
+  scaleX: (val) => parse('scale-x', val),
+  scaleY: (val) => parse('scale-y', val),
+  rotate: (val) => parse('rotate', val),
+  skewX: (val) => parse('skew-x', val),
+  skewY: (val) => parse('skew-y', val),
+  translateX: (val) => parse('translate-x', val),
+  translateY: (val) => parse('translate-y', val),
+  transformOrigin: (val) => parse('origin', val),
+  /** Border radius props */
+  rounded: (val) => parse('rounded', val),
+  roundedTop: (val) => parse('rounded-t', val),
+  roundedBottom: (val) => parse('rounded-b', val),
+  roundedStart: (val) => parse('rounded-s', val),
+  roundedEnd: (val) => parse('rounded-e', val),
+  roundedTopStart: (val) => parse('rounded-t-s', val),
+  roundedTopEnd: (val) => parse('rounded-t-e', val),
+  roundedBottomStart: (val) => parse('rounded-b-s', val),
+  roundedBottomEnd: (val) => parse('rounded-b-e', val),
+  /** Text props */
+  text: (val) => parse('text-v', val),
+  color: (val) => parse('text', val),
+  fontFamily: (val) => parse('font', val),
+  fontSize: (val) => parse('text', val),
+  fontSmoothing: (val) => val,
+  fontWeight: (val) => parse('font-w', val),
+  lineHeight: (val) => parse('leading', val),
+  textTransform: (val) => val,
+  textAlign: (val) => parse('text', val),
+  lineClamp: (val) => parse('line-clamp', val),
+  textDecoration: (val) => val,
+  textDecorationColor: (val) => parse('decoration', val),
+  textDecorationStyle: (val) => parse('decoration', val),
+  textDecorationThickness: (val) => parse('decoration', val),
+  textUnderlineOffset: (val) => parse('underline-offset', val),
+  textOverflow: (val) => remaps.textOverflow[val],
+  textWrap: (val) => parse('overflow', val),
+  truncate: (val) => (val === true ? 'truncate' : ''),
+  indent: (val) => parse('indent', val),
+  verticalAlign: (val) => parse('vertical-align', val),
+  whitespace: (val) => parse('whitespace', val),
+  break: (val) => parse('break', val),
+  hyphens: (val) => parse('hyphens', val),
+  /** Image props */
+  objectFit: (val) => parse('object', val),
+  objectPosition: (val) => parse('object', val),
+  /** Animation props */
+  transition: (val) => parse('transition', val === true ? '' : val),
+  transitionDuration: (val) => parse('duration', val),
+  transitionTiming: (val) => parse('ease', val),
+  transitionDelay: (val) => parse('delay', val),
+  animation: (val) => parse('animation', val),
+  /** Interactivity props */
+  appearance: (val) => parse('appearance', val),
+  cursor: (val) => parse('cursor', val),
+  caretColor: (val) => parse('caret', val),
+  pointerEvents: (val) => parse('pointer-events', val),
+  resize: (val) => parse('resize', val === true ? '' : val),
+  scrollBehavior: (val) => parse('scroll', val),
+  scrollSnap: (val) => parse('snap', val),
+  scrollSnapGap: (val) => parse('scroll-m', val),
+  scrollSnapGapTop: (val) => parse('scroll-mt', val),
+  scrollSnapGapBottom: (val) => parse('scroll-mb', val),
+  scrollSnapGapStart: (val) => parse('scroll-ms', val),
+  scrollSnapGapEnd: (val) => parse('scroll-me', val),
+  scrollSnapGapX: (val) => parse('scroll-mx', val),
+  scrollSnapGapY: (val) => parse('scroll-my', val),
+  scrollSnapSpacing: (val) => parse('scroll-p', val),
+  scrollSnapSpacingTop: (val) => parse('scroll-pt', val),
+  scrollSnapSpacingBottom: (val) => parse('scroll-pb', val),
+  scrollSnapSpacingStart: (val) => parse('scroll-ps', val),
+  scrollSnapSpacingEnd: (val) => parse('scroll-pe', val),
+  scrollSnapSpacingX: (val) => parse('scroll-px', val),
+  scrollSnapSpacingY: (val) => parse('scroll-py', val),
+  scrollSnapAlign: (val) => parse('scroll-snap-align', val),
+  scrollSnapStop: (val) => parse('scroll-snap-stop', val),
+  touchAction: (val) => parse('touch-action', val),
+  userSelect: (val) => parse('user-select', val),
+  willChange: (val) => parse('will-change', val),
+  /** Table props */
+  tableBorderCollapse: (val) => parse('border', val),
+  tableBorderSpacing: (val) => parse('border-spacing', val),
+  tableBorderSpacingX: (val) => parse('border-spacing-x', val),
+  tableBorderSpacingY: (val) => parse('border-spacing-y', val),
+  tableLayout: (val) => parse('table', val),
+  tableCaptionSide: (val) => parse('caption', val),
+  /** SVG props */
+  fill: (val) => parse('fill', val),
+  strokeColor: (val) => parse('stroke', val),
+  strokeWidth: (val) => parse('stroke', val),
+  /** Group props */
+  group: (val) => parse('group', val === true ? '' : val),
+  className: (val) => val,
+};
+
+export function cx(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+interface ProcessStylesParams {
+  extractNativeProps?: boolean;
+  modifier?: StyleModifier;
+  twMerge?: boolean;
+}
+
+export function processStyleProps(
+  props: AllStyleProps = {},
+  opts: ProcessStylesParams = {},
+) {
+  let classname = '';
+  const nativeProps: Record<string, unknown> = {};
+
+  for (const [propKey, propValue] of Object.entries(props) as [
+    string,
+    StyleProps,
+  ][]) {
+    if (propValue === undefined) continue;
+    if (propKey in modifierPropsAsTwMap) {
+      const modifierName = modifierPropsAsTwMap[propKey as StyleModifier];
+      const combinedModifier = opts.modifier
+        ? `${opts.modifier}${modifierName}`
+        : modifierName;
+      const [newClassName] = processStyleProps(propValue as AllStyleProps, {
+        ...opts,
+        modifier: combinedModifier as StyleModifier,
+      });
+      classname = classname ? `${classname} ${newClassName}` : newClassName;
+    } else if (propKey in classnames) {
+      const propClassname = classnames[propKey as keyof typeof classnames](
+        propValue as never,
+      );
+      const finalClassname = opts.modifier
+        ? `${opts.modifier}${propClassname}`
+        : propClassname;
+      classname = classname ? `${classname} ${finalClassname}` : finalClassname;
+    } else {
+      if (opts.extractNativeProps) {
+        nativeProps[propKey] = propValue;
+      }
+    }
+  }
+
+  const cxFn = opts.twMerge ? cx : clsx;
+  return [cxFn(classname), nativeProps] as const;
+}
+
+interface GetStylesParams extends StyleProps, ModifierProps<AllStyleProps> {
   className?: string;
 }
 
-const isCustomSpacing = (value: unknown) =>
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  !fixtures.spacingAlias.includes(value as any);
-const isCustomColor = (value: unknown) =>
-  !fixtures.allColorNames.includes(
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    value as any,
-  );
-const isCustomHeight = (value: unknown) =>
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  !fixtures.height.includes(value as any);
-const isCustomWidth = (value: unknown) =>
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  !fixtures.width.includes(value as any);
-const isCustomTextSize = (value: unknown) =>
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  !fixtures.fontSize.includes(value as any);
-const isCustomBorderRadius = (value: unknown) =>
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  !fixtures.borderRadius.includes(value as any);
-const isCustomBorderWidth = (value: unknown) =>
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  !fixtures.borderWidth.includes(value as any);
-const isCustomIconSize = (value: unknown) =>
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  !fixtures.iconSize.includes(value as any);
-const isCustomAvatarSize = (value: unknown) =>
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  !fixtures.avatarSize.includes(value as any);
-
-function addClassname(
-  prefix: string,
-  value: unknown,
-  classNames: Set<string>,
-  isCustomCheck: (val: unknown) => boolean,
+export function getStyles(
+  props: GetStylesParams,
+  opts?: Pick<ProcessStylesParams, 'twMerge'>,
 ) {
-  let classname = value;
-
-  const isCustomClassname = isCustomCheck(value);
-
-  if (isCustomClassname) {
-    if (typeof value === 'number') {
-      classname = `[${value}px]`;
-    } else {
-      classname = `[${value}]`;
-    }
-  }
-  classNames.add(`${prefix}-${classname}`);
+  return processStyleProps(props, {
+    extractNativeProps: false,
+    twMerge: opts?.twMerge ?? true,
+  })[0];
 }
 
-export const getStyles = ({
-  color,
-  colorChecked,
-  display,
-  placeholderColor,
-  fontFamily,
-  fontSize,
-  fontWeight,
-  lineHeight,
-  textAlign,
-  textTransform,
-  spacing,
-  spacingX,
-  spacingY,
-  spacingTop,
-  spacingBottom,
-  spacingStart,
-  spacingEnd,
-  offset,
-  offsetX,
-  offsetY,
-  offsetTop,
-  offsetBottom,
-  offsetStart,
-  offsetEnd,
-  gapX,
-  gapY,
-  direction,
-  grow,
-  shrink,
-  wrap,
-  justifyContent,
-  alignItems,
-  alignContent,
-  backgroundColor,
-  backgroundColorOnActive,
-  backgroundColorOnFocus,
-  backgroundColorOnHover,
-  backgroundColorOnChecked,
-  borderColor,
-  borderColorOnActive,
-  borderColorOnChecked,
-  borderColorOnFocus,
-  borderColorOnHover,
-  borderXColor,
-  borderYColor,
-  borderTopColor,
-  borderBottomColor,
-  borderStartColor,
-  borderEndColor,
-  borderRadius,
-  borderTopRadius,
-  borderBottomRadius,
-  borderStartRadius,
-  borderEndRadius,
-  borderTopStartRadius,
-  borderTopEndRadius,
-  borderBottomStartRadius,
-  borderBottomEndRadius,
-  borderWidth,
-  borderXWidth,
-  borderYWidth,
-  borderStartWidth,
-  borderEndWidth,
-  borderTopWidth,
-  borderBottomWidth,
-  height,
-  minHeight,
-  maxHeight,
-  width,
-  minWidth,
-  maxWidth,
-  overflow,
-  overflowX,
-  overflowY,
-  position,
-  zIndex,
-  opacity,
-  contentFit,
-  iconSize,
-  avatarSize,
-  className,
-}: GetStylesParams) => {
-  const classNames = new Set<string>();
-
-  if (color) {
-    addClassname('color', color, classNames, isCustomColor);
-  }
-
-  if (colorChecked) {
-    classNames.add(`data-[state=checked]:color-${colorChecked}`);
-  }
-
-  if (display) {
-    classNames.add(`display-${display}`);
-  }
-
-  if (placeholderColor) {
-    classNames.add(`placeholder:color-${placeholderColor}`);
-  }
-  if (fontFamily) {
-    classNames.add(`fontFamily-${fontFamily}`);
-  }
-
-  if (fontSize) {
-    addClassname('fontSize', fontSize, classNames, isCustomTextSize);
-  }
-
-  if (fontWeight) {
-    classNames.add(`fontWeight-${fontWeight}`);
-  }
-  if (lineHeight) {
-    addClassname('lineHeight', lineHeight, classNames, isCustomTextSize);
-  }
-  if (textAlign) {
-    classNames.add(`textAlign-${textAlign}`);
-  }
-  if (textTransform) {
-    classNames.add(`textTransform-${textTransform}`);
-  }
-
-  if (spacing) {
-    addClassname('spacing', spacing, classNames, isCustomSpacing);
-  }
-
-  if (spacingX) {
-    addClassname('spacingX', spacingX, classNames, isCustomSpacing);
-  }
-
-  if (spacingY) {
-    addClassname('spacingY', spacingY, classNames, isCustomSpacing);
-  }
-
-  if (spacingTop) {
-    addClassname('spacingTop', spacingTop, classNames, isCustomSpacing);
-  }
-
-  if (spacingBottom) {
-    addClassname('spacingBottom', spacingBottom, classNames, isCustomSpacing);
-  }
-
-  if (spacingStart) {
-    addClassname('spacingStart', spacingStart, classNames, isCustomSpacing);
-  }
-
-  if (spacingEnd) {
-    addClassname('spacingEnd', spacingEnd, classNames, isCustomSpacing);
-  }
-
-  if (offset) {
-    addClassname('offset', offset, classNames, isCustomSpacing);
-  }
-
-  if (offsetY) {
-    addClassname('offsetY', offsetY, classNames, isCustomSpacing);
-  }
-  if (offsetX) {
-    addClassname('offsetX', offsetX, classNames, isCustomSpacing);
-  }
-
-  if (offsetTop) {
-    addClassname('offsetTop', offsetTop, classNames, isCustomSpacing);
-  }
-
-  if (offsetBottom) {
-    addClassname('offsetBottom', offsetBottom, classNames, isCustomSpacing);
-  }
-
-  if (offsetStart) {
-    addClassname('offsetStart', offsetStart, classNames, isCustomSpacing);
-  }
-
-  if (offsetEnd) {
-    addClassname('offsetEnd', offsetEnd, classNames, isCustomSpacing);
-  }
-
-  if (gapX) {
-    addClassname('gapX', gapX, classNames, isCustomSpacing);
-  }
-
-  if (gapY) {
-    addClassname('gapY', gapY, classNames, isCustomSpacing);
-  }
-
-  if (backgroundColor) {
-    addClassname('backgroundColor', backgroundColor, classNames, isCustomColor);
-  }
-
-  if (backgroundColorOnActive) {
-    addClassname(
-      'backgroundColorOnActive',
-      backgroundColorOnActive,
-      classNames,
-      isCustomColor,
-    );
-  }
-
-  if (backgroundColorOnFocus) {
-    addClassname(
-      'backgroundColorOnFocus',
-      backgroundColorOnFocus,
-      classNames,
-      isCustomColor,
-    );
-  }
-
-  if (backgroundColorOnHover) {
-    addClassname(
-      'backgroundColorOnHover',
-      backgroundColorOnHover,
-      classNames,
-      isCustomColor,
-    );
-  }
-
-  if (backgroundColorOnChecked) {
-    addClassname(
-      'backgroundColorOnChecked',
-      backgroundColorOnChecked,
-      classNames,
-      isCustomColor,
-    );
-  }
-
-  if (borderColorOnActive) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      borderColorOnActive as any,
-    );
-    let classname = '';
-
-    if (borderColor) {
-      classname = 'borderColorOnActive';
-    }
-    if (borderTopColor) {
-      classname = 'borderColorOnActive-t';
-    }
-    if (borderBottomColor) {
-      classname = 'borderColorOnActive-b';
-    }
-    if (borderStartColor) {
-      classname = 'borderColorOnActive-s';
-    }
-    if (borderEndColor) {
-      classname = 'borderColorOnActive-e';
-    }
-
-    if (isCustomColor) {
-      classname = `${classname}-[${borderColorOnActive}]`;
-    } else {
-      classname = `${classname}-${borderColorOnActive}`;
-    }
-    classNames.add(classname);
-  }
-
-  if (borderColorOnChecked) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      borderColorOnChecked as any,
-    );
-    let classname = '';
-
-    if (borderColor) {
-      classname = 'borderColorOnChecked';
-    }
-    if (borderTopColor) {
-      classname = 'borderColorOnChecked-t';
-    }
-    if (borderBottomColor) {
-      classname = 'borderColorOnChecked-b';
-    }
-    if (borderStartColor) {
-      classname = 'borderColorOnChecked-s';
-    }
-    if (borderEndColor) {
-      classname = 'borderColorOnChecked-e';
-    }
-
-    if (isCustomColor) {
-      classname = `${classname}-[${borderColorOnChecked}]`;
-    } else {
-      classname = `${classname}-${borderColorOnChecked}`;
-    }
-    classNames.add(classname);
-  }
-
-  if (borderColorOnFocus) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      borderColorOnFocus as any,
-    );
-    let classname = '';
-
-    if (borderColor) {
-      classname = 'borderColorOnFocus';
-    }
-    if (borderTopColor) {
-      classname = 'borderColorOnFocus-t';
-    }
-    if (borderBottomColor) {
-      classname = 'borderColorOnFocus-b';
-    }
-    if (borderStartColor) {
-      classname = 'borderColorOnFocus-s';
-    }
-    if (borderEndColor) {
-      classname = 'borderColorOnFocus-e';
-    }
-
-    if (isCustomColor) {
-      classname = `${classname}-[${borderColorOnFocus}]`;
-    } else {
-      classname = `${classname}-${borderColorOnFocus}`;
-    }
-    classNames.add(classname);
-  }
-
-  if (borderColorOnHover) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      borderColorOnHover as any,
-    );
-    let classname = '';
-
-    if (borderColor) {
-      classname = 'borderColorOnHover';
-    }
-    if (borderTopColor) {
-      classname = 'borderColorOnHover-t';
-    }
-    if (borderBottomColor) {
-      classname = 'borderColorOnHover-b';
-    }
-    if (borderStartColor) {
-      classname = 'borderColorOnHover-s';
-    }
-    if (borderEndColor) {
-      classname = 'borderColorOnHover-e';
-    }
-
-    if (isCustomColor) {
-      classname = `${classname}-[${borderColorOnHover}]`;
-    } else {
-      classname = `${classname}-${borderColorOnHover}`;
-    }
-    classNames.add(classname);
-  }
-
-  if (borderColorOnActive) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      borderColorOnActive as any,
-    );
-    let classname = '';
-
-    if (borderColor) {
-      classname = 'borderColorOnActive';
-    }
-    if (borderTopColor) {
-      classname = 'borderColorOnActive-t';
-    }
-    if (borderBottomColor) {
-      classname = 'borderColorOnActive-b';
-    }
-    if (borderStartColor) {
-      classname = 'borderColorOnActive-s';
-    }
-    if (borderEndColor) {
-      classname = 'borderColorOnActive-e';
-    }
-
-    if (isCustomColor) {
-      classname = `${classname}-[${borderColorOnActive}]`;
-    } else {
-      classname = `${classname}-${borderColorOnActive}`;
-    }
-    classNames.add(classname);
-  }
-
-  if (borderColorOnFocus) {
-    const isCustomColor = !fixtures.allColorNames.includes(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      borderColorOnFocus as any,
-    );
-    let classname = '';
-
-    if (borderColor) {
-      classname = 'borderColorOnFocus';
-    }
-    if (borderTopColor) {
-      classname = 'borderColorOnFocus-t';
-    }
-    if (borderBottomColor) {
-      classname = 'borderColorOnFocus-b';
-    }
-    if (borderStartColor) {
-      classname = 'borderColorOnFocus-s';
-    }
-    if (borderEndColor) {
-      classname = 'borderColorOnFocus-e';
-    }
-
-    if (isCustomColor) {
-      classname = `${classname}-[${borderColorOnFocus}]`;
-    } else {
-      classname = `${classname}-${borderColorOnFocus}`;
-    }
-    classNames.add(classname);
-  }
-
-  if (borderColor) {
-    addClassname('borderColor', borderColor, classNames, isCustomColor);
-  }
-
-  if (borderYColor) {
-    addClassname('borderYColor', borderYColor, classNames, isCustomColor);
-  }
-
-  if (borderXColor) {
-    addClassname('borderXColor', borderXColor, classNames, isCustomColor);
-  }
-
-  if (borderTopColor) {
-    addClassname('borderTopColor', borderTopColor, classNames, isCustomColor);
-  }
-
-  if (borderBottomColor) {
-    addClassname(
-      'borderBottomColor',
-      borderBottomColor,
-      classNames,
-      isCustomColor,
-    );
-  }
-
-  if (borderStartColor) {
-    addClassname(
-      'borderStartColor',
-      borderStartColor,
-      classNames,
-      isCustomColor,
-    );
-  }
-
-  if (borderEndColor) {
-    addClassname('borderEndColor', borderEndColor, classNames, isCustomColor);
-  }
-
-  if (borderRadius) {
-    addClassname(
-      'borderRadius',
-      borderRadius,
-      classNames,
-      isCustomBorderRadius,
-    );
-  }
-  if (borderTopRadius) {
-    addClassname(
-      'borderTopRadius',
-      borderTopRadius,
-      classNames,
-      isCustomBorderRadius,
-    );
-  }
-
-  if (borderBottomRadius) {
-    addClassname(
-      'borderBottomRadius',
-      borderBottomRadius,
-      classNames,
-      isCustomBorderRadius,
-    );
-  }
-
-  if (borderStartRadius) {
-    addClassname(
-      'borderStartRadius',
-      borderStartRadius,
-      classNames,
-      isCustomBorderRadius,
-    );
-  }
-
-  if (borderEndRadius) {
-    addClassname(
-      'borderEndRadius',
-      borderEndRadius,
-      classNames,
-      isCustomBorderRadius,
-    );
-  }
-
-  if (borderTopStartRadius) {
-    addClassname(
-      'borderTopStartRadius',
-      borderTopStartRadius,
-      classNames,
-      isCustomBorderRadius,
-    );
-  }
-
-  if (borderTopEndRadius) {
-    addClassname(
-      'borderTopEndRadius',
-      borderTopEndRadius,
-      classNames,
-      isCustomBorderRadius,
-    );
-  }
-
-  if (borderBottomStartRadius) {
-    addClassname(
-      'borderBottomStartRadius',
-      borderBottomStartRadius,
-      classNames,
-      isCustomBorderRadius,
-    );
-  }
-
-  if (borderBottomEndRadius) {
-    addClassname(
-      'borderBottomEndRadius',
-      borderBottomEndRadius,
-      classNames,
-      isCustomBorderRadius,
-    );
-  }
-
-  if (borderWidth) {
-    addClassname('borderWidth', borderWidth, classNames, isCustomBorderWidth);
-  }
-
-  if (borderYWidth) {
-    addClassname('borderYWidth', borderYWidth, classNames, isCustomBorderWidth);
-  }
-
-  if (borderXWidth) {
-    addClassname('borderXWidth', borderXWidth, classNames, isCustomBorderWidth);
-  }
-
-  if (borderStartWidth) {
-    addClassname(
-      'borderStartWidth',
-      borderStartWidth,
-      classNames,
-      isCustomBorderWidth,
-    );
-  }
-
-  if (borderEndWidth) {
-    addClassname(
-      'borderEndWidth',
-      borderEndWidth,
-      classNames,
-      isCustomBorderWidth,
-    );
-  }
-
-  if (borderTopWidth) {
-    addClassname(
-      'borderTopWidth',
-      borderTopWidth,
-      classNames,
-      isCustomBorderWidth,
-    );
-  }
-
-  if (borderBottomWidth) {
-    addClassname(
-      'borderBottomWidth',
-      borderBottomWidth,
-      classNames,
-      isCustomBorderWidth,
-    );
-  }
-
-  if (height) {
-    addClassname('height', height, classNames, isCustomHeight);
-  }
-
-  if (minHeight) {
-    addClassname('minHeight', minHeight, classNames, isCustomHeight);
-  }
-
-  if (maxHeight) {
-    addClassname('maxHeight', maxHeight, classNames, isCustomHeight);
-  }
-
-  if (width) {
-    addClassname('width', width, classNames, isCustomWidth);
-  }
-
-  if (minWidth) {
-    addClassname('minWidth', minWidth, classNames, isCustomWidth);
-  }
-
-  if (maxWidth) {
-    addClassname('maxWidth', maxWidth, classNames, isCustomWidth);
-  }
-
-  if (overflow) {
-    classNames.add(`overflow-${overflow}`);
-  }
-
-  if (overflowX) {
-    classNames.add(`overflowX-${overflowX}`);
-  }
-  if (overflowY) {
-    classNames.add(`overflowY-${overflowY}`);
-  }
-  if (position) {
-    classNames.add(`position-${position}`);
-  }
-  if (zIndex) {
-    classNames.add(`zIndex-${zIndex}`);
-  }
-  if (opacity) {
-    classNames.add(`opacity-${opacity}`);
-  }
-  if (contentFit) {
-    classNames.add(`contentFit-${contentFit}`);
-  }
-
-  if (direction) {
-    classNames.add(`flexDirection-${direction}`);
-  }
-
-  if (grow !== undefined) {
-    classNames.add(`grow-${grow}`);
-  }
-
-  if (shrink !== undefined) {
-    classNames.add(`shrink-${shrink}`);
-  }
-  if (wrap) {
-    classNames.add(`wrap-${wrap}`);
-  }
-
-  if (justifyContent) {
-    classNames.add(`justifyContent-${justifyContent}`);
-  }
-
-  if (alignItems) {
-    classNames.add(`alignItems-${alignItems}`);
-  }
-
-  if (alignContent) {
-    classNames.add(`alignContent-${alignContent}`);
-  }
-
-  if (iconSize) {
-    addClassname('iconSize', iconSize, classNames, isCustomIconSize);
-  }
-  if (avatarSize) {
-    addClassname('avatarSize', avatarSize, classNames, isCustomAvatarSize);
-  }
-
-  if (className) {
-    classNames.add(className);
-  }
-
-  return Array.from(classNames).join(' ');
-};
-
-type StyleProp = keyof StyleProps | 'children' | 'asChild';
-type ComponentPropsMap = {
-  Avatar: Omit<AvatarProps, StyleProp>;
-  Icon: Omit<IconProps, StyleProp>;
-  Box: BoxProps;
-  HStack: Omit<HStackProps, StyleProp>;
-  VStack: Omit<VStackProps, StyleProp>;
-  Text: Omit<TextProps, StyleProp>;
-  TextInput: Omit<TextInputProps, StyleProp>;
-};
-
 export function extractStyleProps(
-  _props: GetStylesParams,
-  componentName?: string,
+  props: GetStylesParams,
 ): Record<string, unknown> & { className?: string } {
-  const props = { ..._props };
-  const defaults = {} as StyleProps;
-
-  switch (componentName) {
-    case 'Avatar': {
-      const { size, shape } = props as ComponentPropsMap['Avatar'];
-      defaults.avatarSize = size;
-      defaults.borderRadius = shape;
-      // @ts-expect-error this is fine
-      props.size = undefined;
-      // @ts-expect-error this is fine
-      props.shape = undefined;
-      break;
-    }
-
-    case 'Icon': {
-      const { size } = props as ComponentPropsMap['Icon'];
-      defaults.iconSize = size;
-      defaults.color = 'primary';
-      defaults.fontFamily = 'icons';
-      // @ts-expect-error this is fine
-      props.size = undefined;
-      break;
-    }
-
-    case 'Box': {
-      defaults.display = 'flex';
-      break;
-    }
-
-    case 'HStack': {
-      const { gap } = props as ComponentPropsMap['HStack'];
-      defaults.display = 'flex';
-      defaults.direction = 'horizontal';
-      if (gap) {
-        defaults.gapX = gap;
-      }
-      // @ts-expect-error this is fine
-      props.gap = undefined;
-      break;
-    }
-
-    case 'Text': {
-      const { variant } = props as ComponentPropsMap['Text'];
-      defaults.fontFamily = variant;
-      defaults.fontSize = variant;
-      defaults.fontWeight = variant;
-      defaults.lineHeight = variant;
-      defaults.textTransform = variant;
-      defaults.color = 'primary';
-      // @ts-expect-error this is fine
-      props.variant = undefined;
-      break;
-    }
-
-    case 'TextInput': {
-      const { variant = 'body1', disabled } =
-        props as ComponentPropsMap['TextInput'];
-      defaults.backgroundColor = disabled ? 'secondary' : 'primary';
-      defaults.borderColor = disabled ? 'secondary' : 'primary';
-      defaults.borderRadius = 'md';
-      defaults.color = 'primary';
-      defaults.fontFamily = variant;
-      defaults.fontSize = variant;
-      defaults.fontWeight = variant;
-      defaults.lineHeight = variant;
-      defaults.placeholderColor = 'tertiary';
-      defaults.spacingY = '3';
-      defaults.spacingX = '4';
-      defaults.textTransform = variant;
-      defaults.width = 'full';
-      // @ts-expect-error this is fine
-      props.variant = undefined;
-      break;
-    }
-
-    case 'VStack': {
-      const { gap } = props as ComponentPropsMap['VStack'];
-      defaults.display = 'flex';
-      defaults.direction = 'vertical';
-      if (gap) {
-        defaults.gapY = gap;
-      }
-      // @ts-expect-error this is fine
-      props.gap = undefined;
-      break;
-    }
-
-    default:
-      break;
-  }
-
-  const {
-    color = defaults?.color,
-    colorChecked = defaults?.colorChecked,
-    display = defaults?.display,
-    placeholderColor = defaults?.placeholderColor,
-    fontFamily = defaults?.fontFamily,
-    fontSize = defaults?.fontSize,
-    fontWeight = defaults?.fontWeight,
-    lineHeight = defaults?.lineHeight,
-    textTransform = defaults?.textTransform,
-    textAlign = defaults?.textAlign,
-    spacing = defaults?.spacing,
-    spacingX = defaults?.spacingX,
-    spacingY = defaults?.spacingY,
-    spacingTop = defaults?.spacingTop,
-    spacingBottom = defaults?.spacingBottom,
-    spacingStart = defaults?.spacingStart,
-    spacingEnd = defaults?.spacingEnd,
-    offset = defaults?.offset,
-    offsetY = defaults?.offsetY,
-    offsetX = defaults?.offsetX,
-    offsetTop = defaults?.offsetTop,
-    offsetBottom = defaults?.offsetBottom,
-    offsetStart = defaults?.offsetStart,
-    offsetEnd = defaults?.offsetEnd,
-    gapX = defaults?.gapX,
-    gapY = defaults?.gapY,
-    direction = defaults?.direction,
-    grow = defaults?.grow,
-    shrink = defaults?.shrink,
-    wrap = defaults?.wrap,
-    justifyContent = defaults?.justifyContent,
-    alignItems = defaults?.alignItems,
-    alignContent = defaults?.alignContent,
-    backgroundColor = defaults?.backgroundColor,
-    backgroundColorOnActive = defaults?.backgroundColorOnActive,
-    backgroundColorOnFocus = defaults?.backgroundColorOnFocus,
-    backgroundColorOnHover = defaults?.backgroundColorOnHover,
-    backgroundColorOnChecked = defaults?.backgroundColorOnChecked,
-    borderColor = defaults?.borderColor,
-    borderColorOnActive = defaults?.borderColorOnActive,
-    borderColorOnChecked = defaults?.borderColorOnChecked,
-    borderColorOnFocus = defaults?.borderColorOnFocus,
-    borderColorOnHover = defaults?.borderColorOnHover,
-    borderYColor = defaults?.borderYColor,
-    borderXColor = defaults?.borderXColor,
-    borderTopColor = defaults?.borderTopColor,
-    borderBottomColor = defaults?.borderBottomColor,
-    borderStartColor = defaults?.borderStartColor,
-    borderEndColor = defaults?.borderEndColor,
-    borderRadius = defaults?.borderRadius,
-    borderTopRadius = defaults?.borderTopRadius,
-    borderBottomRadius = defaults?.borderBottomRadius,
-    borderStartRadius = defaults?.borderStartRadius,
-    borderEndRadius = defaults?.borderEndRadius,
-    borderTopStartRadius = defaults?.borderTopStartRadius,
-    borderTopEndRadius = defaults?.borderTopEndRadius,
-    borderBottomStartRadius = defaults?.borderBottomStartRadius,
-    borderBottomEndRadius = defaults?.borderBottomEndRadius,
-    borderWidth = defaults?.borderWidth,
-    borderYWidth = defaults?.borderYWidth,
-    borderXWidth = defaults?.borderXWidth,
-    borderStartWidth = defaults?.borderStartWidth,
-    borderEndWidth = defaults?.borderEndWidth,
-    borderTopWidth = defaults?.borderTopWidth,
-    borderBottomWidth = defaults?.borderBottomWidth,
-    height = defaults?.height,
-    minHeight = defaults?.minHeight,
-    maxHeight = defaults?.maxHeight,
-    width = defaults?.width,
-    minWidth = defaults?.minWidth,
-    maxWidth = defaults?.maxWidth,
-    overflow = defaults?.overflow,
-    overflowX = defaults?.overflowX,
-    overflowY = defaults?.overflowY,
-    position = defaults?.position,
-    zIndex = defaults?.zIndex,
-    opacity = defaults?.opacity,
-    contentFit = defaults?.contentFit,
-    iconSize = defaults?.iconSize,
-    avatarSize = defaults?.avatarSize,
-    className,
-    ...otherProps
-  } = props;
-
-  const finalClassName = getStyles({
-    color,
-    colorChecked,
-    display,
-    placeholderColor,
-    fontFamily,
-    fontSize,
-    fontWeight,
-    lineHeight,
-    textAlign,
-    textTransform,
-    spacing,
-    spacingX,
-    spacingY,
-    spacingTop,
-    spacingBottom,
-    spacingStart,
-    spacingEnd,
-    offset,
-    offsetY,
-    offsetX,
-    offsetTop,
-    offsetBottom,
-    offsetStart,
-    offsetEnd,
-    gapX,
-    gapY,
-    direction,
-    grow,
-    shrink,
-    wrap,
-    justifyContent,
-    alignItems,
-    alignContent,
-    backgroundColor,
-    backgroundColorOnActive,
-    backgroundColorOnFocus,
-    backgroundColorOnHover,
-    backgroundColorOnChecked,
-    borderColor,
-    borderColorOnActive,
-    borderColorOnChecked,
-    borderColorOnFocus,
-    borderColorOnHover,
-    borderYColor,
-    borderXColor,
-    borderTopColor,
-    borderBottomColor,
-    borderStartColor,
-    borderEndColor,
-    borderRadius,
-    borderTopRadius,
-    borderBottomRadius,
-    borderStartRadius,
-    borderEndRadius,
-    borderTopStartRadius,
-    borderTopEndRadius,
-    borderBottomStartRadius,
-    borderBottomEndRadius,
-    borderWidth,
-    borderYWidth,
-    borderXWidth,
-    borderStartWidth,
-    borderEndWidth,
-    borderTopWidth,
-    borderBottomWidth,
-    height,
-    minHeight,
-    maxHeight,
-    width,
-    minWidth,
-    maxWidth,
-    overflow,
-    overflowX,
-    overflowY,
-    position,
-    zIndex,
-    opacity,
-    contentFit,
-    iconSize,
-    avatarSize,
-    className,
+  const [finalClassName, otherProps] = processStyleProps(props, {
+    extractNativeProps: true,
   });
 
   return finalClassName

@@ -2,5 +2,5 @@
 
 require('bluebun').run({
   name: 'katcn',
-  cliPath: __dirname + '/src',
+  cliPath: `${__dirname}/src`,
 });

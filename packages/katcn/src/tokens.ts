@@ -1,105 +1,36 @@
 import type {
-  AvatarSizeConfig,
   BorderRadiusConfig,
   BorderWidthConfig,
   FontFamilyGlobalConfig,
-  FontWeightDescriptive,
-  FontWeightNumeric,
-  HuesChromaConfig,
-  HuesConfig,
-  HuesLightnessConfig,
-  IconSizeConfig,
-  PaletteConfig,
+  NowConfig,
+  ResponsiveConfig,
   SpacingConfig,
   TypographyConfig,
-  UniversalTokensConfig,
   ZIndexConfig,
 } from './types';
 
-const hues: HuesConfig = {
-  magenta: 331.6,
-  pink: 4.6,
-  rose: 7.4,
-  red: 27.4,
-  sunset: 33.9,
-  orange: 42.7,
-  nude: 42.5,
-  brown: 68.8,
-  yellow: 82.9,
-  citron: 109.8,
-  lime: 133.2,
-  green: 154.4,
-  mint: 164.9,
-  teal: 194.8,
-  cyan: 224.1,
-  blue: 261,
-  indigo: 273.3,
-  purple: 289,
-  gray: 248.1,
-  carbon: 0,
+const lightColors = {
+  brand: 'blue-500',
+  'on-brand': 'zinc-50',
+  accent: 'rose-600',
+  'on-accent': 'zinc-50',
+  alert: 'red-500',
+  'on-alert': 'zinc-50',
+  positive: 'green-500',
+  'on-positive': 'zinc-50',
+  warning: 'orange-500',
+  'on-warning': 'zinc-50',
+  primary: 'zinc-50',
+  'on-primary': 'zinc-900',
+  secondary: 'zinc-200',
+  'on-secondary': 'zinc-600',
+  tertiary: 'zinc-100',
+  'on-tertiary': 'zinc-500',
+  inverse: 'zinc-900',
+  'on-inverse': 'zinc-50',
 };
 
-const huesLightness: HuesLightnessConfig = {
-  '0': '99%',
-  '1': '95%',
-  '2': '88%',
-  '3': '80%',
-  '4': '74%',
-  '5': '68%',
-  '6': '63%',
-  '7': '58%',
-  '8': '53%',
-  '9': '49%',
-  '10': '42%',
-  '11': '35%',
-  '12': '27%',
-  '13': '20%',
-  '14': '14%',
-  '15': '11%',
-};
-
-const huesChroma: HuesChromaConfig = {
-  '0': 0.03,
-  '1': 0.06,
-  '2': 0.12,
-  '3': 0.14,
-  '4': 0.16,
-  '5': 0.19,
-  '6': 0.2,
-  '7': 0.21,
-  '8': 0.2,
-  '9': 0.19,
-  '10': 0.17,
-  '11': 0.15,
-  '12': 0.12,
-  '13': 0.09,
-  '14': 0.07,
-  '15': 0.05,
-};
-
-const palette: PaletteConfig = {
-  core: {
-    brand: { hue: 'purple', step: '9' },
-    accent: { hue: 'blue', step: '9' },
-    alert: { hue: 'red', step: '9' },
-    positive: { hue: 'green', step: '9' },
-    warning: { hue: 'orange', step: '9' },
-  },
-  background: {
-    primary: { hue: 'gray', step: '0' },
-    secondary: { hue: 'gray', step: '2' },
-  },
-  foreground: {
-    primary: { hue: 'gray', step: '13' },
-    secondary: { hue: 'gray', step: '14' },
-    tertiary: { hue: 'gray', step: '9' },
-    'on-color': { hue: 'gray', step: '0' },
-  },
-  line: {
-    primary: { hue: 'gray', step: '14' },
-    secondary: { hue: 'gray', step: '9' },
-  },
-};
+const darkColors = lightColors;
 
 const sansFallbacks = ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'];
 const serifFallbacks = ['Georgia', 'Times', 'Times New Roman', 'serif'];
@@ -107,9 +38,7 @@ const serifFallbacks = ['Georgia', 'Times', 'Times New Roman', 'serif'];
 const fontFamily: FontFamilyGlobalConfig = {
   icons: { fallbacks: ['icons', ...sansFallbacks], name: 'icons' },
   sans: { fallbacks: sansFallbacks, name: 'sans' },
-  'sans-condensed': { fallbacks: sansFallbacks, name: 'sans-condensed' },
-  'serif-text': { fallbacks: serifFallbacks, name: 'serif-text' },
-  'serif-display': { fallbacks: serifFallbacks, name: 'serif-display' },
+  serif: { fallbacks: serifFallbacks, name: 'serif' },
   mono: {
     fallbacks: ['Menlo', 'Monaco', 'Courier New', 'monospace'],
     name: 'mono',
@@ -118,86 +47,66 @@ const fontFamily: FontFamilyGlobalConfig = {
 
 const typography: TypographyConfig = {
   display1: {
-    fontFamily: 'sans',
-    fontSize: '48px',
-    lineHeight: '44px',
-    fontWeight: 'black',
-    textTransform: 'uppercase',
+    fontSize: '6rem',
+    fontWeight: '500',
   },
   display2: {
-    fontFamily: 'sans',
-    fontSize: '40px',
-    lineHeight: '44px',
-    fontWeight: 'extrabold',
+    fontSize: '3.5rem',
+    fontWeight: '500',
   },
   display3: {
-    fontFamily: 'sans',
-    fontSize: '36px',
-    lineHeight: '44px',
-    fontWeight: 'extrabold',
+    fontSize: '2.5rem',
+    fontWeight: '450',
+  },
+  display4: {
+    fontSize: '2.5rem',
+    fontWeight: '400',
   },
   title1: {
-    fontFamily: 'sans',
-    fontSize: '32px',
-    lineHeight: '40px',
-    fontWeight: 'bold',
+    fontSize: '1.75rem',
+    fontWeight: '700',
   },
   title2: {
-    fontFamily: 'sans',
-    fontSize: '28px',
-    lineHeight: '36px',
-    fontWeight: 'bold',
+    fontSize: '1.75rem',
+    fontWeight: '450',
   },
   title3: {
-    fontFamily: 'sans',
-    fontSize: '24px',
-    lineHeight: '32px',
-    fontWeight: 'bold',
+    fontSize: '1.375rem',
+    fontWeight: '700',
   },
   title4: {
-    fontFamily: 'sans',
-    fontSize: '20px',
-    lineHeight: '24px',
-    fontWeight: 'bold',
+    fontSize: '1.375',
+    fontWeight: '450',
   },
-  headline1: {
-    fontFamily: 'sans',
-    fontSize: '16px',
-    lineHeight: '20px',
-    fontWeight: 'semibold',
+  headline: {
+    fontSize: '1rem',
+    fontWeight: '500',
+    lineHeight: '1.25rem',
   },
-  body1: {
-    fontFamily: 'sans',
-    fontSize: '16px',
-    lineHeight: '20px',
+  body: {
+    fontSize: '1rem',
+    fontWeight: '400',
+    lineHeight: '1.5rem',
   },
   label1: {
-    fontFamily: 'sans',
-    fontSize: '14px',
-    lineHeight: '20px',
-    fontWeight: 'semibold',
+    fontSize: '0.875rem',
+    fontWeight: '500',
   },
   label2: {
-    fontFamily: 'sans',
-    fontSize: '14px',
-    lineHeight: '20px',
+    fontSize: '0.875rem',
+    fontWeight: '400',
   },
-  caption1: {
-    fontFamily: 'sans',
-    fontSize: '12px',
-    lineHeight: '16px',
-    fontWeight: 'semibold',
+  label3: {
+    fontSize: '0.75rem',
+    fontWeight: '500',
   },
-  caption2: {
-    fontFamily: 'sans',
-    fontSize: '12px',
-    lineHeight: '16px',
+  label4: {
+    fontSize: '0.75rem',
+    fontWeight: '400',
   },
-  legal1: {
-    fontFamily: 'sans',
-    fontSize: '11px',
-    lineHeight: '16px',
-    fontWeight: 'semibold',
+  legal: {
+    fontSize: '0.625rem',
+    fontWeight: '400',
   },
 };
 
@@ -208,7 +117,8 @@ const borderRadius: BorderRadiusConfig = {
   md: '8px',
   lg: '16px',
   xl: '32px',
-  full: '9999px',
+  // https://github.com/argyleink/open-props/blob/main/src/props.borders.css#L13C19-L13C22
+  full: '1e5px',
 };
 
 const borderWidth: BorderWidthConfig = {
@@ -256,18 +166,6 @@ const spacing: SpacingConfig = {
   '96': '24rem',
 };
 
-const avatarSizes: AvatarSizeConfig = {
-  sm: '16px',
-  md: '24px',
-  lg: '32px',
-};
-
-const iconSizes: IconSizeConfig = {
-  sm: '16px',
-  md: '24px',
-  lg: '32px',
-};
-
 const zIndex: ZIndexConfig = {
   auto: 'auto',
   '0': '0',
@@ -278,35 +176,25 @@ const zIndex: ZIndexConfig = {
   '50': '50',
 };
 
-export const defaultTokensConfig: UniversalTokensConfig = {
-  palette,
-  hues,
-  huesChroma,
-  huesLightness,
+const responsive: ResponsiveConfig = {
+  sm: '640px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1280px',
+  '2xl': '1536px',
+};
+
+export const defaultTokensConfig: NowConfig = {
+  colorMode: {
+    light: lightColors,
+    dark: darkColors,
+  },
   borderRadius,
   borderWidth,
   spacing,
-  avatarSizes,
-  iconSizes,
-  zIndex,
   fontFamily,
   typography,
-};
-
-export const alwaysPalette = {
-  white: '#ffffff',
-  black: '#000000',
-  transparent: 'transparent',
-};
-
-export const fontWeightMap: Record<FontWeightDescriptive, FontWeightNumeric> = {
-  thin: '100',
-  extralight: '200',
-  light: '300',
-  regular: '400',
-  medium: '500',
-  semibold: '600',
-  bold: '700',
-  extrabold: '800',
-  black: '900',
+  zIndex,
+  responsive,
+  disablePreflight: false,
 };

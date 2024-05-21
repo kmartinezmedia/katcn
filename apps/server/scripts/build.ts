@@ -9,12 +9,27 @@ async function getDtsLibs() {
 
   const katPackageJson = await Bun.file(`${katcnDir}/package.json`).text();
   const reactTypesResp = await fetch(
-    'https://unpkg.com/@types/react@18.2.0/index.d.ts',
+    'https://unpkg.com/types-react@beta/index.d.ts',
   );
-
   dtsLibs.push({
     content: await reactTypesResp.text(),
     filePath: 'file:///node_modules/react/index.d.ts',
+  });
+
+  const reactJsxRuntime = await fetch(
+    'https://unpkg.com/types-react@beta/jsx-runtime.d.ts',
+  );
+  dtsLibs.push({
+    content: await reactJsxRuntime.text(),
+    filePath: 'file:///node_modules/react/jsx-runtime.d.ts',
+  });
+
+  const reactJsxDevRuntime = await fetch(
+    'https://unpkg.com/types-react@beta/jsx-dev-runtime.d.ts',
+  );
+  dtsLibs.push({
+    content: await reactJsxDevRuntime.text(),
+    filePath: 'file:///node_modules/react/jsx-dev-runtime.d.ts',
   });
 
   dtsLibs.push({

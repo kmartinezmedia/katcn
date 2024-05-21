@@ -2,10 +2,16 @@ import { watch } from 'node:fs';
 
 const watchers = new Map<string, ReturnType<typeof watch>>();
 
-export function createWatcher(dir: string, onChange: () => Promise<void>) {
+export function createWatcher(
+  dir: string,
+  onChange: (file: string[]) => Promise<void>,
+) {
   const watcher = watch(dir, { recursive: true }, async (_event, filename) => {
-    console.info(`katcn update: ${filename}`);
-    await onChange();
+    if (filename) {
+      const fullPath = `${dir}/${filename}`;
+      console.info(`[katcn dev] ${fullPath}`);
+      await onChange([fullPath]);
+    }
   });
   watchers.set(dir, watcher);
 }

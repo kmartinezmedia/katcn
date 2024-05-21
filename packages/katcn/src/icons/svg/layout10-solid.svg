@@ -1,11 +1,1 @@
-<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M6.3 2.40002H7.7V8.10002H2V6.70002C2 4.30002 3.9 2.40002 6.3 2.40002Z" fill="black"/>
-<path d="M7.7 10.1H2V14.8H7.7V10.1Z" fill="black"/>
-<path d="M2 16.7H7.7V22.4H6.3C3.9 22.4 2 20.5 2 18.1V16.7Z" fill="black"/>
-<path d="M14.4 2.40002H9.7V8.10002H14.4V2.40002Z" fill="black"/>
-<path d="M14.4 10.1H9.7V14.8H14.4V10.1Z" fill="black"/>
-<path d="M14.4 16.7H9.7V22.4H14.4V16.7Z" fill="black"/>
-<path d="M22 6.70002V8.10002H16.3V2.40002H17.7C20.1 2.40002 22 4.30002 22 6.70002Z" fill="black"/>
-<path d="M22 10.1H16.3V14.8H22V10.1Z" fill="black"/>
-<path d="M16.3 16.7H22V18.1C22 20.4 20.1 22.4 17.7 22.4H16.3V16.7Z" fill="black"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 25"><path fill="#000" d="M6.3 2.4h1.4v5.7H2V6.7c0-2.4 1.9-4.3 4.3-4.3m1.4 7.7H2v4.7h5.7zM2 16.7h5.7v5.7H6.3c-2.4 0-4.3-1.9-4.3-4.3zM14.4 2.4H9.7v5.7h4.7zm0 7.7H9.7v4.7h4.7zm0 6.6H9.7v5.7h4.7zm7.6-10v1.4h-5.7V2.4h1.4c2.4 0 4.3 1.9 4.3 4.3m0 3.4h-5.7v4.7H22zm-5.7 6.6H22v1.4c0 2.3-1.9 4.3-4.3 4.3h-1.4z"/></svg>

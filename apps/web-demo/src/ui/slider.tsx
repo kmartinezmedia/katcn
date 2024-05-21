@@ -10,19 +10,80 @@ import {
   useTransform,
 } from 'framer-motion';
 import { atom, useAtom } from 'jotai';
-import fixtures from 'katcn/fixtures';
-import { clamp, entries, interpolate, mapValues } from 'katcn/helpers';
-import { defaultTokensConfig } from 'katcn/tokens';
-import type { Hue, HueChroma, HueLightness, HueStep } from 'katcn/types';
-import { useRef, useState } from 'react';
+import { hueSteps, hues } from 'katcn/fixtures/colors';
+import { clamp, interpolate, mapValues } from 'katcn/helpers';
+import type { Hue, HueStep } from 'katcn/types';
+import { useEffect, useRef, useState } from 'react';
 
-const lightnessMap = mapValues(defaultTokensConfig.huesLightness, (value) => {
+const oklchRegex = /oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)/;
+
+type HueChroma = number;
+
+const huesLightness: Record<HueStep, number> = {
+  '50': 0.99,
+  '100': 0.8825,
+  '200': 0.775,
+  '300': 0.6675,
+  '400': 0.56,
+  '500': 0.4525,
+  '600': 0.345,
+  '700': 0.2375,
+  '800': 0.13,
+  '900': 0.11,
+};
+
+const huesChroma: Record<HueStep, number> = {
+  '50': 0,
+  '100': 0,
+  '200': 0,
+  '300': 0,
+  '400': 0,
+  '500': 0,
+  '600': 0,
+  '700': 0,
+  '800': 0,
+  '900': 0,
+};
+
+const data: Record<
+  Hue,
+  {
+    hue: number;
+    lightness: Record<HueStep, number>;
+    chroma: Record<HueStep, number>;
+  }
+> = {
+  slate: { hue: 265.8, lightness: huesLightness, chroma: huesChroma },
+  gray: { hue: 264.7, lightness: huesLightness, chroma: huesChroma },
+  zinc: { hue: 286, lightness: huesLightness, chroma: huesChroma },
+  neutral: { hue: 23.5, lightness: huesLightness, chroma: huesChroma },
+  stone: { hue: 56, lightness: huesLightness, chroma: huesChroma },
+  red: { hue: 25.7, lightness: huesLightness, chroma: huesChroma },
+  orange: { hue: 38.2, lightness: huesLightness, chroma: huesChroma },
+  amber: { hue: 45.9, lightness: huesLightness, chroma: huesChroma },
+  yellow: { hue: 57.7, lightness: huesLightness, chroma: huesChroma },
+  lime: { hue: 131.1, lightness: huesLightness, chroma: huesChroma },
+  green: { hue: 152.5, lightness: huesLightness, chroma: huesChroma },
+  emerald: { hue: 168.9, lightness: huesLightness, chroma: huesChroma },
+  teal: { hue: 188.4, lightness: huesLightness, chroma: huesChroma },
+  cyan: { hue: 227.4, lightness: huesLightness, chroma: huesChroma },
+  sky: { hue: 240.9, lightness: huesLightness, chroma: huesChroma },
+  blue: { hue: 265.5, lightness: huesLightness, chroma: huesChroma },
+  indigo: { hue: 278.7, lightness: huesLightness, chroma: huesChroma },
+  violet: { hue: 293.8, lightness: huesLightness, chroma: huesChroma },
+  purple: { hue: 305, lightness: huesLightness, chroma: huesChroma },
+  fuchsia: { hue: 325.6, lightness: huesLightness, chroma: huesChroma },
+  pink: { hue: 2.4, lightness: huesLightness, chroma: huesChroma },
+  rose: { hue: 10.3, lightness: huesLightness, chroma: huesChroma },
+};
+
+const lightnessMap = mapValues(huesLightness, (value) => {
   return atom(value);
 });
-const chromasMap = mapValues(defaultTokensConfig.huesChroma, (value) => {
+const chromasMap = mapValues(huesChroma, (value) => {
   return atom(value);
 });
-const huesMap = mapValues(defaultTokensConfig.hues, (value) => {
+const huesMap = mapValues(data, (value) => {
   return atom(value);
 });
 
@@ -98,7 +159,7 @@ export function Slider({
     <VStack>
       <HStack alignItems="center" gap="4">
         {startLabel && (
-          <Text variant="body1" width={20}>
+          <Text variant="body" width="[20px]">
             {startLabel}
           </Text>
         )}
@@ -106,15 +167,15 @@ export function Slider({
           data-test="slider"
           position="relative"
           justifyContent="center"
-          borderRadius="full"
-          backgroundColor="secondary"
-          width={sliderSize}
-          height={sliderHeight}
+          rounded="full"
+          bg="secondary"
+          width={`[${sliderSize}px]`}
+          height={`[${sliderHeight}px]`}
           ref={refs.container}
         >
           <Box
             height="full"
-            borderRadius="full"
+            rounded="full"
             overflow="hidden"
             position="relative"
           >
@@ -124,8 +185,8 @@ export function Slider({
               position="absolute"
               width="full"
               height="full"
-              borderRadius="full"
-              backgroundColor="cyan-3"
+              rounded="full"
+              bg="cyan-300"
               style={{ pointerEvents: 'none' }}
               asChild
             >
@@ -137,10 +198,10 @@ export function Slider({
             data-test="slider-handle"
             position="absolute"
             zIndex="10"
-            backgroundColor="cyan-5"
-            borderRadius="full"
-            width={knobSize}
-            height={knobSize}
+            bg="cyan-500"
+            rounded="full"
+            width={`[${knobSize}px]`}
+            height={`[${knobSize}px]`}
             asChild
           >
             <motion.div
@@ -166,10 +227,10 @@ export function Slider({
         </VStack>
         {endLabel && (
           <Text
-            variant="body1"
-            color="primary"
+            variant="body"
+            color="on-primary"
             textAlign="start"
-            width={42}
+            width="[42px]"
             overflow="hidden"
           >
             {endLabel}
@@ -179,112 +240,85 @@ export function Slider({
           onClick={handleReset}
           opacity={initialValue !== value ? '100' : '0'}
         >
-          <Icon name="arrow8" color="primary" size="sm" />
+          <Icon name="arrow8" color="on-primary" size="4" />
         </Pressable>
       </HStack>
     </VStack>
   );
 }
 
-function lightnessToDecimal(lightness: HueLightness) {
-  return Number.parseFloat(lightness) / 100;
-}
+function HueShade({
+  name,
+  step,
+  index,
+}: { name: Hue; step: HueStep; index: number }) {
+  const [data, setData] = useAtom(huesMap[name]);
+  const huePlaceholderRef = useRef<HTMLDivElement>(null);
+  const hueRef = useRef<HTMLDivElement>(null);
+  const background = `oklch(${data.lightness[step]} ${data.chroma[step]} ${data.hue})`;
+  const foreground = index > 5 ? '#ffffff' : '#000000';
+  const wcag = getColorContrast({
+    foreground,
+    background,
+    contrastModel: 'wcag',
+    colorSpace: 'p3',
+  });
 
-function decimalToLightness(decimal: number): HueLightness {
-  return `${Math.round(decimal * 100)}%`;
-}
+  useEffect(() => {
+    if (huePlaceholderRef.current) {
+      const oklchString = window
+        ?.getComputedStyle(huePlaceholderRef.current)
+        .getPropertyValue('background-color');
 
-interface LightnessSliderProps {
-  initialValue: HueLightness;
-  hueStep: HueStep;
-}
-
-function LightnessSlider({ initialValue, hueStep }: LightnessSliderProps) {
-  const [lightness, setLightness] = useAtom(lightnessMap[hueStep]);
-
-  const handleChange = (value: number) => {
-    const newValue = decimalToLightness(value);
-    setLightness(newValue);
-    document.documentElement.style.setProperty(
-      `--hue-lightness-${hueStep}`,
-      newValue,
-    );
-  };
-
-  return (
-    <Slider
-      min={0}
-      max={1}
-      initialValue={lightnessToDecimal(initialValue)}
-      value={lightnessToDecimal(lightness)}
-      startLabel={`${hueStep}`}
-      endLabel={`${lightness}`}
-      onChange={handleChange}
-    />
-  );
-}
-
-interface ChromaSliderProps {
-  initialValue: HueChroma;
-  hueStep: HueStep;
-}
-
-function ChromaSlider({ initialValue, hueStep }: ChromaSliderProps) {
-  const [chroma, setChroma] = useAtom(chromasMap[hueStep]);
-
-  const handleChange = (value: number) => {
-    const roundedString = value.toFixed(2);
-    const roundedNumber = Number.parseFloat(roundedString);
-    setChroma(roundedNumber);
-    document.documentElement.style.setProperty(
-      `--hue-chroma-${hueStep}`,
-      `${roundedNumber}`,
-    );
-  };
+      const oklchMatch = oklchRegex.exec(oklchString);
+      console.log('oklchMatch', oklchMatch);
+      if (oklchMatch) {
+        const lightness = Number.parseFloat(oklchMatch[1]);
+        const chroma = Number.parseFloat(oklchMatch[2]);
+        // setChroma(chroma)
+        const hue = Number.parseFloat(oklchMatch[3]);
+        const roundedString = hue.toFixed(1);
+        const roundedNumber = Number.parseFloat(roundedString);
+        setData((prev) => ({
+          ...prev,
+          lightness: { ...prev.lightness, [step]: lightness },
+          chroma: { ...prev.chroma, [step]: chroma },
+          hue: roundedNumber,
+        }));
+      }
+      // if (huePlaceholderRef.current) {
+      //   huePlaceholderRef.current.style.backgroundColor = `oklch(from rgb(var(--${name}-${step})) h c l)`;
+      // }
+    }
+  }, [setData, step]);
 
   return (
-    <Slider
-      min={0}
-      max={0.37}
-      initialValue={initialValue}
-      value={chroma}
-      startLabel={`${hueStep}`}
-      endLabel={`${chroma}`}
-      onChange={handleChange}
-    />
-  );
-}
-
-export function LightnessAndChromaSliders() {
-  return (
-    <HStack>
-      <VStack gap="6" spacing="6">
-        <Text variant="title2">Lightness</Text>
-        {entries(defaultTokensConfig.huesLightness).map(
-          ([hueStep, lightness]) => {
-            return (
-              <LightnessSlider
-                key={hueStep}
-                initialValue={lightness}
-                hueStep={hueStep}
-              />
-            );
-          },
-        )}
-      </VStack>
-      <VStack gap="6" spacing="6">
-        <Text variant="title2">Chroma</Text>
-        {entries(defaultTokensConfig.huesChroma).map(([hueStep, chroma]) => {
-          return (
-            <ChromaSlider
-              key={hueStep}
-              initialValue={chroma}
-              hueStep={hueStep}
-            />
-          );
-        })}
-      </VStack>
-    </HStack>
+    <>
+      <div
+        ref={huePlaceholderRef}
+        style={{
+          backgroundColor: `oklch(from rgb(var(--${name}-${step})) l c h)`,
+          display: 'none',
+        }}
+      />
+      <HStack
+        ref={hueRef}
+        spacingY="3"
+        spacingX="6"
+        justifyContent="between"
+        alignItems="center"
+        style={{
+          backgroundColor: background,
+        }}
+      >
+        <Text variant="label1" style={{ color: foreground }}>
+          {index}
+        </Text>
+        <Text variant="label1" style={{ color: foreground }}>
+          {`${wcag.details} ${wcag.contrast}`}
+        </Text>
+      </HStack>
+    </>
   );
 }
 
@@ -292,13 +326,12 @@ function HueSlider({
   initialValue,
   name,
 }: { initialValue: number; name: Hue }) {
-  const [a11yScore, setA11yScore] = useState<string>('');
-  const [hue, setHue] = useAtom(huesMap[name]);
+  const [data, setData] = useAtom(huesMap[name]);
 
   const handleChange = (value: number) => {
     const roundedString = value.toFixed(1);
     const roundedNumber = Number.parseFloat(roundedString);
-    setHue(roundedNumber);
+    setData((prev) => ({ ...prev, hue: roundedNumber }));
     document.documentElement.style.setProperty(
       `--hue-${name}`,
       `${roundedNumber}`,
@@ -318,41 +351,14 @@ function HueSlider({
         min={0}
         max={360}
         initialValue={initialValue}
-        endLabel={`${hue}`}
+        endLabel={`${data.hue}`}
         onChange={handleChange}
-        value={hue}
+        value={data.hue}
       />
 
-      <VStack borderRadius="xl" overflow="hidden" grow="prevent">
-        {fixtures.hueSteps.map((step, index) => {
-          const [lightness] = useAtom(lightnessMap[step]);
-          const [chroma] = useAtom(chromasMap[step]);
-          const background = `oklch(${lightness} ${chroma} ${hue})`;
-          const foreground = index >= 8 ? '#ffffff' : '#000000';
-          const wcag = getColorContrast({
-            foreground,
-            background,
-            contrastModel: 'wcag',
-            colorSpace: 'p3',
-          });
-
-          return (
-            <HStack
-              key={step}
-              spacingY="3"
-              spacingX="6"
-              justifyContent="between"
-              alignItems="center"
-              backgroundColor={`${name}-${step}`}
-            >
-              <Text variant="label1" style={{ color: foreground }}>
-                {index}
-              </Text>
-              <Text variant="label1" style={{ color: foreground }}>
-                {`${wcag.details} ${wcag.contrast}`}
-              </Text>
-            </HStack>
-          );
+      <VStack rounded="xl" overflow="hidden" flexGrow="0">
+        {hueSteps.map((step, index) => {
+          return <HueShade key={step} index={index} name={name} step={step} />;
         })}
       </VStack>
     </VStack>
@@ -362,19 +368,16 @@ function HueSlider({
 export function HueSliders() {
   return (
     <Box
-      direction="horizontal"
-      wrap="allow"
+      display="flex"
+      flexDirection="row"
+      flexWrap="wrap"
       gapX="8"
       gapY="8"
       spacing="8"
       id="colors"
     >
-      {fixtures.hues.map((name) => (
-        <HueSlider
-          key={name}
-          name={name}
-          initialValue={defaultTokensConfig.hues[name]}
-        />
+      {hues.map((name) => (
+        <HueSlider key={name} name={name} initialValue={data[name].hue} />
       ))}
     </Box>
   );

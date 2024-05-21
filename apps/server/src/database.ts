@@ -1,8 +1,25 @@
+/// <reference types="bun-types" />
+
 import { decode } from 'base64-url';
-import { KatcnStyleSheet, transformTsx } from 'katcn/macros';
-import { createTsMorphProject } from 'katcn/macros';
+import { Transpiler } from 'bun';
+import { createTsMorphProject } from 'katcn/cli/utils/createTsMorphProject';
+import { getSafelist } from 'katcn/cli/utils/getSafelist';
+import type { SafelistMap } from 'katcn/cli/utils/prettifySafelist';
+import { tailwindPlugin } from 'katcn/tailwindPlugin';
 import { defaultTokensConfig } from 'katcn/tokens';
+import postcss from 'postcss';
+import tailwindcss, { type Config } from 'tailwindcss';
 import type { SourceFile } from 'ts-morph';
+
+const transpiler = new Transpiler({
+  loader: 'tsx',
+  tsconfig: {
+    compilerOptions: {
+      jsx: 'react-jsx',
+    },
+  },
+  autoImportJSX: false,
+});
 
 const defaultExample = `
 import { VStack, Text, Icon } from 'katcn';
@@ -10,18 +27,18 @@ import { getStyles } from 'katcn/getStyles';
 
 function Example() {
   const customStyles = getStyles({
-    borderWidth: 'thick',
+    borderWidth: '2',
     borderColor: 'warning',
-    backgroundColor: 'accent'
+    bg: 'accent'
   });
 
   return (
-    <VStack backgroundColor="alert">
-      <VStack width="half" backgroundColor="accent">
-        <Text color="on-color" variant="display1" className={customStyles}>
+    <VStack bg="alert">
+      <VStack width="1/2" bg="accent">
+        <Text color="on-accent" variant="display1" className={customStyles}>
           something
         </Text>
-        <Icon name="addFile" size="lg" />
+        <Icon name="addFile" size="4" />
       </VStack>
     </VStack>
   )
@@ -32,9 +49,9 @@ class Database {
   project = createTsMorphProject({ skipAddingFilesFromTsConfig: true });
   defaultCode: { js: string; css: string };
 
-  constructor() {
+  async init() {
     const defaultSourceFile = this.createSourceFile('default', defaultExample);
-    this.defaultCode = this.process(defaultSourceFile);
+    this.defaultCode = await this.process(defaultSourceFile);
   }
 
   createSourceFile(id: string, code: string) {
@@ -43,33 +60,50 @@ class Database {
     });
   }
 
-  process(sourceFile: SourceFile) {
-    const stylesheet = new KatcnStyleSheet({
+  async process(sourceFile: SourceFile) {
+    const safelistMap: SafelistMap = new Map();
+    const sourceCSS =
+      '@tailwind base; @tailwind components; @tailwind utilities';
+    const plugin = tailwindPlugin({
       config: defaultTokensConfig,
-      disablePreflight: true,
+      disableVars: true,
     });
-
-    const data = transformTsx({
+    const safelist = getSafelist({
       sourceFile,
-      removeImports: true,
-      stylesheet,
+      safelistMap,
     });
-    return { js: data.jsTransformed, css: data.stylesheet.css };
+    const config: Config = {
+      content: [{ raw: '' }],
+      safelist,
+      plugins: [plugin],
+      corePlugins: { preflight: false },
+    };
+    const imports = sourceFile.getImportDeclarations();
+    for (const importDeclaration of imports) {
+      importDeclaration.remove();
+    }
+    const js = transpiler.transformSync(sourceFile.getFullText());
+    const css = await postcss([tailwindcss(config)]).process(sourceCSS, {
+      from: undefined,
+    });
+    return { js, css: css.css };
   }
 
-  get(id: string | 'default') {
+  async get(id: string | 'default') {
     if (id === 'default') {
       return this.defaultCode;
     }
     const sourceFile = this.project.getSourceFile(`${id}.tsx`);
-    return this.process(sourceFile);
+    return await this.process(sourceFile);
   }
 
-  set(id: string, _code: string) {
+  async set(id: string, _code: string) {
     const codeAsString = decode(_code);
     const sourceFile = this.createSourceFile(id, codeAsString);
-    return this.process(sourceFile);
+    return await this.process(sourceFile);
   }
 }
 
-export default new Database();
+const database = new Database();
+
+export default database;

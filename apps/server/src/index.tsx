@@ -7,6 +7,8 @@ const PORT = process.env.PORT ?? process.env.SERVER_PORT ?? 3001;
 
 const { upgradeWebSocket, websocket } = createBunWebSocket();
 
+await database.init();
+
 const app = new Hono();
 
 app.use(logger());
@@ -31,13 +33,13 @@ app.get(
       async onMessage(ev, ws) {
         if (ev.type === 'message') {
           console.log(`WebSocket message: ${id}`);
-          const code = database.set(id, ev.data as string);
+          const code = await database.set(id, ev.data as string);
           ws.send(JSON.stringify(code));
         }
       },
-      onOpen(_event, ws) {
+      async onOpen(_event, ws) {
         console.log(`WebSocket connected: ${id}`);
-        const code = database.get('default');
+        const code = await database.get('default');
         ws.send(JSON.stringify(code));
       },
       onClose() {

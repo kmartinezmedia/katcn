@@ -1,7 +1,7 @@
 [phases.setup]
-# uses bun 1.1.0
+# uses bun 1.1.8
 # https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/web/bun/default.nix and find commit for version you want
-nixpkgsArchive = '74569b7d4a7a1fcb6f9512cd3bc11b8f630330df'
+nixpkgsArchive = '0d1ef1a839ce0f3282bf24bea2788b9ad659be83'
 
 [build]
 cmd = "bun run build --filter server"

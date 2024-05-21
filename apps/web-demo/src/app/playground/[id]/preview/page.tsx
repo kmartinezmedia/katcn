@@ -13,9 +13,9 @@ import {
   VStack,
 } from 'katcn';
 import { getStyles } from 'katcn/getStyles';
-import { jsxDEV } from 'katcn/jsx-dev-runtime';
-import { jsx } from 'katcn/jsx-runtime';
 import { useContext } from 'react';
+import { jsxDEV } from 'react/jsx-dev-runtime';
+import { jsx } from 'react/jsx-runtime';
 
 export default function Page() {
   const { css, js } = useContext(PlaygroundDataContext);

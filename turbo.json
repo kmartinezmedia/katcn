@@ -1,44 +1,75 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["package.json", "biome.json"],
+  "globalDependencies": [
+    "package.json",
+    "biome.json"
+  ],
   "pipeline": {
     "build": {
-      "outputs": ["dist/**", "build/**", ".next/**", "!.next/cache/**"],
-      "dependsOn": ["^build"]
+      "outputs": [
+        "dist/**",
+        "build/**",
+        ".next/**",
+        "!.next/cache/**",
+        ".katcn/**"
+      ],
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "build:icons": {
+      "inputs": [
+        "src/icons/svg/**"
+      ],
+      "outputs": [
+        "src/icons/fonts/**",
+        "src/icons/types.ts",
+        "src/fixtures/icons.ts"
+      ],
+      "dependsOn": []
+    },
+    "build:css": {
+      "outputs": [
+        ".katcn/**"
+      ],
+      "dependsOn": []
     },
     "clean": {
       "cache": false
     },
-    "predev": {
-      "outputs": ["dist/**", "build/**", ".next/**", "!.next/cache/**"],
-      "dependsOn": ["^build"]
-    },
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["^build", "predev"]
+      "dependsOn": [
+        "^build"
+      ]
     },
     "start": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     },
     "lint": {
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     },
     "fix": {
       "cache": false
     },
     "typecheck": {
-      "dependsOn": ["build", "^build"]
+      "dependsOn": [
+        "^build",
+        "build:css"
+      ]
     },
     "test": {
-      "outputs": [".coverage/**"],
+      "outputs": [
+        ".coverage/**"
+      ],
       "dependsOn": []
-    },
-    "test:watch": {
-      "persistent": true,
-      "cache": false
     },
     "test:coverage": {}
   }

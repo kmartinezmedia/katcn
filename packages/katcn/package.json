@@ -16,19 +16,10 @@
       "types": "./dist/components.js",
       "default": "./dist/components.js"
     },
-    "./icons.woff2": "./src/icons/fonts/icons.woff2",
-    "./icons.ttf": "./src/icons/fonts/icons.ttf",
-    "./macros": {
-      "types": "./src/macros/index.ts",
-      "default": "./src/macros/index.ts"
-    },
-    "./macros/*": {
-      "types": "./src/macros/*.ts",
-      "default": "./src/macros/*.ts"
-    },
-    "./fixtures": {
-      "types": "./dist/fixtures.d.ts",
-      "default": "./dist/fixtures.js"
+    "./cli/*": "./cli/src/*.ts",
+    "./fixtures/*": {
+      "types": "./dist/fixtures/*.d.ts",
+      "default": "./dist/fixtures/*.js"
     },
     "./getStyles": {
       "types": "./dist/getStyles.d.ts",
@@ -38,13 +29,9 @@
       "types": "./dist/helpers/index.d.ts",
       "default": "./dist/helpers/index.js"
     },
-    "./jsx-runtime": {
-      "types": "./dist/jsx-runtime.d.ts",
-      "default": "./dist/jsx-runtime.js"
-    },
-    "./jsx-dev-runtime": {
-      "types": "./dist/jsx-dev-runtime.d.ts",
-      "default": "./dist/jsx-dev-runtime.js"
+    "./tailwindPlugin": {
+      "types": "./dist/tailwindPlugin.d.ts",
+      "default": "./dist/tailwindPlugin.js"
     },
     "./tokens": {
       "types": "./dist/tokens.d.ts",
@@ -55,38 +42,49 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "NODE_ENV=production bun run ./scripts/build.ts && bun run build:css && bun run build:icons",
-    "build:css": "bun run ./scripts/buildCss.ts",
-    "build:icons": "cli icons build --formats woff2,ttf --input ./src/icons/svg --outputFonts ./src/icons/fonts --outputTypes ./src/icons/types.ts --outputData ./src/icons/data.ts",
+    "build": "NODE_ENV=production bun run ./scripts/build.ts",
+    "build:icons": "cli icons font --formats woff2,ttf --input ./src/icons/svg --outputFonts ./src/iconFont/fonts --outputTypes ./src/iconFont/types.ts --outputData ./src/fixtures/icons.ts",
     "clean": "cli tools clean",
-    "dev": "bun run build && concurrently bun:dev:*",
-    "dev:css": "bun run build:css --watch",
-    "dev:icons": "bun run build:icons --watch",
-    "dev:src": "bun run build --watch",
+    "dev": "NODE_ENV=development bun run ./scripts/build.ts --watch",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
     "test": "bun test",
-    "typecheck": "cli tools typecheck"
+    "typecheck": "bun --bun tsc --noEmit"
   },
   "dependencies": {
-    "lightningcss": "^1.24.0",
+    "clsx": "^2.1.0",
     "prettier": "^3.2.5",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
     "ts-morph": "^22.0.0"
   },
   "devDependencies": {
     "cli": "workspace:*",
-    "clsx": "^2.1.0",
     "concurrently": "^8.2.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.2.1",
-    "tsconfig": "workspace:*",
-    "webfont": "^11.2.26"
+    "react": "^19.0.0-rc-d3ce0d3ea9-20240520",
+    "react-dom": "^19.0.0-rc-d3ce0d3ea9-20240520",
+    "tsconfig": "workspace:*"
   },
   "imports": {
-    "#tokens": {
-      "types": "./src/tokens/index.ts",
-      "default": "./src/tokens/index.ts"
+    "#components": {
+      "types": "./src/components.tsx",
+      "default": "./dist/components.js"
+    },
+    "#getStyles": {
+      "types": "./src/getStyles.ts",
+      "default": "./dist/getStyles.js"
+    },
+    "#helpers": {
+      "types": "./src/helpers/index.ts",
+      "default": "./dist/helpers/index.js"
+    },
+    "#fixtures/*": {
+      "types": "./src/fixtures/*.ts",
+      "default": "./dist/fixtures/*.js"
+    },
+    "#types": {
+      "types": "./src/types.ts",
+      "default": "./dist/types.d.ts"
     }
   }
 }

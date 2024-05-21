@@ -1,5 +1,6 @@
 'use client';
 
+import { ThemeProvider } from 'next-themes';
 import { createContext, useState } from 'react';
 import Socket from './socket';
 
@@ -32,15 +33,28 @@ export function Providers({ socketUrl, children }: ProvidersProps) {
   const [socket, setSocket] = useState<WebSocket | null>(defaultSocketContext);
 
   return (
-    <PlaygroundDataContext.Provider value={data}>
-      <SetPlaygroundDataContext.Provider value={setData}>
-        <PlaygroundSocketContext.Provider value={socket}>
-          <SetPlaygroundSocketContext.Provider value={setSocket}>
-            <Socket url={socketUrl} />
-            {children}
-          </SetPlaygroundSocketContext.Provider>
-        </PlaygroundSocketContext.Provider>
-      </SetPlaygroundDataContext.Provider>
-    </PlaygroundDataContext.Provider>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="dark"
+      enableSystem={false}
+      enableColorScheme={true}
+      disableTransitionOnChange
+      storageKey="katcn"
+      themes={['light', 'dark']}
+      value={{ light: 'light', dark: 'dark' }}
+    >
+      <PlaygroundDataContext.Provider value={data}>
+        <SetPlaygroundDataContext.Provider value={setData}>
+          <PlaygroundSocketContext.Provider value={socket}>
+            <SetPlaygroundSocketContext.Provider value={setSocket}>
+              <>
+                <Socket url={socketUrl} />
+                {children}
+              </>
+            </SetPlaygroundSocketContext.Provider>
+          </PlaygroundSocketContext.Provider>
+        </SetPlaygroundDataContext.Provider>
+      </PlaygroundDataContext.Provider>
+    </ThemeProvider>
   );
 }

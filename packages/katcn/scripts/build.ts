@@ -1,63 +1,49 @@
 import { $ } from 'bun';
 import { createWatcher } from './_createWatcher';
 
-async function build() {
-  const outdir = 'dist';
-  const transpiler = new Bun.Transpiler({
-    loader: 'tsx',
-    tsconfig: {
-      compilerOptions: {
-        jsx: 'react-jsx',
-        jsxImportSource: 'katcn',
-      },
-    },
-    autoImportJSX: true,
-    trimUnusedImports: true,
+const outdir = 'dist';
+const watch = Bun.argv.includes('--watch');
+const srcDir = `${Bun.env.PWD}/src`;
+const distDir = `${Bun.env.PWD}/dist`;
+const srcGlob = new Bun.Glob(`${srcDir}/**/*.{ts,tsx}`);
+const isMacroFile = (file: string) => file.includes('macros');
+const srcFiles = Array.from(srcGlob.scanSync());
+
+async function build(files: string[]) {
+  const nonMacroFiles = files.filter((file) => !isMacroFile(file));
+  const { success, logs, outputs } = await Bun.build({
+    entrypoints: nonMacroFiles,
+    outdir: distDir,
+    root: srcDir,
+    minify: true,
+    external: [
+      'react',
+      'react-dom',
+      'clsx',
+      'tailwind-merge',
+      'tailwindcss-animate',
+    ],
   });
 
-  const transpileFiles = {
-    components: 'src/components.tsx',
-    'jsx-runtime': 'src/jsx-runtime.ts',
-    'jsx-dev-runtime': 'src/jsx-dev-runtime.ts',
-  };
+  /** TODO: only log if debug mode is true */
+  // for (const output of outputs) {
+  //   if (!watch) {
+  //     console.info(`[katcn ${watch ? 'dev' : 'build'}] ${output.path}`);
+  //   }
+  // }
 
-  const buildFiles = [
-    'src/helpers/index.ts',
-    'src/tokens.ts',
-    'src/fixtures.ts',
-    'src/getStyles.ts',
-  ];
-
-  await Bun.write(
-    `${outdir}/components.js`,
-    transpiler.transformSync(await Bun.file(transpileFiles.components).text()),
-  );
-
-  await Bun.write(
-    `${outdir}/jsx-runtime.js`,
-    transpiler.transformSync(
-      await Bun.file(transpileFiles['jsx-runtime']).text(),
-    ),
-  );
-
-  await Bun.write(
-    `${outdir}/jsx-dev-runtime.js`,
-    transpiler.transformSync(
-      await Bun.file(transpileFiles['jsx-dev-runtime']).text(),
-    ),
-  );
-
-  await Bun.build({
-    entrypoints: buildFiles,
-    outdir,
-    external: ['react', 'react-dom', 'clsx', 'tailwind-merge'],
-  });
+  if (!success) {
+    for (const log of logs) {
+      console.error(log);
+    }
+    process.exitCode = 1;
+  }
 
   await $`tsc -p tsconfig.build.json --outDir ${outdir} --declaration --emitDeclarationOnly`;
 }
 
-if (Bun.argv.includes('--watch')) {
-  createWatcher(`${Bun.env.PWD}/src`, build);
+if (watch) {
+  createWatcher(srcDir, build);
 }
 
-await build();
+await build(srcFiles);

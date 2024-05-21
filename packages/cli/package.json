@@ -18,8 +18,11 @@
   "dependencies": {
     "@expo/eas-json": "*",
     "bluebun": "^0.0.34",
+    "prettier": "^3.2.5",
+    "svgo": "^3.2.0",
     "syncpack": "^12.3.0",
     "ts-morph": "^22.0.0",
-    "tsconfig": "workspace:*"
+    "tsconfig": "workspace:*",
+    "webfont": "^11.2.26"
   }
 }
