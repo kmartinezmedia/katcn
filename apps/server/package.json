@@ -21,7 +21,7 @@
     "katcn": "workspace:*",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
-    "ts-morph": "^22.0.0"
+    "ts-morph": "^23.0.0"
   },
   "devDependencies": {
     "@types/base64-url": "^2.2.2"
