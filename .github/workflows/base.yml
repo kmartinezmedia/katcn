@@ -16,7 +16,7 @@ jobs:
       - name: 🏗 Setup repo
         uses: actions/checkout@v4
       - name: 🏗 Setup Bun
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.1.8
       - name: 💾 Install dependencies
