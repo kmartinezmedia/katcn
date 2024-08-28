@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
-    "turbo": "^1.13.2",
+    "turbo": "^2.0.0",
     "typescript": "^5.4.2"
   },
   "packageManager": "bun@1.1.8",
