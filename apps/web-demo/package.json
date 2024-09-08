@@ -52,7 +52,7 @@
     "@types/base64-url": "^2.2.2",
     "@types/lodash": "^4.17.0",
     "babel-plugin-react-compiler": "^0.0.0-experimental-592953e-20240517",
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.0.0",
     "tsconfig": "workspace:*"
   }
 }

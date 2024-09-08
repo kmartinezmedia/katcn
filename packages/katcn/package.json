@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "cli": "workspace:*",
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.0.0",
     "react": "^19.0.0-rc-d3ce0d3ea9-20240520",
     "react-dom": "^19.0.0-rc-d3ce0d3ea9-20240520",
     "tsconfig": "workspace:*"
