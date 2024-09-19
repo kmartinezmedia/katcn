@@ -34,7 +34,7 @@
     "jsxlike": "^0.1.0",
     "katcn": "workspace:*",
     "lodash": "^4.17.21",
-    "monaco-editor": "^0.47.0",
+    "monaco-editor": "^0.52.0",
     "next": "canary",
     "next-themes": "^0.3.0",
     "postcss": "^8.4.38",
