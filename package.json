@@ -19,7 +19,7 @@
     "turbo": "^1.13.2",
     "typescript": "^5.4.2"
   },
-  "packageManager": "bun@1.1.8",
+  "packageManager": "bun@1.1.31",
   "workspaces": [
     "packages/*",
     "apps/*"
