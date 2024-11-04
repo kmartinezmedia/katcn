@@ -36,7 +36,7 @@
     "lodash": "^4.17.21",
     "monaco-editor": "^0.47.0",
     "next": "canary",
-    "next-themes": "^0.3.0",
+    "next-themes": "^0.4.0",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "react": "^19.0.0-rc-d3ce0d3ea9-20240520",
