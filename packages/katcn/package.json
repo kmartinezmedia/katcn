@@ -56,7 +56,7 @@
     "prettier": "^3.2.5",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "ts-morph": "^22.0.0"
+    "ts-morph": "^25.0.0"
   },
   "devDependencies": {
     "cli": "workspace:*",
