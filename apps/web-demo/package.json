@@ -43,7 +43,7 @@
     "react-dom": "^19.0.0-rc-d3ce0d3ea9-20240520",
     "server": "workspace:*",
     "server-only": "^0.0.1",
-    "shiki": "^1.4.0",
+    "shiki": "^3.0.0",
     "tailwindcss": "^3.4.3",
     "ts-morph": "^22.0.0",
     "wcag-contrast": "^3.0.0"
