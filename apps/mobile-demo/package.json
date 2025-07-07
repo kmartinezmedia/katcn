@@ -28,7 +28,7 @@
     "expo-system-ui": "~2.9.3",
     "expo-updates": "~0.24.8",
     "expo-web-browser": "~12.8.1",
-    "react": "^19.0.0-rc-d3ce0d3ea9-20240520",
+    "react": "^19.1.0",
     "react-native": "0.73.2",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-safe-area-context": "4.8.2",
