@@ -13,6 +13,7 @@
   "bin": "./cli/bin",
   "exports": {
     ".": {
+      "development": "./src/components.tsx",
       "types": "./dist/components.js",
       "default": "./dist/components.js"
     },
@@ -22,22 +23,29 @@
       "default": "./dist/fixtures/*.js"
     },
     "./getStyles": {
+      "development": "./src/getStyles.ts",
       "types": "./dist/getStyles.d.ts",
       "default": "./dist/getStyles.js"
     },
     "./helpers": {
+      "development": "./src/helpers/index.ts",
       "types": "./dist/helpers/index.d.ts",
       "default": "./dist/helpers/index.js"
     },
     "./tailwindPlugin": {
+      "development": "./src/tailwindPlugin.ts",
       "types": "./dist/tailwindPlugin.d.ts",
       "default": "./dist/tailwindPlugin.js"
     },
     "./tokens": {
+      "development": "./src/tokens.ts",
       "types": "./dist/tokens.d.ts",
       "default": "./dist/tokens.js"
     },
-    "./types": "./dist/types.d.ts",
+    "./types": {
+      "development": "./src/types.ts",
+      "types": "./dist/types.d.ts"
+    },
     "./tsconfig.json": "./tsconfig.json",
     "./package.json": "./package.json"
   },
