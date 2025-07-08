@@ -1,10 +1,10 @@
-import { Providers } from '@/lib/context';
-import { ThemeProvider } from 'next-themes';
+import { VStack } from 'katcn';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
-import './globals.css';
 import { Navbar } from '@/components/Navbar';
-import { VStack } from 'katcn';
+import { Providers } from '@/lib/context';
+import './globals.css';
+// import './katcn.css';
 
 const iconFont = localFont({
   src: '../../../../packages/katcn/src/icons/fonts/icons.woff2',

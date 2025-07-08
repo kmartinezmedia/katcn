@@ -1,5 +1,9 @@
 {
   "editor.defaultFormatter": "biomejs.biome",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports.biome": "explicit",
+    "source.fixAll.biome": "explicit"
+  },
   "editor.formatOnSave": true,
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
@@ -9,5 +13,8 @@
   },
   "[markdown]": {
     "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
   }
 }

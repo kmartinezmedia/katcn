@@ -53,19 +53,17 @@ export function Button({
       gapX="4"
       transition="colors"
       transitionDuration="200"
-      text="headline"
+      textVariant="headline"
       textAlign="center"
       width="fit"
       {...variantProps}
       {...props}
     >
-      <>
-        {startIcon && (
-          <Icon name={startIcon} size="8" fill={variantProps.color} />
-        )}
-        {children}
-        {endIcon && <Icon name={endIcon} size="8" fill={variantProps.color} />}
-      </>
+      {startIcon && (
+        <Icon name={startIcon} size="8" fill={variantProps.color} />
+      )}
+      {children}
+      {endIcon && <Icon name={endIcon} size="8" fill={variantProps.color} />}
     </Pressable>
   );
 }

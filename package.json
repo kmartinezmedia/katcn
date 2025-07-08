@@ -12,14 +12,16 @@
     "test": "turbo run test",
     "test:watch": "turbo run test -- --watch",
     "typecheck": "turbo run typecheck",
+    "check-deps": "bun cli tools syncpack list-mismatches",
+    "fix-deps": "bun cli tools syncpack fix-mismatches",
     "update-deps": "syncpack update --config ./cli/src/commands/tools/.syncpackrc"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.7.3",
-    "turbo": "^1.13.2",
-    "typescript": "^5.4.2"
+    "@biomejs/biome": "2.0.6",
+    "turbo": "^2.5.4",
+    "typescript": "^5.8.3"
   },
-  "packageManager": "bun@1.1.8",
+  "packageManager": "bun@1.2.18",
   "workspaces": [
     "packages/*",
     "apps/*"

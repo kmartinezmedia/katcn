@@ -1,5 +1,5 @@
-import type { NowConfig } from '#types';
+import type { KatcnConfig } from '#types';
 
-export function generateTypes(config: NowConfig) {
+export function generateTypes(_config: KatcnConfig) {
   /** TODO: use ts-morph to generate types based on now config so component props are typed */
 }

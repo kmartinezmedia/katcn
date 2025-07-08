@@ -51,7 +51,7 @@ export default {
       let shellRcContents = '';
       try {
         shellRcContents = await Bun.file(shellRcPath).text();
-      } catch (err) {
+      } catch (_err) {
         // Ignore if it doesn't exist. We create it below.
       }
 

@@ -192,12 +192,12 @@ const classnames: {
   roundedBottomStart: (val) => parse('rounded-b-s', val),
   roundedBottomEnd: (val) => parse('rounded-b-e', val),
   /** Text props */
-  text: (val) => parse('text-v', val),
+  textVariant: (val) => parse('text-variant', val),
   color: (val) => parse('text', val),
   fontFamily: (val) => parse('font', val),
   fontSize: (val) => parse('text', val),
   fontSmoothing: (val) => val,
-  fontWeight: (val) => parse('font-w', val),
+  fontWeight: (val) => parse('font-weight', val),
   lineHeight: (val) => parse('leading', val),
   textTransform: (val) => val,
   textAlign: (val) => parse('text', val),
@@ -322,6 +322,7 @@ interface GetStylesParams extends StyleProps, ModifierProps<AllStyleProps> {
   className?: string;
 }
 
+/** Consumer facing function that takes style props and returns a className */
 export function getStyles(
   props: GetStylesParams,
   opts?: Pick<ProcessStylesParams, 'twMerge'>,
@@ -332,6 +333,12 @@ export function getStyles(
   })[0];
 }
 
+/**
+ * Internal function that takes component props and differentiates between
+ * style props which shouldn't be passed to the native html element vs props
+ * that should be passed to the native html element. Any props that shouldn't
+ * be passed to the native html element are removed and combined into a single className prop.
+ */
 export function extractStyleProps(
   props: GetStylesParams,
 ): Record<string, unknown> & { className?: string } {

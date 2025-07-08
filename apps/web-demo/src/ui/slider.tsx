@@ -1,8 +1,5 @@
 'use client';
 
-import { Box, HStack, Icon, Pressable, Text, VStack } from 'katcn';
-
-import { getColorContrast } from '@/lib/contrast';
 import {
   motion,
   useDragControls,
@@ -10,14 +7,14 @@ import {
   useTransform,
 } from 'framer-motion';
 import { atom, useAtom } from 'jotai';
+import { Box, HStack, Icon, Pressable, Text, VStack } from 'katcn';
 import { hueSteps, hues } from 'katcn/fixtures/colors';
 import { clamp, interpolate, mapValues } from 'katcn/helpers';
 import type { Hue, HueStep } from 'katcn/types';
 import { useEffect, useRef, useState } from 'react';
+import { getColorContrast } from '@/lib/contrast';
 
 const oklchRegex = /oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)/;
-
-type HueChroma = number;
 
 const huesLightness: Record<HueStep, number> = {
   '50': 0.99,
@@ -77,12 +74,12 @@ const data: Record<
   rose: { hue: 10.3, lightness: huesLightness, chroma: huesChroma },
 };
 
-const lightnessMap = mapValues(huesLightness, (value) => {
-  return atom(value);
-});
-const chromasMap = mapValues(huesChroma, (value) => {
-  return atom(value);
-});
+// const lightnessMap = mapValues(huesLightness, (value) => {
+//   return atom(value);
+// });
+// const chromasMap = mapValues(huesChroma, (value) => {
+//   return atom(value);
+// });
 const huesMap = mapValues(data, (value) => {
   return atom(value);
 });
@@ -127,7 +124,7 @@ export function Slider({
   const dragControls = useDragControls();
 
   const onDrag: React.ComponentProps<typeof motion.div>['onDrag'] = (
-    event,
+    _event,
     info,
   ) => {
     const containerX = refs.container.current?.getBoundingClientRect().x ?? 0;
@@ -251,7 +248,11 @@ function HueShade({
   name,
   step,
   index,
-}: { name: Hue; step: HueStep; index: number }) {
+}: {
+  name: Hue;
+  step: HueStep;
+  index: number;
+}) {
   const [data, setData] = useAtom(huesMap[name]);
   const huePlaceholderRef = useRef<HTMLDivElement>(null);
   const hueRef = useRef<HTMLDivElement>(null);
@@ -324,7 +325,10 @@ function HueShade({
 function HueSlider({
   initialValue,
   name,
-}: { initialValue: number; name: Hue }) {
+}: {
+  initialValue: number;
+  name: Hue;
+}) {
   const [data, setData] = useAtom(huesMap[name]);
 
   const handleChange = (value: number) => {

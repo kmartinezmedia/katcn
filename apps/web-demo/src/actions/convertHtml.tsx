@@ -1,23 +1,22 @@
 'use server';
 
+import { execa } from 'execa';
 import jsxlike from 'jsxlike';
 import { getHtmlAsComponentsMap } from 'katcn/fixtures/html';
 import { modifierTwAsPropsMap } from 'katcn/fixtures/modifiers';
 import { getTwAsPropsMap } from 'katcn/fixtures/tailwind';
-import { tailwindPlugin } from 'katcn/tailwindPlugin';
+import { getCss } from 'katcn/getCss';
 import { defaultTokensConfig } from 'katcn/tokens';
 import type { AllStyleProps, PrimitiveType, StyleModifier } from 'katcn/types';
-import postcss from 'postcss';
 import prettier from 'prettier';
 import { createElement } from 'react';
-import tailwindcss, { type Config } from 'tailwindcss';
 import {
   type JsxOpeningElement,
   type JsxSelfClosingElement,
   Node,
   Project,
-  SyntaxKind,
   printNode,
+  SyntaxKind,
   ts,
 } from 'ts-morph';
 
@@ -147,17 +146,9 @@ export async function convertHtml(_html: string) {
    */
   const htmlAsJsx = jsxlike(html).replaceAll('/ />', ' />');
 
-  const sourceCSS = '@tailwind base; @tailwind components; @tailwind utilities';
-  const plugin = tailwindPlugin({
-    config: defaultTokensConfig,
-    disableVars: true,
+  const { stdout: css } = await execa('tailwindcss', ['-i', '-'], {
+    input: getCss(defaultTokensConfig),
   });
-  const config: Config = {
-    content: [{ raw: html }],
-    plugins: [plugin],
-    corePlugins: { preflight: false },
-  };
-  const css = await postcss([tailwindcss(config)]).process(sourceCSS);
 
   const before = `function Page() {
     return (
@@ -273,14 +264,14 @@ export async function convertHtml(_html: string) {
       tabWidth: 2,
       useTabs: false,
     }),
-    prettier.format(css.css, {
+    prettier.format(css, {
       parser: 'css',
     }),
   ]);
 
   const style = createElement('style', {
-    // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
-    dangerouslySetInnerHTML: { __html: css.css },
+    // biome-ignore lint/security/noDangerouslySetInnerHtml: this is fine
+    dangerouslySetInnerHTML: { __html: css },
   });
 
   return {

@@ -23,7 +23,7 @@ export function Slider({
   min,
   max,
   initialValue,
-  value,
+  value: _value,
   startLabel,
   endLabel,
   onChange,
@@ -49,7 +49,7 @@ export function Slider({
   const dragControls = useDragControls();
 
   const onDrag: React.ComponentProps<typeof motion.div>['onDrag'] = (
-    event,
+    _event,
     info,
   ) => {
     const containerX = refs.container.current?.getBoundingClientRect().x ?? 0;

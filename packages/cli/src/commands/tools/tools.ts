@@ -1,4 +1,4 @@
-import { type Props, commandHelp, print } from 'bluebun';
+import { commandHelp, type Props, print } from 'bluebun';
 
 export default {
   name: 'tools',

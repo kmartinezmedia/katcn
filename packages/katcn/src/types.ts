@@ -1,4 +1,3 @@
-import type { ComponentType } from 'react';
 import type { IconName } from './icons/types';
 
 /* -------------------------------------------------------------------------- */
@@ -493,18 +492,6 @@ export type TextVariant =
 
 export type FontFamilyGlobalAlias = 'icons' | 'sans' | 'serif' | 'mono';
 
-export type FontWeightNumeric =
-  | '100'
-  | '200'
-  | '300'
-  | '400'
-  | '450'
-  | '500'
-  | '600'
-  | '700'
-  | '800'
-  | '900';
-
 export type LetterSpacing =
   | 'tighter'
   | 'tight'
@@ -515,16 +502,6 @@ export type LetterSpacing =
 export type LineClampAlias = '1' | '2' | '3' | '4' | '5' | '6';
 export type FontSize = TextVariant;
 export type FontSmoothing = 'antialiased' | 'subpixel-antialiased';
-export type FontWeight =
-  | 'thin'
-  | 'extralight'
-  | 'light'
-  | 'normal'
-  | 'medium'
-  | 'semibold'
-  | 'bold'
-  | 'extrabold'
-  | 'black';
 export type FontFamily = 'icons' | 'sans' | 'serif' | 'mono';
 export type LineHeight =
   | '3'
@@ -848,17 +825,17 @@ export type TypographyConfig = Record<
   string,
   {
     fontSize: string;
-    /** @default regular */
-    fontWeight?: FontWeight | FontWeightNumeric;
+    /** @default 400 */
+    fontWeight: number;
     /** @default sans */
-    fontFamily?: FontFamilyGlobalAlias;
-    lineHeight?: string;
+    fontFamily: FontFamilyGlobalAlias;
+    lineHeight: number;
   }
 >;
 
 export type SemanticColorConfig = Record<string, string>;
 
-export type NowConfig = {
+export type KatcnConfig = {
   colorMode: Record<ColorMode, SemanticColorConfig>;
   fontFamily: FontFamilyGlobalConfig;
   borderRadius: BorderRadiusConfig;
@@ -868,6 +845,7 @@ export type NowConfig = {
   zIndex: ZIndexConfig;
   responsive: ResponsiveConfig;
   disablePreflight: boolean;
+  autoInvertColors: boolean;
 };
 
 /* -------------------------------------------------------------------------- */
@@ -1461,9 +1439,9 @@ export interface SizingStyleProps {
 
 export interface TypographyStyleProps {
   /** Utility for setting bundle of typography styles such as font size, line height & font weight
-   * @tailwind text-v
+   * @tailwind text-variant
    */
-  text?: TextVariant;
+  textVariant?: TextVariant;
   /** Utility for controlling the color of a Text or Icon element
    * @tailwind text
    */
@@ -1481,9 +1459,9 @@ export interface TypographyStyleProps {
    */
   fontSmoothing?: FontSmoothing;
   /** Utility for controlling the font weight of a Text element
-   * @tailwind font-w
+   * @tailwind font-weight
    */
-  fontWeight?: FontWeight;
+  fontWeight?: number;
   /** Utility for controlling the line height of a Text element
    * @tailwind leading
    */

@@ -1,59 +1,71 @@
-import { type FSWatcher, existsSync, watch } from 'node:fs';
-import path from 'node:path';
+import { existsSync, type FSWatcher, watch } from 'node:fs';
+
 import {
   FileSystemRefreshResult,
   type Project,
   type SourceFile,
 } from 'ts-morph';
-import { getSafelist } from './getSafelist';
-import { type SafelistMap, prettifySafelist } from './prettifySafelist';
+import { defaultTokensConfig } from '#tokens';
+import type { KatcnConfig } from '#types';
+import type { SafelistMap } from '../types';
+import { convertSafelistMapToCss } from './convertSafelistMapToCss';
+import { processSafelistForSourceFile } from './processSafelistForSourceFile';
 
 interface TransformOptions {
   project: Project;
-  outDir?: string;
+  output?: string;
   watch?: boolean;
   pwd?: string;
+  config?: KatcnConfig;
 }
 
 type OnSourceFileChange = (sourceFile: SourceFile) => void;
 
 export async function transformProject({
   project,
-  outDir,
+  output,
   watch: shouldWatch = false,
   pwd,
+  config = defaultTokensConfig,
 }: TransformOptions) {
   const watchers: FSWatcher[] = [];
   const sourceFiles = project.getSourceFiles();
-  const outfile = outDir ? path.resolve(outDir, 'safelist.ts') : '';
   const safelistMap: SafelistMap = new Map();
 
+  const writeSafelist = async () => {
+    if (output) {
+      const css = await convertSafelistMapToCss(safelistMap, config);
+      await Bun.write(output, css);
+    }
+  };
+
   const shouldParseFile = (filePath: string) =>
-    pwd && filePath.startsWith(pwd) && filePath.endsWith('tsx');
+    pwd &&
+    filePath.startsWith(pwd) &&
+    (filePath.endsWith('tsx') || filePath.endsWith('css'));
 
   const onChange: OnSourceFileChange = async (sFile) => {
-    const filePath = sFile.getFilePath();
-    if (shouldParseFile(filePath)) {
-      // console.log('[katcn] parsing', filePath);
-      const data = getSafelist({
+    const absoluteFilePath = sFile.getFilePath();
+    if (shouldParseFile(absoluteFilePath)) {
+      console.log('[katcn] parsing', absoluteFilePath);
+      processSafelistForSourceFile({
         sourceFile: sFile,
         safelistMap,
       });
-      if (outDir) {
-        const safelist = await prettifySafelist(safelistMap);
-        await Bun.write(outfile, safelist);
-      }
+      await writeSafelist();
     }
   };
 
   if (shouldWatch) {
+    console.log('[katcn] Watching for changes to project');
     for (const sourceFile of project.getSourceFiles()) {
-      const filePath = sourceFile.getFilePath();
-      if (shouldParseFile(filePath) && existsSync(filePath)) {
-        const filePath = sourceFile.getFilePath();
-        const watchFn = watch(filePath, (event) => {
+      const absoluteFilePath = sourceFile.getFilePath();
+      if (shouldParseFile(absoluteFilePath) && existsSync(absoluteFilePath)) {
+        const absoluteFilePath = sourceFile.getFilePath();
+        const watchFn = watch(absoluteFilePath, (event) => {
+          console.log(`[katcn] Watching ${absoluteFilePath}`);
           if (event === 'change') {
-            console.log('[katcn] file changed:', filePath);
+            console.log('[katcn] file changed:', absoluteFilePath);
             sourceFile?.refreshFromFileSystem().then((status) => {
               if (status === FileSystemRefreshResult.Updated) {
                 onChange(sourceFile);
@@ -74,20 +86,18 @@ export async function transformProject({
   }
 
   for (const sourceFile of sourceFiles) {
-    const filePath = sourceFile.getFilePath();
-    if (shouldParseFile(filePath)) {
+    const absoluteFilePath = sourceFile.getFilePath();
+    if (shouldParseFile(absoluteFilePath)) {
       // console.log('[katcn] parsing', filePath);
-      const data = getSafelist({
+      processSafelistForSourceFile({
         sourceFile: sourceFile,
         safelistMap,
       });
     }
   }
+  console.log('[katcn] done parsing');
 
-  if (outDir) {
-    const safelist = await prettifySafelist(safelistMap);
-    await Bun.write(outfile, safelist);
-  }
+  await writeSafelist();
 
   return safelistMap;
 }

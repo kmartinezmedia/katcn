@@ -1,7 +1,7 @@
-import {
-  HtmlAsComponentMap,
-  getHtmlAsComponentsMapAsString,
-} from '../macros/getHtmlAsComponentsMap' assert { type: 'macro' };
+import { getHtmlAsComponentsMapAsString } from '../macros/getHtmlAsComponentsMap' with {
+  type: 'macro',
+};
+import type { HtmlAsComponentMap } from '../macros/getHtmlAsComponentsMap';
 
 const htmlAsComponentsMapAsString = getHtmlAsComponentsMapAsString();
 

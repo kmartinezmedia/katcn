@@ -1,4 +1,4 @@
-type Swc = typeof import('@swc/wasm-web/wasm-web');
+type Swc = typeof import('@swc/wasm-web');
 let swc: Swc | null = null;
 
 export async function transformCode(codeString: string) {

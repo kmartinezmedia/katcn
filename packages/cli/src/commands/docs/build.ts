@@ -21,7 +21,11 @@ export default {
   name: 'build',
   description: '🚀 Build',
   run: async (props: BuildProps) => {
-    const { input, output = `${Bun.env.PWD}/.docgen`, watch } = props.options;
+    const {
+      input,
+      output = `${Bun.env.PWD}/.docgen`,
+      watch: _watch,
+    } = props.options;
 
     // Copy docgen types to consuming app
     const localTypes = await Bun.file(
@@ -34,14 +38,14 @@ export default {
     const pkgDir = path.dirname(pkgJsonPath);
     const tsConfigFilePath = path.resolve(pkgDir, 'tsconfig.json');
 
-    let sourceFiles = [];
+    let _sourceFiles = [];
 
-    async function build() {
+    const build = async () => {
       console.log('docgen: building...');
       const project = new Project({
         tsConfigFilePath,
       });
-      sourceFiles = project.getSourceFiles([`${pkgDir}/**/*.tsx`]);
+      _sourceFiles = project.getSourceFiles([`${pkgDir}/**/*.tsx`]);
       await Bun.write(
         `${output}/data.ts`,
         `import { DocgenSource, DocgenSourceList } from './types';
@@ -76,7 +80,7 @@ export const data = {
 } satisfies DocgenSourceList;`,
       );
       // console.log(sourceFiles);
-    }
+    };
 
     await build();
 

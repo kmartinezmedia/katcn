@@ -50,9 +50,7 @@ export default {
       if (platform === 'ios') {
         const deviceList =
           (await $`xcrun simctl list devices available --json -e`.json()) as SimList;
-        const devices = Object.values(deviceList?.devices).flatMap(
-          (item) => item,
-        );
+        const devices = Object.values(deviceList?.devices).flat();
         const bootedDevice = devices.find(
           (device: SimDevice) => device.state === 'Booted',
         );

@@ -1,15 +1,12 @@
 import type {
-  ComponentPropsWithRef,
   ComponentPropsWithoutRef,
+  ComponentPropsWithRef,
   ElementType,
   JSX,
 } from 'react';
 import { extractStyleProps } from './getStyles';
 import { createSlot } from './helpers';
 import type {
-  Color,
-  FontSize,
-  LineHeight,
   StyleProps,
   SvgStyleProps,
   UniversalAvatarProps,
@@ -168,7 +165,7 @@ export const withDefaultProps = {
     color = 'on-primary',
     ...props
   }: Partial<TextProps>): StyleProps => ({
-    text: variant,
+    textVariant: variant,
     color,
     ...props,
   }),
@@ -178,7 +175,7 @@ export const withDefaultProps = {
     borderColor = disabled ? 'on-secondary' : 'on-primary',
     rounded = 'md',
     color = 'on-primary',
-    text = 'body',
+    textVariant = 'body',
     spacingY = '3',
     spacingX = '4',
     width = 'full',
@@ -188,7 +185,7 @@ export const withDefaultProps = {
     borderColor,
     rounded,
     color,
-    text,
+    textVariant,
     spacingY,
     spacingX,
     width,
@@ -200,13 +197,10 @@ export const withDefaultProps = {
   }),
   Icon: ({
     color = 'on-primary',
-    size,
     ...props
   }: Partial<IconProps>): StyleProps => ({
     color,
     fontFamily: 'icons',
-    fontSize: size as FontSize,
-    lineHeight: size as LineHeight,
     ...props,
   }),
   Svg: ({
@@ -265,7 +259,7 @@ export function Icon({ asChild, name, ref, ...props }: IconProps) {
   const Comp = asChild ? SpanSlot : 'span';
   const finalProps = extractStyleProps(withDefaultProps.Icon(props));
   return (
-    <Comp ref={ref} {...finalProps}>
+    <Comp ref={ref} className="icon" {...finalProps}>
       {name}
     </Comp>
   );

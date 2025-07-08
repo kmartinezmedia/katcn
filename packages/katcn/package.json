@@ -17,6 +17,7 @@
       "default": "./dist/components.js"
     },
     "./cli/*": "./cli/src/*.ts",
+    "./dtsLibs.json": "./dist/dtsLibs.json",
     "./fixtures/*": {
       "types": "./dist/fixtures/*.d.ts",
       "default": "./dist/fixtures/*.js"
@@ -29,15 +30,17 @@
       "types": "./dist/helpers/index.d.ts",
       "default": "./dist/helpers/index.js"
     },
-    "./tailwindPlugin": {
-      "types": "./dist/tailwindPlugin.d.ts",
-      "default": "./dist/tailwindPlugin.js"
+    "./getCss": {
+      "types": "./dist/getCss.d.ts",
+      "default": "./dist/getCss.js"
     },
     "./tokens": {
       "types": "./dist/tokens.d.ts",
       "default": "./dist/tokens.js"
     },
-    "./types": "./dist/types.d.ts",
+    "./types": {
+      "types": "./dist/types.d.ts"
+    },
     "./tsconfig.json": "./tsconfig.json",
     "./package.json": "./package.json"
   },
@@ -53,22 +56,28 @@
   },
   "dependencies": {
     "clsx": "^2.1.0",
-    "prettier": "^3.2.5",
+    "prettier": "^3.6.2",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "ts-morph": "^22.0.0"
+    "ts-morph": "^26.0.0"
   },
   "devDependencies": {
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
     "cli": "workspace:*",
-    "concurrently": "^8.2.2",
-    "react": "^19.0.0-rc-d3ce0d3ea9-20240520",
-    "react-dom": "^19.0.0-rc-d3ce0d3ea9-20240520",
+    "concurrently": "^9.2.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "tsconfig": "workspace:*"
   },
   "imports": {
     "#components": {
       "types": "./src/components.tsx",
       "default": "./dist/components.js"
+    },
+    "#getCss": {
+      "types": "./src/getCss.ts",
+      "default": "./dist/getCss.js"
     },
     "#getStyles": {
       "types": "./src/getStyles.ts",
@@ -81,6 +90,10 @@
     "#fixtures/*": {
       "types": "./src/fixtures/*.ts",
       "default": "./dist/fixtures/*.js"
+    },
+    "#tokens": {
+      "types": "./src/tokens.ts",
+      "default": "./dist/tokens.js"
     },
     "#types": {
       "types": "./src/types.ts",

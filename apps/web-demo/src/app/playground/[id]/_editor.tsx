@@ -1,5 +1,8 @@
 'use client';
 
+import { encode } from 'base64-url';
+import dtsLibs from 'katcn/dtsLibs.json';
+import { useContext, useRef } from 'react';
 import { PlaygroundSocketContext } from '@/lib/context';
 import {
   CodeEditor,
@@ -7,9 +10,6 @@ import {
   type OnChange,
   type OnMount,
 } from '@/ui/monaco';
-import { encode } from 'base64-url';
-import { useContext, useRef, useState } from 'react';
-import dtsLibs from 'server/dist/dtsLibs.json';
 
 const exampleCode = `
 import { VStack, Text, Icon } from 'katcn';
