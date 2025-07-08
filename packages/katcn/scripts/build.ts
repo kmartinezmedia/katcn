@@ -21,7 +21,7 @@ async function build(files: string[]) {
     outdir: distDir,
     root: srcDir,
     minify: true,
-    external: ['react', 'react-dom', 'clsx', 'tailwind-merge'],
+    external: ['react', 'react-dom', 'clsx', 'tailwind-merge', '#fixtures'],
   });
 
   /** TODO: only log if debug mode is true */
