@@ -4,17 +4,17 @@
     "includes": [
       "**",
       "!**/*.css",
-      "!**/.katcn",
-      "!**/.next",
-      "!**/.expo",
-      "!**/.turbo",
+      "!**/.katcn/*",
+      "!**/.next/*",
+      "!**/.expo/*",
+      "!**/.turbo/*",
       "!**/.env*",
       "!**/*.d.ts",
-      "!**/dist",
-      "!**/dts",
+      "!**/dist/*",
+      "!**/dts/*",
       "!**/firebase.json",
-      "!**/public",
-      "!**/node_modules"
+      "!**/public/*",
+      "!**/node_modules/*"
     ]
   },
   "assist": {

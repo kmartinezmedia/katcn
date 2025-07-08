@@ -1,7 +1,7 @@
 | Quick link                                                  | Description                                                 |
 | ----------------------------------------------------------- | ----------------------------------------------------------- |
 | [Web Demo](https://katcn.dev/)                              | Web Demo                                                    |
-| [API](https://api.katcn.dev/)                               | API Server on Railway                                       |
+| [API](https://api.katcn.dev/)                               | API Server on Digital Ocean                                 |
 | [Renovate](https://developer.mend.io/github/kmartinezmedia) | Package dependency management dashboard                     |
 | [Chromatic](TODO)                                           | TODO: Storybook component demos & visual regression testing |
 | [Bundlemon](TODO)                                           | TODO: Bundle size monitoring dashboard                      |
@@ -10,13 +10,13 @@
 
 |            | props | configurable | dynamic values | arbitrary values | modes |
 | ---------- | ----- | ------------ | -------------- | ---------------- | ----- |
-| colors     | ✅     | ✅            | ✅              | ✅                | 🏗️     |
+| colors     | ✅     | ✅            | ✅              | ✅                | ✅     |
 | states     | 🏗️     | 🏗️            | 🏗️              | 🏗️                | 🏗️     |
 | elevation  | 🏗️     | 🏗️            | 🏗️              | 🏗️                | 🏗️     |
-| typography | ✅     | ✅            | ✅              | 🏗️                | 🏗️     |
-| layout     | ✅     | ✅            | ✅              | 🏗️                | 🏗️     |
-| border     | ✅     | ✅            | ✅              | 🏗️                | 🏗️     |
-| spacing    | ✅     | ✅            | ✅              | 🏗️                | 🏗️     |
+| typography | ✅     | ✅            | ✅              | ✅                | 🏗️     |
+| layout     | ✅     | ✅            | ✅              | ✅                | 🏗️     |
+| border     | ✅     | ✅            | ✅              | ✅                | 🏗️     |
+| spacing    | ✅     | ✅            | ✅              | ✅                | 🏗️     |
 | sizing     | ✅     | 🏗️            | ✅              | ✅                | 🏗️     |
 
 # Decisions
@@ -25,7 +25,7 @@
 - Typescript, typescript, typescript.
 - Bun first.
 - ESM only.
-- Tailwind inspired. Carry over the good parts, but with prop driven angle.
+- Tailwind v4 compatible. Carry over the good parts, but with prop driven angle.
 - Don't add complex components. Show recipes. Make it easy to pull in examples, shadcn style.
 
 # Inspiration
@@ -200,41 +200,13 @@ curl -fsSL https://bun.sh/install | bash
 bun install
 ```
 
-<!-- ----------------------------------------------------------------------- -->
-<!--            TODO: Add CLI script for scaffolding out env vars            -->
-<!-- ----------------------------------------------------------------------- -->
-
-# Setup Web
-```bash
-touch apps/web-demo/.env
-```
-
-Update env vars required for web-demo live playground
-
-```bash
-NEXT_SOCKET_URL=ws://localhost:3001/ws
-```
-
-# Setup Websocket Server
-
-```bash
-touch apps/server/.env
-```
-
-Update env vars for server
-
-```bash
-SERVER_PORT=3001
-```
-
-
 ## Run dev
 
 ```bash
 bun run dev
 ```
 
-# Setup Mobile
+<!-- # Setup Mobile
 
 TODO: This might be outdated.
 
@@ -247,15 +219,22 @@ Update env vars
 ```bash
 EXPO_TOKEN=GRAB FROM EXPO ACCOUNT SETTINGS
 EXPO_PROJECT_ID=GRAB FROM EXPO PROJECT
-```
+``` -->
 
 # TODOS
-- [ ] token only usage
+- [ ] tokens
+  - [ ] semi structured with ability to use custom semantic naming
+  - [ ] zod validation
+- [ ] components
+  - [ ] typescript support for custom semantic props i.e <HStack bg="some-custom-semantic-name">
+  - [ ] extract default props at build time for processing props -> className
 - [ ] system
   - [ ] states
   - [ ] elevation
 - [ ] assets
   - [x] icons
+    - [ ] svg for web
+    - [ ] icon font for react native
   - [ ] illustrations
 - [ ] education
   - [x] live playground
@@ -266,15 +245,12 @@ EXPO_PROJECT_ID=GRAB FROM EXPO PROJECT
   - [ ] sample project
 - [ ] codemods
   - [ ] tailwind codemod for migration
-- [ ] purger
-  - [ ] only include icons used
-  - [ ] vars with same value should be consolidated to single var to reduce css size (i.e. font size for body1 and headline1)
-- [ ] configuration
-  - [ ] createSystem function / type safety for components
-  - [ ] configurable icon set and types
-  - [ ] purger still works
+- [ ] cli
+  - [x] css command to generate tailwind v4 css
+    - [ ] works with dynamic and custom configs
+  - [ ] compiled for supported archs
 - [ ] modes
-  - [ ] dark mode
+  - [x] dark mode
   - [ ] hight contrast mode
   - [ ] scale mode
 - [ ] flexiblity
@@ -289,6 +265,7 @@ EXPO_PROJECT_ID=GRAB FROM EXPO PROJECT
   - [ ] create system from config
   - [ ] dev mode snippets
 - [ ] react native
+- [ ] registry for sharing configs
 
 
 # Palette Generator

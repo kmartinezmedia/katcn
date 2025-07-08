@@ -393,7 +393,8 @@ export function processSafelistForSourceFile({
 
   for (const styleFn of styleFnImports) {
     // Get the identifier to which 'createVariants' is imported
-    const identifier = styleFn.getNameNode();
+    const identifier = styleFn.getNameNode().asKind(SyntaxKind.Identifier);
+    if (!identifier) continue;
     const fnName = identifier.getText();
     if (fnName === 'cx') {
       break;

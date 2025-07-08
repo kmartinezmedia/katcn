@@ -5,8 +5,9 @@ import {
   type Project,
   type SourceFile,
 } from 'ts-morph';
+import { defaultTokensConfig } from '#tokens';
+import type { KatcnConfig } from '#types';
 import type { SafelistMap } from '../types';
-
 import { convertSafelistMapToCss } from './convertSafelistMapToCss';
 import { processSafelistForSourceFile } from './processSafelistForSourceFile';
 
@@ -15,6 +16,7 @@ interface TransformOptions {
   output?: string;
   watch?: boolean;
   pwd?: string;
+  config?: KatcnConfig;
 }
 
 type OnSourceFileChange = (sourceFile: SourceFile) => void;
@@ -24,6 +26,7 @@ export async function transformProject({
   output,
   watch: shouldWatch = false,
   pwd,
+  config = defaultTokensConfig,
 }: TransformOptions) {
   const watchers: FSWatcher[] = [];
   const sourceFiles = project.getSourceFiles();
@@ -31,7 +34,7 @@ export async function transformProject({
 
   const writeSafelist = async () => {
     if (output) {
-      const css = await convertSafelistMapToCss(safelistMap);
+      const css = await convertSafelistMapToCss(safelistMap, config);
       await Bun.write(output, css);
     }
   };
