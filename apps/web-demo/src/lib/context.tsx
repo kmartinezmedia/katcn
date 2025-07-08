@@ -47,10 +47,8 @@ export function Providers({ socketUrl, children }: ProvidersProps) {
         <SetPlaygroundDataContext.Provider value={setData}>
           <PlaygroundSocketContext.Provider value={socket}>
             <SetPlaygroundSocketContext.Provider value={setSocket}>
-              <>
-                <Socket url={socketUrl} />
-                {children}
-              </>
+              <Socket url={socketUrl} />
+              {children}
             </SetPlaygroundSocketContext.Provider>
           </PlaygroundSocketContext.Provider>
         </SetPlaygroundDataContext.Provider>

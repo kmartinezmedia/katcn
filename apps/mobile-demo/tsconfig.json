@@ -1,10 +1,7 @@
 {
   "extends": "tsconfig/react-native-app.json",
   "compilerOptions": {
-    "strict": true,
-    "customConditions": [
-      "development"
-    ]
+    "strict": true
   },
   "include": [
     "**/*.ts",

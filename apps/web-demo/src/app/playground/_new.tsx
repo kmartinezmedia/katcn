@@ -1,8 +1,8 @@
 'use client';
 
-import { setId } from '@/actions/id';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { setId } from '@/actions/id';
 
 export default function NewUser() {
   const router = useRouter();

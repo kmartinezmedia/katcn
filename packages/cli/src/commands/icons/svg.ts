@@ -116,7 +116,9 @@ export default {
         iconNames.push(componentName);
 
         let viewBox = '';
+        // biome-ignore lint/correctness/noUnusedVariables: it's used in for loop
         let width = '';
+        // biome-ignore lint/correctness/noUnusedVariables: it's used in for loop
         let height = '';
 
         for (const [variant, svgData] of Object.entries(iconData.svg)) {

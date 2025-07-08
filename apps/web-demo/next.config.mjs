@@ -16,17 +16,18 @@ const nextConfig = {
     ],
   },
   serverExternalPackages: [
-    'postcss',
+    'execa',
+    'katcn',
     'prettier',
-    'tailwindcss',
+    '@tailwindcss/cli',
     'typescript',
     'ts-morph',
   ],
   experimental: {
     typedRoutes: true,
-    optimizePackageImports: ['katcn'],
     reactCompiler: true,
   },
+  transpilePackages: [],
 };
 
 export default nextConfig;

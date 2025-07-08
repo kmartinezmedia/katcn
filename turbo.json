@@ -1,76 +1,56 @@
 {
-  "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": [
-    "package.json",
-    "biome.json"
-  ],
-  "pipeline": {
-    "build": {
-      "outputs": [
-        "dist/**",
-        "build/**",
-        ".next/**",
-        "!.next/cache/**",
-        ".katcn/**"
-      ],
-      "dependsOn": [
-        "^build"
-      ]
-    },
-    "build:icons": {
-      "inputs": [
-        "src/icons/svg/**"
-      ],
-      "outputs": [
-        "src/icons/fonts/**",
-        "src/icons/types.ts",
-        "src/fixtures/icons.ts"
-      ],
-      "dependsOn": []
-    },
-    "build:css": {
-      "outputs": [
-        ".katcn/**"
-      ],
-      "dependsOn": []
-    },
-    "clean": {
-      "cache": false
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true,
-      "dependsOn": [
-        "^build"
-      ]
-    },
-    "start": {
-      "cache": false,
-      "persistent": true,
-      "dependsOn": [
-        "^build"
-      ]
-    },
-    "lint": {
-      "dependsOn": [
-        "^build"
-      ]
-    },
-    "fix": {
-      "cache": false
-    },
-    "typecheck": {
-      "dependsOn": [
-        "^build",
-        "build:css"
-      ]
-    },
-    "test": {
-      "outputs": [
-        ".coverage/**"
-      ],
-      "dependsOn": []
-    },
-    "test:coverage": {}
-  }
+	"$schema": "https://turbo.build/schema.json",
+	"globalDependencies": ["package.json", "biome.json"],
+	"tasks": {
+		"build": {
+			"outputs": [
+				"dist/**",
+				"build/**",
+				".next/**",
+				"!.next/cache/**",
+				".katcn/**"
+			],
+			"dependsOn": ["^build"]
+		},
+		"build:icons": {
+			"inputs": ["src/icons/svg/**"],
+			"outputs": [
+				"src/icons/fonts/**",
+				"src/icons/types.ts",
+				"src/fixtures/icons.ts"
+			],
+			"dependsOn": []
+		},
+		"build:css": {
+			"outputs": [".katcn/**"],
+			"dependsOn": ["^build"]
+		},
+		"clean": {
+			"cache": false
+		},
+		"dev": {
+			"cache": false,
+			"persistent": true,
+			"dependsOn": ["^build"]
+		},
+		"start": {
+			"cache": false,
+			"persistent": true,
+			"dependsOn": ["^build"]
+		},
+		"lint": {
+			"dependsOn": ["^build"]
+		},
+		"fix": {
+			"cache": false
+		},
+		"typecheck": {
+			"dependsOn": ["^build", "build:css"]
+		},
+		"test": {
+			"outputs": [".coverage/**"],
+			"dependsOn": []
+		},
+		"test:coverage": {}
+	}
 }

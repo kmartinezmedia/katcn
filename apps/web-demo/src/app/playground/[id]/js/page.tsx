@@ -1,6 +1,6 @@
 'use client';
-import { PlaygroundDataContext } from '@/lib/context';
 import { useContext } from 'react';
+import { PlaygroundDataContext } from '@/lib/context';
 
 export default function Page() {
   const data = useContext(PlaygroundDataContext);

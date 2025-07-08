@@ -1,31 +1,28 @@
 import path from 'node:path';
+import katcnPackageJson from '../package.json';
 
-const serverDir = path.resolve(__dirname, '../');
-const katcnDir = path.resolve(__dirname, '../../../packages/katcn');
+const katcnDir = path.resolve(__dirname, '../');
 const katcnDistDir = path.resolve(katcnDir, 'dist');
 
 async function getDtsLibs() {
-  const dtsLibs: typeof import('#dist/dtsLibs.json').default = [];
-
+  const dtsLibs: { content: string; filePath: string }[] = [];
   const katPackageJson = await Bun.file(`${katcnDir}/package.json`).text();
-  const reactTypesResp = await fetch(
-    'https://unpkg.com/types-react@beta/index.d.ts',
-  );
+  const reactTypesBaseUrl = `https://unpkg.com/@types/react@${katcnPackageJson.devDependencies['@types/react']}`;
+
+  const reactTypesResp = await fetch(`${reactTypesBaseUrl}/index.d.ts`);
   dtsLibs.push({
     content: await reactTypesResp.text(),
     filePath: 'file:///node_modules/react/index.d.ts',
   });
 
-  const reactJsxRuntime = await fetch(
-    'https://unpkg.com/types-react@beta/jsx-runtime.d.ts',
-  );
+  const reactJsxRuntime = await fetch(`${reactTypesBaseUrl}/jsx-runtime.d.ts`);
   dtsLibs.push({
     content: await reactJsxRuntime.text(),
     filePath: 'file:///node_modules/react/jsx-runtime.d.ts',
   });
 
   const reactJsxDevRuntime = await fetch(
-    'https://unpkg.com/types-react@beta/jsx-dev-runtime.d.ts',
+    `${reactTypesBaseUrl}/jsx-dev-runtime.d.ts`,
   );
   dtsLibs.push({
     content: await reactJsxDevRuntime.text(),
@@ -58,7 +55,7 @@ async function getDtsLibs() {
 
 export async function init() {
   const dtsLibsTxt = await getDtsLibs();
-  await Bun.write(`${serverDir}/dist/dtsLibs.json`, dtsLibsTxt);
+  await Bun.write(`${katcnDistDir}/dtsLibs.json`, dtsLibsTxt);
 }
 
 await init();

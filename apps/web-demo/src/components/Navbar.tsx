@@ -1,8 +1,8 @@
 'use client';
 
 import { HStack, Icon, Pressable, Text } from 'katcn';
-import { useTheme } from 'next-themes';
 import Link from 'next/link';
+import { useTheme } from 'next-themes';
 
 export function Navbar() {
   const { setTheme, theme } = useTheme();
@@ -36,6 +36,7 @@ export function Navbar() {
           name={theme === 'dark' ? 'sun' : 'moon'}
           size="8"
           fill="on-primary"
+          suppressHydrationWarning
         />
       </Pressable>
     </HStack>

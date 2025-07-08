@@ -2,7 +2,7 @@ import type {
   BorderRadiusConfig,
   BorderWidthConfig,
   FontFamilyGlobalConfig,
-  NowConfig,
+  KatcnConfig,
   ResponsiveConfig,
   SpacingConfig,
   TypographyConfig,
@@ -48,65 +48,93 @@ const fontFamily: FontFamilyGlobalConfig = {
 const typography: TypographyConfig = {
   display1: {
     fontSize: '6rem',
-    fontWeight: '500',
+    fontWeight: 500,
+    lineHeight: 1.5,
+    fontFamily: 'sans',
   },
   display2: {
     fontSize: '3.5rem',
-    fontWeight: '500',
+    fontWeight: 500,
+    lineHeight: 1.5,
+    fontFamily: 'sans',
   },
   display3: {
     fontSize: '2.5rem',
-    fontWeight: '450',
+    fontWeight: 450,
+    lineHeight: 1.5,
+    fontFamily: 'sans',
   },
   display4: {
     fontSize: '2.5rem',
-    fontWeight: '400',
+    fontWeight: 400,
+    lineHeight: 1.5,
+    fontFamily: 'sans',
   },
   title1: {
     fontSize: '1.75rem',
-    fontWeight: '700',
+    fontWeight: 700,
+    lineHeight: 1.5,
+    fontFamily: 'sans',
   },
   title2: {
     fontSize: '1.75rem',
-    fontWeight: '450',
+    fontWeight: 450,
+    lineHeight: 1.5,
+    fontFamily: 'sans',
   },
   title3: {
     fontSize: '1.375rem',
-    fontWeight: '700',
+    fontWeight: 700,
+    lineHeight: 1.5,
+    fontFamily: 'sans',
   },
   title4: {
     fontSize: '1.375',
-    fontWeight: '450',
+    fontWeight: 450,
+    lineHeight: 1.5,
+    fontFamily: 'sans',
   },
   headline: {
     fontSize: '1rem',
-    fontWeight: '500',
-    lineHeight: '1.25rem',
+    fontWeight: 500,
+    lineHeight: 1.25,
+    fontFamily: 'sans',
   },
   body: {
     fontSize: '1rem',
-    fontWeight: '400',
-    lineHeight: '1.5rem',
+    fontWeight: 400,
+    lineHeight: 1.5,
+    fontFamily: 'sans',
   },
   label1: {
     fontSize: '0.875rem',
-    fontWeight: '500',
+    fontWeight: 500,
+    lineHeight: 1.5,
+    fontFamily: 'sans',
   },
   label2: {
     fontSize: '0.875rem',
-    fontWeight: '400',
+    fontWeight: 400,
+    lineHeight: 1.5,
+    fontFamily: 'sans',
   },
   label3: {
     fontSize: '0.75rem',
-    fontWeight: '500',
+    fontWeight: 500,
+    lineHeight: 1.5,
+    fontFamily: 'sans',
   },
   label4: {
     fontSize: '0.75rem',
-    fontWeight: '400',
+    fontWeight: 400,
+    lineHeight: 1.5,
+    fontFamily: 'sans',
   },
   legal: {
     fontSize: '0.625rem',
-    fontWeight: '400',
+    fontWeight: 400,
+    lineHeight: 1.5,
+    fontFamily: 'sans',
   },
 };
 
@@ -184,7 +212,7 @@ const responsive: ResponsiveConfig = {
   '2xl': '1536px',
 };
 
-export const defaultTokensConfig: NowConfig = {
+export const defaultTokensConfig: KatcnConfig = {
   colorMode: {
     light: lightColors,
     dark: darkColors,
@@ -197,4 +225,5 @@ export const defaultTokensConfig: NowConfig = {
   zIndex,
   responsive,
   disablePreflight: false,
+  autoInvertColors: true,
 };

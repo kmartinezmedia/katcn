@@ -2,12 +2,12 @@ import {
   Children,
   type ComponentPropsWithRef,
   type ComponentType,
+  cloneElement,
+  isValidElement,
   type ReactElement,
   type ReactNode,
   type Ref,
   type RefObject,
-  cloneElement,
-  isValidElement,
 } from 'react';
 
 type PossibleRef<T> = Ref<T> | undefined;
@@ -20,7 +20,6 @@ function setRef<T>(ref: PossibleRef<T>, value: T) {
   if (typeof ref === 'function') {
     ref(value);
   } else if (ref !== null && ref !== undefined) {
-    // @ts-expect-error this is fine in react@19
     (ref as RefObject<T>).current = value;
   }
 }
@@ -104,9 +103,9 @@ export function createSlot<
         ...mergeProps(slotProps, children.props),
         // @ts-expect-error this is fine
         ref: ref
-          ? // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+          ? // biome-ignore lint/suspicious/noExplicitAny: this is fine
             composeRefs(ref, (children as any).props?.ref)
-          : // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+          : // biome-ignore lint/suspicious/noExplicitAny: this is fine
             (children as any).props?.ref,
       });
     }
@@ -126,7 +125,7 @@ export function createSlot<
 
   /* ---------------------------------------------------------------------------------------------- */
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: this is fine
   type AnyProps = Record<string, any>;
 
   function isSlottable(

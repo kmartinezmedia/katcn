@@ -4,13 +4,13 @@ import {
   type ObjectLiteralExpression,
   type SourceFile,
   SyntaxKind,
-  ts,
 } from 'ts-morph';
 import { withDefaultProps } from '#components';
 import { modifiers } from '#fixtures/modifiers';
 import { isStyleProp } from '#fixtures/props';
 import { getStyles } from '#getStyles';
-import { type SafelistMap, flattenSafelist } from './prettifySafelist';
+import type { SafelistMap } from '../types';
+import { flattenSafelist } from './flattenSafelist';
 
 function getVar(variableName: string, startNode: Node): Node | undefined {
   // Search within the current scope
@@ -177,7 +177,7 @@ function getPropsFromObjectLiteralExpression(
   return props;
 }
 
-export function getSafelist({
+export function processSafelistForSourceFile({
   safelistMap,
   sourceFile,
 }: {

@@ -76,7 +76,7 @@ export default {
               const outputFontFile = `${outputFonts}/${fontName}.${format}`;
               await Bun.write(
                 `${Bun.env.PWD}/${outputFontFile}`,
-                generatedFormat,
+                generatedFormat as unknown as string,
               );
               console.log(
                 `[icons]: icon font files written to ${outputFontFile}`,

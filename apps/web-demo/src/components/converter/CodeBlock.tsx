@@ -24,7 +24,7 @@ export function CodeBlock({ code, originalCode }: Props) {
         rounded="lg"
         overflow="hidden"
         className="text-body [&>pre]:overflow-x-auto [&>pre]:py-3 [&>pre]:pl-4 [&>pre]:pr-5 [&>pre]:leading-snug [&_code]:block [&_code]:w-fit [&_code]:min-w-full"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: this is fine
         dangerouslySetInnerHTML={{ __html: code }}
       />
     </Box>

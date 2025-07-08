@@ -6,23 +6,22 @@ const watch = Bun.argv.includes('--watch');
 const srcDir = `${Bun.env.PWD}/src`;
 const distDir = `${Bun.env.PWD}/dist`;
 const srcGlob = new Bun.Glob(`${srcDir}/**/*.{ts,tsx}`);
-const isMacroFile = (file: string) => file.includes('macros');
+const isNotIgnoredFile = (file: string) =>
+  !file.includes('macros') && !file.includes('test');
 const srcFiles = Array.from(srcGlob.scanSync());
 
 async function build(files: string[]) {
-  const nonMacroFiles = files.filter((file) => !isMacroFile(file));
-  const { success, logs, outputs } = await Bun.build({
+  const nonMacroFiles = files.filter(isNotIgnoredFile);
+  const {
+    success,
+    logs,
+    outputs: _outputs,
+  } = await Bun.build({
     entrypoints: nonMacroFiles,
     outdir: distDir,
     root: srcDir,
     minify: true,
-    external: [
-      'react',
-      'react-dom',
-      'clsx',
-      'tailwind-merge',
-      'tailwindcss-animate',
-    ],
+    external: ['react', 'react-dom', 'clsx', 'tailwind-merge'],
   });
 
   /** TODO: only log if debug mode is true */
@@ -40,6 +39,7 @@ async function build(files: string[]) {
   }
 
   await $`tsc -p tsconfig.build.json --outDir ${outdir} --declaration --emitDeclarationOnly`;
+  await $`bun run ./scripts/buildDtsLibs.ts`;
 }
 
 if (watch) {

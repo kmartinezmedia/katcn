@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, spyOn } from 'bun:test';
 import path from 'node:path';
 import { Project } from 'ts-morph';
-import { flattenSafelistMap } from './prettifySafelist';
+import { flattenSafelistMap } from './flattenSafelistMap';
 import { transformProject } from './transformProject';
 
 const productDir = path.resolve(

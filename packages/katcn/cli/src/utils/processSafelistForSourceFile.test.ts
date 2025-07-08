@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'bun:test';
 import { getStyles } from '#getStyles';
 import { createTsMorphProject } from './createTsMorphProject';
-import { getSafelist } from './getSafelist';
+import { processSafelistForSourceFile } from './processSafelistForSourceFile';
 
 function createSourceFile(code: string) {
   const project = createTsMorphProject({
@@ -27,7 +27,7 @@ describe('getSafelist', () => {
     }
   `;
     const sourceFile = createSourceFile(testCode);
-    const safelist = getSafelist({
+    const safelist = processSafelistForSourceFile({
       sourceFile,
       safelistMap: new Map(),
     });
@@ -60,7 +60,7 @@ describe('getSafelist', () => {
     }
   `;
     const sourceFile = createSourceFile(testCode);
-    const safelist = getSafelist({
+    const safelist = processSafelistForSourceFile({
       sourceFile,
       safelistMap: new Map(),
     });
@@ -118,10 +118,11 @@ describe('getSafelist', () => {
       )
     }
   `;
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: this is fine
     testCode = testCode.replace('PLACEHOLDER', '`${hue}-${step}` as const');
 
     const sourceFile = createSourceFile(testCode);
-    const safelist = getSafelist({
+    const safelist = processSafelistForSourceFile({
       sourceFile,
       safelistMap: new Map(),
     });
@@ -173,10 +174,11 @@ describe('getSafelist', () => {
       )
     }
   `;
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: this is fine
     testCode = testCode.replace('PLACEHOLDER', '`${hue}-${step}` as const');
 
     const sourceFile = createSourceFile(testCode);
-    const safelist = getSafelist({
+    const safelist = processSafelistForSourceFile({
       sourceFile,
       safelistMap: new Map(),
     });
@@ -191,7 +193,7 @@ describe('getSafelist', () => {
       }
     `;
     const sourceFile = createSourceFile(code);
-    const safelist = getSafelist({
+    const safelist = processSafelistForSourceFile({
       sourceFile,
       safelistMap: new Map(),
     });
@@ -208,7 +210,7 @@ describe('getSafelist', () => {
       }
     `;
     const sourceFile = createSourceFile(code);
-    const safelist = getSafelist({
+    const safelist = processSafelistForSourceFile({
       sourceFile,
       safelistMap: new Map(),
     });
@@ -224,7 +226,7 @@ describe('getSafelist', () => {
       }
     `;
     const sourceFile = createSourceFile(code);
-    const safelist = getSafelist({
+    const safelist = processSafelistForSourceFile({
       sourceFile,
       safelistMap: new Map(),
     });
@@ -248,7 +250,7 @@ describe('getSafelist', () => {
       }
     `;
     const sourceFile = createSourceFile(code);
-    const safelist = getSafelist({
+    const safelist = processSafelistForSourceFile({
       sourceFile,
       safelistMap: new Map(),
     });
@@ -280,7 +282,7 @@ describe('getSafelist', () => {
       }
     `;
     const sourceFile = createSourceFile(code);
-    const safelist = getSafelist({
+    const safelist = processSafelistForSourceFile({
       sourceFile,
       safelistMap: new Map(),
     });
@@ -314,7 +316,7 @@ describe('getSafelist', () => {
       }
     `;
     const sourceFile = createSourceFile(code);
-    const safelist = getSafelist({
+    const safelist = processSafelistForSourceFile({
       sourceFile,
       safelistMap: new Map(),
     });
@@ -373,7 +375,7 @@ describe('getSafelist', () => {
       }
     `;
     const sourceFile = createSourceFile(code);
-    const safelist = getSafelist({
+    const safelist = processSafelistForSourceFile({
       sourceFile,
       safelistMap: new Map(),
     });

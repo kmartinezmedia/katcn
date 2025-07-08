@@ -1,11 +1,11 @@
 import {
-  type CommandTree,
-  type Props,
   bold,
+  type CommandTree,
   calcWidestCommandName,
   commandTree,
   cyan,
   gray,
+  type Props,
   print,
   white,
 } from 'bluebun';

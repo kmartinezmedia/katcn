@@ -32,7 +32,7 @@ export function AnimatedTabs<T extends string>({
             spacingX="5"
             spacingY="2"
             outlineColor="sky-400"
-            text="headline"
+            textVariant="headline"
             className="transition"
             _focusVisible={{ outlineWidth: '1' }}
             style={{

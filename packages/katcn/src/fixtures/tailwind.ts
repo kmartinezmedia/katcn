@@ -1,7 +1,7 @@
-import {
-  TwAsPropsMap,
-  getTwAsPropsMapAsString,
-} from '../macros/getTwAsPropsMap' assert { type: 'macro' };
+import { getTwAsPropsMapAsString } from '../macros/getTwAsPropsMap' with {
+  type: 'macro',
+};
+import type { TwAsPropsMap } from '../macros/getTwAsPropsMap';
 
 const twPropsMapAsString = getTwAsPropsMapAsString();
 
