@@ -56,16 +56,16 @@
   },
   "dependencies": {
     "clsx": "^2.1.0",
-    "prettier": "^3.2.5",
+    "prettier": "^3.6.2",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "ts-morph": "^22.0.0"
+    "ts-morph": "^26.0.0"
   },
   "devDependencies": {
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
     "cli": "workspace:*",
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.2.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tsconfig": "workspace:*"
