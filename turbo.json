@@ -71,6 +71,10 @@
       "outputs": [],
       "dependsOn": []
     },
+    "test:update": {
+      "outputs": [],
+      "dependsOn": []
+    },
     "test:coverage": {}
   }
 }

@@ -17,6 +17,10 @@
       "default": "./dist/components.js"
     },
     "./cli/*": "./cli/src/*.ts",
+    "./node/*": {
+      "types": "./dist/node/*.d.ts",
+      "default": "./dist/node/*.js"
+    },
     "./dtsLibs.json": "./dist/dtsLibs.json",
     "./fixtures/*": {
       "types": "./dist/fixtures/*.d.ts",
@@ -73,30 +77,32 @@
   },
   "imports": {
     "#components": {
+      "bun": "./src/components.tsx",
       "types": "./src/components.tsx",
       "default": "./dist/components.js"
     },
     "#getCss": {
+      "bun": "./src/getCss.ts",
       "types": "./src/getCss.ts",
       "default": "./dist/getCss.js"
     },
     "#getStyles": {
+      "bun": "./src/getStyles.ts",
       "types": "./src/getStyles.ts",
       "default": "./dist/getStyles.js"
     },
-    "#helpers": {
-      "types": "./src/helpers/index.ts",
-      "default": "./dist/helpers/index.js"
-    },
     "#fixtures/*": {
+      "bun": "./src/fixtures/*.ts",
       "types": "./src/fixtures/*.ts",
       "default": "./dist/fixtures/*.js"
     },
     "#tokens": {
+      "bun": "./src/tokens.ts",
       "types": "./src/tokens.ts",
       "default": "./dist/tokens.js"
     },
     "#types": {
+      "bun": "./src/types.ts",
       "types": "./src/types.ts",
       "default": "./dist/types.d.ts"
     }

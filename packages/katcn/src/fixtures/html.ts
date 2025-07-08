@@ -1,5 +1,6 @@
-import { getHtmlTagAsReactComponentsMap } from '../macros/getHtmlTagAsReactComponentsMap' with {
+import { getHtmlFixtures } from '../node/getHtmlFixtures' with {
   type: 'macro',
 };
 
-export const htmlTagAsReactComponentsMap = getHtmlTagAsReactComponentsMap();
+export const { htmlToComponentMap, defaultPropsForComponentMap } =
+  getHtmlFixtures();

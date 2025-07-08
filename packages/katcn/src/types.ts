@@ -1057,7 +1057,8 @@ export interface BorderStyleProps {
 }
 
 export interface LayoutStyleProps {
-  /** Utilities for controlling the aspect ratio of an element.
+  /**
+   * @description Utilities for controlling the aspect ratio of an element.
    * @tailwind aspect
    */
   aspectRatio?: AspectRatio;
@@ -1074,7 +1075,7 @@ export interface LayoutStyleProps {
    */
   columns?: Columns;
   /** Sets whether an element is treated as a block or inline box and the layout used for its children, such as flow layout, grid or flex.
-   * @tailwind Display
+   * @tailwind display
    */
   display?: Display;
   /** Utilities for controlling whether an element should explicitly create a new stacking context.

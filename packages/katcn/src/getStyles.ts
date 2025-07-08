@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { reactModifierPropsToTailwindModifierClassNamesMap } from './fixtures/modifiers';
+import { reactModifierPropsToTailwindModifierClassNamesMap } from '#fixtures/modifiers';
 
 import type {
   AllStyleProps,

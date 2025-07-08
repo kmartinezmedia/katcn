@@ -12,12 +12,6 @@
       "path": "packages/tsconfig"
     },
     {
-      "path": "apps/mobile-demo"
-    },
-    {
-      "path": "apps/server"
-    },
-    {
       "path": "apps/web-demo"
     }
   ],

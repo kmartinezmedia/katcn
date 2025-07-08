@@ -1,4 +1,4 @@
-import { typesToConstants } from '../macros/typesToConstants' with {
+import { typesToConstants } from '../node/utils/typesToConstants' with {
   type: 'macro',
 };
 

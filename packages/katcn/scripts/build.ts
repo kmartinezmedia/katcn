@@ -6,11 +6,13 @@ const watch = Bun.argv.includes('--watch');
 const srcDir = `${Bun.env.PWD}/src`;
 const distDir = `${Bun.env.PWD}/dist`;
 const srcGlob = new Bun.Glob(`${srcDir}/**/*.{ts,tsx}`);
-const isNotIgnoredFile = (file: string) => !file.includes('test');
-const srcFiles = Array.from(srcGlob.scanSync());
+
+const isNotTestFile = (file: string) => !file.includes('test');
+const isNotNodeFile = (file: string) => !file.includes('node');
+const srcFiles = Array.from(srcGlob.scanSync()).filter(isNotTestFile);
 
 async function build(files: string[]) {
-  const entrypoints = files.filter(isNotIgnoredFile);
+  const entrypoints = files.filter(isNotNodeFile);
   const {
     success,
     logs,
@@ -19,9 +21,18 @@ async function build(files: string[]) {
     entrypoints,
     outdir: distDir,
     root: srcDir,
-    minify: true,
-    external: ['react', 'react-dom', 'clsx', 'tailwind-merge', '#fixtures'
-    ],
+    minify: process.env.NODE_ENV === 'production',
+    external: ['react', 'react-dom', 'clsx', 'tailwind-merge', '#fixtures'],
+  });
+
+  const nodeFiles = files.filter((file) => file.includes('node'));
+  // build node entrypoint
+  await Bun.build({
+    entrypoints: nodeFiles,
+    outdir: distDir,
+    root: srcDir,
+    minify: false,
+    external: ['ts-morph'],
   });
 
   /** TODO: only log if debug mode is true */

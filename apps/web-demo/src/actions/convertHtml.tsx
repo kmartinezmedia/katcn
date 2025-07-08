@@ -2,10 +2,13 @@
 
 import { execa } from 'execa';
 import jsxlike from 'jsxlike';
-import { htmlTagAsReactComponentsMap } from 'katcn/fixtures/html';
+import {
+  defaultPropsForComponentMap,
+  htmlToComponentMap,
+} from 'katcn/fixtures/html';
 import { tailwindModifierClassNamesToReactPropsMap } from 'katcn/fixtures/modifiers';
-import { tailwindClassNamesAsReactPropsMap } from 'katcn/fixtures/props';
 import { getCss } from 'katcn/getCss';
+import { getTailwindClassNamesAsReactPropsMap } from 'katcn/node/getTailwindClassNamesAsReactPropsMap';
 import { defaultTokensConfig } from 'katcn/tokens';
 import type { AllStyleProps, PrimitiveType, StyleModifier } from 'katcn/types';
 import prettier from 'prettier';
@@ -20,11 +23,12 @@ import {
   ts,
 } from 'ts-morph';
 
-type ValidElement = keyof typeof htmlTagAsReactComponentsMap;
-
 const project = new Project({
   skipAddingFilesFromTsConfig: true,
 });
+
+const tailwindClassNamesAsReactPropsMap =
+  getTailwindClassNamesAsReactPropsMap();
 
 function getPropsForClassName(className: string) {
   if (className in tailwindClassNamesAsReactPropsMap) {
@@ -95,15 +99,15 @@ function swapForComponent(
 ) {
   const identifier = node.getTagNameNode();
   const htmlTag = identifier?.getText();
-  const newComponent = htmlTagAsReactComponentsMap[htmlTag as ValidElement];
+  const newComponent = htmlToComponentMap[htmlTag];
 
   if (newComponent) {
     /** Add import to top of file */
-    importsToAdd.add(newComponent.name);
+    importsToAdd.add(newComponent);
 
     /** Ensure default props are set on component variation */
-    if ('defaultProps' in newComponent) {
-      const defaultProps = newComponent.defaultProps;
+    if (newComponent in defaultPropsForComponentMap) {
+      const defaultProps = defaultPropsForComponentMap[newComponent];
       for (const [key, value] of Object.entries(defaultProps)) {
         node.addAttribute({
           name: key,
@@ -113,7 +117,7 @@ function swapForComponent(
     }
 
     /** Replace jsx opening elements or self closing tags with html tag with katcn Component name */
-    node.getTagNameNode().replaceWithText(newComponent.name);
+    node.getTagNameNode().replaceWithText(newComponent);
 
     if (Node.isJsxOpeningElement(node) && node.getChildCount() > 0) {
       const parentJsxElement = node.getParent().asKind(SyntaxKind.JsxElement);
@@ -121,8 +125,8 @@ function swapForComponent(
         ?.getClosingElement()
         ?.getTagNameNode();
       /** Replace jsx closing tag for elements with children to match it's opening tag */
-      if (closingElement?.getText() !== newComponent.name) {
-        closingElement?.replaceWithText(newComponent.name);
+      if (closingElement?.getText() !== newComponent) {
+        closingElement?.replaceWithText(newComponent);
       }
     }
   }
