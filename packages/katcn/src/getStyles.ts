@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { modifierPropsAsTwMap } from './fixtures/modifiers';
+import { reactModifierPropsToTailwindModifierClassNamesMap } from './fixtures/modifiers';
 
 import type {
   AllStyleProps,
@@ -289,8 +289,11 @@ export function processStyleProps(
     StyleProps,
   ][]) {
     if (propValue === undefined) continue;
-    if (propKey in modifierPropsAsTwMap) {
-      const modifierName = modifierPropsAsTwMap[propKey as StyleModifier];
+    if (propKey in reactModifierPropsToTailwindModifierClassNamesMap) {
+      const modifierName =
+        reactModifierPropsToTailwindModifierClassNamesMap[
+          propKey as StyleModifier
+        ];
       const combinedModifier = opts.modifier
         ? `${opts.modifier}${modifierName}`
         : modifierName;

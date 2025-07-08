@@ -1,10 +1,6 @@
-import { getTwAsPropsMapAsString } from '../macros/getTwAsPropsMap' with {
+import { getTailwindClassNamesAsReactPropsMap } from '../macros/props/getTailwindClassNamesAsReactPropsMap' with {
   type: 'macro',
 };
-import type { TwAsPropsMap } from '../macros/getTwAsPropsMap';
 
-const twPropsMapAsString = getTwAsPropsMapAsString();
-
-export function getTwAsPropsMap(): TwAsPropsMap {
-  return JSON.parse(twPropsMapAsString);
-}
+export const tailwindClassNamesAsReactPropsMap =
+  getTailwindClassNamesAsReactPropsMap();

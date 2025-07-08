@@ -2,9 +2,9 @@
 
 import { execa } from 'execa';
 import jsxlike from 'jsxlike';
-import { getHtmlAsComponentsMap } from 'katcn/fixtures/html';
-import { modifierTwAsPropsMap } from 'katcn/fixtures/modifiers';
-import { getTwAsPropsMap } from 'katcn/fixtures/tailwind';
+import { htmlTagAsReactComponentsMap } from 'katcn/fixtures/html';
+import { tailwindModifierClassNamesToReactPropsMap } from 'katcn/fixtures/modifiers';
+import { tailwindClassNamesAsReactPropsMap } from 'katcn/fixtures/props';
 import { getCss } from 'katcn/getCss';
 import { defaultTokensConfig } from 'katcn/tokens';
 import type { AllStyleProps, PrimitiveType, StyleModifier } from 'katcn/types';
@@ -20,18 +20,15 @@ import {
   ts,
 } from 'ts-morph';
 
-type ValidElement = keyof typeof htmlAsComponentsMap;
-
-const twAsPropsMap = getTwAsPropsMap();
-const htmlAsComponentsMap = getHtmlAsComponentsMap();
+type ValidElement = keyof typeof htmlTagAsReactComponentsMap;
 
 const project = new Project({
   skipAddingFilesFromTsConfig: true,
 });
 
 function getPropsForClassName(className: string) {
-  if (className in twAsPropsMap) {
-    return twAsPropsMap[className];
+  if (className in tailwindClassNamesAsReactPropsMap) {
+    return tailwindClassNamesAsReactPropsMap[className];
   }
 }
 
@@ -97,8 +94,8 @@ function swapForComponent(
   importsToAdd: Set<string>,
 ) {
   const identifier = node.getTagNameNode();
-  const componentName = identifier?.getText();
-  const newComponent = htmlAsComponentsMap[componentName as ValidElement];
+  const htmlTag = identifier?.getText();
+  const newComponent = htmlTagAsReactComponentsMap[htmlTag as ValidElement];
 
   if (newComponent) {
     /** Add import to top of file */
@@ -202,7 +199,8 @@ export async function convertHtml(_html: string) {
               const isModifier = item.includes(':');
               if (isModifier) {
                 const [modifier, propName] = item.split(':');
-                const modifierMatch = modifierTwAsPropsMap[modifier];
+                const modifierMatch =
+                  tailwindModifierClassNamesToReactPropsMap[modifier];
                 if (modifierMatch) {
                   const modifierProps = getPropsForClassName(propName);
                   if (modifierProps) {

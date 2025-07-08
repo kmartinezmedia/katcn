@@ -8,6 +8,7 @@ export type ColorWithOpacity<T extends string> = T | `${T}/${Opacity}`;
 export type ArbitraryColor = ColorWithOpacity<`[#${string}]`>;
 export type ArbitraryValue = `[${string}]`;
 export type PrimitiveType = string | boolean | number;
+export type ValidHtmlTag = Extract<keyof React.JSX.IntrinsicElements, string>;
 
 /* -------------------------------------------------------------------------- */
 /*                                    COLOR                                   */

@@ -7,10 +7,19 @@ import {
 } from 'ts-morph';
 import { withDefaultProps } from '#components';
 import { modifiers } from '#fixtures/modifiers';
-import { isStyleProp } from '#fixtures/props';
+import { styleProps } from '#fixtures/props';
 import { getStyles } from '#getStyles';
+import type { StyleProp } from '#types';
 import type { SafelistMap } from '../types';
 import { flattenSafelist } from './flattenSafelist';
+
+export function isStyleProp(prop: string): prop is StyleProp {
+  return (
+    styleProps.includes(prop as StyleProp) ||
+    prop === 'className' ||
+    prop === 'variant'
+  );
+}
 
 function getVar(variableName: string, startNode: Node): Node | undefined {
   // Search within the current scope

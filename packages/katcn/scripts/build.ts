@@ -6,22 +6,28 @@ const watch = Bun.argv.includes('--watch');
 const srcDir = `${Bun.env.PWD}/src`;
 const distDir = `${Bun.env.PWD}/dist`;
 const srcGlob = new Bun.Glob(`${srcDir}/**/*.{ts,tsx}`);
-const isNotIgnoredFile = (file: string) =>
-  !file.includes('macros') && !file.includes('test');
+const isNotIgnoredFile = (file: string) => !file.includes('test');
 const srcFiles = Array.from(srcGlob.scanSync());
 
 async function build(files: string[]) {
-  const nonMacroFiles = files.filter(isNotIgnoredFile);
+  const entrypoints = files.filter(isNotIgnoredFile);
   const {
     success,
     logs,
     outputs: _outputs,
   } = await Bun.build({
-    entrypoints: nonMacroFiles,
+    entrypoints,
     outdir: distDir,
     root: srcDir,
     minify: true,
-    external: ['react', 'react-dom', 'clsx', 'tailwind-merge', '#fixtures'],
+    external: [
+      'react',
+      'react-dom',
+      'clsx',
+      'tailwind-merge',
+      '#fixtures',
+      'ts-morph',
+    ],
   });
 
   /** TODO: only log if debug mode is true */

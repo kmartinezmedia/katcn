@@ -46,12 +46,13 @@
   },
   "scripts": {
     "build": "NODE_ENV=production bun run ./scripts/build.ts",
-    "build:icons": "cli icons font --formats woff2,ttf --input ./src/icons/svg --outputFonts ./src/iconFont/fonts --outputTypes ./src/iconFont/types.ts --outputData ./src/fixtures/icons.ts",
+    "build:icons": "cli icons font --formats woff2,ttf --input ./src/icons/svg --outputFonts ./src/icons/fonts --outputTypes ./src/icons/types.ts --outputData ./src/icons/data.ts",
     "clean": "cli tools clean",
     "dev": "NODE_ENV=development bun run ./scripts/build.ts --watch",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
     "test": "bun test",
+    "test:update": "bun test --update-snapshots",
     "typecheck": "bun --bun tsc --noEmit"
   },
   "dependencies": {

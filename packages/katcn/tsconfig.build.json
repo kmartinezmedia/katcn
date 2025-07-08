@@ -4,7 +4,7 @@
     "src/**/*.tsx"
   ],
   "exclude": [
-    "fixtures/marcos/*.ts"
+    "**/*.test.ts"
   ],
   "compilerOptions": {
     "outDir": "dist",
