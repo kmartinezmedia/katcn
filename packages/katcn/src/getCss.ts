@@ -1,5 +1,5 @@
 import { hues } from '#fixtures/colors';
-import { fontFamily } from './fixtures/typography';
+import { fontFamily } from '#fixtures/typography';
 import { entries } from './helpers';
 import type { Hue, HueStep, KatcnConfig } from './types';
 

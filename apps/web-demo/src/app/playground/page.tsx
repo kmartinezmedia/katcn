@@ -2,13 +2,7 @@ import { redirect } from 'next/navigation';
 import { getId } from '@/actions/id';
 import NewUser from './_new';
 
-interface PlaygroundParams {
-  params: {
-    id: string;
-  };
-}
-
-export default async function Page({ params: _params }: PlaygroundParams) {
+export default async function Page() {
   const id = await getId();
   if (id) {
     redirect(`/playground/${id}/preview`);
