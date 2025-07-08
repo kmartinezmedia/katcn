@@ -20,13 +20,7 @@ async function build(files: string[]) {
     outdir: distDir,
     root: srcDir,
     minify: true,
-    external: [
-      'react',
-      'react-dom',
-      'clsx',
-      'tailwind-merge',
-      '#fixtures',
-      'ts-morph',
+    external: ['react', 'react-dom', 'clsx', 'tailwind-merge', '#fixtures'
     ],
   });
 
