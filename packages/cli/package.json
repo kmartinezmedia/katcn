@@ -12,7 +12,6 @@
     "clean": "./bin tools clean",
     "fix": "./bin tools fix",
     "lint": "./bin tools lint",
-    "test": "bun test",
     "typecheck": "./bin tools typecheck"
   },
   "dependencies": {
