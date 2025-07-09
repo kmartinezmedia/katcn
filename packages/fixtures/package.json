@@ -18,8 +18,6 @@
     "dev": "bun run build --watch",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
-    "test": "bun test",
-    "test:update": "bun test --update-snapshots",
     "typecheck": "bun --bun tsc --noEmit"
   },
   "devDependencies": {
