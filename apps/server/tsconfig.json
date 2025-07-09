@@ -1,18 +1,13 @@
 {
-  "extends": "tsconfig/bun.json",
+  "extends": "tsconfig/react-library.json",
   "types": [
     "bun-types"
   ],
+  "exclude": [
+    "dist"
+  ],
   "compilerOptions": {
-    "outDir": "dist",
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
-  },
-  "references": [
-    {
-      "path": "../../packages/katcn"
-    },
-    {
-      "path": "../../packages/tsconfig"
-    }
-  ]
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "composite": false
+  }
 }
