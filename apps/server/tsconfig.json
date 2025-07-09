@@ -1,0 +1,13 @@
+{
+  "extends": "tsconfig/react-library.json",
+  "types": [
+    "bun-types"
+  ],
+  "exclude": [
+    "dist"
+  ],
+  "compilerOptions": {
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "composite": false
+  }
+}
