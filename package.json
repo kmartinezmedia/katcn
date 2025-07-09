@@ -10,6 +10,7 @@
     "lint": "turbo run lint",
     "start": "turbo run start",
     "test": "turbo run test",
+    "test:update": "turbo run test:update",
     "test:watch": "turbo run test -- --watch",
     "typecheck": "turbo run typecheck",
     "check-deps": "bun cli tools syncpack list-mismatches",

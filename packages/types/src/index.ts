@@ -1,4 +1,5 @@
-import type { IconName } from './icons/types';
+import type { IconName } from '@katcn/icons/types';
+import type { JSX } from 'react';
 
 /* -------------------------------------------------------------------------- */
 /*                                   HELPERS                                  */
@@ -8,6 +9,7 @@ export type ColorWithOpacity<T extends string> = T | `${T}/${Opacity}`;
 export type ArbitraryColor = ColorWithOpacity<`[#${string}]`>;
 export type ArbitraryValue = `[${string}]`;
 export type PrimitiveType = string | boolean | number;
+export type ValidHtmlTag = Extract<keyof JSX.IntrinsicElements, string>;
 
 /* -------------------------------------------------------------------------- */
 /*                                    COLOR                                   */
@@ -1056,7 +1058,8 @@ export interface BorderStyleProps {
 }
 
 export interface LayoutStyleProps {
-  /** Utilities for controlling the aspect ratio of an element.
+  /**
+   * @description Utilities for controlling the aspect ratio of an element.
    * @tailwind aspect
    */
   aspectRatio?: AspectRatio;
@@ -1073,7 +1076,7 @@ export interface LayoutStyleProps {
    */
   columns?: Columns;
   /** Sets whether an element is treated as a block or inline box and the layout used for its children, such as flow layout, grid or flex.
-   * @tailwind Display
+   * @tailwind display
    */
   display?: Display;
   /** Utilities for controlling whether an element should explicitly create a new stacking context.

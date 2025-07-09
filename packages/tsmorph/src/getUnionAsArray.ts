@@ -1,16 +1,10 @@
-import path from 'node:path';
-import { Project } from 'ts-morph';
+import { typesSourceFile } from './project';
 
-const project = new Project();
-export const sourceFile = project.addSourceFileAtPath(
-  path.resolve(__dirname, '../types.ts'),
-);
-
-export function typesToConstants<TypeToReturn>(
+export function getUnionAsArray<TypeToReturn>(
   typeName: string,
 ): TypeToReturn[] {
   return (
-    sourceFile
+    typesSourceFile
       .getTypeAlias(typeName)
       ?.getType()
       // @ts-expect-error compilerType.types is fine. https://ts-ast-viewer.com/

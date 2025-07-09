@@ -1,6 +1,6 @@
 import path from 'node:path';
+import type { KatcnConfig } from '@katcn/types';
 import { defaultTokensConfig } from '#tokens';
-import type { KatcnConfig } from '#types';
 import { transformProject } from '../utils/transformProject';
 import { createTsMorphProject } from './createTsMorphProject';
 

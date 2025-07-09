@@ -1,7 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { HStack, Pressable, Text } from 'katcn';
+import { motion } from 'motion/react';
 
 interface Tab<T extends string> {
   id: T;

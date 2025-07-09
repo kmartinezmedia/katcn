@@ -1,12 +1,11 @@
 import { existsSync, type FSWatcher, watch } from 'node:fs';
-
+import type { KatcnConfig } from '@katcn/types';
 import {
   FileSystemRefreshResult,
   type Project,
   type SourceFile,
 } from 'ts-morph';
 import { defaultTokensConfig } from '#tokens';
-import type { KatcnConfig } from '#types';
 import type { SafelistMap } from '../types';
 import { convertSafelistMapToCss } from './convertSafelistMapToCss';
 import { processSafelistForSourceFile } from './processSafelistForSourceFile';

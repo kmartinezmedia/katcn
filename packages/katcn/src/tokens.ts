@@ -7,7 +7,7 @@ import type {
   SpacingConfig,
   TypographyConfig,
   ZIndexConfig,
-} from './types';
+} from '@katcn/types';
 
 const lightColors = {
   brand: 'blue-500',

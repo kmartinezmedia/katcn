@@ -24,6 +24,9 @@
       "path": "../../packages/katcn"
     },
     {
+      "path": "../../packages/fixtures"
+    },
+    {
       "path": "../../packages/tsconfig"
     }
   ]

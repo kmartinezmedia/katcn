@@ -1,0 +1,31 @@
+{
+  "name": "@katcn/icons",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    "./tsconfig.json": "./tsconfig.json",
+    "./fonts/*.ttf": "./src/fonts/*.ttf",
+    "./fonts/*.woff2": "./src/fonts/*.woff2",
+    "./svg/*.svg": "./src/svg/*.svg",
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "require": "./dist/*.cjs",
+      "import": "./dist/*.js"
+    }
+  },
+  "scripts": {
+    "build": "cli icons font --formats woff2,ttf --input ./src/svg --outputFonts ./src/fonts --outputTypes ./src/types.ts --outputData ./src/data.ts && tsup",
+    "clean": "cli tools clean",
+    "dev": "bun run build --watch",
+    "fix": "cli tools fix",
+    "lint": "cli tools lint",
+    "test:update": "bun test --update-snapshots",
+    "typecheck": "bun --bun tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsconfig": "workspace:*",
+    "tsup": "^8.5.0"
+  }
+}

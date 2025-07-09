@@ -1,0 +1,24 @@
+{
+  "extends": "tsconfig/react-library.json",
+  "exclude": [
+    "dist",
+    "scripts",
+    "tsup.config.ts"
+  ],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../tsconfig"
+    },
+    {
+      "path": "../tsmorph"
+    },
+    {
+      "path": "../types"
+    }
+  ]
+}

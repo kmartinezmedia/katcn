@@ -13,89 +13,81 @@
   "bin": "./cli/bin",
   "exports": {
     ".": {
-      "types": "./dist/components.js",
-      "default": "./dist/components.js"
+      "types": "./dist/components.d.ts",
+      "require": "./dist/components.cjs",
+      "import": "./dist/components.js"
     },
     "./cli/*": "./cli/src/*.ts",
     "./dtsLibs.json": "./dist/dtsLibs.json",
-    "./fixtures/*": {
-      "types": "./dist/fixtures/*.d.ts",
-      "default": "./dist/fixtures/*.js"
-    },
-    "./getStyles": {
-      "types": "./dist/getStyles.d.ts",
-      "default": "./dist/getStyles.js"
-    },
+    "./tsconfig.json": "./tsconfig.json",
+    "./package.json": "./package.json",
     "./helpers": {
       "types": "./dist/helpers/index.d.ts",
-      "default": "./dist/helpers/index.js"
+      "require": "./dist/helpers/index.cjs",
+      "import": "./dist/helpers/index.js"
     },
-    "./getCss": {
-      "types": "./dist/getCss.d.ts",
-      "default": "./dist/getCss.js"
-    },
-    "./tokens": {
-      "types": "./dist/tokens.d.ts",
-      "default": "./dist/tokens.js"
-    },
-    "./types": {
-      "types": "./dist/types.d.ts"
-    },
-    "./tsconfig.json": "./tsconfig.json",
-    "./package.json": "./package.json"
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "require": "./dist/*.cjs",
+      "import": "./dist/*.js"
+    }
   },
   "scripts": {
-    "build": "NODE_ENV=production bun run ./scripts/build.ts",
-    "build:icons": "cli icons font --formats woff2,ttf --input ./src/icons/svg --outputFonts ./src/iconFont/fonts --outputTypes ./src/iconFont/types.ts --outputData ./src/fixtures/icons.ts",
+    "build": "bun run ./scripts/build.ts",
     "clean": "cli tools clean",
-    "dev": "NODE_ENV=development bun run ./scripts/build.ts --watch",
+    "dev": "bun run build --watch",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
     "test": "bun test",
+    "test:update": "bun test --update-snapshots",
     "typecheck": "bun --bun tsc --noEmit"
   },
   "dependencies": {
+    "@katcn/fixtures": "workspace:*",
+    "@katcn/types": "workspace:*",
     "clsx": "^2.1.0",
-    "prettier": "^3.6.2",
-    "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7",
-    "ts-morph": "^26.0.0"
+    "tailwind-merge": "^2.3.0"
   },
   "devDependencies": {
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
     "cli": "workspace:*",
     "concurrently": "^9.2.0",
+    "prettier": "^3.6.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "tsconfig": "workspace:*"
+    "tsconfig": "workspace:*",
+    "ts-morph": "^26.0.0",
+    "tsup": "^8.5.0"
   },
   "imports": {
     "#components": {
+      "bun": "./src/components.tsx",
       "types": "./src/components.tsx",
       "default": "./dist/components.js"
     },
     "#getCss": {
+      "bun": "./src/getCss.ts",
       "types": "./src/getCss.ts",
       "default": "./dist/getCss.js"
     },
     "#getStyles": {
+      "bun": "./src/getStyles.ts",
       "types": "./src/getStyles.ts",
       "default": "./dist/getStyles.js"
     },
-    "#helpers": {
-      "types": "./src/helpers/index.ts",
-      "default": "./dist/helpers/index.js"
-    },
     "#fixtures/*": {
+      "bun": "./src/fixtures/*.ts",
       "types": "./src/fixtures/*.ts",
       "default": "./dist/fixtures/*.js"
     },
     "#tokens": {
+      "bun": "./src/tokens.ts",
       "types": "./src/tokens.ts",
       "default": "./dist/tokens.js"
     },
     "#types": {
+      "bun": "./src/types.ts",
       "types": "./src/types.ts",
       "default": "./dist/types.d.ts"
     }

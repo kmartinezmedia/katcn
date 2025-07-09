@@ -7,7 +7,7 @@ import './globals.css';
 // import './katcn.css';
 
 const iconFont = localFont({
-  src: '../../../../packages/katcn/src/icons/fonts/icons.woff2',
+  src: '../../../../packages/icons/src/fonts/icons.woff2',
   variable: '--font-icons',
 });
 

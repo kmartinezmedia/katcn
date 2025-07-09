@@ -1,6 +1,6 @@
+import type { IconName } from '@katcn/types';
 import { Icon, Pressable, type PressableProps } from 'katcn';
 import { createVariants } from 'katcn/getStyles';
-import type { IconName } from 'katcn/types';
 
 export const buttonVariants = createVariants({
   'primary-solid': {

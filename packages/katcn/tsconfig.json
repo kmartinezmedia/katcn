@@ -1,8 +1,10 @@
 {
   "extends": "tsconfig/react-library.json",
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
+  "exclude": [
+    "cli",
+    "dist",
+    "scripts",
+    "tsup.config.ts"
   ],
   "compilerOptions": {
     "rootDir": "src",
@@ -14,7 +16,13 @@
       "path": "../cli"
     },
     {
+      "path": "../fixtures"
+    },
+    {
       "path": "../tsconfig"
+    },
+    {
+      "path": "../types"
     }
   ]
 }

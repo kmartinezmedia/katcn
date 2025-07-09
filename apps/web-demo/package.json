@@ -20,6 +20,9 @@
     "typecheck": "bun --bun tsc --noEmit"
   },
   "dependencies": {
+    "@katcn/fixtures": "workspace:*",
+    "@katcn/tsmorph": "workspace:*",
+    "@katcn/types": "workspace:*",
     "@monaco-editor/react": "^4.7.0",
     "@swc/wasm-web": "^1.12.9",
     "@tailwindcss/cli": "^4.1.11",
@@ -31,12 +34,12 @@
     "base64-url": "^2.3.3",
     "culori": "^4.0.2",
     "execa": "^9.6.0",
-    "framer-motion": "^12.23.0",
     "jotai": "^2.12.5",
     "jsxlike": "^0.1.0",
     "katcn": "workspace:*",
     "lodash": "^4.17.21",
     "monaco-editor": "^0.52.2",
+    "motion": "^12.23.0",
     "next": "^15.3.5",
     "next-themes": "^0.4.6",
     "prettier": "^3.6.2",
