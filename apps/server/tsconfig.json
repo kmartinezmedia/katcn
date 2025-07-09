@@ -1,0 +1,18 @@
+{
+  "extends": "tsconfig/bun.json",
+  "types": [
+    "bun-types"
+  ],
+  "compilerOptions": {
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../../packages/katcn"
+    },
+    {
+      "path": "../../packages/tsconfig"
+    }
+  ]
+}

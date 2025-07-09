@@ -1,0 +1,30 @@
+{
+  "name": "server",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "module": "src/index.ts",
+  "scripts": {
+    "build": "NODE_ENV=production bun run ./scripts/build.ts",
+    "clean": "cli tools clean",
+    "dev": "bun run --hot src/index.tsx",
+    "fix": "cli tools fix",
+    "lint": "cli tools lint",
+    "predev": "bun run build",
+    "test": "bun test",
+    "typecheck": "cli tools typecheck"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.21",
+    "base64-url": "^2.3.3",
+    "hono": "^4.8.4",
+    "katcn": "workspace:*",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11",
+    "ts-morph": "^26.0.0"
+  },
+  "devDependencies": {
+    "@types/base64-url": "^2.2.2",
+    "tsconfig": "workspace:*"
+  }
+}
