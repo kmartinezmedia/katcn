@@ -5,12 +5,10 @@
   "type": "module",
   "module": "src/index.ts",
   "scripts": {
-    "build": "NODE_ENV=production bun run ./scripts/build.ts",
     "clean": "cli tools clean",
     "dev": "bun run --hot src/index.tsx",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
-    "predev": "bun run build",
     "test": "bun test",
     "typecheck": "cli tools typecheck"
   },

@@ -3,7 +3,7 @@ import { createBunWebSocket } from 'hono/bun';
 import { logger } from 'hono/logger';
 import database from './database';
 
-const PORT = process.env.PORT ?? process.env.SERVER_PORT ?? 3001;
+const PORT = process.env.PORT ?? process.env.SERVER_PORT ?? 443;
 
 const { upgradeWebSocket, websocket } = createBunWebSocket();
 
