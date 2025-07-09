@@ -1,6 +1,6 @@
 import type { FunctionDeclaration, PropertySignature } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import { katcnTypesSourceFile } from './tsMorph';
+import { typesSourceFile } from './project';
 
 /**
  *
@@ -86,7 +86,7 @@ export function getPropertiesAndJsdocTagsForType<Type, JSDocTag extends string>(
 
   const data: PropertiesData = {} as PropertiesData;
 
-  const typeDef = katcnTypesSourceFile.getInterface(typeName);
+  const typeDef = typesSourceFile.getInterface(typeName);
 
   const builtInPropertySignatures =
     typeDef?.getChildrenOfKind(SyntaxKind.PropertySignature) ?? [];

@@ -1,4 +1,4 @@
-import { getHtmlFixtures } from '../node/getHtmlFixtures' with {
+import { getHtmlFixtures } from '@katcn/tsmorph/getHtmlFixtures' with {
   type: 'macro',
 };
 

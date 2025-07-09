@@ -1,10 +1,10 @@
-import { katcnTypesSourceFile } from './tsMorph';
+import { typesSourceFile } from './project';
 
-export function typesToConstants<TypeToReturn>(
+export function getUnionAsArray<TypeToReturn>(
   typeName: string,
 ): TypeToReturn[] {
   return (
-    katcnTypesSourceFile
+    typesSourceFile
       .getTypeAlias(typeName)
       ?.getType()
       // @ts-expect-error compilerType.types is fine. https://ts-ast-viewer.com/

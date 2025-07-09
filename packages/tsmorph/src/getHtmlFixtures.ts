@@ -1,14 +1,7 @@
+import type { PrimitiveType } from '@katcn/types';
 import { SyntaxKind } from 'ts-morph';
-import type { PrimitiveType, ValidHtmlTag } from '#types';
-import { getPropertySignatureInfo } from './utils/propertySignatureUtils';
-import { katcnComponentsSourceFile } from './utils/tsMorph';
-import { typesToConstants } from './utils/typesToConstants';
-
-const validHtmlTags = typesToConstants<ValidHtmlTag>('ValidHtmlTag');
-
-function isValidHtmlTag(tag: string | ValidHtmlTag): tag is ValidHtmlTag {
-  return validHtmlTags.includes(tag as ValidHtmlTag);
-}
+import { componentsSourceFile } from './project';
+import { getPropertySignatureInfo } from './propertySignatureUtils';
 
 export function getHtmlFixtures() {
   const htmlToComponentMap: Record<string, string> = {};
@@ -17,7 +10,7 @@ export function getHtmlFixtures() {
     Record<string, PrimitiveType>
   > = {};
 
-  const components = katcnComponentsSourceFile.getDescendantsOfKind(
+  const components = componentsSourceFile.getDescendantsOfKind(
     SyntaxKind.FunctionDeclaration,
   );
 
@@ -33,16 +26,13 @@ export function getHtmlFixtures() {
     const htmlTags = htmlJsDoc?.split(',') ?? [];
     if (htmlTags.length > 1) {
       for (const htmlTag of htmlTags) {
-        if (isValidHtmlTag(htmlTag)) {
-          htmlToComponentMap[htmlTag] = name;
-          defaultPropsForComponentMap[name] = { as: htmlTag };
-        }
+        htmlToComponentMap[htmlTag] = name;
+        defaultPropsForComponentMap[name] = { as: htmlTag };
       }
     } else {
       const htmlTag = htmlTags[0];
-      if (isValidHtmlTag(htmlTag)) {
-        htmlToComponentMap[htmlTag] = name;
-      }
+
+      htmlToComponentMap[htmlTag] = name;
     }
   }
 

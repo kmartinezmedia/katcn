@@ -1,3 +1,4 @@
+/// <reference types="bun-types" />
 import { describe, expect, it } from 'bun:test';
 import { getCss } from './getCss';
 import { defaultTokensConfig } from './tokens';

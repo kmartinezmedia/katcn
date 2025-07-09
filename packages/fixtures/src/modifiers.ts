@@ -1,10 +1,12 @@
-import { getModifierFixtures } from '../node/getModifierFixtures';
-import { typesToConstants } from '../node/utils/typesToConstants' with {
+import { getModifierFixtures } from '@katcn/tsmorph/getModifiers' with {
   type: 'macro',
 };
-import type { StyleModifier } from '../types';
+import { getUnionAsArray } from '@katcn/tsmorph/getUnionAsArray' with {
+  type: 'macro',
+};
+import type { StyleModifier } from '@katcn/types';
 
-export const modifiers = typesToConstants<StyleModifier>('StyleModifier');
+export const modifiers = getUnionAsArray<StyleModifier>('StyleModifier');
 
 /**
  * Used in tooling to convert katcn props to tailwind classnames

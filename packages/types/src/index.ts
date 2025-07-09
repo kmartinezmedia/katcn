@@ -1,4 +1,5 @@
-import type { IconName } from './icons/types';
+import type { IconName } from '@katcn/icons/types';
+import type { JSX } from 'react';
 
 /* -------------------------------------------------------------------------- */
 /*                                   HELPERS                                  */
@@ -8,7 +9,7 @@ export type ColorWithOpacity<T extends string> = T | `${T}/${Opacity}`;
 export type ArbitraryColor = ColorWithOpacity<`[#${string}]`>;
 export type ArbitraryValue = `[${string}]`;
 export type PrimitiveType = string | boolean | number;
-export type ValidHtmlTag = Extract<keyof React.JSX.IntrinsicElements, string>;
+export type ValidHtmlTag = Extract<keyof JSX.IntrinsicElements, string>;
 
 /* -------------------------------------------------------------------------- */
 /*                                    COLOR                                   */

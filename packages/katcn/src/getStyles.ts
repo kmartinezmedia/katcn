@@ -1,13 +1,12 @@
-import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-import { reactModifierPropsToTailwindModifierClassNamesMap } from '#fixtures/modifiers';
-
+import { reactModifierPropsToTailwindModifierClassNamesMap } from '@katcn/fixtures/modifiers';
 import type {
   AllStyleProps,
   ModifierProps,
   StyleModifier,
   StyleProps,
-} from './types';
+} from '@katcn/types';
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 const remaps = {
   grow: {

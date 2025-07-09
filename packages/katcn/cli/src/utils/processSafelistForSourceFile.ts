@@ -1,3 +1,6 @@
+import { modifiers } from '@katcn/fixtures/modifiers';
+import { styleProps } from '@katcn/fixtures/props';
+import type { StyleProp } from '@katcn/types';
 import {
   type MemberExpression,
   type Node,
@@ -6,10 +9,7 @@ import {
   SyntaxKind,
 } from 'ts-morph';
 import { withDefaultProps } from '#components';
-import { modifiers } from '#fixtures/modifiers';
-import { styleProps } from '#fixtures/props';
 import { getStyles } from '#getStyles';
-import type { StyleProp } from '#types';
 import type { SafelistMap } from '../types';
 import { flattenSafelist } from './flattenSafelist';
 

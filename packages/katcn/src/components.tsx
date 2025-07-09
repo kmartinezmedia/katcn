@@ -1,12 +1,4 @@
 import type {
-  ComponentPropsWithoutRef,
-  ComponentPropsWithRef,
-  ElementType,
-  JSX,
-} from 'react';
-import { extractStyleProps } from './getStyles';
-import { createSlot } from './helpers';
-import type {
   StyleProps,
   SvgStyleProps,
   UniversalAvatarProps,
@@ -17,7 +9,16 @@ import type {
   UniversalStackProps,
   UniversalTextInputProps,
   UniversalTextProps,
-} from './types';
+} from '@katcn/types';
+import type {
+  ComponentPropsWithoutRef,
+  ComponentPropsWithRef,
+  ComponentType,
+  ElementType,
+  JSX,
+} from 'react';
+import { extractStyleProps } from './getStyles';
+import { createSlot } from './helpers';
 
 type NativeProps<
   T extends keyof JSX.IntrinsicElements,
@@ -219,10 +220,10 @@ export const withDefaultProps = {
   }),
 };
 
-const DivSlot = createSlot<React.ComponentType<HtmlDivProps>>();
-const SpanSlot = createSlot<React.ComponentType<HtmlSpanProps>>();
-const ButtonSlot = createSlot<React.ComponentType<HtmlButtonProps>>();
-const LiSlot = createSlot<React.ComponentType<HtmlListItemProps>>();
+const DivSlot = createSlot<ComponentType<HtmlDivProps>>();
+const SpanSlot = createSlot<ComponentType<HtmlSpanProps>>();
+const ButtonSlot = createSlot<ComponentType<HtmlButtonProps>>();
+const LiSlot = createSlot<ComponentType<HtmlListItemProps>>();
 
 /**
  * The fundamental primitive component that includes styling utility properties, and corresponding design variables as values
@@ -296,7 +297,7 @@ export function Text<As extends NativeTextElementTag>({
   ...props
 }: TextProps<NativeTextElementTag>) {
   const Comp = (asChild
-    ? createSlot<React.ComponentType<HtmlTextProps<As>>>()
+    ? createSlot<ComponentType<HtmlTextProps<As>>>()
     : as) as unknown as ElementType;
   const finalProps = extractStyleProps(withDefaultProps.Text(props));
   return <Comp ref={ref} {...finalProps} />;
@@ -308,7 +309,7 @@ export function Text<As extends NativeTextElementTag>({
  */
 export function List({ asChild, as = 'ul', ref, ...props }: ListProps) {
   const Comp = (asChild
-    ? createSlot<React.ComponentType<HtmlListProps>>()
+    ? createSlot<ComponentType<HtmlListProps>>()
     : as) as unknown as ElementType;
   const finalProps = extractStyleProps(props);
   return <Comp ref={ref} {...finalProps} />;

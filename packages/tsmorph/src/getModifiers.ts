@@ -1,6 +1,6 @@
-import { entries } from '../helpers';
-import type { ModifierProps } from '../types';
-import { getPropertiesAndJsdocTagsForType } from './utils/propertySignatureUtils';
+import type { ModifierProps } from '@katcn/types';
+
+import { getPropertiesAndJsdocTagsForType } from './propertySignatureUtils';
 
 /**
  * Used in tooling to convert katcn props to tailwind classnames
@@ -12,7 +12,7 @@ import { getPropertiesAndJsdocTagsForType } from './utils/propertySignatureUtils
  * Returns:
  *  { _hover: 'hover', ...other modifiers }
  */
-const getReactModifierPropsToTailwindModifierClassNamesMap = () => {
+function getReactModifierPropsToTailwindModifierClassNamesMap() {
   const dataMap = {} as Record<keyof ModifierProps, string>;
 
   const propertiesAndJsdocData = getPropertiesAndJsdocTagsForType<
@@ -20,14 +20,16 @@ const getReactModifierPropsToTailwindModifierClassNamesMap = () => {
     'tailwind'
   >('ModifierProps');
 
-  for (const [propName, { jsdocTags }] of entries(propertiesAndJsdocData)) {
+  for (const [propName, { jsdocTags }] of Object.entries(
+    propertiesAndJsdocData,
+  )) {
     if (jsdocTags.tailwind) {
-      dataMap[propName] = jsdocTags.tailwind;
+      dataMap[propName as keyof ModifierProps] = jsdocTags.tailwind;
     }
   }
 
   return dataMap;
-};
+}
 
 /**
  * Used in tooling to convert plain tailwind classnames to katcn props
@@ -39,7 +41,7 @@ const getReactModifierPropsToTailwindModifierClassNamesMap = () => {
  * Returns:
  *  { hover: '_hover', ...other modifiers }
  */
-const getTailwindModifierClassNamesToReactPropsMap = () => {
+function getTailwindModifierClassNamesToReactPropsMap() {
   const dataMap: Record<string, keyof ModifierProps> = {};
 
   const propertiesAndJsdocData = getPropertiesAndJsdocTagsForType<
@@ -47,14 +49,17 @@ const getTailwindModifierClassNamesToReactPropsMap = () => {
     'tailwind'
   >('ModifierProps');
 
-  for (const [propName, { jsdocTags }] of entries(propertiesAndJsdocData)) {
+  for (const [propName, { jsdocTags }] of Object.entries(
+    propertiesAndJsdocData,
+  )) {
     if (jsdocTags.tailwind) {
-      dataMap[jsdocTags.tailwind.replace(':', '')] = propName;
+      dataMap[jsdocTags.tailwind.replace(':', '')] =
+        propName as keyof ModifierProps;
     }
   }
 
   return dataMap;
-};
+}
 
 export function getModifierFixtures() {
   return {

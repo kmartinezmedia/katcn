@@ -1,7 +1,7 @@
 /// <reference types="bun-types" />
 
 import { describe, expect, it } from 'bun:test';
-import type { AllStyleProps, ModifierProps } from '#types';
+import type { AllStyleProps, ModifierProps } from '@katcn/types';
 import { getPropertiesAndJsdocTagsForType } from './propertySignatureUtils';
 
 describe('getPropertiesAndJsdocTagsForType', () => {

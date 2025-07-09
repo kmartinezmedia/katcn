@@ -1,16 +1,11 @@
 'use client';
 
-import {
-  motion,
-  useDragControls,
-  useMotionValue,
-  useTransform,
-} from 'framer-motion';
+import { hueSteps, hues } from '@katcn/fixtures/colors';
+import type { Hue, HueStep } from '@katcn/types';
 import { atom, useAtom } from 'jotai';
 import { Box, HStack, Icon, Pressable, Text, VStack } from 'katcn';
-import { hueSteps, hues } from 'katcn/fixtures/colors';
 import { clamp, interpolate, mapValues } from 'katcn/helpers';
-import type { Hue, HueStep } from 'katcn/types';
+import { motion, useDragControls, useMotionValue } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { getColorContrast } from '@/lib/contrast';
 
@@ -143,14 +138,14 @@ export function Slider({
     onChange(initialValue);
   };
 
-  const left = useTransform(
-    motionValue,
-    // Map x from these values:
-    [min, max],
-    // Into these values:
-    [-sliderSize, 0],
-    { clamp: true },
-  );
+  // const left = useTransform(
+  //   motionValue,
+  //   // Map x from these values:
+  //   [min, max],
+  //   // Into these values:
+  //   [-sliderSize, 0],
+  //   { clamp: true },
+  // );
 
   return (
     <VStack>
@@ -187,7 +182,7 @@ export function Slider({
               style={{ pointerEvents: 'none' }}
               asChild
             >
-              <motion.div style={{ left }} />
+              {/* <motion.div style={{ left }} /> */}
             </Box>
           </Box>
           <HStack
@@ -323,23 +318,23 @@ function HueShade({
 }
 
 function HueSlider({
-  initialValue,
+  initialValue: _initalValue,
   name,
 }: {
   initialValue: number;
   name: Hue;
 }) {
-  const [data, setData] = useAtom(huesMap[name]);
+  // const [data, setData] = useAtom(huesMap[name]);
 
-  const handleChange = (value: number) => {
-    const roundedString = value.toFixed(1);
-    const roundedNumber = Number.parseFloat(roundedString);
-    setData((prev) => ({ ...prev, hue: roundedNumber }));
-    document.documentElement.style.setProperty(
-      `--hue-${name}`,
-      `${roundedNumber}`,
-    );
-  };
+  // const handleChange = (value: number) => {
+  //   const roundedString = value.toFixed(1);
+  //   const roundedNumber = Number.parseFloat(roundedString);
+  //   setData((prev) => ({ ...prev, hue: roundedNumber }));
+  //   document.documentElement.style.setProperty(
+  //     `--hue-${name}`,
+  //     `${roundedNumber}`,
+  //   );
+  // };
 
   return (
     <VStack gap="6">
@@ -349,15 +344,6 @@ function HueSlider({
       >
         {name}
       </Text>
-
-      <Slider
-        min={0}
-        max={360}
-        initialValue={initialValue}
-        endLabel={`${data.hue}`}
-        onChange={handleChange}
-        value={data.hue}
-      />
 
       <VStack rounded="xl" overflow="hidden" flexGrow="0">
         {hueSteps.map((step, index) => {

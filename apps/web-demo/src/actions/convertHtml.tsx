@@ -1,16 +1,16 @@
 'use server';
 
-import { execa } from 'execa';
-import jsxlike from 'jsxlike';
 import {
   defaultPropsForComponentMap,
   htmlToComponentMap,
-} from 'katcn/fixtures/html';
-import { tailwindModifierClassNamesToReactPropsMap } from 'katcn/fixtures/modifiers';
+} from '@katcn/fixtures/html';
+import { tailwindModifierClassNamesToReactPropsMap } from '@katcn/fixtures/modifiers';
+import { getTailwindClassNamesAsReactPropsMap } from '@katcn/tsmorph/getTailwindClassNamesAsReactPropsMap';
+import type { AllStyleProps, PrimitiveType, StyleModifier } from '@katcn/types';
+import { execa } from 'execa';
+import jsxlike from 'jsxlike';
 import { getCss } from 'katcn/getCss';
-import { getTailwindClassNamesAsReactPropsMap } from 'katcn/node/getTailwindClassNamesAsReactPropsMap';
 import { defaultTokensConfig } from 'katcn/tokens';
-import type { AllStyleProps, PrimitiveType, StyleModifier } from 'katcn/types';
 import prettier from 'prettier';
 import { createElement } from 'react';
 import {

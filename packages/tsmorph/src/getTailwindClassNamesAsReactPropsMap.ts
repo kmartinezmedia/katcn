@@ -1,5 +1,5 @@
-import type { AllStyleProps } from '#types';
-import { getPropertiesAndJsdocTagsForType } from './utils/propertySignatureUtils';
+import type { AllStyleProps } from '@katcn/types';
+import { getPropertiesAndJsdocTagsForType } from './propertySignatureUtils';
 
 export type TwAsPropsMap = Record<string, AllStyleProps>;
 
