@@ -18,7 +18,7 @@
     "@expo/eas-json": "*",
     "bluebun": "^0.0.34",
     "prettier": "^3.6.2",
-    "svgo": "^3.2.0",
+    "svgo": "^4.0.0",
     "syncpack": "^12.3.0",
     "ts-morph": "^26.0.0",
     "tsconfig": "workspace:*",
