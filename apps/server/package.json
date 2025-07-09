@@ -9,7 +9,6 @@
     "dev": "bun run --hot src/index.tsx",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
-    "test": "bun test",
     "typecheck": "cli tools typecheck"
   },
   "dependencies": {
