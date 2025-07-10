@@ -46,6 +46,13 @@
         "^build"
       ]
     },
+    "server": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": [
+        "^build"
+      ]
+    },
     "start": {
       "cache": false,
       "persistent": true,

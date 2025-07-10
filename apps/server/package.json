@@ -9,6 +9,7 @@
     "dev": "bun run --hot src/index.tsx",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
+    "server": "pm2 start --interpreter ~/.bun/bin/bun src/index.tsx",
     "typecheck": "cli tools typecheck"
   },
   "dependencies": {
