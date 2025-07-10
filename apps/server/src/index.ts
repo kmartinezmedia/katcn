@@ -1,19 +1,31 @@
+import { $ } from 'bun';
 import { Hono } from 'hono';
 import { createBunWebSocket } from 'hono/bun';
 import { logger } from 'hono/logger';
 import database from './database';
 
-const PORT = process.env.PORT ?? process.env.SERVER_PORT ?? 4001;
+const { PORT, GIT_WEBHOOK_SECRET } = process.env;
 
 const { upgradeWebSocket, websocket } = createBunWebSocket();
-
-await database.init();
 
 const app = new Hono();
 
 app.use(logger());
 
 app.get('/', (c) => c.text('katcn API'));
+
+app.post('/github-webhook', async (c) => {
+  const auth = c.req.header('authorization');
+  const expected = `Bearer ${GIT_WEBHOOK_SECRET}`;
+
+  if (auth !== expected) {
+    console.log(`Unauthorized access attempt: ${auth}`);
+    return c.text('Forbidden', 403);
+  }
+
+  console.log('✅ Valid signature received');
+  await $`bun run server:restart`;
+});
 
 app.get(
   '/ws/:id',
@@ -41,8 +53,8 @@ app.get(
 
 console.log(`Server is running on port ${PORT}`);
 
-export default {
-  port: PORT,
+Bun.serve({
+  port: PORT ?? '4001',
   fetch: app.fetch,
   websocket,
-};
+});

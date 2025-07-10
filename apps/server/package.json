@@ -6,10 +6,11 @@
   "module": "src/index.ts",
   "scripts": {
     "clean": "cli tools clean",
-    "dev": "bun run --hot src/index.tsx",
+    "dev": "bun run --hot src/index.ts",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
-    "server": "pm2 start --interpreter ~/.bun/bin/bun src/index.tsx",
+    "server:start": "bun run ./scripts/pm2.ts",
+    "server:restart": "bun server:start --restart",
     "typecheck": "cli tools typecheck"
   },
   "dependencies": {
@@ -24,5 +25,9 @@
   "devDependencies": {
     "@types/base64-url": "^2.2.2",
     "tsconfig": "workspace:*"
+  },
+  "config": {
+    "port": 4001,
+    "pm2_app_name": "server"
   }
 }
