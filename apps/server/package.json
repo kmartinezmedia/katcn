@@ -25,9 +25,5 @@
   "devDependencies": {
     "@types/base64-url": "^2.2.2",
     "tsconfig": "workspace:*"
-  },
-  "config": {
-    "port": 4001,
-    "pm2_app_name": "server"
   }
 }
