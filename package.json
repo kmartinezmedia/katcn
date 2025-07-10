@@ -6,8 +6,12 @@
     "build": "turbo run build",
     "clean": "turbo run clean && rm -rf node_modules && rm -rf .turbo",
     "dev": "turbo run dev",
+    "edit-nginx": "sudo nano /etc/nginx/sites-available/default",
+    "save-nginx": "sudo nginx -t && sudo systemctl reload nginx",
     "fix": "turbo run fix",
     "lint": "turbo run lint",
+    "server:start": "turbo run server:start",
+    "server:restart": "turbo run server:restart",
     "start": "turbo run start",
     "test": "turbo run test",
     "test:update": "turbo run test:update",
@@ -19,6 +23,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.1",
+    "pm2": "^6.0.8",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3"
   },

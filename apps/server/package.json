@@ -6,9 +6,11 @@
   "module": "src/index.ts",
   "scripts": {
     "clean": "cli tools clean",
-    "dev": "bun run --hot src/index.tsx",
+    "dev": "bun run --hot src/index.ts",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
+    "server:start": "bun run ./scripts/pm2.ts",
+    "server:restart": "bun server:start --restart",
     "typecheck": "cli tools typecheck"
   },
   "dependencies": {
