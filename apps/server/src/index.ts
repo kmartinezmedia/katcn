@@ -19,7 +19,7 @@ app.post('/github-webhook', async (c) => {
   const expected = `Bearer ${GIT_WEBHOOK_SECRET}`;
 
   if (auth !== expected) {
-    console.log(`Unauthorized access attempt: ${auth}`);
+    console.log('Unauthorized access attempt');
     return c.text('Forbidden', 403);
   }
 
