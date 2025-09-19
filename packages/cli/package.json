@@ -20,7 +20,7 @@
     "prettier": "^3.6.2",
     "svgo": "^4.0.0",
     "syncpack": "^12.3.0",
-    "ts-morph": "^26.0.0",
+    "ts-morph": "^27.0.0",
     "tsconfig": "workspace:*",
     "webfont": "^11.2.26"
   }
