@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, HStack, Text, TextArea, VStack } from 'katcn';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { convertHtml } from '@/actions/convertHtml';
 import { transformCode } from '@/actions/transformCode';
 import { Button } from '@/components/Button';
@@ -25,13 +25,14 @@ export default function Editor() {
   const [activeTab, setActiveTab] = useState<TabID>(tabs[0].id);
   const [htmlInput, setHtmlInput] = useState('');
   const [data, setData] = useState<Data | null>(null);
+  const id = useId();
 
   const handleSubmit = async () => {
     try {
       const _data = await convertHtml(htmlInput);
       const { codeToHtml } = await import('shiki');
       const [transformedCode, code, ast, html, css] = await Promise.all([
-        transformCode(_data.preview),
+        transformCode(id, _data.preview),
         codeToHtml(_data.code, {
           lang: 'tsx',
           theme: 'dracula',
@@ -51,7 +52,7 @@ export default function Editor() {
       ]);
       setData({
         ..._data,
-        preview: transformedCode,
+        preview: transformedCode.js,
         code,
         ast,
         html,
