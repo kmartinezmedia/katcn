@@ -50,6 +50,13 @@ async function getDtsLibs() {
     });
   }
 
+  const katcnTypes = require.resolve('@katcn/types');
+  const katcnTypesContent = await Bun.file(katcnTypes).text();
+  dtsLibs.push({
+    content: katcnTypesContent,
+    filePath: 'file:///node_modules/@katcn/types/index.d.ts',
+  });
+
   return JSON.stringify(dtsLibs);
 }
 

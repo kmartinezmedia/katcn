@@ -76,20 +76,10 @@
       "types": "./src/getStyles.ts",
       "default": "./dist/getStyles.js"
     },
-    "#fixtures/*": {
-      "bun": "./src/fixtures/*.ts",
-      "types": "./src/fixtures/*.ts",
-      "default": "./dist/fixtures/*.js"
-    },
     "#tokens": {
       "bun": "./src/tokens.ts",
       "types": "./src/tokens.ts",
       "default": "./dist/tokens.js"
-    },
-    "#types": {
-      "bun": "./src/types.ts",
-      "types": "./src/types.ts",
-      "default": "./dist/types.d.ts"
     }
   }
 }

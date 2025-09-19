@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useParams, useSelectedLayoutSegment } from 'next/navigation';
 
 interface TabProps {
-  segment: 'css' | 'js' | 'preview';
+  segment: 'css' | 'js' | 'preview' | 'css-safelist' | 'css-tailwind';
   children: React.ReactNode;
 }
 
@@ -34,7 +34,9 @@ export default function Tabs() {
   return (
     <HStack gap="1">
       <Tab segment="preview">Preview</Tab>
-      <Tab segment="css">CSS</Tab>
+      <Tab segment="css-safelist">CSS Safelist</Tab>
+      <Tab segment="css-tailwind">CSS Tailwind</Tab>
+      <Tab segment="css">CSS Output</Tab>
       <Tab segment="js">{'JS (transformed)'}</Tab>
     </HStack>
   );
