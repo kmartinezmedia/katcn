@@ -1,7 +1,7 @@
 import { hues } from '@katcn/fixtures/colors';
 import { fontFamily } from '@katcn/fixtures/typography';
 import type { Hue, HueStep, KatcnConfig } from '@katcn/types';
-import { entries } from './helpers';
+import { entries } from './helpers/entries';
 
 const lightToDarkSpectrumMap = {
   '950': '50',

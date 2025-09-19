@@ -30,7 +30,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="h-full">
-        <Providers socketUrl={process.env.NEXT_SOCKET_URL}>
+        <Providers>
           <VStack height="full" width="full">
             <Navbar />
             {children}

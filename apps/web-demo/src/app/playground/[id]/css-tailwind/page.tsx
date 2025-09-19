@@ -3,10 +3,10 @@ import { useContext } from 'react';
 import { PlaygroundContext } from '../../_playground-context';
 
 export default function Page() {
-  const { cssOutput } = useContext(PlaygroundContext);
+  const { cssInput } = useContext(PlaygroundContext);
   return (
     <pre style={{ textWrap: 'pretty' }}>
-      <code>{cssOutput}</code>
+      <code>{cssInput}</code>
     </pre>
   );
 }

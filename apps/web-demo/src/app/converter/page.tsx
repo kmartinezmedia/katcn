@@ -3,11 +3,11 @@
 import { Box, HStack, Text, TextArea, VStack } from 'katcn';
 import { useState } from 'react';
 import { convertHtml } from '@/actions/convertHtml';
+import { transformCode } from '@/actions/transformCode';
 import { Button } from '@/components/Button';
 import { CodeBlock } from '@/components/converter/CodeBlock';
 import { AnimatedTabs } from '@/components/Tabs';
 import { Preview } from './_preview';
-import { transformCode } from './_transformCode';
 
 const tabs = [
   { id: 'preview', label: 'Preview' },

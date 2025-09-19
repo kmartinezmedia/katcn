@@ -6,20 +6,21 @@ import * as React from 'react';
 import { useContext } from 'react';
 import { jsxDEV } from 'react/jsx-dev-runtime';
 import { jsx, jsxs } from 'react/jsx-runtime';
-import { PlaygroundDataContext } from '@/lib/context';
+import { PlaygroundContext } from '../../_playground-context';
 
 const componentNames = Object.keys(components).join(', ');
 
 export default function Page() {
-  const { css, js } = useContext(PlaygroundDataContext);
+  const { jsOutput, cssOutput } = useContext(PlaygroundContext);
 
-  if (!css || !js) {
+  if (!jsOutput) {
     return null;
   }
+  console.log(jsOutput);
 
   const fnString = new Function(`
       function renderComp({ jsx, jsxDEV, jsxs, React, getStyles, ${componentNames} }) {
-        ${js}
+        ${jsOutput}
         return Example;
       }
       return renderComp;
@@ -34,9 +35,11 @@ export default function Page() {
     ...components,
   });
 
+  console.log(Comp);
+
   return (
     <div>
-      <style>{css}</style>
+      <style>{cssOutput}</style>
       <Comp />
     </div>
   );
