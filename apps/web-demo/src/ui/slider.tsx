@@ -363,7 +363,6 @@ export function HueSliders() {
       gapX="8"
       gapY="8"
       spacing="8"
-      id="colors"
     >
       {hues.map((name) => (
         <HueSlider key={name} name={name} initialValue={data[name].hue} />
