@@ -16,8 +16,6 @@ export function typesToObject<TypeToReturn>(typeName: string): {
   value: string;
   isOptional: boolean;
 }[] {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore dts-bundler doesn't like import.meta but this file isn't bundled directly anyways
   const props =
     typeFile
       .getInterface(typeName)

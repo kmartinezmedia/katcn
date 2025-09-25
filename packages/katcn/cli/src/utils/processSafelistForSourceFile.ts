@@ -221,6 +221,7 @@ export function processSafelistForSourceFile({
         jsxElement,
       ): (undefined | [string, Record<string, unknown> | undefined])[] => {
         const componentName = jsxElement.getTagNameNode().getText();
+        // biome-ignore lint/suspicious/useIterableCallbackReturn: this is fine
         return jsxElement.getAttributes().map((attribute) => {
           let name: string | undefined;
           let node: Node | undefined;
