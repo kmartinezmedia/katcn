@@ -304,7 +304,7 @@ export function processStyleProps(
     } else if (propKey in classnames) {
       const propClassname = classnames[propKey as keyof typeof classnames](
         propValue as never,
-      );
+      ) as string;
       const finalClassname = opts.modifier
         ? `${opts.modifier}${propClassname}`
         : propClassname;

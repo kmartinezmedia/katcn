@@ -49,15 +49,15 @@
     "tailwind-merge": "^3.0.0"
   },
   "devDependencies": {
-    "@types/react": "19.1.8",
-    "@types/react-dom": "19.1.6",
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9",
     "cli": "workspace:*",
     "concurrently": "^9.2.0",
     "prettier": "^3.6.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tsconfig": "workspace:*",
-    "ts-morph": "^26.0.0",
+    "ts-morph": "^27.0.0",
     "tsup": "^8.5.0"
   },
   "imports": {
@@ -76,20 +76,10 @@
       "types": "./src/getStyles.ts",
       "default": "./dist/getStyles.js"
     },
-    "#fixtures/*": {
-      "bun": "./src/fixtures/*.ts",
-      "types": "./src/fixtures/*.ts",
-      "default": "./dist/fixtures/*.js"
-    },
     "#tokens": {
       "bun": "./src/tokens.ts",
       "types": "./src/tokens.ts",
       "default": "./dist/tokens.js"
-    },
-    "#types": {
-      "bun": "./src/types.ts",
-      "types": "./src/types.ts",
-      "default": "./dist/types.d.ts"
     }
   }
 }

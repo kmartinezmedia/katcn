@@ -18,7 +18,7 @@ import type {
   JSX,
 } from 'react';
 import { extractStyleProps } from './getStyles';
-import { createSlot } from './helpers';
+import { createSlot } from './helpers/createSlot';
 
 type NativeProps<
   T extends keyof JSX.IntrinsicElements,

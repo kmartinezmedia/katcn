@@ -14,9 +14,6 @@ export function Navbar() {
     <HStack spacing="4" alignItems="center" justifyContent="between">
       <HStack gap="4">
         <Text variant="label4" textDecoration="underline" color="brand" asChild>
-          <Link href="/">Oklch</Link>
-        </Text>
-        <Text variant="label4" textDecoration="underline" color="brand" asChild>
           <Link href="/playground">Playground</Link>
         </Text>
         <Text variant="label4" textDecoration="underline" color="brand" asChild>
