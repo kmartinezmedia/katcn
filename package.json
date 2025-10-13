@@ -22,7 +22,7 @@
     "update-deps": "syncpack update --config ./cli/src/commands/tools/.syncpackrc"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.4",
+    "@biomejs/biome": "2.2.6",
     "pm2": "^6.0.8",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3"
