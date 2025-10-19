@@ -2083,3 +2083,5 @@ export interface UniversalIconProps
     AsChildProps {}
 
 export type { IconName };
+
+export type SetState<T> = React.Dispatch<React.SetStateAction<T>>;

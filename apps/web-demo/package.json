@@ -29,6 +29,7 @@
     "apca-w3": "^0.1.9",
     "autoprefixer": "catalog:",
     "culori": "^4.0.2",
+    "execa": "^9.6.0",
     "jsxlike": "^0.1.0",
     "katcn": "workspace:*",
     "lodash": "catalog:",

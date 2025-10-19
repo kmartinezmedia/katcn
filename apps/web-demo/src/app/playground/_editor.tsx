@@ -1,12 +1,12 @@
 'use client';
 
+import type { SetState } from '@katcn/types';
 import { Editor as MonacoEditor } from '@monaco-editor/react';
 import { VStack } from 'katcn';
 import dtsLibs from 'katcn/dtsLibs.json';
 import type * as monacoType from 'monaco-editor';
-import { useContext, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { PrettierFormatProvider } from '@/lib/prettier';
-import { PlaygroundContext } from '../_playground-context';
 
 interface CodeEditorRefs {
   monaco?: MonacoInstance;
@@ -22,8 +22,12 @@ type OnChange = (
   ev: monacoType.editor.IModelContentChangedEvent,
 ) => void | Promise<void>;
 
-export default function Editor() {
-  const { jsInput, setJsInput } = useContext(PlaygroundContext);
+type EditorProps = {
+  jsInput: string;
+  setJsInput?: SetState<string>;
+};
+
+export default function Editor({ jsInput, setJsInput }: EditorProps) {
   const refs = useRef<CodeEditorRefs>({
     monaco: undefined,
     editor: undefined,
@@ -56,7 +60,7 @@ export default function Editor() {
       if (markers?.length === 0) {
         console.log('errors', markers);
         if (value === undefined) return;
-        setJsInput(value);
+        setJsInput?.(value);
       }
     }
   };
