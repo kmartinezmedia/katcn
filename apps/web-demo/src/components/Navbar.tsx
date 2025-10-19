@@ -1,7 +1,6 @@
 'use client';
 
-import { HStack, Icon, Pressable, Text } from 'katcn';
-import Link from 'next/link';
+import { HStack, Icon, Pressable } from 'katcn';
 import { useTheme } from 'next-themes';
 
 export function Navbar() {
@@ -11,15 +10,12 @@ export function Navbar() {
   };
 
   return (
-    <HStack spacing="4" alignItems="center" justifyContent="between">
-      <HStack gap="4">
-        <Text variant="label4" textDecoration="underline" color="brand" asChild>
-          <Link href="/playground">Playground</Link>
-        </Text>
-        <Text variant="label4" textDecoration="underline" color="brand" asChild>
-          <Link href="/converter">Converter</Link>
-        </Text>
-      </HStack>
+    <HStack
+      spacing="4"
+      alignItems="center"
+      justifyContent="between"
+      bg="primary"
+    >
       <Pressable
         bg="secondary"
         rounded="full"
@@ -31,7 +27,7 @@ export function Navbar() {
       >
         <Icon
           name={theme === 'dark' ? 'sun' : 'moon'}
-          size="8"
+          size="full"
           fill="on-primary"
           suppressHydrationWarning
         />
