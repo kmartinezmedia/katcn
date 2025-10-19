@@ -5,6 +5,6 @@ import { defaultTokensConfig } from './tokens';
 describe('getTailwindCss', () => {
   it('getTailwindCss should return correct vars', () => {
     const css = getTailwindCss(defaultTokensConfig);
-    expect(css).toBeDefined();
+    expect(css).toMatchSnapshot();
   });
 });
