@@ -9,19 +9,18 @@
     "cli": "./bin"
   },
   "scripts": {
+    "build": "bun build --compile --target=bun-darwin-arm64 ./index.ts --outfile bin",
     "clean": "./bin tools clean",
     "fix": "./bin tools fix",
     "lint": "./bin tools lint",
     "typecheck": "./bin tools typecheck"
   },
   "dependencies": {
-    "@expo/eas-json": "*",
-    "bluebun": "^0.0.34",
-    "prettier": "^3.6.2",
-    "svgo": "^4.0.0",
-    "syncpack": "^12.3.0",
-    "ts-morph": "^27.0.0",
-    "tsconfig": "workspace:*",
+    "@expo/eas-json": "catalog:",
+    "bluebun": "catalog:",
+    "prettier": "catalog:",
+    "svgo": "catalog:",
+    "ts-morph": "catalog:",
     "webfont": "^11.2.26"
   }
 }

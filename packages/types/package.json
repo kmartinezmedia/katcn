@@ -20,6 +20,10 @@
     "@katcn/icons": "workspace:*"
   },
   "devDependencies": {
+    "cli": "workspace:*",
     "tsconfig": "workspace:*"
+  },
+  "peerDependencies": {
+    "@types/react": "catalog:"
   }
 }

@@ -12,8 +12,7 @@
     "./react-native-app.json": "./react-native-app.json",
     "./react-native-library.json": "./react-native-library.json"
   },
-  "dependencies": {
-    "@types/node": "^24.0.0",
-    "bun-types": "^1.2.22"
+  "devDependencies": {
+    "cli": "workspace:*"
   }
 }

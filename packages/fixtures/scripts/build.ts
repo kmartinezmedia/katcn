@@ -1,4 +1,3 @@
-/// <reference types="bun-types" />
 import { $ } from 'bun';
 import { createWatcher } from './_createWatcher';
 
