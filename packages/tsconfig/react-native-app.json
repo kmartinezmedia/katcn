@@ -4,11 +4,18 @@
   "extends": "./base.json",
   "compilerOptions": {
     "jsx": "react-native",
-    "customConditions": ["react-native"],
+    "customConditions": [
+      "react-native"
+    ],
     "moduleResolution": "bundler",
     "target": "ESNext",
     "module": "ESNext",
-    "moduleSuffixes": [".ios", ".android", ".native", ""],
+    "moduleSuffixes": [
+      ".ios",
+      ".android",
+      ".native",
+      ""
+    ],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": [

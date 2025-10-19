@@ -35,8 +35,6 @@ export default function Page() {
     ...components,
   });
 
-  console.log(Comp);
-
   return (
     <div>
       <style>{cssOutput}</style>

@@ -2,7 +2,8 @@
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": [
     "package.json",
-    "biome.json"
+    "biome.json",
+    "tsconfig.json"
   ],
   "tasks": {
     "build": {
@@ -11,7 +12,8 @@
         "build/**",
         ".next/**",
         "!.next/cache/**",
-        ".katcn/**"
+        ".katcn/**",
+        "bin"
       ],
       "dependsOn": [
         "^build"
@@ -54,13 +56,6 @@
       ]
     },
     "server:restart": {
-      "cache": false,
-      "persistent": true,
-      "dependsOn": [
-        "^build"
-      ]
-    },
-    "start": {
       "cache": false,
       "persistent": true,
       "dependsOn": [

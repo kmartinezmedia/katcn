@@ -1,12 +1,12 @@
 {
-  "extends": "tsconfig/bun.json",
+  "extends": "../tsconfig/base.json",
   "include": [
-    "src"
+    "src",
+    "package.json",
+    "index.ts"
   ],
   "compilerOptions": {
-    "paths": {
-      "~/*": ["./*"]
-    }
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "references": [
     {

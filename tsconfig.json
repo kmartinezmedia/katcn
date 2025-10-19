@@ -6,10 +6,22 @@
       "path": "packages/cli"
     },
     {
+      "path": "packages/fixtures"
+    },
+    {
+      "path": "packages/icons"
+    },
+    {
       "path": "packages/katcn"
     },
     {
       "path": "packages/tsconfig"
+    },
+    {
+      "path": "packages/tsmorph"
+    },
+    {
+      "path": "packages/types"
     },
     {
       "path": "apps/web-demo"

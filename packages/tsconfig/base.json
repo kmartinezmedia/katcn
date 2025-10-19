@@ -17,8 +17,11 @@
     "sourceMap": false,
     "noImplicitAny": true,
     "moduleResolution": "bundler",
+    "lib": [
+      "ESNext"
+    ],
     "target": "ESNext",
-    "module": "ESNext",
+    "module": "Preserve",
     "resolvePackageJsonExports": true,
     "resolvePackageJsonImports": true,
     "downlevelIteration": true

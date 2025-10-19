@@ -53,8 +53,8 @@ function asUnion(items: string[]) {
 }
 
 export default {
-  name: 'build',
-  description: '🚀 Build',
+  name: 'svg',
+  description: '🚀 Generate SVG icons',
   run: async (props: BuildProps) => {
     const { input, output } = props.options;
     if (!input) {

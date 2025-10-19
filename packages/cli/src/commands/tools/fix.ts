@@ -1,13 +1,18 @@
 import { $ } from 'bun';
-import { syncpackConfig } from './syncpack';
 
 export default {
   name: 'fix',
-  description: '🔧 Fix lint/formatter/package.json errors',
+  description: '🔧 Fix lint/formatter errors',
   run: async () => {
-    await $`biome check --fix --unsafe .`;
-    await $`biome format --fix .`;
-    await $`bun syncpack format --config ${syncpackConfig}`;
-    await $`bun syncpack fix-mismatches --config ${syncpackConfig}`;
+    const { exitCode } = await $`biome check --fix --unsafe .`;
+    if (exitCode) {
+      console.error(`Fix failed in ${Bun.env.PWD}`);
+      process.exit(1);
+    }
+    const { exitCode: formatExitCode } = await $`biome format --fix .`;
+    if (formatExitCode) {
+      console.error(`Fix failed in ${Bun.env.PWD}`);
+      process.exit(1);
+    }
   },
 };

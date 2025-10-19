@@ -24,10 +24,10 @@ const nextConfig = {
     'ts-morph',
   ],
   experimental: {
-    typedRoutes: true,
     reactCompiler: true,
   },
   transpilePackages: [],
+  typedRoutes: true,
 };
 
 export default nextConfig;

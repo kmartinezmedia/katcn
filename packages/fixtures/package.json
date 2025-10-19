@@ -23,7 +23,8 @@
   "devDependencies": {
     "@katcn/tsmorph": "workspace:*",
     "@katcn/types": "workspace:*",
+    "cli": "workspace:*",
     "tsconfig": "workspace:*",
-    "tsup": "^8.5.0"
+    "tsup": "catalog:"
   }
 }

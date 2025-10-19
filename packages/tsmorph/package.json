@@ -24,9 +24,11 @@
   },
   "dependencies": {
     "@katcn/types": "workspace:*",
-    "ts-morph": "^27.0.0"
+    "ts-morph": "catalog:"
   },
   "devDependencies": {
-    "tsup": "^8.5.0"
+    "cli": "workspace:*",
+    "tsconfig": "workspace:*",
+    "tsup": "catalog:"
   }
 }

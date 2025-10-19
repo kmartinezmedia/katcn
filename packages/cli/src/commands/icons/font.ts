@@ -1,7 +1,9 @@
 import { watch as fsWatch } from 'node:fs';
+
 import type { Props } from 'bluebun';
 import { $ } from 'bun';
 import webfont from 'webfont';
+import { bins } from '../../utils/bins';
 
 interface BuildProps extends Props {
   options: {
@@ -25,8 +27,8 @@ interface BuildProps extends Props {
 }
 
 export default {
-  name: 'build',
-  description: '🚀 Build',
+  name: 'font',
+  description: '🚀 Generate icon font',
   run: async (props: BuildProps) => {
     const {
       input,
@@ -46,7 +48,8 @@ export default {
     const inputDir = `${Bun.env.PWD}/${input}`;
 
     const currentDir = import.meta.dirname;
-    await $`svgo --config ${currentDir}/svgo.config.mjs --input ${inputDir} --output ${inputDir}`;
+    await $`${bins.svgo} --config ${currentDir}/svgo.config.mjs --input ${inputDir} --output ${inputDir}`;
+    // await $`PATH=$PATH:${cliBin} && echo $PATH`;
 
     async function build() {
       const generatedFont = await webfont({

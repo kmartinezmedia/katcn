@@ -1,5 +1,5 @@
 import path from 'node:path';
-import katcnPackageJson from '../package.json';
+import katcnPackageJson from '../../../package.json';
 
 const katcnDir = path.resolve(__dirname, '../');
 const katcnDistDir = path.resolve(katcnDir, 'dist');
@@ -7,7 +7,7 @@ const katcnDistDir = path.resolve(katcnDir, 'dist');
 async function getDtsLibs() {
   const dtsLibs: { content: string; filePath: string }[] = [];
   const katPackageJson = await Bun.file(`${katcnDir}/package.json`).text();
-  const reactTypesBaseUrl = `https://unpkg.com/@types/react@${katcnPackageJson.devDependencies['@types/react']}`;
+  const reactTypesBaseUrl = `https://unpkg.com/@types/react@${katcnPackageJson.catalog['@types/react']}`;
 
   const reactTypesResp = await fetch(`${reactTypesBaseUrl}/index.d.ts`);
   dtsLibs.push({

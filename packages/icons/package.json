@@ -25,7 +25,8 @@
     "typecheck": "bun --bun tsc --noEmit"
   },
   "devDependencies": {
+    "cli": "workspace:*",
     "tsconfig": "workspace:*",
-    "tsup": "^8.5.0"
+    "tsup": "catalog:"
   }
 }
