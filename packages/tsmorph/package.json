@@ -22,7 +22,6 @@
     "typecheck": "bun --bun tsc --noEmit"
   },
   "dependencies": {
-    "katcn": "workspace:*",
     "@katcn/types": "workspace:*",
     "ts-morph": "catalog:"
   },
