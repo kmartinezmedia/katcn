@@ -21,8 +21,6 @@ jobs:
           bun-version: 1.3.0
       - name: 💾 Install dependencies
         run: bun install --frozen-lockfile
-      - name: 🚧 Build CLI
-        run: bun run build --filter cli
       - name: 🧹 Lint
         run: bun run lint
       - name: 🧹 Typecheck

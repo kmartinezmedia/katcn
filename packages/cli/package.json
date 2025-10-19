@@ -9,7 +9,6 @@
     "cli": "./bin"
   },
   "scripts": {
-    "build": "bun build --compile --target=bun-darwin-arm64 ./index.ts --outfile bin",
     "clean": "./bin tools clean",
     "fix": "./bin tools fix",
     "lint": "./bin tools lint",
