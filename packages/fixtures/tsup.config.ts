@@ -4,7 +4,7 @@ import { defineConfig, type Options } from 'tsup';
 export default defineConfig(({ watch }: Options) => {
   return {
     external: [],
-    format: ['cjs', 'esm'],
+    format: ['esm'],
     dts: true,
     watch,
     minify: false,

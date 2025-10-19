@@ -8,7 +8,6 @@
     "./tsconfig.json": "./tsconfig.json",
     "./*": {
       "types": "./dist/*.d.ts",
-      "require": "./dist/*.cjs",
       "import": "./dist/*.js"
     }
   },
@@ -23,6 +22,7 @@
     "typecheck": "bun --bun tsc --noEmit"
   },
   "dependencies": {
+    "katcn": "workspace:*",
     "@katcn/types": "workspace:*",
     "ts-morph": "catalog:"
   },
