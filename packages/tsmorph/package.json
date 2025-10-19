@@ -8,7 +8,6 @@
     "./tsconfig.json": "./tsconfig.json",
     "./*": {
       "types": "./dist/*.d.ts",
-      "require": "./dist/*.cjs",
       "import": "./dist/*.js"
     }
   },

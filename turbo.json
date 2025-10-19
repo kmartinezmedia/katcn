@@ -5,6 +5,9 @@
     "biome.json",
     "tsconfig.json"
   ],
+  "globalPassThroughEnv": [
+    "TURBO_TELEMETRY_DISABLED"
+  ],
   "tasks": {
     "build": {
       "outputs": [

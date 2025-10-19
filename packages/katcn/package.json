@@ -14,7 +14,6 @@
   "exports": {
     ".": {
       "types": "./dist/components.d.ts",
-      "require": "./dist/components.cjs",
       "import": "./dist/components.js"
     },
     "./cli/*": "./cli/src/*.ts",
@@ -23,12 +22,10 @@
     "./package.json": "./package.json",
     "./helpers": {
       "types": "./dist/helpers/index.d.ts",
-      "require": "./dist/helpers/index.cjs",
       "import": "./dist/helpers/index.js"
     },
     "./*": {
       "types": "./dist/*.d.ts",
-      "require": "./dist/*.cjs",
       "import": "./dist/*.js"
     }
   },

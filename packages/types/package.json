@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "files": [
+    "package.json",
+    "dist"
+  ],
   "exports": {
     "./package.json": "./package.json",
     "./tsconfig.json": "./tsconfig.json",
