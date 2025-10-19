@@ -50,7 +50,7 @@ function isCustomColor(value: string) {
   );
 }
 
-export const getCss = (config: KatcnConfig) => {
+export const getTailwindCss = (config: KatcnConfig) => {
   const css = ['@import "tailwindcss";'];
 
   /** https://tailwindcss.com/docs/dark-mode#toggling-dark-mode-manually

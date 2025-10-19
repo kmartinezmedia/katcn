@@ -1,10 +1,11 @@
 'use server';
 
 import type { SafelistMap } from 'katcn/cli/types';
-import { convertSafelistMapToCss } from 'katcn/cli/utils/convertSafelistMapToCss';
+import { convertSafelistMapToTailwindCss } from 'katcn/cli/utils/convertSafelistMapToTailwindCss';
 import { createTsMorphProject } from 'katcn/cli/utils/createTsMorphProject';
 import { processSafelistForSourceFile } from 'katcn/cli/utils/processSafelistForSourceFile';
 import { ts } from 'ts-morph';
+import { convertTailwindCss } from './convertTailwindCss';
 
 const project = createTsMorphProject({
   skipAddingFilesFromTsConfig: true,
@@ -22,7 +23,8 @@ export async function transformCode(id: string, code: string) {
 
   const safelistMap: SafelistMap = new Map();
   processSafelistForSourceFile({ safelistMap, sourceFile });
-  const css = await convertSafelistMapToCss(safelistMap);
+  const tailwindCss = await convertSafelistMapToTailwindCss(safelistMap);
+  const css = await convertTailwindCss(tailwindCss);
   // combine all css safelist values into a single string
   const cssValues = Array.from(safelistMap.values()).flatMap((item) => [
     ...item,
@@ -37,5 +39,5 @@ export async function transformCode(id: string, code: string) {
     .getText()
     .replaceAll('_a.jsx', 'jsx');
 
-  return { css, cssSafelist: cssSafelistString, js };
+  return { tailwindCss, css, cssSafelist: cssSafelistString, js };
 }

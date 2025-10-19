@@ -1,11 +1,11 @@
 import type { KatcnConfig } from '@katcn/types';
 import prettier from 'prettier';
-import { getCss } from '#getCss';
+import { getTailwindCss } from '#getTailwindCss';
 import { defaultTokensConfig } from '#tokens';
 import type { SafelistMap } from '../types';
 import { flattenSafelistMap } from './flattenSafelistMap';
 
-export async function convertSafelistMapToCss(
+export async function convertSafelistMapToTailwindCss(
   safelistMap: SafelistMap,
   config: KatcnConfig = defaultTokensConfig,
 ) {
@@ -15,7 +15,7 @@ export async function convertSafelistMapToCss(
     .join('\n');
 
   const finalCss = `
-    ${getCss(config)}
+    ${getTailwindCss(config)}
     ${sourceCss}
   `;
 

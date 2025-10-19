@@ -48,14 +48,15 @@ export default function PlaygroundContextProvider({
 }: React.PropsWithChildren<{ id: string }>) {
   const [cssSafelist, setCssSafelist] = useState('');
   const [cssInput, setCssInput] = useState('');
-  const [cssOutput] = useState('');
+  const [cssOutput, setCssOutput] = useState('');
   const [jsInput, setJsInput] = useState(exampleCode);
   const [jsOutput, setJsOutput] = useState('');
 
   useEffect(() => {
     console.log('user input changed');
-    transformCode(id, jsInput).then(({ css, cssSafelist, js }) => {
-      setCssInput(css);
+    transformCode(id, jsInput).then(({ tailwindCss, css, cssSafelist, js }) => {
+      setCssInput(tailwindCss);
+      setCssOutput(css);
       setCssSafelist(cssSafelist);
       setJsOutput(js);
     });

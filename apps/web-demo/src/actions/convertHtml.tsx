@@ -7,9 +7,8 @@ import {
 import { tailwindModifierClassNamesToReactPropsMap } from '@katcn/fixtures/modifiers';
 import { getTailwindClassNamesAsReactPropsMap } from '@katcn/tsmorph/getTailwindClassNamesAsReactPropsMap';
 import type { AllStyleProps, PrimitiveType, StyleModifier } from '@katcn/types';
-import { execa } from 'execa';
 import jsxlike from 'jsxlike';
-import { getCss } from 'katcn/getCss';
+import { getTailwindCss } from 'katcn/getTailwindCss';
 import { defaultTokensConfig } from 'katcn/tokens';
 import prettier from 'prettier';
 import { createElement } from 'react';
@@ -22,6 +21,7 @@ import {
   SyntaxKind,
   ts,
 } from 'ts-morph';
+import { convertTailwindCss } from './convertTailwindCss';
 
 const project = new Project({
   skipAddingFilesFromTsConfig: true,
@@ -147,9 +147,8 @@ export async function convertHtml(_html: string) {
    */
   const htmlAsJsx = jsxlike(html).replaceAll('/ />', ' />');
 
-  const { stdout: css } = await execa('tailwindcss', ['-i', '-'], {
-    input: getCss(defaultTokensConfig),
-  });
+  const tailwindCss = getTailwindCss(defaultTokensConfig);
+  const css = await convertTailwindCss(tailwindCss);
 
   const before = `function Page() {
     return (

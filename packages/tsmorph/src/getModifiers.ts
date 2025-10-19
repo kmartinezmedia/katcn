@@ -61,7 +61,7 @@ function getTailwindModifierClassNamesToReactPropsMap() {
   return dataMap;
 }
 
-export function getModifierFixtures() {
+export function getModifiers() {
   return {
     reactModifierPropsToTailwindModifierClassNamesMap:
       getReactModifierPropsToTailwindModifierClassNamesMap(),

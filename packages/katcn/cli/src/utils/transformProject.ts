@@ -7,7 +7,7 @@ import {
 } from 'ts-morph';
 import { defaultTokensConfig } from '#tokens';
 import type { SafelistMap } from '../types';
-import { convertSafelistMapToCss } from './convertSafelistMapToCss';
+import { convertSafelistMapToTailwindCss } from './convertSafelistMapToTailwindCss';
 import { processSafelistForSourceFile } from './processSafelistForSourceFile';
 
 interface TransformOptions {
@@ -33,7 +33,7 @@ export async function transformProject({
 
   const writeSafelist = async () => {
     if (output) {
-      const css = await convertSafelistMapToCss(safelistMap, config);
+      const css = await convertSafelistMapToTailwindCss(safelistMap, config);
       await Bun.write(output, css);
     }
   };

@@ -1,4 +1,4 @@
-import { getModifierFixtures } from '@katcn/tsmorph/getModifiers' with {
+import { getModifiers } from '@katcn/tsmorph/getModifiers' with {
   type: 'macro',
 };
 import { getUnionAsArray } from '@katcn/tsmorph/getUnionAsArray' with {
@@ -22,4 +22,4 @@ export const modifiers = getUnionAsArray<StyleModifier>('StyleModifier');
 export const {
   reactModifierPropsToTailwindModifierClassNamesMap,
   tailwindModifierClassNamesToReactPropsMap,
-} = getModifierFixtures();
+} = getModifiers();
