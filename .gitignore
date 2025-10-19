@@ -134,4 +134,4 @@ expo-env.d.ts
 # Docgen
 .docgen
 .katcn
-!.env
+bin
