@@ -160,7 +160,10 @@ export const withDefaultProps = {
     gapY: gap,
     ...props,
   }),
-  Pressable: (props: Partial<PressableProps>): StyleProps => props,
+  Pressable: (props: Partial<PressableProps>): StyleProps => ({
+    cursor: 'pointer',
+    ...props,
+  }),
   Text: ({
     variant,
     color = 'on-primary',
@@ -202,6 +205,7 @@ export const withDefaultProps = {
   }: Partial<IconProps>): StyleProps => ({
     color,
     fontFamily: 'icons',
+    alignContent: 'center',
     ...props,
   }),
   Svg: ({

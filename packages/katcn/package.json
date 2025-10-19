@@ -66,10 +66,10 @@
       "types": "./src/components.tsx",
       "default": "./dist/components.js"
     },
-    "#getCss": {
-      "bun": "./src/getCss.ts",
-      "types": "./src/getCss.ts",
-      "default": "./dist/getCss.js"
+    "#getTailwindCss": {
+      "bun": "./src/getTailwindCss.ts",
+      "types": "./src/getTailwindCss.ts",
+      "default": "./dist/getTailwindCss.js"
     },
     "#getStyles": {
       "bun": "./src/getStyles.ts",

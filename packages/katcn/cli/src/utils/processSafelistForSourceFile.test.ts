@@ -294,7 +294,8 @@ describe('getSafelist', () => {
     expect(safelist).toContain('bg-transparent');
     expect(safelist).toContain('text-accent');
     expect(safelist).toContain('border-accent');
-    expect(safelist.length).toBe(7);
+    expect(safelist).toContain('cursor-pointer');
+    expect(safelist.length).toBe(8);
   });
 
   it('Should handle statically defined prop lookups when desctructured', () => {

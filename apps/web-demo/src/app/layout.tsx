@@ -1,10 +1,9 @@
 import { VStack } from 'katcn';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
-import { Navbar } from '@/components/Navbar';
+// import { Navbar } from '@/components/Navbar';
 import { Providers } from '@/lib/context';
 import './globals.css';
-// import './katcn.css';
 
 const iconFont = localFont({
   src: '../../../../packages/icons/src/fonts/icons.woff2',
@@ -32,7 +31,7 @@ export default function RootLayout({
       <body className="h-full">
         <Providers>
           <VStack height="full" width="full">
-            <Navbar />
+            {/* <Navbar /> */}
             {children}
           </VStack>
         </Providers>

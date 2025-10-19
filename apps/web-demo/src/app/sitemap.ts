@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
     },
     {
-      url: `${siteUrl}/bookmarks`,
+      url: `${siteUrl}/playground`,
       lastModified,
     },
   ];

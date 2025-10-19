@@ -1,0 +1,100 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`getTailwindCss getTailwindCss should return correct vars 1`] = `
+"@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+@theme {--font-icons: icons;--font-sans: sans;--font-serif: serif;--font-mono: mono;--text-display1: 6rem;--leading-display1: 1.5;--font-weight-display1: 500;--font-display1: var(--font-sans);--text-display2: 3.5rem;--leading-display2: 1.5;--font-weight-display2: 500;--font-display2: var(--font-sans);--text-display3: 2.5rem;--leading-display3: 1.5;--font-weight-display3: 450;--font-display3: var(--font-sans);--text-display4: 2.5rem;--leading-display4: 1.5;--font-weight-display4: 400;--font-display4: var(--font-sans);--text-title1: 1.75rem;--leading-title1: 1.5;--font-weight-title1: 700;--font-title1: var(--font-sans);--text-title2: 1.75rem;--leading-title2: 1.5;--font-weight-title2: 450;--font-title2: var(--font-sans);--text-title3: 1.375rem;--leading-title3: 1.5;--font-weight-title3: 700;--font-title3: var(--font-sans);--text-title4: 1.375;--leading-title4: 1.5;--font-weight-title4: 450;--font-title4: var(--font-sans);--text-headline: 1rem;--leading-headline: 1.25;--font-weight-headline: 500;--font-headline: var(--font-sans);--text-body: 1rem;--leading-body: 1.5;--font-weight-body: 400;--font-body: var(--font-sans);--text-label1: 0.875rem;--leading-label1: 1.5;--font-weight-label1: 500;--font-label1: var(--font-sans);--text-label2: 0.875rem;--leading-label2: 1.5;--font-weight-label2: 400;--font-label2: var(--font-sans);--text-label3: 0.75rem;--leading-label3: 1.5;--font-weight-label3: 500;--font-label3: var(--font-sans);--text-label4: 0.75rem;--leading-label4: 1.5;--font-weight-label4: 400;--font-label4: var(--font-sans);--text-legal: 0.625rem;--leading-legal: 1.5;--font-weight-legal: 400;--font-legal: var(--font-sans);--color-brand: var(--color-blue-500);--color-on-brand: var(--color-zinc-50);--color-accent: var(--color-rose-600);--color-on-accent: var(--color-zinc-50);--color-alert: var(--color-red-500);--color-on-alert: var(--color-zinc-50);--color-positive: var(--color-green-500);--color-on-positive: var(--color-zinc-50);--color-warning: var(--color-orange-500);--color-on-warning: var(--color-zinc-50);--color-primary: var(--color-zinc-50);--color-on-primary: var(--color-zinc-900);--color-secondary: var(--color-zinc-200);--color-on-secondary: var(--color-zinc-600);--color-tertiary: var(--color-zinc-100);--color-on-tertiary: var(--color-zinc-500);--color-inverse: var(--color-zinc-900);--color-on-inverse: var(--color-zinc-50);
+}
+.dark {--color-on-brand: var(--color-zinc-950);--color-accent: var(--color-rose-400);--color-on-accent: var(--color-zinc-950);--color-on-alert: var(--color-zinc-950);--color-on-positive: var(--color-zinc-950);--color-on-warning: var(--color-zinc-950);--color-primary: var(--color-zinc-950);--color-on-primary: var(--color-zinc-100);--color-secondary: var(--color-zinc-800);--color-on-secondary: var(--color-zinc-400);--color-tertiary: var(--color-zinc-900);--color-inverse: var(--color-zinc-100);--color-on-inverse: var(--color-zinc-950);
+}
+@utility text-variant-display1 {
+	      line-height: var(--line-height-display1);
+	      font-size: var(--font-size-display1);
+	      font-weight: var(--font-weight-display1);
+	      font-family: var(--font-sans);
+	    }
+@utility text-variant-display2 {
+	      line-height: var(--line-height-display2);
+	      font-size: var(--font-size-display2);
+	      font-weight: var(--font-weight-display2);
+	      font-family: var(--font-sans);
+	    }
+@utility text-variant-display3 {
+	      line-height: var(--line-height-display3);
+	      font-size: var(--font-size-display3);
+	      font-weight: var(--font-weight-display3);
+	      font-family: var(--font-sans);
+	    }
+@utility text-variant-display4 {
+	      line-height: var(--line-height-display4);
+	      font-size: var(--font-size-display4);
+	      font-weight: var(--font-weight-display4);
+	      font-family: var(--font-sans);
+	    }
+@utility text-variant-title1 {
+	      line-height: var(--line-height-title1);
+	      font-size: var(--font-size-title1);
+	      font-weight: var(--font-weight-title1);
+	      font-family: var(--font-sans);
+	    }
+@utility text-variant-title2 {
+	      line-height: var(--line-height-title2);
+	      font-size: var(--font-size-title2);
+	      font-weight: var(--font-weight-title2);
+	      font-family: var(--font-sans);
+	    }
+@utility text-variant-title3 {
+	      line-height: var(--line-height-title3);
+	      font-size: var(--font-size-title3);
+	      font-weight: var(--font-weight-title3);
+	      font-family: var(--font-sans);
+	    }
+@utility text-variant-title4 {
+	      line-height: var(--line-height-title4);
+	      font-size: var(--font-size-title4);
+	      font-weight: var(--font-weight-title4);
+	      font-family: var(--font-sans);
+	    }
+@utility text-variant-headline {
+	      line-height: var(--line-height-headline);
+	      font-size: var(--font-size-headline);
+	      font-weight: var(--font-weight-headline);
+	      font-family: var(--font-sans);
+	    }
+@utility text-variant-body {
+	      line-height: var(--line-height-body);
+	      font-size: var(--font-size-body);
+	      font-weight: var(--font-weight-body);
+	      font-family: var(--font-sans);
+	    }
+@utility text-variant-label1 {
+	      line-height: var(--line-height-label1);
+	      font-size: var(--font-size-label1);
+	      font-weight: var(--font-weight-label1);
+	      font-family: var(--font-sans);
+	    }
+@utility text-variant-label2 {
+	      line-height: var(--line-height-label2);
+	      font-size: var(--font-size-label2);
+	      font-weight: var(--font-weight-label2);
+	      font-family: var(--font-sans);
+	    }
+@utility text-variant-label3 {
+	      line-height: var(--line-height-label3);
+	      font-size: var(--font-size-label3);
+	      font-weight: var(--font-weight-label3);
+	      font-family: var(--font-sans);
+	    }
+@utility text-variant-label4 {
+	      line-height: var(--line-height-label4);
+	      font-size: var(--font-size-label4);
+	      font-weight: var(--font-weight-label4);
+	      font-family: var(--font-sans);
+	    }
+@utility text-variant-legal {
+	      line-height: var(--line-height-legal);
+	      font-size: var(--font-size-legal);
+	      font-weight: var(--font-weight-legal);
+	      font-family: var(--font-sans);
+	    }"
+`;

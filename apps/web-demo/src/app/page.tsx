@@ -1,5 +1,5 @@
-import Playground from './playground/page';
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
-  return <Playground />;
+  return redirect('/playground');
 }
