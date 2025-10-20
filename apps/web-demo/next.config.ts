@@ -1,5 +1,7 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import path from 'node:path';
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
   reactStrictMode: false,
   images: {
     remotePatterns: [
@@ -23,8 +25,9 @@ const nextConfig = {
     'typescript',
     'ts-morph',
   ],
+  outputFileTracingRoot: path.join(__dirname, '../../'),
   outputFileTracingIncludes: {
-    '/*': ['node_modules/.bin/**/*', 'node_modules/@tailwindcss/cli/**/*'],
+    '/*': ['../../node_modules/**/*', 'node_modules/**/*'],
   },
   // experimental: {
   //   reactCompiler: true,
