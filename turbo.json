@@ -6,6 +6,10 @@
     "tsconfig.json"
   ],
   "globalPassThroughEnv": [
+    "FIREBASE_CLIENT_EMAIL",
+    "FIREBASE_PRIVATE_KEY",
+    "NEXT_TELEMETRY_DISABLED",
+    "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
     "TURBO_TELEMETRY_DISABLED"
   ],
   "tasks": {

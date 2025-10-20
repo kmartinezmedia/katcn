@@ -1,5 +1,6 @@
 import 'server-only';
 
+import path from 'node:path';
 import { execa } from 'execa';
 import type { SafelistMap } from 'katcn/cli/types';
 import { convertSafelistMapToTailwindCss } from 'katcn/cli/utils/convertSafelistMapToTailwindCss';
@@ -32,7 +33,13 @@ export async function transformPlaygroundCode({
   const safelistMap: SafelistMap = new Map();
   processSafelistForSourceFile({ safelistMap, sourceFile });
   const cssInput = await convertSafelistMapToTailwindCss(safelistMap);
-  const { stdout: cssOutput } = await execa('tailwindcss', ['-i', '-'], {
+
+  const tailwindcssBin = path.resolve(
+    process.cwd(),
+    'node_modules/.bin/tailwindcss',
+  );
+
+  const { stdout: cssOutput } = await execa(tailwindcssBin, ['-i', '-'], {
     input: cssInput,
   });
   // combine all css safelist values into a single string
