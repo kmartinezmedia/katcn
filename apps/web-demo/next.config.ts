@@ -16,6 +16,7 @@ const nextConfig = {
     ],
   },
   serverExternalPackages: [
+    'execa',
     'katcn',
     'prettier',
     '@tailwindcss/cli',

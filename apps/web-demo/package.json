@@ -25,6 +25,7 @@
     "@katcn/types": "workspace:*",
     "@monaco-editor/react": "^4.7.0",
     "@tailwindcss/cli": "catalog:",
+    "execa": "^9.6.0",
     "firebase": "^12.4.0",
     "firebase-admin": "^13.5.0",
     "katcn": "workspace:*",
