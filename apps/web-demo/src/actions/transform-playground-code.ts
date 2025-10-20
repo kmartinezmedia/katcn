@@ -1,5 +1,7 @@
 import 'server-only';
 
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import tailwind from '@tailwindcss/postcss';
 import type { SafelistMap } from 'katcn/cli/types';
 import { convertSafelistMapToTailwindCss } from 'katcn/cli/utils/convertSafelistMapToTailwindCss';
@@ -34,8 +36,14 @@ export async function transformPlaygroundCode({
   processSafelistForSourceFile({ safelistMap, sourceFile });
   const cssInput = await convertSafelistMapToTailwindCss(safelistMap);
 
+  // Resolve virtual CSS path relative to this module's directory so
+  // PostCSS resolves `@import "tailwindcss"` via the app's node_modules
+  const moduleDir = path.dirname(fileURLToPath(import.meta.url));
+  const virtualCssPath = path.join(moduleDir, '_virtual.css');
+
   const result = await postcss([tailwind()]).process(cssInput, {
-    from: undefined,
+    from: virtualCssPath,
+    to: virtualCssPath,
   });
   // combine all css safelist values into a single string
   const cssValues = Array.from(safelistMap.values()).flatMap((item) => [

@@ -24,7 +24,7 @@
     "@katcn/tsmorph": "workspace:*",
     "@katcn/types": "workspace:*",
     "@monaco-editor/react": "^4.7.0",
-    "@tailwindcss/cli": "catalog:",
+    "@tailwindcss/postcss": "catalog:",
     "execa": "^9.6.0",
     "firebase": "^12.4.0",
     "firebase-admin": "^13.5.0",
@@ -34,6 +34,7 @@
     "motion": "catalog:",
     "next": "catalog:",
     "next-themes": "catalog:",
+    "postcss": "catalog:",
     "prettier": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
@@ -43,7 +44,6 @@
     "ts-morph": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "catalog:",
     "@types/lodash": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
@@ -51,7 +51,6 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "cli": "workspace:*",
     "concurrently": "catalog:",
-    "postcss": "catalog:",
     "tsconfig": "workspace:*",
     "typescript": "catalog:"
   }

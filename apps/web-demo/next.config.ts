@@ -1,3 +1,4 @@
+import path from 'node:path';
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
@@ -16,18 +17,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  serverExternalPackages: [
-    '@tailwindcss/postcss',
-    'katcn',
-    'prettier',
-    'postcss',
-    'typescript',
-    'ts-morph',
-  ],
+  serverExternalPackages: ['katcn', '@tailwindcss/postcss'],
+  outputFileTracingRoot: path.join(__dirname, '../../'),
   // experimental: {
   //   reactCompiler: true,
   // },
-  // transpilePackages: [],
   typedRoutes: true,
 };
 
