@@ -1,0 +1,15 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "env": [
+        "FIREBASE_*"
+      ]
+    },
+    "dev": {
+      "env": [
+        "FIREBASE_*"
+      ]
+    }
+  }
+}
