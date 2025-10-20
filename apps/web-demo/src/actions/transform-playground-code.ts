@@ -1,11 +1,11 @@
 import 'server-only';
 
-import path from 'node:path';
-import { execa } from 'execa';
+import tailwind from '@tailwindcss/postcss';
 import type { SafelistMap } from 'katcn/cli/types';
 import { convertSafelistMapToTailwindCss } from 'katcn/cli/utils/convertSafelistMapToTailwindCss';
 import { createTsMorphProject } from 'katcn/cli/utils/createTsMorphProject';
 import { processSafelistForSourceFile } from 'katcn/cli/utils/processSafelistForSourceFile';
+import postcss from 'postcss';
 import { ts } from 'ts-morph';
 
 type TransformPlaygroundCodeProps = {
@@ -34,13 +34,8 @@ export async function transformPlaygroundCode({
   processSafelistForSourceFile({ safelistMap, sourceFile });
   const cssInput = await convertSafelistMapToTailwindCss(safelistMap);
 
-  const tailwindcssBin = path.resolve(
-    process.cwd(),
-    'node_modules/.bin/tailwindcss',
-  );
-
-  const { stdout: cssOutput } = await execa(tailwindcssBin, ['-i', '-'], {
-    input: cssInput,
+  const result = await postcss([tailwind()]).process(cssInput, {
+    from: undefined,
   });
   // combine all css safelist values into a single string
   const cssValues = Array.from(safelistMap.values()).flatMap((item) => [
@@ -58,7 +53,7 @@ export async function transformPlaygroundCode({
 
   return {
     cssInput,
-    cssOutput,
+    cssOutput: result.css,
     cssSafelist,
     jsOutput,
   };
