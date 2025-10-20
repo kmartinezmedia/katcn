@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  serverExternalPackages: ['katcn', '@tailwindcss/postcss'],
+  serverExternalPackages: ['katcn', '@tailwindcss/postcss', 'lightningcss'],
   outputFileTracingRoot: path.join(__dirname, '../../'),
   // experimental: {
   //   reactCompiler: true,
