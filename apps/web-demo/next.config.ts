@@ -22,10 +22,10 @@ const nextConfig = {
     'typescript',
     'ts-morph',
   ],
-  experimental: {
-    reactCompiler: true,
-  },
-  transpilePackages: [],
+  // experimental: {
+  //   reactCompiler: true,
+  // },
+  // transpilePackages: [],
   typedRoutes: true,
 };
 

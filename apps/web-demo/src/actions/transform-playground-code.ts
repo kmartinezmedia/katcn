@@ -1,24 +1,20 @@
+import 'server-only';
+
 import { $ } from 'bun';
 import type { SafelistMap } from 'katcn/cli/types';
 import { convertSafelistMapToTailwindCss } from 'katcn/cli/utils/convertSafelistMapToTailwindCss';
 import { createTsMorphProject } from 'katcn/cli/utils/createTsMorphProject';
 import { processSafelistForSourceFile } from 'katcn/cli/utils/processSafelistForSourceFile';
-
 import { ts } from 'ts-morph';
-import { Preview } from './_preview';
-import type { PlaygroundTabID } from './_types';
 
-type TabsContentProps = {
-  activeTabId: PlaygroundTabID;
-  id: string;
+type TransformPlaygroundCodeProps = {
   jsInput: string;
+  id: string;
 };
-
-export async function TabsContent({
-  activeTabId,
+export async function transformPlaygroundCode({
   id,
   jsInput,
-}: TabsContentProps) {
+}: TransformPlaygroundCodeProps) {
   const project = createTsMorphProject({
     skipAddingFilesFromTsConfig: true,
     compilerOptions: {
@@ -50,28 +46,10 @@ export async function TabsContent({
     .getText()
     .replaceAll('_a.jsx', 'jsx');
 
-  if (
-    activeTabId === 'css' ||
-    activeTabId === 'css-tailwind' ||
-    activeTabId === 'css-safelist' ||
-    activeTabId === 'js'
-  ) {
-    const content = {
-      css: cssOutput,
-      'css-safelist': cssSafelist,
-      'css-tailwind': cssOutput,
-      js: jsOutput,
-    }[activeTabId];
-
-    return (
-      <pre style={{ textWrap: 'pretty' }}>
-        <code>{content}</code>
-      </pre>
-    );
-  }
-
-  if (activeTabId === 'preview') {
-    return <Preview jsOutput={jsOutput} cssOutput={cssOutput} />;
-  }
-  return null;
+  return {
+    cssInput,
+    cssOutput,
+    cssSafelist,
+    jsOutput,
+  };
 }

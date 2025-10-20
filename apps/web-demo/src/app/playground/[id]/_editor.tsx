@@ -1,11 +1,10 @@
 'use client';
 
-import type { SetState } from '@katcn/types';
 import { Editor as MonacoEditor } from '@monaco-editor/react';
 import { VStack } from 'katcn';
 import dtsLibs from 'katcn/dtsLibs.json';
 import type * as monacoType from 'monaco-editor';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useTransition } from 'react';
 import { PrettierFormatProvider } from '@/lib/prettier';
 
 interface CodeEditorRefs {
@@ -23,11 +22,12 @@ type OnChange = (
 ) => void | Promise<void>;
 
 type EditorProps = {
+  id: string;
   jsInput: string;
-  setJsInput?: SetState<string>;
 };
 
-export default function Editor({ jsInput, setJsInput }: EditorProps) {
+export default function Editor({ id, jsInput }: EditorProps) {
+  const [_pending, start] = useTransition();
   const refs = useRef<CodeEditorRefs>({
     monaco: undefined,
     editor: undefined,
@@ -40,36 +40,60 @@ export default function Editor({ jsInput, setJsInput }: EditorProps) {
     refs.current.tsworker = tsworker;
   };
 
-  const onChange: OnChange = (value) => {
-    if (refs.current.monaco) {
-      const stringToUri = refs.current.monaco.Uri.parse;
-      const markers = refs.current.monaco?.editor
-        ?.getModelMarkers({
-          owner: 'typescript',
-          resource: stringToUri('user.tsx'),
-        })
-        .filter(
-          (marker) =>
-            marker.message !==
-            "'Example' is declared but its value is never read.",
-        );
+  const savePlayground = useCallback(
+    async (value: string) => {
+      if (refs.current.monaco) {
+        const stringToUri = refs.current.monaco.Uri.parse;
+        const markers = refs.current.monaco?.editor
+          ?.getModelMarkers({
+            owner: 'typescript',
+            resource: stringToUri('user.tsx'),
+          })
+          .filter(
+            (marker) =>
+              marker.message !==
+              "'Example' is declared but its value is never read.",
+          );
 
-      console.log('markers', markers);
-      console.log('value', value);
+        console.log('markers', markers);
+        console.log('saving value', value);
 
-      if (markers?.length === 0) {
-        console.log('errors', markers);
-        if (value === undefined) return;
-        setJsInput?.(value);
+        if (markers?.length === 0) {
+          console.log('no errors, saving');
+          start(async () => {
+            const formData = new FormData();
+            formData.append('id', id);
+            formData.append('jsInput', value);
+
+            await fetch('/api/playground', {
+              method: 'PUT',
+              body: formData,
+            });
+          });
+        } else {
+          console.log('has errors, not saving');
+        }
       }
-    }
+    },
+    [id, start],
+  );
+
+  const onChange: OnChange = async (value) => {
+    // Just log the change, don't save automatically
+    console.log('content changed:', value?.length, 'characters');
   };
 
   useEffect(() => {
     const saveHandler = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.code === 'KeyS') {
         e.preventDefault();
+        // First format the document
         refs.current.editor?.getAction('editor.action.formatDocument')?.run();
+        // Then save the playground data
+        const currentValue = refs.current.editor?.getValue();
+        if (currentValue) {
+          savePlayground(currentValue);
+        }
       }
     };
 
@@ -78,7 +102,7 @@ export default function Editor({ jsInput, setJsInput }: EditorProps) {
     return () => {
       document.removeEventListener('keydown', saveHandler);
     };
-  }, []);
+  }, [savePlayground]);
 
   return (
     <VStack height="screen" width="full">

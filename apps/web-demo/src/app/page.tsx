@@ -1,5 +1,7 @@
 import { redirect } from 'next/navigation';
+import { createPlayground } from '@/actions/create-playground';
 
 export default async function Home() {
-  return redirect('/playground');
+  const { id } = await createPlayground();
+  return redirect(`/playground/${id}`);
 }
