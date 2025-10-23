@@ -25,8 +25,15 @@ function Example() {
 `;
 
 export default async function Home() {
-  const response = await fetch('http://localhost:3000/api/playground', {
+  const baseUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : 'http://localhost:3000';
+
+  const response = await fetch(`${baseUrl}/api/playground`, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({
       jsInput: exampleCode,
     }),
