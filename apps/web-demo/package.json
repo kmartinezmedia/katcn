@@ -25,8 +25,6 @@
     "@katcn/types": "workspace:*",
     "@monaco-editor/react": "^4.7.0",
     "@tailwindcss/postcss": "catalog:",
-    "lightningcss-darwin-arm64": "^1.30.2",
-    "lightningcss-linux-x64-gnu": "^1.30.2",
     "firebase": "^12.4.0",
     "firebase-admin": "^13.5.0",
     "katcn": "workspace:*",
