@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "bun run build:css && bun --bun next build",
-    "build:css": "katcn css",
+    "build:css": "bun --bun katcn css",
     "clean": "cli tools clean",
     "dev": "concurrently bun:dev:*",
     "dev:css": "bun run build:css --watch",
