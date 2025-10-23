@@ -1,4 +1,3 @@
-import path from 'node:path';
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
@@ -17,16 +16,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  serverExternalPackages: [
-    'katcn',
-    '@tailwindcss/postcss',
-    'lightningcss',
-    'lightningcss-darwin-arm64',
-    'lightningcss-linux-x64-gnu',
-    'tailwindcss',
-    'postcss',
-  ],
-  outputFileTracingRoot: path.join(__dirname, '../../'),
+  serverExternalPackages: ['katcn', 'tailwindcss'],
   typedRoutes: true,
 };
 
