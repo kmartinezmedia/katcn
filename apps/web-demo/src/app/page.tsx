@@ -1,7 +1,8 @@
-'use client';
+'use server';
 
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { redirect } from 'next/navigation';
+import { db } from '@/lib/firebase/firebase-admin';
+import { transformCode } from '@/playground/actions/transform-code';
 
 const exampleCode = `
 import { VStack, Text, Icon } from 'katcn';
@@ -27,40 +28,9 @@ function Example() {
 }
 `;
 
-export default function Home() {
-  const router = useRouter();
-
-  useEffect(() => {
-    const createPlayground = async () => {
-      try {
-        const response = await fetch('/api/playground', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            jsInput: exampleCode,
-          }),
-        });
-
-        const { id } = await response.json();
-        router.push(`/playground/${id}`);
-      } catch (error) {
-        console.error('Failed to create playground:', error);
-      }
-    };
-
-    createPlayground();
-  }, [router]);
-
-  return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold mb-4">Creating playground...</h1>
-        <p className="text-gray-600">
-          Please wait while we set up your playground.
-        </p>
-      </div>
-    </div>
-  );
+export default async function Home() {
+  const id = crypto.randomUUID();
+  const data = await transformCode({ id, jsInput: exampleCode });
+  await db.collection('playground').doc(id).set(data);
+  redirect(`/playground/${id}`);
 }

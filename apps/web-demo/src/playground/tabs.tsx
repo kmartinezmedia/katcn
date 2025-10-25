@@ -5,9 +5,9 @@ import { getStyles } from 'katcn/getStyles';
 import { useState } from 'react';
 import { useDocument } from 'react-firebase-hooks/firestore';
 import { type Tab, Tabs } from '@/components/Tabs';
-import { app } from '@/lib/firebase/firebase-client';
-import type { Playground, PlaygroundTabID } from '@/lib/playground/types';
-import { Preview } from './_preview';
+import { db } from '@/lib/firebase/firebase-client';
+import { Preview } from './preview';
+import type { Playground, PlaygroundTabID } from './types';
 
 const tabs = [
   { tabId: 'preview', label: 'Preview' },
@@ -21,9 +21,9 @@ const codeStyles = getStyles({
   fontFamily: 'mono',
 });
 
-export function PlaygroundTabs({ id }: { id: string }) {
+export default function PlaygroundTabs({ id }: { id: string }) {
   const [activeTabId, setActiveTabId] = useState<PlaygroundTabID>('preview');
-  const [value, loading, error] = useDocument(doc(app, `playgrounds/${id}`));
+  const [value, loading, error] = useDocument(doc(db, `playground/${id}`));
 
   if (loading) {
     return null;

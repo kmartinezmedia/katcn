@@ -13,10 +13,10 @@ const firebaseConfig = {
   appId: '1:1005302237649:web:b6f4ea6221f3690b55f8f0',
 };
 
-const _app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
-export const app = getFirestore(_app);
-export const auth = getAuth(_app);
+export const db = getFirestore(app);
+export const auth = getAuth(app);
 
 export async function loginWithGoogle() {
   const provider = new GoogleAuthProvider();

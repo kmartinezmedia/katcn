@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  serverExternalPackages: ['katcn', 'tailwindcss'],
+  serverExternalPackages: ['katcn', '@tailwindcss/cli'],
   typedRoutes: true,
 };
 
