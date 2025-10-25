@@ -1,5 +1,6 @@
 'use server';
 
+import { $ } from 'bun';
 import type { SafelistMap } from 'katcn/cli/types';
 import { convertSafelistMapToTailwindCss } from 'katcn/cli/utils/convertSafelistMapToTailwindCss';
 import { createTsMorphProject } from 'katcn/cli/utils/createTsMorphProject';
@@ -30,7 +31,7 @@ export async function transformCode({
   const safelistMap: SafelistMap = new Map();
   processSafelistForSourceFile({ safelistMap, sourceFile });
   const cssInput = await convertSafelistMapToTailwindCss(safelistMap);
-  const cssOutput = await Bun.$`echo ${cssInput} | tailwindcss -i -`.text();
+  const cssOutput = await $`echo ${cssInput} | tailwindcss -i -`.text();
   // combine all css safelist values into a single string
   const cssValues = Array.from(safelistMap.values()).flatMap((item) => [
     ...item,
