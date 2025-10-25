@@ -1,8 +1,8 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import { transformCode } from '@/actions/transform-code';
 import { db } from '@/lib/firebase/firebase-admin';
-import { transformCode } from '@/playground/actions/transform-code';
 
 const exampleCode = `
 import { VStack, Text, Icon } from 'katcn';

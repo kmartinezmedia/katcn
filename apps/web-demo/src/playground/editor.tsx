@@ -9,7 +9,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useDocument } from 'react-firebase-hooks/firestore';
 import { db } from '@/lib/firebase/firebase-client';
 import { PrettierFormatProvider } from '@/lib/prettier';
-import { transformCode } from './actions/transform-code';
+import { transformCode } from '../actions/transform-code';
 import type { Playground } from './types';
 
 interface CodeEditorRefs {
