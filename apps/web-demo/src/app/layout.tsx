@@ -1,7 +1,6 @@
 import { VStack } from 'katcn';
-import { Inter } from 'next/font/google';
+import { Geist, Inconsolata } from 'next/font/google';
 import localFont from 'next/font/local';
-// import { Navbar } from '@/components/Navbar';
 import { Providers } from '@/lib/context';
 import './globals.css';
 
@@ -10,9 +9,14 @@ const iconFont = localFont({
   variable: '--font-icons',
 });
 
-const inter = Inter({
+const sans = Geist({
   subsets: ['latin'],
   variable: '--font-sans',
+});
+
+const mono = Inconsolata({
+  subsets: ['latin'],
+  variable: '--font-mono',
 });
 
 export { metadata } from '@/lib/metadata';
@@ -25,7 +29,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${iconFont.variable} bg-primary`}
+      className={`${sans.variable} ${mono.variable} ${iconFont.variable} bg-primary`}
       suppressHydrationWarning
     >
       <body className="h-full">
