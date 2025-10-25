@@ -4,6 +4,10 @@
     "build": {
       "env": [
         "FIREBASE_*"
+      ],
+      "dependsOn": [
+        "^build",
+        "build:css"
       ]
     },
     "dev": {

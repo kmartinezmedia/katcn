@@ -8,7 +8,7 @@
     "./tsconfig.json": "./tsconfig.json"
   },
   "scripts": {
-    "build": "bun run build:css && bun --bun next build",
+    "build": "bun --bun next build",
     "build:css": "bun --bun katcn css",
     "clean": "cli tools clean",
     "dev": "concurrently bun:dev:*",
