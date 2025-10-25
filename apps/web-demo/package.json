@@ -8,12 +8,12 @@
     "./tsconfig.json": "./tsconfig.json"
   },
   "scripts": {
-    "build": "bun run build:css && bun --bun next build --turbopack",
+    "build": "bun run build:css && bun --bun next build",
     "build:css": "bun --bun katcn css",
     "clean": "cli tools clean",
     "dev": "concurrently bun:dev:*",
     "dev:css": "bun run build:css --watch",
-    "dev:next": "bun --bun next dev --turbopack",
+    "dev:next": "bun --bun next dev",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
     "start": "next start",
