@@ -1,5 +1,7 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from 'next';
+import tailwindDeps from './tailwind-transitive-deps.json';
+
+const nextConfig: NextConfig = {
   reactStrictMode: false,
   images: {
     remotePatterns: [
@@ -15,17 +17,10 @@ const nextConfig = {
       },
     ],
   },
-  serverExternalPackages: [
-    'katcn',
-    'prettier',
-    '@tailwindcss/cli',
-    'typescript',
-    'ts-morph',
-  ],
-  experimental: {
-    reactCompiler: true,
+  serverExternalPackages: ['katcn', 'tailwindcss', '@tailwindcss/postcss'],
+  outputFileTracingIncludes: {
+    '/*': tailwindDeps,
   },
-  transpilePackages: [],
   typedRoutes: true,
 };
 

@@ -1,0 +1,19 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "env": [
+        "FIREBASE_*"
+      ],
+      "dependsOn": [
+        "^build",
+        "build:css"
+      ]
+    },
+    "dev": {
+      "env": [
+        "FIREBASE_*"
+      ]
+    }
+  }
+}

@@ -1,0 +1,5 @@
+[
+  "./node_modules/@tailwindcss/postcss/**",
+  "./node_modules/postcss/**",
+  "./node_modules/tailwindcss/**"
+]
