@@ -7,9 +7,9 @@ import dtsLibs from 'katcn/dtsLibs.json';
 import type * as monacoType from 'monaco-editor';
 import { useCallback, useEffect, useRef } from 'react';
 import { useDocument } from 'react-firebase-hooks/firestore';
+import { transformCode } from '@/actions/transform-code';
 import { db } from '@/lib/firebase/firebase-client';
 import { PrettierFormatProvider } from '@/lib/prettier';
-import { transformCode } from '../actions/transform-code';
 import type { Playground } from './types';
 
 interface CodeEditorRefs {

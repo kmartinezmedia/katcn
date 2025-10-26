@@ -8,6 +8,7 @@
     "./tsconfig.json": "./tsconfig.json"
   },
   "scripts": {
+    "postinstall": "bun ./scripts/get-tailwind-transitive-deps.ts",
     "build": "bun --bun next build",
     "build:css": "bun --bun katcn css",
     "clean": "cli tools clean",
