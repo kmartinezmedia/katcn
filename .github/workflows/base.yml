@@ -6,6 +6,13 @@ on:
       - main
   pull_request:
 
+env:
+  NEXT_TELEMETRY_DISABLED: 1 # Disable NextJS telemetry.
+  TURBO_TELEMETRY_DISABLED: 1 # Disable Turbo tracking data.
+  FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
+  FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+  NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
+
 jobs:
   CI:
     runs-on: ubuntu-latest

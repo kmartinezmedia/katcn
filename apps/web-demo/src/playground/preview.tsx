@@ -1,3 +1,5 @@
+'use client';
+
 import * as components from 'katcn';
 import { getStyles } from 'katcn/getStyles';
 import * as React from 'react';
@@ -11,7 +13,7 @@ type PreviewProps = {
   cssOutput: string;
 };
 
-export async function Preview({ jsOutput, cssOutput }: PreviewProps) {
+export function Preview({ jsOutput, cssOutput }: PreviewProps) {
   if (!jsOutput) {
     return null;
   }

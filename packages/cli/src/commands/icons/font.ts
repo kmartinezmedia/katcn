@@ -3,6 +3,7 @@ import { watch as fsWatch } from 'node:fs';
 import type { Props } from 'bluebun';
 import { $ } from 'bun';
 import webfont from 'webfont';
+
 import { bins } from '../../utils/bins';
 
 interface BuildProps extends Props {

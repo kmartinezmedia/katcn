@@ -18,6 +18,7 @@
     },
     "./cli/*": "./cli/src/*.ts",
     "./dtsLibs.json": "./dist/dtsLibs.json",
+    "./tailwindCss.json": "./dist/tailwindCss.json",
     "./tsconfig.json": "./tsconfig.json",
     "./package.json": "./package.json",
     "./helpers": {
@@ -43,12 +44,17 @@
     "@katcn/fixtures": "workspace:*",
     "@katcn/types": "workspace:*",
     "clsx": "catalog:",
+    "tailwindcss": "catalog:",
     "tailwind-merge": "catalog:"
   },
   "devDependencies": {
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "bluebun": "catalog:",
     "cli": "workspace:*",
     "concurrently": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
     "prettier": "catalog:",
     "tsconfig": "workspace:*",
     "ts-morph": "catalog:",

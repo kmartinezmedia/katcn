@@ -8,32 +8,35 @@
     "./tsconfig.json": "./tsconfig.json"
   },
   "scripts": {
-    "build": "bun run build:css && bun --bun next build",
+    "build": "next build",
     "build:css": "katcn css",
     "clean": "cli tools clean",
     "dev": "concurrently bun:dev:*",
     "dev:css": "bun run build:css --watch",
-    "dev:next": "bun --bun next dev",
+    "dev:next": "next dev",
     "fix": "cli tools fix",
     "lint": "cli tools lint",
     "start": "next start",
-    "typecheck": "bun --bun tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@katcn/fixtures": "workspace:*",
     "@katcn/tsmorph": "workspace:*",
     "@katcn/types": "workspace:*",
     "@monaco-editor/react": "^4.7.0",
-    "@tailwindcss/cli": "catalog:",
+    "firebase": "^12.4.0",
+    "firebase-admin": "^13.5.0",
     "katcn": "workspace:*",
     "lodash": "catalog:",
     "monaco-editor": "^0.54.0",
     "motion": "catalog:",
     "next": "catalog:",
     "next-themes": "catalog:",
+    "postcss": "catalog:",
     "prettier": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "react-firebase-hooks": "^5.1.1",
     "server-only": "catalog:",
     "tailwindcss": "catalog:",
     "ts-morph": "catalog:"
@@ -47,7 +50,6 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "cli": "workspace:*",
     "concurrently": "catalog:",
-    "postcss": "catalog:",
     "tsconfig": "workspace:*",
     "typescript": "catalog:"
   }

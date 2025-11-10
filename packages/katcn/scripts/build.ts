@@ -9,6 +9,7 @@ async function build() {
   await $`tsup`;
   await $`tsc -p tsconfig.build.json --outDir ${outdir} --declaration --emitDeclarationOnly`;
   await $`bun run ./scripts/buildDtsLibs.ts`;
+  await $`bun run ./scripts/getTailwindCss.ts`;
 }
 
 if (watch) {

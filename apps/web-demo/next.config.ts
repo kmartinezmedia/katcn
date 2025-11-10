@@ -1,5 +1,6 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
   reactStrictMode: false,
   images: {
     remotePatterns: [
@@ -15,17 +16,7 @@ const nextConfig = {
       },
     ],
   },
-  serverExternalPackages: [
-    'katcn',
-    'prettier',
-    '@tailwindcss/cli',
-    'typescript',
-    'ts-morph',
-  ],
-  experimental: {
-    reactCompiler: true,
-  },
-  transpilePackages: [],
+  serverExternalPackages: ['katcn', 'ts-morph', 'prettier', 'tailwindcss'],
   typedRoutes: true,
 };
 
