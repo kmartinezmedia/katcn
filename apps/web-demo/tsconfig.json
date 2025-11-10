@@ -20,9 +20,6 @@
       "path": "../../packages/katcn"
     },
     {
-      "path": "../../packages/icons"
-    },
-    {
       "path": "../../packages/fixtures"
     },
     {
@@ -30,9 +27,6 @@
     },
     {
       "path": "../../packages/tsmorph"
-    },
-    {
-      "path": "../../packages/types"
     }
   ]
 }
