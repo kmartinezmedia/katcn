@@ -18,6 +18,7 @@
     },
     "./cli/*": "./cli/src/*.ts",
     "./dtsLibs.json": "./dist/dtsLibs.json",
+    "./tailwindCss.json": "./dist/tailwindCss.json",
     "./tsconfig.json": "./tsconfig.json",
     "./package.json": "./package.json",
     "./helpers": {

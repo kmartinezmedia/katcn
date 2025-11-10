@@ -15,19 +15,24 @@
     ".next/types/**/*.ts",
     ".katcn/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "public"
-  ],
   "references": [
     {
       "path": "../../packages/katcn"
+    },
+    {
+      "path": "../../packages/icons"
     },
     {
       "path": "../../packages/fixtures"
     },
     {
       "path": "../../packages/tsconfig"
+    },
+    {
+      "path": "../../packages/tsmorph"
+    },
+    {
+      "path": "../../packages/types"
     }
   ]
 }

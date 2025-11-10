@@ -3,7 +3,8 @@ import { watch as fsWatch } from 'node:fs';
 import type { Props } from 'bluebun';
 import { $ } from 'bun';
 import webfont from 'webfont';
-import { bins } from '../../utils/bins';
+
+// import { bins } from '../../utils/bins';
 
 interface BuildProps extends Props {
   options: {
@@ -48,7 +49,7 @@ export default {
     const inputDir = `${Bun.env.PWD}/${input}`;
 
     const currentDir = import.meta.dirname;
-    await $`${bins.svgo} --config ${currentDir}/svgo.config.mjs --input ${inputDir} --output ${inputDir}`;
+    await $`svgo --config ${currentDir}/svgo.config.mjs --input ${inputDir} --output ${inputDir}`;
     // await $`PATH=$PATH:${cliBin} && echo $PATH`;
 
     async function build() {
