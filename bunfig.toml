@@ -5,4 +5,4 @@
 # Disable peer deps resolution so we are sure of installed versions and to prevent issues
 peer = false
 
-linker = "hoisted"
+linker = "isolated"

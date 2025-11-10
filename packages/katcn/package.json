@@ -44,12 +44,17 @@
     "@katcn/fixtures": "workspace:*",
     "@katcn/types": "workspace:*",
     "clsx": "catalog:",
+    "tailwindcss": "catalog:",
     "tailwind-merge": "catalog:"
   },
   "devDependencies": {
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "bluebun": "catalog:",
     "cli": "workspace:*",
     "concurrently": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
     "prettier": "catalog:",
     "tsconfig": "workspace:*",
     "ts-morph": "catalog:",
