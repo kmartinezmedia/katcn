@@ -32,7 +32,7 @@ export function getHtmlFixtures() {
     } else {
       const htmlTag = htmlTags[0];
 
-      htmlToComponentMap[htmlTag] = name;
+      htmlToComponentMap[htmlTag.trim()] = name;
     }
   }
 
